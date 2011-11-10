@@ -18,6 +18,7 @@ NSString *defaultSubRedditsNameArray[] = {
     @"fffffffuuuuuuuuuuuu",
     @"lolcats",
     @"iWallPaper",
+    @"MoviePosterPorn",
     @"99reddits" 
 };
 
@@ -31,6 +32,7 @@ NSString *defaultSubRedditsURLArray[] = {
     @"http://www.reddit.com/r/fffffffuuuuuuuuuuuu/.json?limit=50",
     @"http://www.reddit.com/r/lolcats/.json?limit=50",
     @"http://www.reddit.com/r/iWallPaper/.json?limit=50",
+    @"http://www.reddit.com/r/MoviePosterPorn/.json?limit=50",
     @"http://www.reddit.com/r/99reddits/.json?limit=50"
 };
 

@@ -9,18 +9,24 @@
 #import "AlbumViewCellItem.h"
 #import "AlbumViewCell.h"
 #import "AlbumViewController.h"
-#import <QuartzCore/QuartzCore.h>
+#import "RedditsAppDelegate.h"
 
 
 @implementation AlbumViewCellItem
 
 @synthesize photo;
+@synthesize bFavorites;
 
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+		appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
+		
 		overlayView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 75, 75)];
 		[self addSubview:overlayView];
+		
+		favoriteOverlayView = [[UIImageView alloc] initWithFrame:CGRectMake(45, 45, 25, 25)];
+		[self addSubview:favoriteOverlayView];
 		
 		self.photo = nil;
     }
@@ -28,8 +34,10 @@
 }
 
 - (void)dealloc {
+	appDelegate = nil;
 	[photo release];
 	[overlayView release];
+	[favoriteOverlayView release];
 	[super dealloc];
 }
 
@@ -42,18 +50,37 @@
 		
 		photo = [_photo retain];
 		
-		if (photo.showed) {
-			overlayView.hidden = NO;
-			overlayView.image = [UIImage imageNamed:@"Overlay.png"];
-		}
-		else {
+		if (bFavorites) {
 			overlayView.hidden = YES;
 			overlayView.image = nil;
+			
+			favoriteOverlayView.hidden = YES;
+			favoriteOverlayView.image = nil;
+		}
+		else {
+			if (photo.showed) {
+				overlayView.hidden = NO;
+				overlayView.image = [UIImage imageNamed:@"Overlay.png"];
+			}
+			else {
+				overlayView.hidden = YES;
+				overlayView.image = nil;
+			}
+			
+			if ([appDelegate isFavorite:photo]) {
+				favoriteOverlayView.hidden = NO;
+				favoriteOverlayView.image = [UIImage imageNamed:@"FavoritesMask.png"];
+			}
+			else {
+				favoriteOverlayView.hidden = YES;
+				favoriteOverlayView.image = nil;
+			}
 		}
 	}
 	else {
 		self.hidden = YES;
 		overlayView.image = nil;
+		favoriteOverlayView.image = nil;
 	}
 }
 

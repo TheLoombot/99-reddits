@@ -34,6 +34,7 @@
 @synthesize subReddit;
 @synthesize index;
 @synthesize disappearForSubview;
+@synthesize bFavorites;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -82,6 +83,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+	
+	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"FavoritesRedIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onFavoriteButton:)] autorelease];
 	
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	appDelegate.photoViewController = self;
@@ -192,28 +195,58 @@
 											   destructiveButtonTitle:nil 
 													otherButtonTitles:@"Save Photo", @"Email Photo", @"Tweet", @"Share on Facebook", @"Open Reddit Post in Safari", nil];
 	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+	actionSheet.tag = 100;
 	[actionSheet showInView:self.view];
 	[actionSheet release];
 }
 
 // UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
-	if (buttonIndex == 4) {
-		PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPhotoIndex];
-		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:photo.permalinkString]];
-		return;
+	if (actionSheet.tag == 100) {
+		if (buttonIndex == actionSheet.cancelButtonIndex)
+			return;
+		
+		if (buttonIndex == 4) {
+			PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPhotoIndex];
+			[[UIApplication sharedApplication] openURL:[NSURL URLWithString:photo.permalinkString]];
+			return;
+		}
+
+		if (sharing)
+			return;
+
+		sharing = YES;
+		sharingType = buttonIndex;
+		sharingIndex = self.photoAlbumView.centerPhotoIndex;
+		
+		PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
+
+		[self requestImageFromSource:photo.urlString photoSize:NIPhotoScrollViewPhotoSizeOriginal photoIndex:sharingIndex];
 	}
-
-	if (sharing)
-		return;
-
-	sharing = YES;
-	sharingType = buttonIndex;
-	sharingIndex = self.photoAlbumView.centerPhotoIndex;
-	
-	PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
-
-	[self requestImageFromSource:photo.urlString photoSize:NIPhotoScrollViewPhotoSizeOriginal photoIndex:sharingIndex];
+	else if (actionSheet.tag == 101) {
+		if (buttonIndex == actionSheet.cancelButtonIndex)
+			return;
+		
+		int currentIndex = self.photoAlbumView.centerPhotoIndex;
+		PhotoItem *photo = [subReddit.photosArray objectAtIndex:currentIndex];
+		if ([appDelegate removeFromFavorites:photo]) {
+			if (subReddit.photosArray.count == 0) {
+				[self.navigationController popToRootViewControllerAnimated:YES];
+				return;
+			}
+			
+			if (currentIndex == subReddit.photosArray.count)
+				currentIndex = subReddit.photosArray.count - 1;
+			
+			[highQualityImageCache removeAllObjects];
+			[activeRequests removeAllObjects];
+			[queue cancelAllOperations];
+			
+			[self.photoAlbumView reloadData];
+			self.photoAlbumView.centerPhotoIndex = currentIndex;
+			[self photoAlbumScrollViewDidChangePages:self.photoAlbumView];
+		}
+	}
 }
 
 - (NSString *)cacheKeyForPhotoIndex:(NSInteger)photoIndex {
@@ -424,6 +457,13 @@
 	
 	if ([[[photo.urlString pathExtension] lowercaseString] isEqualToString:@"gif"])
 		[self requestImageFromSource:photo.urlString photoSize:NIPhotoScrollViewPhotoSizeOriginal photoIndex:self.photoAlbumView.centerPhotoIndex];
+
+	if (!bFavorites) {
+		if ([appDelegate isFavorite:photo])
+			self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"FavoritesRedIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onFavoriteButton:)] autorelease];
+		else
+			self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"FavoritesWhiteIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onFavoriteButton:)] autorelease];
+	}
 }
 
 // MFMailComposeViewControllerDelegate
@@ -660,7 +700,7 @@
 	[alertView release];
 }
 
-- (void) OAuthTwitterControllerCanceled:(SA_OAuthTwitterController *)controller {
+- (void)OAuthTwitterControllerCanceled:(SA_OAuthTwitterController *)controller {
 }
 
 - (void)onTwitterSuccess {
@@ -673,6 +713,38 @@
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"" message:@"Can't share on Twitter" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 	[alertView show];
 	[alertView release];
+}
+
+- (void)onFavoriteButton:(id)sender {
+	if (bFavorites) {
+		UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil 
+																 delegate:self 
+														cancelButtonTitle:@"Cancel" 
+												   destructiveButtonTitle:@"Remove from Favorites" 
+														otherButtonTitles:nil];
+		actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+		actionSheet.tag = 101;
+		[actionSheet showInView:self.view];
+		[actionSheet release];
+	}
+	else {
+		PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPhotoIndex];
+		if ([appDelegate isFavorite:photo]) {
+			if ([appDelegate removeFromFavorites:photo]) {
+				self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"FavoritesWhiteIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onFavoriteButton:)] autorelease];
+			}
+		}
+		else {
+			if ([appDelegate addToFavorites:photo]) {
+				self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"FavoritesRedIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onFavoriteButton:)] autorelease];
+			}
+		}
+	}
+}
+
+- (void)setSubReddit:(SubRedditItem *)_subReddit {
+	[subReddit release];
+	subReddit = [_subReddit retain];
 }
 
 @end

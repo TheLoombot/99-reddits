@@ -136,7 +136,7 @@
 
 // UITableViewDatasource, UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return subRedditsArray.count;
+	return subRedditsArray.count + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -146,30 +146,57 @@
 		cell = [[[MainViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifer] autorelease];
 	}
 	
-	SubRedditItem *subReddit = [subRedditsArray objectAtIndex:indexPath.row];
-	cell.textLabel.text = subReddit.nameString;
-	
-	if (subReddit.photosArray.count == 0 || subReddit.loading) {
-		cell.accessoryType = UITableViewCellAccessoryNone;
-		cell.selectionStyle = UITableViewCellSelectionStyleNone;
-		cell.imageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
+	if (indexPath.row == 0) {
+		cell.textLabel.text = appDelegate.favoritesItem.nameString;
+		
+		if (appDelegate.favoritesItem.photosArray.count == 0) {
+			cell.accessoryType = UITableViewCellAccessoryNone;
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+			cell.imageView.image = [UIImage imageNamed:@"FavoritesIcon.png"];
+		}
+		else {
+			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+			
+			NSString *urlString = [self cacheKeyForPhotoIndex:indexPath.row - 1];
+			UIImage *image = [thumbnailImageCache objectWithName:urlString];
+			if (image == nil) {
+				[self requestImageFromSource:urlString photoIndex:indexPath.row - 1];
+				cell.imageView.image = [UIImage imageNamed:@"FavoritesIcon.png"];
+			}
+			else {
+				cell.imageView.image = image;
+			}
+		}
+		
+		[cell setTotalCount:appDelegate.favoritesItem.photosArray.count];
 	}
 	else {
-		cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-		cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+		SubRedditItem *subReddit = [subRedditsArray objectAtIndex:indexPath.row - 1];
+		cell.textLabel.text = subReddit.nameString;
 		
-		NSString *urlString = [self cacheKeyForPhotoIndex:indexPath.row];
-		UIImage *image = [thumbnailImageCache objectWithName:urlString];
-		if (image == nil) {
-			[self requestImageFromSource:urlString photoIndex:indexPath.row];
+		if (subReddit.photosArray.count == 0 || subReddit.loading) {
+			cell.accessoryType = UITableViewCellAccessoryNone;
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
 			cell.imageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
 		}
 		else {
-			cell.imageView.image = image;
+			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+			
+			NSString *urlString = [self cacheKeyForPhotoIndex:indexPath.row - 1];
+			UIImage *image = [thumbnailImageCache objectWithName:urlString];
+			if (image == nil) {
+				[self requestImageFromSource:urlString photoIndex:indexPath.row - 1];
+				cell.imageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
+			}
+			else {
+				cell.imageView.image = image;
+			}
 		}
+		
+		[cell setUnshowedCount:subReddit.unshowedCount totalCount:subReddit.photosArray.count loading:subReddit.loading];
 	}
-	
-	[cell setUnshowedCount:subReddit.unshowedCount totalCount:subReddit.photosArray.count loading:subReddit.loading];
 	
 	return cell;
 }
@@ -177,17 +204,32 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[contentTableView deselectRowAtIndexPath:indexPath animated:YES];
 	
-	SubRedditItem *subReddit = [subRedditsArray objectAtIndex:indexPath.row];
-	
-	if (subReddit.photosArray.count > 0 && !subReddit.loading) {
-		AlbumViewController *albumViewController = [[AlbumViewController alloc] initWithNibName:@"AlbumViewController" bundle:nil];
-		albumViewController.subReddit = subReddit;
-		[self.navigationController pushViewController:albumViewController animated:YES];
-		[albumViewController release];
+	if (indexPath.row == 0) {
+		if (appDelegate.favoritesItem.photosArray.count > 0) {
+			AlbumViewController *albumViewController = [[AlbumViewController alloc] initWithNibName:@"AlbumViewController" bundle:nil];
+			albumViewController.subReddit = appDelegate.favoritesItem;
+			albumViewController.bFavorites = YES;
+			[self.navigationController pushViewController:albumViewController animated:YES];
+			[albumViewController release];
+		}
+	}
+	else {
+		SubRedditItem *subReddit = [subRedditsArray objectAtIndex:indexPath.row - 1];
+		
+		if (subReddit.photosArray.count > 0 && !subReddit.loading) {
+			AlbumViewController *albumViewController = [[AlbumViewController alloc] initWithNibName:@"AlbumViewController" bundle:nil];
+			albumViewController.subReddit = subReddit;
+			albumViewController.bFavorites = NO;
+			[self.navigationController pushViewController:albumViewController animated:YES];
+			[albumViewController release];
+		}
 	}
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+	if (indexPath.row == 0)
+		return NO;
+	
 	if (refreshCount != 0)
 		return NO;
 	
@@ -196,7 +238,7 @@
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
-		SubRedditItem *subReddit = [subRedditsArray objectAtIndex:indexPath.row];
+		SubRedditItem *subReddit = [subRedditsArray objectAtIndex:indexPath.row - 1];
 		if (subReddit.photosArray.count > 0) {
 			NSString *thumbnailString = [[subReddit.photosArray objectAtIndex:0] thumbnailString];
 			for (ASIHTTPRequest *request in queue.operations) {
@@ -208,7 +250,7 @@
 			}
 			[subReddit removeAllCaches];
 		}
-		[subRedditsArray removeObjectAtIndex:[indexPath row]];
+		[subRedditsArray removeObjectAtIndex:indexPath.row - 1];
 		[contentTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
 		
 //		[appDelegate saveToDefaults];
@@ -397,11 +439,19 @@
 }
 
 - (NSString *)cacheKeyForPhotoIndex:(NSInteger)photoIndex {
-	SubRedditItem *subReddit = [subRedditsArray objectAtIndex:photoIndex];
-	if (subReddit.photosArray.count == 0)
-		return @"";
-	
-	return [[subReddit.photosArray objectAtIndex:0] thumbnailString];
+	if (photoIndex == -1) {
+		if (appDelegate.favoritesItem.photosArray.count == 0)
+			return @"";
+		
+		return [[appDelegate.favoritesItem.photosArray objectAtIndex:0] thumbnailString];
+	}
+	else {
+		SubRedditItem *subReddit = [subRedditsArray objectAtIndex:photoIndex];
+		if (subReddit.photosArray.count == 0)
+			return @"";
+		
+		return [[subReddit.photosArray objectAtIndex:0] thumbnailString];
+	}
 }
 
 - (void)requestImageFromSource:(NSString *)source photoIndex:(NSInteger)photoIndex {
@@ -467,7 +517,7 @@
 			UIGraphicsEndImageContext();
 			
 			[thumbnailImageCache storeObject:thumbImage withName:photoIndexKey];
-			MainViewCell *cell = (MainViewCell *)[contentTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:photoIndex inSection:0]];
+			MainViewCell *cell = (MainViewCell *)[contentTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:photoIndex + 1 inSection:0]];
 			cell.imageView.image = thumbImage;
 		}
 		

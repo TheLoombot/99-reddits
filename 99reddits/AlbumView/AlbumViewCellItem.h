@@ -10,12 +10,20 @@
 #import "PhotoItem.h"
 
 
+@class RedditsAppDelegate;
+
 @interface AlbumViewCellItem : UIButton {
+	RedditsAppDelegate *appDelegate;
+	
 	PhotoItem *photo;
 	
 	UIImageView *overlayView;
+	UIImageView *favoriteOverlayView;
+	
+	BOOL bFavorites;
 }
 
 @property (nonatomic, retain) PhotoItem *photo;
+@property (nonatomic) BOOL bFavorites;
 
 @end

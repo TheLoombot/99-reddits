@@ -34,6 +34,9 @@
     SA_OAuthTwitterEngine *_engine;
 	
 	PhotoViewController *photoViewController;
+
+	SubRedditItem *favoritesItem;
+	NSMutableSet *favoritesSet;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
@@ -44,6 +47,7 @@
 @property (nonatomic, readonly) BOOL tweetEnabled;
 @property (nonatomic, readonly) SA_OAuthTwitterEngine *engine;
 @property (nonatomic, assign) PhotoViewController *photoViewController;
+@property (nonatomic, retain) SubRedditItem *favoritesItem;
 
 + (NSString *)getImageURL:(NSString *)urlString;
 + (NSString *)stringByRemoveHTML:(NSString *)string;
@@ -52,5 +56,9 @@
 
 - (void)loadFromDefaults;
 - (void)saveToDefaults;
+
+- (BOOL)addToFavorites:(PhotoItem *)photo;
+- (BOOL)removeFromFavorites:(PhotoItem *)photo;
+- (BOOL)isFavorite:(PhotoItem *)photo;
 
 @end

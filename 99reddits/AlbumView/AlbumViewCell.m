@@ -16,6 +16,7 @@
 @synthesize albumViewController;
 @synthesize photosArray;
 @synthesize row;
+@synthesize bFavorites;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -48,6 +49,11 @@
 }
 
 - (void)setRow:(int)_row {
+	item1.bFavorites = bFavorites;
+	item2.bFavorites = bFavorites;
+	item3.bFavorites = bFavorites;
+	item4.bFavorites = bFavorites;
+	
 	row = _row;
 	
 	int maxIndex = photosArray.count;

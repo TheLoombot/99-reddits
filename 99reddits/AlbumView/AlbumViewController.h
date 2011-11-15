@@ -28,9 +28,12 @@
 	NIImageMemoryCache* thumbnailImageCache;
 	
 	BOOL bFromSubview;
+	
+	BOOL bFavorites;
 }
 
 @property (nonatomic, retain) SubRedditItem *subReddit;
+@property (nonatomic) BOOL bFavorites;
 
 - (void)onSelectPhoto:(PhotoItem *)photo;
 

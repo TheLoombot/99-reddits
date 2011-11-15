@@ -23,6 +23,7 @@
 @synthesize tweetEnabled;
 @synthesize engine = _engine;
 @synthesize photoViewController;
+@synthesize favoritesItem;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	[[UIApplication sharedApplication] setStatusBarHidden:NO];
@@ -74,6 +75,8 @@
 }
 
 - (void)dealloc {
+	[favoritesItem release];
+	[favoritesSet release];
 	[subRedditsArray release];
 	[showedSet release];
 	[connectionAlertView release];
@@ -104,6 +107,20 @@
 			[subReddit calUnshowedCount];
 		}
 		
+		NSData *favoritesData = [defaults objectForKey:@"FAVORITES_ITEM"];
+		if (favoritesData) {
+			NSKeyedUnarchiver *favoritesUnarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:favoritesData];
+			favoritesItem = [[favoritesUnarchiver decodeObjectForKey:@"data"] retain];
+			[favoritesUnarchiver finishDecoding];
+			[favoritesUnarchiver release];
+			favoritesSet = [[NSMutableSet alloc] initWithArray:[defaults objectForKey:@"FAVORITES_SET"]];
+		}
+		else {
+			favoritesItem = [[SubRedditItem alloc] init];
+			favoritesItem.nameString = @"Favorites";
+			favoritesSet = [[NSMutableSet alloc] init];
+		}
+		
 		firstRun = NO;
 	}
 	else {
@@ -119,6 +136,10 @@
 		}
 		
 		showedSet = [[NSMutableSet alloc] init];
+		
+		favoritesItem = [[SubRedditItem alloc] init];
+		favoritesItem.nameString = @"Favorites";
+		favoritesSet = [[NSMutableSet alloc] init];
 		
 		firstRun = YES;
 	}
@@ -140,6 +161,16 @@
 	[defaults setDouble:updatedTime forKey:@"UPDATE_TIME"];
 	
 	[defaults setObject:[showedSet allObjects] forKey:@"SHOWEDSET"];
+	
+	NSMutableData *favoritesData = [[NSMutableData alloc] init];
+	NSKeyedArchiver *favoritesArchiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:favoritesData];
+	[favoritesArchiver encodeObject:favoritesItem forKey:@"data"];
+	[favoritesArchiver finishEncoding];
+	[defaults setObject:favoritesData forKey:@"FAVORITES_ITEM"];
+	[favoritesArchiver release];
+	[favoritesData release];
+	
+	[defaults setObject:[favoritesSet allObjects] forKey:@"FAVORITES_SET"];
 	
 	[defaults synchronize];
 }
@@ -235,6 +266,40 @@
 
 - (void)requestFailed:(NSString *)requestIdentifier withError: (NSError *)error {
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"TWITTER_FAILED" object:nil];
+}
+
+// Favorites
+- (BOOL)addToFavorites:(PhotoItem *)photo {
+	if ([self isFavorite:photo])
+		return NO;
+	
+	[favoritesItem.photosArray insertObject:photo atIndex:0];
+	[favoritesSet addObject:photo.idString];
+	
+	return YES;
+}
+
+- (BOOL)removeFromFavorites:(PhotoItem *)photo {
+	if (![self isFavorite:photo])
+		return NO;
+	
+	for (int i = 0; i < favoritesItem.photosArray.count; i ++) {
+		PhotoItem *item = [favoritesItem.photosArray objectAtIndex:i];
+		if ([item.idString isEqualToString:photo.idString]) {
+			[favoritesItem.photosArray removeObject:item];
+			[favoritesSet removeObject:item.idString];
+			return YES;
+		}
+	}
+	
+	return NO;
+}
+
+- (BOOL)isFavorite:(PhotoItem *)photo {
+	if ([favoritesSet containsObject:photo.idString])
+		return YES;
+	
+	return NO;
 }
 
 @end

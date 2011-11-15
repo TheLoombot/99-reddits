@@ -19,8 +19,11 @@
 	BOOL loading;
 	
 	BOOL first;
+	
+	BOOL bFavorites;
 }
 
 - (void)setUnshowedCount:(int)_unshowedCount totalCount:(int)_totalCount loading:(BOOL)_loading;
+- (void)setTotalCount:(int)_totalCount;
 
 @end

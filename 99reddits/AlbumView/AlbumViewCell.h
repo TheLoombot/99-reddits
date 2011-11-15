@@ -22,11 +22,14 @@
 	AlbumViewCellItem *item2;
 	AlbumViewCellItem *item3;
 	AlbumViewCellItem *item4;
+	
+	BOOL bFavorites;
 }
 
 @property (nonatomic, assign) AlbumViewController *albumViewController;
 @property (nonatomic, assign) NSMutableArray *photosArray;
 @property (nonatomic) int row;
+@property (nonatomic) BOOL bFavorites;
 
 - (void)setImage:(UIImage *)image index:(int)index;
 

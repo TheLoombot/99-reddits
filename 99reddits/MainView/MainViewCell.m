@@ -66,10 +66,15 @@
 		return;
 	}
 	
-	[self setUnshowedCount:unshowedCount totalCount:totalCount loading:loading];
+	if (bFavorites)
+		[self setTotalCount:totalCount];
+	else
+		[self setUnshowedCount:unshowedCount totalCount:totalCount loading:loading];
 }
 
 - (void)setUnshowedCount:(int)_unshowedCount totalCount:(int)_totalCount loading:(BOOL)_loading {
+	bFavorites = NO;
+	
 	unshowedCount = _unshowedCount;
 	totalCount = _totalCount;
 	loading = _loading;
@@ -118,6 +123,53 @@
 			[countLabel sizeToFit];
 			countLabel.frame = CGRectMake(x, 0, countLabel.frame.size.width, 55);
 		}
+	}
+}
+
+- (void)setTotalCount:(int)_totalCount {
+	bFavorites = YES;
+
+	unshowedCount = 0;
+	totalCount = _totalCount;
+	loading = NO;
+	
+	if (loading)
+		self.accessoryView = activityIndicator;
+	else
+		self.accessoryView = nil;
+	
+	braketLabel.hidden = NO;
+	unshowedLabel.hidden = NO;
+	countLabel.hidden = NO;
+	
+	int x = self.textLabel.frame.origin.x + self.textLabel.frame.size.width + 10;
+	
+	braketLabel.frame = CGRectMake(x, 0, 300, 55);
+	[braketLabel sizeToFit];
+	braketLabel.frame = CGRectMake(x, 0, braketLabel.frame.size.width, 55);
+	
+	x = braketLabel.frame.origin.x + braketLabel.frame.size.width - 1;
+	
+	if (unshowedCount == 0) {
+		unshowedLabel.hidden = YES;
+		
+		countLabel.frame = CGRectMake(x, 0, 300, 55);
+		countLabel.text = [NSString stringWithFormat:@"%d)", totalCount];
+		[countLabel sizeToFit];
+		countLabel.frame = CGRectMake(x, 0, countLabel.frame.size.width, 55);
+	}
+	else {
+		unshowedLabel.frame = CGRectMake(x, 0, 300, 55);
+		unshowedLabel.text = [NSString stringWithFormat:@"%d", unshowedCount];
+		[unshowedLabel sizeToFit];
+		unshowedLabel.frame = CGRectMake(x, 0, unshowedLabel.frame.size.width, 55);
+		
+		x = unshowedLabel.frame.origin.x + unshowedLabel.frame.size.width - 1;
+		
+		countLabel.frame = CGRectMake(x, 0, 300, 55);
+		countLabel.text = [NSString stringWithFormat:@"/%d)", totalCount];
+		[countLabel sizeToFit];
+		countLabel.frame = CGRectMake(x, 0, countLabel.frame.size.width, 55);
 	}
 }
 

@@ -31,6 +31,7 @@
 @implementation AlbumViewController
 
 @synthesize subReddit;
+@synthesize bFavorites;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -124,6 +125,7 @@
 	bFromSubview = YES;
 	
 	PhotoViewController *photoViewController = [[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:nil];
+	photoViewController.bFavorites = bFavorites;
 	photoViewController.subReddit = subReddit;
 	photoViewController.index = [subReddit.photosArray indexOfObject:photo];
 	[self.navigationController pushViewController:photoViewController animated:YES];
@@ -146,6 +148,7 @@
 	
 	cell.albumViewController = self;
 	cell.photosArray = subReddit.photosArray;
+	cell.bFavorites = bFavorites;
 	cell.row = indexPath.row;
 	
 	for (int i = 0; i < 4; i ++) {
@@ -261,6 +264,11 @@
 	
 	[activeRequests addObject:identifierKey];
 	[queue addOperation:readOp];
+}
+
+- (void)setSubReddit:(SubRedditItem *)_subReddit {
+	[subReddit release];
+	subReddit = [_subReddit retain];
 }
 
 @end

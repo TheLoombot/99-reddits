@@ -287,7 +287,7 @@
 		PhotoItem *item = [favoritesItem.photosArray objectAtIndex:i];
 		if ([item.idString isEqualToString:photo.idString]) {
 			[favoritesItem.photosArray removeObject:item];
-			[favoritesSet removeObject:item.idString];
+			[favoritesSet removeObject:photo.idString];
 			return YES;
 		}
 	}

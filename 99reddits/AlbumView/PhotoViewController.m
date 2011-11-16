@@ -128,7 +128,7 @@
 	sharing = NO;
 	
 	fbLogin = NO;
-	_permissions =  [[NSArray arrayWithObjects:@"publish_stream", @"read_stream", @"offline_access", nil] retain];
+	_permissions =  [[NSArray arrayWithObjects:@"publish_stream", nil] retain];
 	_facebook = [[Facebook alloc] init];
 	_facebook.forceOldStyleAuth = YES;
 	
@@ -193,7 +193,7 @@
 															 delegate:self 
 													cancelButtonTitle:@"Cancel" 
 											   destructiveButtonTitle:nil 
-													otherButtonTitles:@"Save Photo", @"Email Photo", @"Tweet", @"Share on Facebook", @"Open Reddit Post in Safari", nil];
+													otherButtonTitles:@"Save Photo", @"Email Photo", @"Tweet", @"Share on Facebook", @"See Comments on reddit", nil];
 	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
 	actionSheet.tag = 100;
 	[actionSheet showInView:self.view];

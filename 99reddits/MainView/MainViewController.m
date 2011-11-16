@@ -385,7 +385,7 @@
 		photo.showed = NO;
 
 		NSString *thumbnailString = [itemData objectForKey:@"thumbnail"];
-		if ((thumbnailString.length == 0 || [thumbnailString isEqualToString:@"/static/noimage.png"] || [thumbnailString isEqualToString:@"/static/nsfw2.png"]) &&
+		if ((thumbnailString.length == 0 || [thumbnailString isEqualToString:@"default"] || [thumbnailString isEqualToString:@"nsfw"]) &&
 			[photo.urlString hasPrefix:@"http://i.imgur.com/"]) {
 			NSString *lastComp = [photo.urlString lastPathComponent];
 			NSRange range = [lastComp rangeOfString:@"."];

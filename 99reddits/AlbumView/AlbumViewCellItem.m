@@ -25,7 +25,7 @@
 		overlayView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 75, 75)];
 		[self addSubview:overlayView];
 		
-		favoriteOverlayView = [[UIImageView alloc] initWithFrame:CGRectMake(45, 45, 25, 25)];
+		favoriteOverlayView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 50, 25, 25)];
 		[self addSubview:favoriteOverlayView];
 		
 		self.photo = nil;

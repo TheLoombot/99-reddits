@@ -33,45 +33,47 @@
   FBDialog* _loginDialog;
   FBDialog* _fbDialog;
   NSString* _appId;
+  NSString* _urlSchemeSuffix;
   NSArray* _permissions;
-  BOOL _forceOldStyleAuth;
 }
 
 @property(nonatomic, copy) NSString* accessToken;
-
 @property(nonatomic, copy) NSDate* expirationDate;
-
 @property(nonatomic, assign) id<FBSessionDelegate> sessionDelegate;
+@property(nonatomic, copy) NSString* urlSchemeSuffix;
 
-@property(nonatomic, assign) BOOL forceOldStyleAuth;
+- (id)initWithAppId:(NSString *)appId
+        andDelegate:(id<FBSessionDelegate>)delegate;
 
-- (void)authorize:(NSString *)application_id
-      permissions:(NSArray *)permissions
-         delegate:(id<FBSessionDelegate>)delegate;
+- (id)initWithAppId:(NSString *)appId
+    urlSchemeSuffix:(NSString *)urlSchemeSuffix
+        andDelegate:(id<FBSessionDelegate>)delegate;
+
+- (void)authorize:(NSArray *)permissions;
 
 - (BOOL)handleOpenURL:(NSURL *)url;
 
 - (void)logout:(id<FBSessionDelegate>)delegate;
 
-- (void)requestWithParams:(NSMutableDictionary *)params
-              andDelegate:(id <FBRequestDelegate>)delegate;
+- (FBRequest*)requestWithParams:(NSMutableDictionary *)params
+                    andDelegate:(id <FBRequestDelegate>)delegate;
 
-- (void)requestWithMethodName:(NSString *)methodName
-                    andParams:(NSMutableDictionary *)params
-                andHttpMethod:(NSString *)httpMethod
-                  andDelegate:(id <FBRequestDelegate>)delegate;
+- (FBRequest*)requestWithMethodName:(NSString *)methodName
+                          andParams:(NSMutableDictionary *)params
+                      andHttpMethod:(NSString *)httpMethod
+                        andDelegate:(id <FBRequestDelegate>)delegate;
 
-- (void)requestWithGraphPath:(NSString *)graphPath
-                 andDelegate:(id <FBRequestDelegate>)delegate;
+- (FBRequest*)requestWithGraphPath:(NSString *)graphPath
+                       andDelegate:(id <FBRequestDelegate>)delegate;
 
-- (void)requestWithGraphPath:(NSString *)graphPath
-                   andParams:(NSMutableDictionary *)params
-                 andDelegate:(id <FBRequestDelegate>)delegate;
+- (FBRequest*)requestWithGraphPath:(NSString *)graphPath
+                         andParams:(NSMutableDictionary *)params
+                       andDelegate:(id <FBRequestDelegate>)delegate;
 
-- (void)requestWithGraphPath:(NSString *)graphPath
-                   andParams:(NSMutableDictionary *)params
-               andHttpMethod:(NSString *)httpMethod
-                 andDelegate:(id <FBRequestDelegate>)delegate;
+- (FBRequest*)requestWithGraphPath:(NSString *)graphPath
+                         andParams:(NSMutableDictionary *)params
+                     andHttpMethod:(NSString *)httpMethod
+                       andDelegate:(id <FBRequestDelegate>)delegate;
 
 - (void)dialog:(NSString *)action
    andDelegate:(id<FBDialogDelegate>)delegate;

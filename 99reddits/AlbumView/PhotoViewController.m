@@ -128,9 +128,8 @@
 	sharing = NO;
 	
 	fbLogin = NO;
-	_permissions =  [[NSArray arrayWithObjects:@"publish_stream", nil] retain];
-	_facebook = [[Facebook alloc] init];
-	_facebook.forceOldStyleAuth = YES;
+	_permissions = [[NSArray alloc] initWithObjects:@"user_checkins", @"publish_checkins", nil];
+	_facebook = [[Facebook alloc] initWithAppId:kAppId andDelegate:self];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTwitterSuccess) name:@"TWITTER_SUCCESS" object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTwitterFailed) name:@"TWITTER_FAILED" object:nil];
@@ -560,7 +559,7 @@
 // Facebook
 - (void)loginFacebook {
 	if (!fbLogin) {
-		[_facebook authorize:kAppId permissions:_permissions delegate:self];
+		[_facebook authorize:_permissions];
 	}
 }
 
@@ -573,7 +572,7 @@
 }
 
 - (void)facebookPublishInfo {
-	[_facebook requestWithGraphPath:@"me" andDelegate:self];
+	[_facebook requestWithGraphPath:@"me/permissions" andDelegate:self];
 }
 
 - (void)uploadToFacebook {

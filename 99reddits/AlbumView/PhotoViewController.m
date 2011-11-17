@@ -128,7 +128,7 @@
 	sharing = NO;
 	
 	fbLogin = NO;
-	_permissions = [[NSArray alloc] initWithObjects:@"user_checkins", @"publish_checkins", nil];
+	_permissions = [[NSArray alloc] initWithObjects:@"publish_stream", nil];
 	_facebook = [[Facebook alloc] initWithAppId:kAppId andDelegate:self];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTwitterSuccess) name:@"TWITTER_SUCCESS" object:nil];

@@ -482,7 +482,7 @@
 			PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
 			[mailComposeViewController setTitle:photo.titleString];
 			[mailComposeViewController setSubject:photo.titleString];
-			[mailComposeViewController setMessageBody:[NSString stringWithFormat:@"\n\nFound this on reddit:\nhttp://redd.it/%@", photo.idString] isHTML:NO];
+			[mailComposeViewController setMessageBody:[NSString stringWithFormat:@"\n\nFound this on reddit:\nhttp://redd.it/%@\n\nDownload 99 reddits for your iPhone:\nhttp://itunes.apple.com/us/app/99-reddits/id474846610?mt=8", photo.idString] isHTML:NO];
 			
 			NSString *extension = [[photo.urlString pathExtension] lowercaseString];
 			NSString *mimeType;

@@ -385,19 +385,24 @@
 		photo.showed = NO;
 
 		NSString *thumbnailString = [itemData objectForKey:@"thumbnail"];
-		if ((thumbnailString.length == 0 || [thumbnailString isEqualToString:@"default"] || [thumbnailString isEqualToString:@"nsfw"]) &&
-			[photo.urlString hasPrefix:@"http://i.imgur.com/"]) {
+
+		// If the thumbnail string is empty or a default value, AND the URL is an imgur link,
+        // then we go to imgur to get the thumbnail
+        // Small square [90x90px]:    http://i.imgur.com/46dFas.jpg
+        if ((thumbnailString.length == 0 || [thumbnailString isEqualToString:@"default"] || [thumbnailString isEqualToString:@"nsfw"]) &&
+			([photo.urlString hasPrefix:@"http://i.imgur.com/"] || [photo.urlString hasPrefix:@"http://imgur.com/"]) 
+            ) {
 			NSString *lastComp = [photo.urlString lastPathComponent];
 			NSRange range = [lastComp rangeOfString:@"."];
 			if (range.location != NSNotFound) {
-				lastComp = [lastComp substringToIndex:range.location];
+				lastComp = [lastComp substringToIndex:range.location-1];
 				photo.thumbnailString = [NSString stringWithFormat:@"http://i.imgur.com/%@s.png", lastComp];
 			}
 		}
 		else {
 			photo.thumbnailString = [RedditsAppDelegate getImageURL:thumbnailString];
 		}
-
+        
 		NSString *extension = [[photo.urlString pathExtension] lowercaseString];
 		if (extension.length != 0 && ([extension isEqualToString:@"jpg"] || 
 									  [extension isEqualToString:@"jpeg"] || 
@@ -407,9 +412,17 @@
 									  [extension isEqualToString:@"tif"] || 
 									  [extension isEqualToString:@"bmp"]
 									  )) {
-			if (photo.thumbnailString.length == 0)
+            
+			// However if the thumbnail is empty or a default value and NOT an imgur link,
+            // we instead use the FULL image URL as the thumbnail...
+            // Do we need this?  Does this result in us downloading photos twice if we don't have
+            // an otherwise usable thumbnail?  (Aman 20-Dec-2011)
+            if ((photo.thumbnailString.length == 0) ||
+                [photo.thumbnailString isEqualToString:@"nsfw"] ||
+                [photo.thumbnailString isEqualToString:@"default"])
 				photo.thumbnailString = photo.urlString;
-			[photosArray addObject:photo];
+			
+            [photosArray addObject:photo];
 		}
 		[photo release];
 	}

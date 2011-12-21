@@ -192,6 +192,10 @@
 	return [array objectAtIndex:0];
 }
 
+// This whole function should be re-written to handle the URL strings as NSURLs instead of Strings
+// That way we can use functions like URLByDeletingPathExtension instead of stringByDeletingPathExtension
+// The latter turns "http://blah" into "http:/blah" ... obviously not right
+// ALSO: we should account for www.imgur.com, i.imgur.com and imgur.com equally...
 + (NSString *)getImageURL:(NSString *)urlString {
 	if ([urlString hasPrefix:@"http://imgur.com/a/"])
 		return @"";
@@ -203,7 +207,7 @@
 	if ([urlString hasPrefix:@"/"]) {
 		urlString = [NSString stringWithFormat:@"http://www.reddit.com%@", urlString];
 	}
-	
+	    
 	if ([urlString hasPrefix:@"http://i.imgur.com/"] && [[urlString pathExtension] length] == 0) {
 		urlString = [urlString stringByAppendingString:@".jpg"];
 	}
@@ -211,6 +215,25 @@
 	if ([urlString hasPrefix:@"http://imgur.com/"] && [[urlString pathExtension] length] == 0) {
 		urlString = [NSString stringWithFormat:@"http://i.imgur.com/%@.jpg", [RedditsAppDelegate stringByRemoveUnnecessaryString:urlString]];
 	}
+    
+    // Modifying (Aman 20-Dec-2011) to get reduced-size images from imgur
+    // Orig:                      http://i.imgur.com/46dFa.jpg
+    // Huge         [1024px max]: http://i.imgur.com/46dFah.jpg
+    // Large        [640px max]:  http://i.imgur.com/46dFal.jpg
+    // Medium       [320px max]:  http://i.imgur.com/46dFam.jpg
+    // Big Square   [160x160px]:  http://i.imgur.com/46dFab.jpg
+    // Thumb        [160px max]:  http://i.imgur.com/46dFat.jpg
+    // Small square [90x90px]:    http://i.imgur.com/46dFas.jpg
+
+    if ([urlString hasPrefix:@"http://imgur.com/"]   ||
+        [urlString hasPrefix:@"http://i.imgur.com/"] || 
+        [urlString hasPrefix:@"http://www.imgur.com"]) {
+        if ([[[urlString lastPathComponent] stringByDeletingPathExtension] length] == 5) {
+            urlString = [[NSString stringWithFormat:@"http://i.imgur.com/%@h.", 
+                          [[urlString lastPathComponent] stringByDeletingPathExtension]] 
+                         stringByAppendingString:[urlString pathExtension]];
+        }
+    }
 
 	if ([urlString hasPrefix:@"http://qkme.me/"] && [[urlString pathExtension] length] == 0) {
 		urlString = [NSString stringWithFormat:@"http://i.qkme.me/%@.jpg", [RedditsAppDelegate stringByRemoveUnnecessaryString:urlString]];

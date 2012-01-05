@@ -16,6 +16,7 @@
 @implementation RedditsAppDelegate
 
 @synthesize window = _window;
+@synthesize allSubRedditsArray;
 @synthesize subRedditsArray;
 @synthesize showedSet;
 @synthesize firstRun;
@@ -39,6 +40,7 @@
         _engine.consumerSecret = kOAuthConsumerSecret;
 	}
 	
+	allSubRedditsArray = [[NSMutableArray alloc] init];
 	subRedditsArray = [[NSMutableArray alloc] init];
 	
 	[self loadFromDefaults];
@@ -77,6 +79,7 @@
 - (void)dealloc {
 	[favoritesItem release];
 	[favoritesSet release];
+	[allSubRedditsArray release];
 	[subRedditsArray release];
 	[showedSet release];
 	[connectionAlertView release];
@@ -88,13 +91,62 @@
 - (void)loadFromDefaults {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	if ([[defaults objectForKey:@"INITIALIZTED"] length] != 0) {
-		NSData *data = [defaults objectForKey:@"subreddits"];
-		if (data != nil) {
-			NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-			NSArray *array = [unarchiver decodeObjectForKey:@"data"];
-			[unarchiver finishDecoding];
-			[subRedditsArray addObjectsFromArray:array];
-			[unarchiver release];
+		if ([[defaults objectForKey:@"UPDATED_SUBREDDITS_LIST"] length] != 0) {
+			NSData *data = [defaults objectForKey:@"subreddits"];
+			if (data != nil) {
+				NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+				NSArray *array = [unarchiver decodeObjectForKey:@"data"];
+				[unarchiver finishDecoding];
+				[allSubRedditsArray addObjectsFromArray:array];
+				[unarchiver release];
+			}
+			
+			[self refreshSubscribe];
+		}
+		else {
+			[defaults setObject:@"YES" forKey:@"UPDATED_SUBREDDITS_LIST"];
+			[defaults synchronize];
+			
+			NSArray *array = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"SubReddits" ofType:@"plist"]];
+			
+			for (int i = 0; i < array.count; i ++) {
+				SubRedditItem *subReddit = [[SubRedditItem alloc] init];
+				subReddit.nameString = [array objectAtIndex:i];
+				subReddit.urlString = [NSString stringWithFormat:SUBREDDIT_FORMAT1, subReddit.nameString];
+				subReddit.subscribe = NO;
+				[allSubRedditsArray addObject:subReddit];
+				[subReddit release];
+			}
+			
+			NSMutableArray *tempSubRedditsArray = [[NSMutableArray alloc] init];
+			NSData *data = [defaults objectForKey:@"subreddits"];
+			if (data != nil) {
+				NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+				NSArray *array = [unarchiver decodeObjectForKey:@"data"];
+				[unarchiver finishDecoding];
+				[tempSubRedditsArray addObjectsFromArray:array];
+				[unarchiver release];
+			}
+			
+			for (SubRedditItem *subReddit in tempSubRedditsArray) {
+				BOOL bExist = NO;
+				for (SubRedditItem *tempSubReddit in allSubRedditsArray) {
+					if ([[subReddit.nameString lowercaseString] isEqualToString:[tempSubReddit.nameString lowercaseString]]) {
+						bExist = YES;
+						tempSubReddit.subscribe = YES;
+						break;
+					}
+				}
+				
+				if (!bExist) {
+					subReddit.subscribe = YES;
+					[allSubRedditsArray addObject:subReddit];
+				}
+			}
+			
+			[tempSubRedditsArray release];
+			
+			[self refreshSubscribe];
 		}
 	
 		showedSet = [[NSMutableSet alloc] init];
@@ -103,7 +155,7 @@
 		if (array)
 			[showedSet addObjectsFromArray:array];
 
-		for (SubRedditItem *subReddit in subRedditsArray) {
+		for (SubRedditItem *subReddit in allSubRedditsArray) {
 			[subReddit calUnshowedCount];
 		}
 		
@@ -127,13 +179,18 @@
 		[defaults setObject:@"YES" forKey:@"INITIALIZTED"];
 		[defaults synchronize];
 		
-		for (int i = 0; i < DEFAULT_SUBREDDIT_COUNT; i ++) {
+		NSArray *array = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"SubReddits" ofType:@"plist"]];
+		
+		for (int i = 0; i < array.count; i ++) {
 			SubRedditItem *subReddit = [[SubRedditItem alloc] init];
-			subReddit.nameString = defaultSubRedditsNameArray[i];
-			subReddit.urlString = defaultSubRedditsURLArray[i];
-			[subRedditsArray addObject:subReddit];
+			subReddit.nameString = [array objectAtIndex:i];
+			subReddit.urlString = [NSString stringWithFormat:SUBREDDIT_FORMAT1, subReddit.nameString];
+			subReddit.subscribe = YES;
+			[allSubRedditsArray addObject:subReddit];
 			[subReddit release];
 		}
+		
+		[self refreshSubscribe];
 		
 		showedSet = [[NSMutableSet alloc] init];
 		
@@ -152,7 +209,7 @@
 	
 	NSMutableData *data = [[NSMutableData alloc] init];
 	NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-	[archiver encodeObject:subRedditsArray forKey:@"data"];
+	[archiver encodeObject:allSubRedditsArray forKey:@"data"];
 	[archiver finishEncoding];
 	[defaults setObject:data forKey:@"subreddits"];
 	[archiver release];
@@ -323,6 +380,15 @@
 		return YES;
 	
 	return NO;
+}
+
+- (void)refreshSubscribe {
+	[subRedditsArray removeAllObjects];
+	
+	for (SubRedditItem *subReddit in allSubRedditsArray) {
+		if (subReddit.subscribe)
+			[subRedditsArray addObject:subReddit];
+	}
 }
 
 @end

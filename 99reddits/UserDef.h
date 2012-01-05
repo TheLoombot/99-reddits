@@ -8,13 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-#define DEFAULT_SUBREDDIT_COUNT     11
-
 #define SUBREDDIT_FORMAT1			@"http://www.reddit.com/r/%@/.json?limit=50"
 #define SUBREDDIT_FORMAT2			@"http://www.reddit.com/r/%@"
-
-extern NSString *defaultSubRedditsNameArray[];
-extern NSString *defaultSubRedditsURLArray[];
 
 extern NSString *htmlStrings[];
 extern NSString *normalStrings[];

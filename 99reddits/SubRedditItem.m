@@ -17,6 +17,7 @@
 @synthesize nameString;
 @synthesize urlString;
 @synthesize photosArray;
+@synthesize subscribe;
 @synthesize loading;
 @synthesize unshowedCount;
 
@@ -47,6 +48,8 @@
 			[unarchiver release];
 		}
 		
+		self.subscribe = [decoder decodeBoolForKey:@"subscribe"];
+		
 		loading = NO;
 	}
 	
@@ -64,6 +67,8 @@
 	[encoder encodeObject:data forKey:@"photos"];
 	[archiver release];
 	[data release];
+	
+	[encoder encodeBool:self.subscribe forKey:@"subscribe"];
 }
 
 - (void)dealloc {

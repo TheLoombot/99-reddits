@@ -8,34 +8,6 @@
 
 #import "UserDef.h"
 
-NSString *defaultSubRedditsNameArray[] = {
-    @"pics", 
-    @"funny",
-    @"gaming",
-    @"aww",
-    @"GIFs",
-    @"AdviceAnimals",
-    @"fffffffuuuuuuuuuuuu",
-    @"lolcats",
-    @"iWallPaper",
-    @"MoviePosterPorn",
-    @"99reddits" 
-};
-
-NSString *defaultSubRedditsURLArray[] = {
-    @"http://www.reddit.com/r/pics/.json?limit=50", 
-    @"http://www.reddit.com/r/funny/.json?limit=50",
-    @"http://www.reddit.com/r/gaming/.json?limit=50",
-    @"http://www.reddit.com/r/aww/.json?limit=50",
-    @"http://www.reddit.com/r/GIFs/.json?limit=50",
-    @"http://www.reddit.com/r/AdviceAnimals/.json?limit=50",
-    @"http://www.reddit.com/r/fffffffuuuuuuuuuuuu/.json?limit=50",
-    @"http://www.reddit.com/r/lolcats/.json?limit=50",
-    @"http://www.reddit.com/r/iWallPaper/.json?limit=50",
-    @"http://www.reddit.com/r/MoviePosterPorn/.json?limit=50",
-    @"http://www.reddit.com/r/99reddits/.json?limit=50"
-};
-
 NSString *htmlStrings[] = {
 	@"&ndash;",		@"&#8211;",		@"&mdash;",		@"&#8212;",		@"&iexcl;",		@"&#161;",		@"&iquest;",	@"&#191;",		@"&quot;",		@"&#34;",
 	@"&ldquo;",		@"&#8220;",		@"&rdquo;",		@"&#8221;",		@"&#39;",		@"&lsquo;",		@"&#8216;",		@"&rsquo;",		@"&#8217;",		@"&laquo;",

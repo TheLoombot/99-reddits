@@ -1,0 +1,16 @@
+* {	margin: 0; padding: 0; }
+body { background: #fff; font-family: helvetica, sans-serif; font-size: 14px; color: #5f6062; }
+ol, ul { list-style: none; }
+
+a { color: #0433ff; text-decoration: underline; outline: none; border: 0px; }
+img { border:0px; vertical-align:top; }
+a img {	border: 0px; }
+a:active { outline:0px; }
+
+p {	line-height: 1.5em; margin-bottom: 10px; }
+.clear { clear: both; line-height: 0px; font-size: 0px; }
+
+h1 { font-size: 16px; color: #70769c; }
+
+.wrap { width: 280px; margin: auto; }
+#logo { float: left; margin-right: 10px; width: 85px; height: 85px;}

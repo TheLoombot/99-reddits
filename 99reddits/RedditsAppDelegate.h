@@ -20,7 +20,8 @@
 	
 	IBOutlet UINavigationController *mainNavigationController;
 	IBOutlet MainViewController *mainViewController;
-	
+
+	NSMutableArray *allSubRedditsArray;
 	NSMutableArray *subRedditsArray;
 	BOOL firstRun;
 	NSTimeInterval updatedTime;
@@ -40,6 +41,7 @@
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
+@property (nonatomic, assign) NSMutableArray *allSubRedditsArray;
 @property (nonatomic, assign) NSMutableArray *subRedditsArray;
 @property (nonatomic) BOOL firstRun;
 @property (nonatomic) NSTimeInterval updatedTime;
@@ -60,5 +62,7 @@
 - (BOOL)addToFavorites:(PhotoItem *)photo;
 - (BOOL)removeFromFavorites:(PhotoItem *)photo;
 - (BOOL)isFavorite:(PhotoItem *)photo;
+
+- (void)refreshSubscribe;
 
 @end

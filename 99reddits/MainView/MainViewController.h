@@ -12,11 +12,13 @@
 
 
 @class RedditsAppDelegate;
+@class SubRedditItem;
 
 @interface MainViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, ASIHTTPRequestDelegate> {
 	RedditsAppDelegate *appDelegate;
 	
 	IBOutlet UITableView *contentTableView;
+	IBOutlet UIToolbar *toolbar;
 	
 	NSMutableArray *subRedditsArray;
 	
@@ -29,6 +31,7 @@
 	int refreshCount;
 }
 
-- (void)onAddedItem:(int)index;
+- (void)removeSubRedditOperations:(SubRedditItem *)subReddit;
+- (void)addSubReddit:(SubRedditItem *)subReddit;
 
 @end

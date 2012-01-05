@@ -495,9 +495,9 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)photoAlbumScrollViewDidScroll:(NIPhotoAlbumScrollView *)photoAlbumScrollView {
-  if (self.hidesChromeWhenScrolling) {
-    [self setChromeVisibility:NO animated:YES];
-  }
+//  if (self.hidesChromeWhenScrolling) {
+//    [self setChromeVisibility:NO animated:YES];
+//  }
 }
 
 

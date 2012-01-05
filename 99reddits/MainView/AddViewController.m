@@ -8,7 +8,6 @@
 
 #import "AddViewController.h"
 #import "RedditsAppDelegate.h"
-#import "MainViewController.h"
 #import "UserDef.h"
 
 
@@ -19,8 +18,6 @@
 @end
 
 @implementation AddViewController
-
-@synthesize mainViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -50,6 +47,10 @@
 	
 	urlTextField.text = @"/r/";
 	[urlTextField becomeFirstResponder];
+	
+	tipButton.titleLabel.numberOfLines = 0;
+	tipButton.titleLabel.textAlignment = UITextAlignmentCenter;
+	[tipButton setTitle:@"Tip: To delete a sub-reddit, swipe your\nfinger across it." forState:UIControlStateNormal];
 }
 
 - (void)viewDidUnload {
@@ -103,7 +104,7 @@
 	
 	if (correct) {
 		BOOL bExist = NO;
-		for (SubRedditItem *subReddit in appDelegate.subRedditsArray) {
+		for (SubRedditItem *subReddit in appDelegate.allSubRedditsArray) {
 			if ([[subReddit.nameString lowercaseString] isEqualToString:[nameString lowercaseString]]) {
 				bExist = YES;
 				break;
@@ -114,10 +115,9 @@
 			SubRedditItem *subReddit = [[SubRedditItem alloc] init];
 			subReddit.nameString = nameString;
 			subReddit.urlString = urlString;
-			[appDelegate.subRedditsArray addObject:subReddit];
+			subReddit.subscribe = YES;
+			[appDelegate.allSubRedditsArray addObject:subReddit];
 			[subReddit release];
-			
-			[mainViewController onAddedItem:appDelegate.subRedditsArray.count - 1];
 		}
 		
 		[self dismissModalViewControllerAnimated:YES];

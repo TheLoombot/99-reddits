@@ -158,9 +158,9 @@
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:YES];
 	
-	if (!disappearForSubview) {
-		[self toggleChromeVisibility];
-	}
+//	if (!disappearForSubview) {
+//		[self toggleChromeVisibility];
+//	}
 	
 	disappearForSubview = NO;
 }

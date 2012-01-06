@@ -10,12 +10,16 @@
 
 
 @class RedditsAppDelegate;
+@class RedditsViewController;
 
 @interface AddViewController : UIViewController <UITextFieldDelegate> {
 	RedditsAppDelegate *appDelegate;
+	RedditsViewController *redditsViewController;
 	
 	IBOutlet UITextField *urlTextField;
 	IBOutlet UIButton *tipButton;
 }
+
+@property (nonatomic, assign) RedditsViewController *redditsViewController;
 
 @end

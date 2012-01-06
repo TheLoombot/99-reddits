@@ -21,10 +21,10 @@
 	IBOutlet UINavigationController *mainNavigationController;
 	IBOutlet MainViewController *mainViewController;
 
-	NSMutableArray *allSubRedditsArray;
+	NSMutableArray *staticSubRedditsArray;
+	NSMutableArray *manualSubRedditsArray;
 	NSMutableArray *subRedditsArray;
 	BOOL firstRun;
-	NSTimeInterval updatedTime;
 	
 	NSMutableSet *showedSet;
 	
@@ -38,18 +38,21 @@
 
 	SubRedditItem *favoritesItem;
 	NSMutableSet *favoritesSet;
+	
+	BOOL isPaid;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, assign) NSMutableArray *allSubRedditsArray;
+@property (nonatomic, assign) NSMutableArray *staticSubRedditsArray;
+@property (nonatomic, assign) NSMutableArray *manualSubRedditsArray;
 @property (nonatomic, assign) NSMutableArray *subRedditsArray;
 @property (nonatomic) BOOL firstRun;
-@property (nonatomic) NSTimeInterval updatedTime;
 @property (nonatomic, assign) NSMutableSet *showedSet;
 @property (nonatomic, readonly) BOOL tweetEnabled;
 @property (nonatomic, readonly) SA_OAuthTwitterEngine *engine;
 @property (nonatomic, assign) PhotoViewController *photoViewController;
 @property (nonatomic, retain) SubRedditItem *favoritesItem;
+@property (nonatomic) BOOL isPaid;
 
 + (NSString *)getImageURL:(NSString *)urlString;
 + (NSString *)stringByRemoveHTML:(NSString *)string;

@@ -23,4 +23,6 @@
 
 @property (nonatomic, assign) MainViewController *mainViewController;
 
+- (void)onManualAdded;
+
 @end

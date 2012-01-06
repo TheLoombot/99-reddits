@@ -103,12 +103,13 @@
 
 - (IBAction)onAddButton:(id)sender {
 	AddViewController *addViewController = [[AddViewController alloc] initWithNibName:@"AddViewController" bundle:nil];
+	addViewController.redditsViewController = self;
 	[self presentModalViewController:addViewController animated:YES];
 	[addViewController release];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return appDelegate.allSubRedditsArray.count;
+	return appDelegate.staticSubRedditsArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -118,12 +119,12 @@
 	if (cell == nil) {
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier] autorelease];
 		cell.accessoryType = UITableViewCellAccessoryNone;
-		cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
+		cell.textLabel.font = [UIFont boldSystemFontOfSize:20];
 		cell.textLabel.textColor = [UIColor blackColor];
 		cell.textLabel.backgroundColor = [UIColor clearColor];
 	}
 	
-	SubRedditItem *subReddit = [appDelegate.allSubRedditsArray objectAtIndex:indexPath.row];
+	SubRedditItem *subReddit = [appDelegate.staticSubRedditsArray objectAtIndex:indexPath.row];
 	cell.textLabel.text = subReddit.nameString;
 	if (subReddit.subscribe) {
 		cell.backgroundView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"CheckCellBack.png"]] autorelease];
@@ -140,7 +141,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[contentTableView deselectRowAtIndexPath:indexPath animated:YES];
 	
-	SubRedditItem *subReddit = [appDelegate.allSubRedditsArray objectAtIndex:indexPath.row];
+	SubRedditItem *subReddit = [appDelegate.staticSubRedditsArray objectAtIndex:indexPath.row];
 	UITableViewCell *cell = [contentTableView cellForRowAtIndexPath:indexPath];
 	subReddit.subscribe = !subReddit.subscribe;
 	if (subReddit.subscribe) {
@@ -153,19 +154,39 @@
 	}
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    return YES;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (editingStyle == UITableViewCellEditingStyleDelete) {
-		SubRedditItem *subReddit = [appDelegate.allSubRedditsArray objectAtIndex:indexPath.row];
-		[mainViewController removeSubRedditOperations:subReddit];
-		[subReddit removeAllCaches];
-		[appDelegate.subRedditsArray removeObject:subReddit];
-		[appDelegate.allSubRedditsArray removeObject:subReddit];
-		[contentTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }    
+- (void)onManualAdded {
+	[appDelegate refreshSubscribe];
+	
+	for (SubRedditItem *subReddit in originalSubRedditsArray) {
+		BOOL bExist = NO;
+		for (SubRedditItem *tempSubReddit in appDelegate.subRedditsArray) {
+			if (subReddit == tempSubReddit) {
+				bExist = YES;
+				break;
+			}
+		}
+		
+		if (!bExist) {
+			[mainViewController removeSubRedditOperations:subReddit];
+		}
+	}
+	
+	for (SubRedditItem *subReddit in appDelegate.subRedditsArray) {
+		BOOL bExist = NO;
+		for (SubRedditItem *tempSubReddit in originalSubRedditsArray) {
+			if (subReddit == tempSubReddit) {
+				bExist = YES;
+				break;
+			}
+		}
+		
+		if (!bExist) {
+			[mainViewController addSubReddit:subReddit];
+		}
+	}
+	
+	[self dismissModalViewControllerAnimated:NO];
+	[self dismissModalViewControllerAnimated:YES];
 }
 
 @end

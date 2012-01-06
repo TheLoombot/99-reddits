@@ -245,6 +245,7 @@
 			NSString *thumbnailString = [[subReddit.photosArray objectAtIndex:0] thumbnailString];
 			for (ASIHTTPRequest *request in queue.operations) {
 				if ([[request.originalURL absoluteString] isEqualToString:thumbnailString]) {
+					request.delegate = nil;
 					[request cancel];
 					[activeRequests removeObject:thumbnailString];
 					break;
@@ -252,7 +253,9 @@
 			}
 			[subReddit removeAllCaches];
 		}
-		[appDelegate.allSubRedditsArray removeObject:subReddit];
+		
+		subReddit.subscribe = NO;
+		[appDelegate.manualSubRedditsArray removeObject:subReddit];
 		[subRedditsArray removeObject:subReddit];
 		[contentTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
 		
@@ -312,7 +315,6 @@
 	if (subReddit == nil) {
 		refreshCount --;
 		if (refreshCount == 0) {
-			appDelegate.updatedTime = [[NSDate date] timeIntervalSince1970];
 			self.navigationItem.leftBarButtonItem.enabled = YES;
 		}
 		return;
@@ -341,7 +343,6 @@
 	
 	refreshCount --;
 	if (refreshCount == 0) {
-		appDelegate.updatedTime = [[NSDate date] timeIntervalSince1970];
 		self.navigationItem.leftBarButtonItem.enabled = YES;
 	}
 }
@@ -360,7 +361,6 @@
 	if (subReddit == nil) {
 		refreshCount --;
 		if (refreshCount == 0) {
-			appDelegate.updatedTime = [[NSDate date] timeIntervalSince1970];
 			self.navigationItem.leftBarButtonItem.enabled = YES;
 		}
 		return;
@@ -374,7 +374,6 @@
 	
 	refreshCount --;
 	if (refreshCount == 0) {
-		appDelegate.updatedTime = [[NSDate date] timeIntervalSince1970];
 		self.navigationItem.leftBarButtonItem.enabled = YES;
 	}
 }
@@ -516,16 +515,21 @@
 	[readOp setCompletionBlock:^{
 		UIImage *image = [UIImage imageWithData:[readOp responseData]];
 		
-		int index = -1;
-		for (int i = 0; i < subRedditsArray.count; i ++) {
-			NSString *keyString = [self cacheKeyForPhotoIndex:i];
-			if ([keyString isEqualToString:photoIndexKey]) {
-				index = i;
-				break;
+		int index = -2;
+		if (photoIndex == -1) {
+			index = -1;
+		}
+		else {
+			for (int i = 0; i < subRedditsArray.count; i ++) {
+				NSString *keyString = [self cacheKeyForPhotoIndex:i];
+				if ([keyString isEqualToString:photoIndexKey]) {
+					index = i;
+					break;
+				}
 			}
 		}
 		
-		if (index != -1) {
+		if (index != -2) {
 			if (image) {
 				int x, y, w, h;
 				if (image.size.width > THUMB_WIDTH * 2 && image.size.height > THUMB_HEIGHT * 2) {
@@ -595,6 +599,7 @@
 		NSString *thumbnailString = [[subReddit.photosArray objectAtIndex:0] thumbnailString];
 		for (ASIHTTPRequest *request in queue.operations) {
 			if ([[request.originalURL absoluteString] isEqualToString:thumbnailString]) {
+				request.delegate = nil;
 				[request cancel];
 				[activeRequests removeObject:thumbnailString];
 				break;

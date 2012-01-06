@@ -8,6 +8,7 @@
 
 #import "AddViewController.h"
 #import "RedditsAppDelegate.h"
+#import "RedditsViewController.h"
 #import "UserDef.h"
 
 
@@ -18,6 +19,8 @@
 @end
 
 @implementation AddViewController
+
+@synthesize redditsViewController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -104,7 +107,7 @@
 	
 	if (correct) {
 		BOOL bExist = NO;
-		for (SubRedditItem *subReddit in appDelegate.allSubRedditsArray) {
+		for (SubRedditItem *subReddit in appDelegate.staticSubRedditsArray) {
 			if ([[subReddit.nameString lowercaseString] isEqualToString:[nameString lowercaseString]]) {
 				bExist = YES;
 				break;
@@ -112,19 +115,25 @@
 		}
 		
 		if (!bExist) {
-			SubRedditItem *subReddit = [[SubRedditItem alloc] init];
-			subReddit.nameString = nameString;
-			subReddit.urlString = urlString;
-			subReddit.subscribe = YES;
-			[appDelegate.allSubRedditsArray addObject:subReddit];
-			[subReddit release];
+			for (SubRedditItem *subReddit in appDelegate.manualSubRedditsArray) {
+				if ([[subReddit.nameString lowercaseString] isEqualToString:[nameString lowercaseString]]) {
+					bExist = YES;
+					break;
+				}
+			}
+			
+			if (!bExist) {
+				SubRedditItem *subReddit = [[SubRedditItem alloc] init];
+				subReddit.nameString = nameString;
+				subReddit.urlString = urlString;
+				subReddit.subscribe = YES;
+				[appDelegate.manualSubRedditsArray addObject:subReddit];
+				[subReddit release];
+			}
 		}
-		
-		[self dismissModalViewControllerAnimated:YES];
 	}
-	else {
-		[self dismissModalViewControllerAnimated:YES];
-	}
+
+	[redditsViewController onManualAdded];
 	
 	return YES;
 }

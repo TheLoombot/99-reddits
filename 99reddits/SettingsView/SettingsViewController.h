@@ -9,13 +9,23 @@
 #import <UIKit/UIKit.h>
 
 
+@class RedditsAppDelegate;
+
 @interface SettingsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIWebViewDelegate> {
+	RedditsAppDelegate *appDelegate;
+	
 	IBOutlet UIScrollView *contentScrollView;
+	IBOutlet UIView *buttonsView;
 	IBOutlet UIButton *upgradeForMOARButton;
 	IBOutlet UIButton *restoreUpdateButton;
+	IBOutlet UIView *aboutView;
 	IBOutlet UITableView *contentTableView;
 	IBOutlet UIButton *aboutOutlineButton;
 	IBOutlet UIWebView *aboutWebView;
+	
+	NSString *imagesSeenString;
+	NSString *titleString;
+	NSString *imagesToNextTitleString;
 }
 
 @end

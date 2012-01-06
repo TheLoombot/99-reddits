@@ -107,8 +107,10 @@
 	
 	if (correct) {
 		BOOL bExist = NO;
+		SubRedditItem *tempSubReddit;
 		for (SubRedditItem *subReddit in appDelegate.staticSubRedditsArray) {
 			if ([[subReddit.nameString lowercaseString] isEqualToString:[nameString lowercaseString]]) {
+				tempSubReddit = subReddit;
 				bExist = YES;
 				break;
 			}
@@ -130,6 +132,9 @@
 				[appDelegate.manualSubRedditsArray addObject:subReddit];
 				[subReddit release];
 			}
+		}
+		else {
+			tempSubReddit.subscribe = YES;
 		}
 	}
 

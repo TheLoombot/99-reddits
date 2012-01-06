@@ -14,10 +14,17 @@
 
 @class RedditsAppDelegate;
 
-@interface AlbumViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
+@interface AlbumViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITabBarDelegate, UIAlertViewDelegate> {
 	RedditsAppDelegate *appDelegate;
 	
 	IBOutlet UITableView *contentTableView;
+	IBOutlet UIView *footerView;
+	IBOutlet UIButton *moarButton;
+	IBOutlet UITabBar *tabBar;
+	IBOutlet UITabBarItem *hotItem;
+	IBOutlet UITabBarItem *newItem;
+	IBOutlet UITabBarItem *controversialItem;
+	IBOutlet UITabBarItem *topItem;
 
 	SubRedditItem *subReddit;
 	NSMutableArray *cellArray;
@@ -35,6 +42,7 @@
 @property (nonatomic, retain) SubRedditItem *subReddit;
 @property (nonatomic) BOOL bFavorites;
 
+- (IBAction)onMOARButton:(id)sender;
 - (void)onSelectPhoto:(PhotoItem *)photo;
 
 @end

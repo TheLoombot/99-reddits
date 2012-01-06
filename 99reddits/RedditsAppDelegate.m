@@ -55,20 +55,13 @@
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
-	[self saveToDefaults];
 }
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-	/*
-	 Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-	 If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-	 */
+	[self saveToDefaults];
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-	/*
-	 Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-	 */
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
@@ -161,9 +154,25 @@
 			[defaults synchronize];
 		}
 		else {
+			NSMutableSet *manualSubscribeSet = [[NSMutableSet alloc] initWithArray:[NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"SubscribeList" ofType:@"plist"]]];
 			for (SubRedditItem *subReddit in staticSubRedditsArray) {
-				subReddit.subscribe = YES;
+				if ([manualSubscribeSet containsObject:subReddit.nameString]) {
+					subReddit.subscribe = YES;
+					[manualSubscribeSet removeObject:subReddit.nameString];
+				}
 			}
+			
+			NSArray *tempArray = [manualSubscribeSet allObjects];
+			for (int i = 0; i < tempArray.count; i ++) {
+				SubRedditItem *subReddit = [[SubRedditItem alloc] init];
+				subReddit.nameString = [tempArray objectAtIndex:i];
+				subReddit.urlString = [NSString stringWithFormat:SUBREDDIT_FORMAT1, subReddit.nameString];
+				subReddit.subscribe = YES;
+				[manualSubRedditsArray addObject:subReddit];
+				[subReddit release];
+			}
+			
+			[manualSubscribeSet release];
 			
 			firstRun = YES;
 		}

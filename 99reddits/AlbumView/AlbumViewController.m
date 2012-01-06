@@ -14,6 +14,7 @@
 #import "AlbumViewController.h"
 #import "PhotoViewController.h"
 #import "RedditsAppDelegate.h"
+#import "SettingsViewController.h"
 
 
 #define THUMB_WIDTH			75
@@ -95,6 +96,8 @@
 	thumbnailImageCache = [[NIImageMemoryCache alloc] init];
 	
 	[self loadThumbnails];
+	
+	contentTableView.tableFooterView = footerView;
 	
 	[appDelegate checkNetworkReachable:YES];
 }
@@ -269,6 +272,32 @@
 - (void)setSubReddit:(SubRedditItem *)_subReddit {
 	[subReddit release];
 	subReddit = [_subReddit retain];
+}
+
+- (IBAction)onMOARButton:(id)sender {
+	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"This is a paid feature. It's cheap." message:nil delegate:self cancelButtonTitle:@"No thanks" otherButtonTitles:@"Buy", nil];
+	[alertView show];
+	[alertView release];
+}
+
+// UITabBarDelegate
+- (void)tabBar:(UITabBar *)tb didSelectItem:(UITabBarItem *)item {
+	tabBar.selectedItem = nil;
+	if (!appDelegate.isPaid) {
+		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"This is a paid feature. It's cheap." message:nil delegate:self cancelButtonTitle:@"No thanks" otherButtonTitles:@"Buy", nil];
+		[alertView show];
+		[alertView release];
+		return;
+	}
+}
+
+// UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (buttonIndex != alertView.cancelButtonIndex) {
+		SettingsViewController *settingsViewController = [[SettingsViewController alloc] initWithNibName:@"SettingsViewController" bundle:nil];
+		[self presentModalViewController:settingsViewController animated:YES];
+		[settingsViewController release];
+	}
 }
 
 @end

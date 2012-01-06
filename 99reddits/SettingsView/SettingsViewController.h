@@ -7,6 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MBProgressHUD.h"
+#import "PurchaseManager.h"
 
 
 @class RedditsAppDelegate;
@@ -26,6 +28,10 @@
 	NSString *imagesSeenString;
 	NSString *titleString;
 	NSString *imagesToNextTitleString;
+
+	MBProgressHUD *hud;
 }
+
+@property (retain) MBProgressHUD *hud;
 
 @end

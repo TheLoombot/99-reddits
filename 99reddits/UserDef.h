@@ -18,5 +18,8 @@ extern NSString *normalStrings[];
 extern NSString *kAppId;
 
 // Twitter
-#define kOAuthConsumerKey				@"grEwIZVG1i29zrAMxJqevA"
-#define kOAuthConsumerSecret			@"ETZcVuwWdtMMgTwEb5RE1igz5AEiZh6Mfsv5Msc"
+#define kOAuthConsumerKey			@"grEwIZVG1i29zrAMxJqevA"
+#define kOAuthConsumerSecret		@"ETZcVuwWdtMMgTwEb5RE1igz5AEiZh6Mfsv5Msc"
+
+
+#define PRODUCT_ID					@"PAID_USER"

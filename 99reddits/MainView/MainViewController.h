@@ -33,5 +33,6 @@
 
 - (void)removeSubRedditOperations:(SubRedditItem *)subReddit;
 - (void)addSubReddit:(SubRedditItem *)subReddit;
+- (IBAction)onSettingsButton:(id)sender;
 
 @end

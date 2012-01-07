@@ -14,7 +14,7 @@
 #import "AlbumViewController.h"
 #import "PhotoViewController.h"
 #import "RedditsAppDelegate.h"
-#import "SettingsViewController.h"
+#import "MainViewController.h"
 
 
 #define THUMB_WIDTH			75
@@ -31,6 +31,7 @@
 
 @implementation AlbumViewController
 
+@synthesize mainViewController;
 @synthesize subReddit;
 @synthesize bFavorites;
 
@@ -97,7 +98,13 @@
 	
 	[self loadThumbnails];
 	
-	contentTableView.tableFooterView = footerView;
+	if (bFavorites) {
+		[tabBar removeFromSuperview];
+		contentTableView.frame = CGRectMake(0, 0, 320, 460);
+	}
+	else {
+		contentTableView.tableFooterView = footerView;
+	}
 	
 	[appDelegate checkNetworkReachable:YES];
 }
@@ -294,9 +301,8 @@
 // UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	if (buttonIndex != alertView.cancelButtonIndex) {
-		SettingsViewController *settingsViewController = [[SettingsViewController alloc] initWithNibName:@"SettingsViewController" bundle:nil];
-		[self presentModalViewController:settingsViewController animated:YES];
-		[settingsViewController release];
+		[self.navigationController popViewControllerAnimated:NO];
+		[mainViewController onSettingsButton:nil];
 	}
 }
 

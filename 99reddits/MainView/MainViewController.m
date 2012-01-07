@@ -28,7 +28,6 @@
 - (void)requestImageFromSource:(NSString *)source photoIndex:(NSInteger)photoIndex;
 
 - (IBAction)onRefreshButton;
-- (IBAction)onSettingsButton:(id)sender;
 
 @end
 
@@ -209,6 +208,7 @@
 	if (indexPath.row == 0) {
 		if (appDelegate.favoritesItem.photosArray.count > 0) {
 			AlbumViewController *albumViewController = [[AlbumViewController alloc] initWithNibName:@"AlbumViewController" bundle:nil];
+			albumViewController.mainViewController = self;
 			albumViewController.subReddit = appDelegate.favoritesItem;
 			albumViewController.bFavorites = YES;
 			[self.navigationController pushViewController:albumViewController animated:YES];
@@ -220,6 +220,7 @@
 		
 		if (subReddit.photosArray.count > 0 && !subReddit.loading) {
 			AlbumViewController *albumViewController = [[AlbumViewController alloc] initWithNibName:@"AlbumViewController" bundle:nil];
+			albumViewController.mainViewController = self;
 			albumViewController.subReddit = subReddit;
 			albumViewController.bFavorites = NO;
 			[self.navigationController pushViewController:albumViewController animated:YES];

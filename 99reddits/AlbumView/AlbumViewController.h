@@ -13,9 +13,11 @@
 
 
 @class RedditsAppDelegate;
+@class MainViewController;
 
 @interface AlbumViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITabBarDelegate, UIAlertViewDelegate> {
 	RedditsAppDelegate *appDelegate;
+	MainViewController *mainViewController;
 	
 	IBOutlet UITableView *contentTableView;
 	IBOutlet UIView *footerView;
@@ -39,6 +41,7 @@
 	BOOL bFavorites;
 }
 
+@property (nonatomic, assign) MainViewController *mainViewController;
 @property (nonatomic, retain) SubRedditItem *subReddit;
 @property (nonatomic) BOOL bFavorites;
 

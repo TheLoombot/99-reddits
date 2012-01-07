@@ -56,6 +56,10 @@
 						</object>
 						<bool key="IBUIClipsSubviews">YES</bool>
 						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<double key="IBUIContentInset.top">0.0</double>
+						<double key="IBUIContentInset.bottom">4</double>
+						<double key="IBUIContentInset.left">0.0</double>
+						<double key="IBUIContentInset.right">0.0</double>
 						<bool key="IBUIAlwaysBounceVertical">YES</bool>
 						<int key="IBUISectionIndexMinimumDisplayRowCount">0</int>
 						<bool key="IBUIShowsSelectionImmediatelyOnTouchBegin">YES</bool>
@@ -133,7 +137,7 @@
 					<object class="IBUIButton" id="702598788">
 						<reference key="NSNextResponder" ref="708661299"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{10, 10}, {300, 45}}</string>
+						<string key="NSFrame">{{10, 5}, {300, 45}}</string>
 						<reference key="NSSuperview" ref="708661299"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView"/>
@@ -165,7 +169,7 @@
 						</object>
 					</object>
 				</object>
-				<string key="NSFrameSize">{320, 65}</string>
+				<string key="NSFrameSize">{320, 60}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="702598788"/>

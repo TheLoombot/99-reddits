@@ -54,6 +54,7 @@
 @property (nonatomic, retain) SubRedditItem *favoritesItem;
 @property (nonatomic) BOOL isPaid;
 
+
 + (NSString *)getImageURL:(NSString *)urlString;
 + (NSString *)stringByRemoveHTML:(NSString *)string;
 

@@ -58,7 +58,7 @@
 			favoriteOverlayView.image = nil;
 		}
 		else {
-			if (photo.showed) {
+			if ([photo isShowed]) {
 				overlayView.hidden = NO;
 				overlayView.image = [UIImage imageNamed:@"Overlay.png"];
 			}

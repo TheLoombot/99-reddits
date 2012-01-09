@@ -17,6 +17,7 @@
 @synthesize nameString;
 @synthesize urlString;
 @synthesize photosArray;
+@synthesize afterString;
 @synthesize subscribe;
 @synthesize loading;
 @synthesize unshowedCount;
@@ -48,6 +49,7 @@
 			[unarchiver release];
 		}
 		
+		self.afterString = [decoder decodeObjectForKey:@"after"];
 		self.subscribe = [decoder decodeBoolForKey:@"subscribe"];
 		
 		loading = NO;
@@ -68,6 +70,7 @@
 	[archiver release];
 	[data release];
 	
+	[encoder encodeObject:self.afterString forKey:@"after"];
 	[encoder encodeBool:self.subscribe forKey:@"subscribe"];
 }
 
@@ -75,6 +78,7 @@
 	[nameString release];
 	[urlString release];
 	[photosArray release];
+	[afterString release];
 	[super dealloc];
 }
 
@@ -99,7 +103,7 @@
 	
 	unshowedCount = 0;
 	for (PhotoItem *item in photosArray) {
-		if (!item.showed)
+		if (![item isShowed])
 			unshowedCount ++;
 		else
 			[appDelegate.showedSet addObject:item.idString];
@@ -114,6 +118,14 @@
 - (void)setUrlString:(NSString *)_urlString {
 	[urlString release];
 	urlString = [_urlString retain];
+}
+
+- (void)setAfterString:(NSString *)_afterString {
+	[afterString release];
+	if (_afterString)
+		afterString = [_afterString retain];
+	else
+		afterString = [[NSString alloc] initWithString:@""];
 }
 
 @end

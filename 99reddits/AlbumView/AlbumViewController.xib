@@ -12,12 +12,13 @@
 		</object>
 		<object class="NSArray" key="IBDocument.IntegratedClassDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<string>IBUITabBar</string>
-			<string>IBUITableView</string>
-			<string>IBUIButton</string>
 			<string>IBUIView</string>
 			<string>IBUITabBarItem</string>
 			<string>IBProxyObject</string>
+			<string>IBUIActivityIndicatorView</string>
+			<string>IBUITabBar</string>
+			<string>IBUITableView</string>
+			<string>IBUIButton</string>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -73,7 +74,6 @@
 						<string key="NSFrame">{{0, 411}, {320, 49}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:541</string>
 						<object class="NSColor" key="IBUIBackgroundColor" id="97527304">
 							<int key="NSColorSpace">3</int>
@@ -137,10 +137,9 @@
 					<object class="IBUIButton" id="702598788">
 						<reference key="NSNextResponder" ref="708661299"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{10, 5}, {300, 45}}</string>
+						<string key="NSFrame">{{10, 10}, {300, 45}}</string>
 						<reference key="NSSuperview" ref="708661299"/>
 						<reference key="NSWindow"/>
-						<reference key="NSNextKeyView"/>
 						<string key="NSReuseIdentifierKey">_NS:225</string>
 						<reference key="IBUIBackgroundColor" ref="97527304"/>
 						<bool key="IBUIOpaque">NO</bool>
@@ -150,6 +149,10 @@
 						<int key="IBUIButtonType">1</int>
 						<string key="IBUINormalTitle">MOAR</string>
 						<reference key="IBUIHighlightedTitleColor" ref="499189548"/>
+						<object class="NSColor" key="IBUIDisabledTitleColor">
+							<int key="NSColorSpace">1</int>
+							<bytes key="NSRGB">MC40MzkyMTU2ODYzIDAuNDYyNzQ1MDk4IDAuNjExNzY0NzA1OSAwLjU3AA</bytes>
+						</object>
 						<object class="NSColor" key="IBUINormalTitleColor">
 							<int key="NSColorSpace">1</int>
 							<bytes key="NSRGB">MC40MzkyMTU2ODYzIDAuNDYyNzQ1MDk4IDAuNjExNzY0NzA1OQA</bytes>
@@ -167,6 +170,19 @@
 							<double key="NSSize">15</double>
 							<int key="NSfFlags">16</int>
 						</object>
+					</object>
+					<object class="IBUIActivityIndicatorView" id="58560218">
+						<reference key="NSNextResponder" ref="708661299"/>
+						<int key="NSvFlags">292</int>
+						<string key="NSFrame">{{150, 23}, {20, 20}}</string>
+						<reference key="NSSuperview" ref="708661299"/>
+						<reference key="NSWindow"/>
+						<string key="NSReuseIdentifierKey">_NS:1030</string>
+						<bool key="IBUIOpaque">NO</bool>
+						<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+						<bool key="IBUIHidesWhenStopped">NO</bool>
+						<bool key="IBUIAnimating">YES</bool>
+						<int key="IBUIStyle">2</int>
 					</object>
 				</object>
 				<string key="NSFrameSize">{320, 60}</string>
@@ -252,6 +268,14 @@
 						<reference key="destination" ref="708661299"/>
 					</object>
 					<int key="connectionID">31</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">moarWaitingView</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="58560218"/>
+					</object>
+					<int key="connectionID">33</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -362,12 +386,18 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="702598788"/>
+							<reference ref="58560218"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">21</int>
 						<reference key="object" ref="702598788"/>
+						<reference key="parent" ref="708661299"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">32</int>
+						<reference key="object" ref="58560218"/>
 						<reference key="parent" ref="708661299"/>
 					</object>
 				</object>
@@ -388,7 +418,9 @@
 					<string>19.IBPluginDependency</string>
 					<string>20.IBPluginDependency</string>
 					<string>21.IBPluginDependency</string>
+					<string>21.IBUIButtonInspectorSelectedStateConfigurationMetadataKey</string>
 					<string>30.IBPluginDependency</string>
+					<string>32.IBPluginDependency</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
@@ -403,6 +435,8 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<real value="3"/>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
@@ -419,7 +453,7 @@
 				<reference key="dict.values" ref="0"/>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">31</int>
+			<int key="maxID">33</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -447,6 +481,7 @@
 							<string>footerView</string>
 							<string>hotItem</string>
 							<string>moarButton</string>
+							<string>moarWaitingView</string>
 							<string>newItem</string>
 							<string>tabBar</string>
 							<string>topItem</string>
@@ -458,6 +493,7 @@
 							<string>UIView</string>
 							<string>UITabBarItem</string>
 							<string>UIButton</string>
+							<string>UIActivityIndicatorView</string>
 							<string>UITabBarItem</string>
 							<string>UITabBar</string>
 							<string>UITabBarItem</string>
@@ -472,6 +508,7 @@
 							<string>footerView</string>
 							<string>hotItem</string>
 							<string>moarButton</string>
+							<string>moarWaitingView</string>
 							<string>newItem</string>
 							<string>tabBar</string>
 							<string>topItem</string>
@@ -497,6 +534,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">moarButton</string>
 								<string key="candidateClassName">UIButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">moarWaitingView</string>
+								<string key="candidateClassName">UIActivityIndicatorView</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">newItem</string>

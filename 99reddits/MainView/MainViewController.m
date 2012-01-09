@@ -43,14 +43,16 @@
 
 - (void)releaseObjects {
 	for (ASIHTTPRequest *request in refreshQueue.operations) {
-		request.delegate = nil;
+		[request clearDelegatesAndCancel];
+//		request.delegate = nil;
 	}
-	[refreshQueue cancelAllOperations];
+//	[refreshQueue cancelAllOperations];
 	
 	for (ASIHTTPRequest *request in queue.operations) {
-		request.delegate = nil;
+		[request clearDelegatesAndCancel];
+//		request.delegate = nil;
 	}
-	[queue cancelAllOperations];
+//	[queue cancelAllOperations];
 	
 	NI_RELEASE_SAFELY(activeRequests);
 	NI_RELEASE_SAFELY(thumbnailImageCache);
@@ -119,6 +121,9 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+	for (SubRedditItem *subReddit in subRedditsArray) {
+		[subReddit calUnshowedCount];
+	}
 	[contentTableView reloadData];
 }
 
@@ -246,8 +251,9 @@
 			NSString *thumbnailString = [[subReddit.photosArray objectAtIndex:0] thumbnailString];
 			for (ASIHTTPRequest *request in queue.operations) {
 				if ([[request.originalURL absoluteString] isEqualToString:thumbnailString]) {
-					request.delegate = nil;
-					[request cancel];
+					[request clearDelegatesAndCancel];
+//					request.delegate = nil;
+//					[request cancel];
 					[activeRequests removeObject:thumbnailString];
 					break;
 				}
@@ -271,14 +277,16 @@
 	self.navigationItem.leftBarButtonItem.enabled = NO;
 	
 	for (ASIHTTPRequest *request in refreshQueue.operations) {
-		request.delegate = nil;
+		[request clearDelegatesAndCancel];
+//		request.delegate = nil;
 	}
-	[refreshQueue cancelAllOperations];
+//	[refreshQueue cancelAllOperations];
 	
 	for (ASIHTTPRequest *request in queue.operations) {
-		request.delegate = nil;
+		[request clearDelegatesAndCancel];
+//		request.delegate = nil;
 	}
-	[queue cancelAllOperations];
+//	[queue cancelAllOperations];
 	[activeRequests removeAllObjects];
 	
 	refreshCount = 0;
@@ -327,13 +335,16 @@
 	NSMutableArray *tempPhotosArray = [[NSMutableArray alloc] init];
 	[tempPhotosArray addObjectsFromArray:subReddit.photosArray];
 
+	NSDictionary *dictionary = (NSDictionary *)request.processedObject;
 	[subReddit.photosArray removeAllObjects];
-	[subReddit.photosArray addObjectsFromArray:request.processedObject];
+	[subReddit.photosArray addObjectsFromArray:[dictionary objectForKey:@"photos"]];
 
-	for (PhotoItem *photo in subReddit.photosArray) {
-		if ([appDelegate.showedSet containsObject:photo.idString])
-			photo.showed = YES;
-	}
+	subReddit.afterString = [dictionary objectForKey:@"after"];
+
+//	for (PhotoItem *photo in subReddit.photosArray) {
+//		if ([appDelegate.showedSet containsObject:photo.idString])
+//			photo.showed = YES;
+//	}
 	
 	[subReddit calUnshowedCount];
 	
@@ -411,7 +422,7 @@
 		
 		photo.titleString = [RedditsAppDelegate stringByRemoveHTML:[itemData objectForKey:@"title"]];
 		photo.urlString = [RedditsAppDelegate getImageURL:[itemData objectForKey:@"url"]];
-		photo.showed = NO;
+//		photo.showed = NO;
 
 		NSString *thumbnailString = [itemData objectForKey:@"thumbnail"];
 
@@ -455,8 +466,12 @@
 		}
 		[photo release];
 	}
+	
+	NSString *afterString = [data objectForKey:@"after"];
+	
+	NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:photosArray, @"photos", afterString, @"after", nil];
 
-	return photosArray;
+	return dictionary;
 }
 
 - (void)addSubReddit:(SubRedditItem *)subReddit {
@@ -600,8 +615,9 @@
 		NSString *thumbnailString = [[subReddit.photosArray objectAtIndex:0] thumbnailString];
 		for (ASIHTTPRequest *request in queue.operations) {
 			if ([[request.originalURL absoluteString] isEqualToString:thumbnailString]) {
-				request.delegate = nil;
-				[request cancel];
+				[request clearDelegatesAndCancel];
+//				request.delegate = nil;
+//				[request cancel];
 				[activeRequests removeObject:thumbnailString];
 				break;
 			}

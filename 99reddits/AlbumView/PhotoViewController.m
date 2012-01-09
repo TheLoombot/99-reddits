@@ -46,9 +46,10 @@
 
 - (void)releaseObjects {
 	for (ASIHTTPRequest *request in queue.operations) {
-		request.delegate = nil;
+		[request clearDelegatesAndCancel];
+//		request.delegate = nil;
 	}
-	[queue cancelAllOperations];
+//	[queue cancelAllOperations];
 	
 	NI_RELEASE_SAFELY(activeRequests);
 	NI_RELEASE_SAFELY(highQualityImageCache);
@@ -328,8 +329,8 @@
 		if (photoIndex == self.photoAlbumView.centerPhotoIndex) {
 			PhotoItem *photo = [subReddit.photosArray objectAtIndex:photoIndex];
 			
-			if (!photo.showed) {
-				photo.showed = YES;
+			if (![photo isShowed]) {
+//				photo.showed = YES;
 				[appDelegate.showedSet addObject:photo.idString];
 				subReddit.unshowedCount --;
 			}
@@ -356,8 +357,8 @@
 		if (!releasing && photoIndex == self.photoAlbumView.centerPhotoIndex) {
 			PhotoItem *photo = [subReddit.photosArray objectAtIndex:photoIndex];
 			
-			if (!photo.showed) {
-				photo.showed = YES;
+			if (![photo isShowed]) {
+//				photo.showed = YES;
 				[appDelegate.showedSet addObject:photo.idString];
 				subReddit.unshowedCount --;
 			}
@@ -444,8 +445,8 @@
 	NSString *photoIndexKey = [self cacheKeyForPhotoIndex:self.photoAlbumView.centerPhotoIndex];
 	UIImage *image = [highQualityImageCache objectWithName:photoIndexKey];
 
-	if (image && !photo.showed) {
-		photo.showed = YES;
+	if (image && ![photo isShowed]) {
+//		photo.showed = YES;
 		[appDelegate.showedSet addObject:photo.idString];
 		subReddit.unshowedCount --;
 	}

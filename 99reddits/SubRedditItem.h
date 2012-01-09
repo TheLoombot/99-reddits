@@ -14,6 +14,7 @@
 	NSString *nameString;
 	NSString *urlString;
 	NSMutableArray *photosArray;
+	NSString *afterString;
 	BOOL subscribe;
 	
 	BOOL loading;
@@ -24,6 +25,7 @@
 @property (nonatomic, retain) NSString *nameString;
 @property (nonatomic, retain) NSString *urlString;
 @property (nonatomic, assign) NSMutableArray *photosArray;
+@property (nonatomic, retain) NSString *afterString;
 @property (nonatomic) BOOL subscribe;
 @property (nonatomic) BOOL loading;
 @property (nonatomic) int unshowedCount;

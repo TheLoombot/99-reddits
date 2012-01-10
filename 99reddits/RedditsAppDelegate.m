@@ -99,7 +99,9 @@
 	}
 	
 	if (staticSubRedditsArray.count > 0) {
-		BOOL correct = YES;
+        // Aman updated this so the static sub-reddit list will always refresh on load from defaults 10-Jan-2011
+        // Change back if Frank says it will break everything, but it seems to work ok so far
+		BOOL correct = NO;
 		for (SubRedditItem *subReddit in staticSubRedditsArray) {
 			if (subReddit.category.length == 0) {
 				correct = NO;

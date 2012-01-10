@@ -47,6 +47,13 @@
 		<array>
 			<string>bookporn</string>
 			<string>harrypotter</string>
+		</array>
+	</dict>
+	<dict>
+		<key>category</key>
+		<string>Comics</string>
+		<key>subreddits</key>
+		<array>
 			<string>classicrage</string>
 			<string>fffffffuuuuuuuuuuuu</string>
 			<string>Inglip</string>

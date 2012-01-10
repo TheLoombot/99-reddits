@@ -94,34 +94,43 @@
 		unshowedLabel.hidden = NO;
 		countLabel.hidden = NO;
 		
-		int x = self.textLabel.frame.origin.x + self.textLabel.frame.size.width + 10;
+		CGRect frame = self.textLabel.frame;
+		if (frame.size.width > 173) {
+			frame.size.width = 173;
+			self.textLabel.frame = frame;
+		}
 		
-		braketLabel.frame = CGRectMake(x, 0, 300, 55);
+		int x = frame.origin.x + frame.size.width + 10;
+		
+		int y = frame.origin.y;
+		int h = frame.size.height;
+		
+		braketLabel.frame = CGRectMake(x, y, 300, h);
 		[braketLabel sizeToFit];
-		braketLabel.frame = CGRectMake(x, 0, braketLabel.frame.size.width, 55);
+		braketLabel.frame = CGRectMake(x, y, braketLabel.frame.size.width, h);
 		
 		x = braketLabel.frame.origin.x + braketLabel.frame.size.width - 1;
 		
 		if (unshowedCount == 0) {
 			unshowedLabel.hidden = YES;
 
-			countLabel.frame = CGRectMake(x, 0, 300, 55);
+			countLabel.frame = CGRectMake(x, y, 300, h);
 			countLabel.text = [NSString stringWithFormat:@"%d)", totalCount];
 			[countLabel sizeToFit];
-			countLabel.frame = CGRectMake(x, 0, countLabel.frame.size.width, 55);
+			countLabel.frame = CGRectMake(x, y, countLabel.frame.size.width, h);
 		}
 		else {
-			unshowedLabel.frame = CGRectMake(x, 0, 300, 55);
+			unshowedLabel.frame = CGRectMake(x, y, 300, h);
 			unshowedLabel.text = [NSString stringWithFormat:@"%d", unshowedCount];
 			[unshowedLabel sizeToFit];
-			unshowedLabel.frame = CGRectMake(x, 0, unshowedLabel.frame.size.width, 55);
+			unshowedLabel.frame = CGRectMake(x, y, unshowedLabel.frame.size.width, h);
 			
 			x = unshowedLabel.frame.origin.x + unshowedLabel.frame.size.width - 1;
 			
-			countLabel.frame = CGRectMake(x, 0, 300, 55);
+			countLabel.frame = CGRectMake(x, y, 300, h);
 			countLabel.text = [NSString stringWithFormat:@"/%d)", totalCount];
 			[countLabel sizeToFit];
-			countLabel.frame = CGRectMake(x, 0, countLabel.frame.size.width, 55);
+			countLabel.frame = CGRectMake(x, y, countLabel.frame.size.width, h);
 		}
 	}
 }
@@ -142,34 +151,43 @@
 	unshowedLabel.hidden = NO;
 	countLabel.hidden = NO;
 	
-	int x = self.textLabel.frame.origin.x + self.textLabel.frame.size.width + 10;
+	CGRect frame = self.textLabel.frame;
+	if (frame.size.width > 173) {
+		frame.size.width = 173;
+		self.textLabel.frame = frame;
+	}
 	
-	braketLabel.frame = CGRectMake(x, 0, 300, 55);
+	int x = frame.origin.x + frame.size.width + 10;
+	
+	int y = frame.origin.y;
+	int h = frame.size.height;
+	
+	braketLabel.frame = CGRectMake(x, y, 300, h);
 	[braketLabel sizeToFit];
-	braketLabel.frame = CGRectMake(x, 0, braketLabel.frame.size.width, 55);
+	braketLabel.frame = CGRectMake(x, y, braketLabel.frame.size.width, h);
 	
 	x = braketLabel.frame.origin.x + braketLabel.frame.size.width - 1;
 	
 	if (unshowedCount == 0) {
 		unshowedLabel.hidden = YES;
 		
-		countLabel.frame = CGRectMake(x, 0, 300, 55);
+		countLabel.frame = CGRectMake(x, y, 300, h);
 		countLabel.text = [NSString stringWithFormat:@"%d)", totalCount];
 		[countLabel sizeToFit];
-		countLabel.frame = CGRectMake(x, 0, countLabel.frame.size.width, 55);
+		countLabel.frame = CGRectMake(x, y, countLabel.frame.size.width, h);
 	}
 	else {
-		unshowedLabel.frame = CGRectMake(x, 0, 300, 55);
+		unshowedLabel.frame = CGRectMake(x, y, 300, h);
 		unshowedLabel.text = [NSString stringWithFormat:@"%d", unshowedCount];
 		[unshowedLabel sizeToFit];
-		unshowedLabel.frame = CGRectMake(x, 0, unshowedLabel.frame.size.width, 55);
+		unshowedLabel.frame = CGRectMake(x, y, unshowedLabel.frame.size.width, h);
 		
 		x = unshowedLabel.frame.origin.x + unshowedLabel.frame.size.width - 1;
 		
-		countLabel.frame = CGRectMake(x, 0, 300, 55);
+		countLabel.frame = CGRectMake(x, y, 300, h);
 		countLabel.text = [NSString stringWithFormat:@"/%d)", totalCount];
 		[countLabel sizeToFit];
-		countLabel.frame = CGRectMake(x, 0, countLabel.frame.size.width, 55);
+		countLabel.frame = CGRectMake(x, y, countLabel.frame.size.width, h);
 	}
 }
 

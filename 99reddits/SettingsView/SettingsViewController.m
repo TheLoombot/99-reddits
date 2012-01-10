@@ -9,6 +9,8 @@
 #import "SettingsViewController.h"
 #import "RedditsAppDelegate.h"
 #import "UserDef.h"
+#import <Twitter/TWTweetComposeViewController.h>
+#import <Accounts/Accounts.h>
 
 
 @interface SettingsViewController ()
@@ -16,6 +18,8 @@
 - (IBAction)onDoneButton:(id)sender;
 - (IBAction)onUpgradeForMOARButton:(id)sender;
 - (IBAction)onRestoreUpgradeButton:(id)sender;
+- (IBAction)onEmailButton:(id)sender;
+- (IBAction)onTweetButton:(id)sender;
 
 - (void)refreshViews;
 
@@ -278,25 +282,73 @@
 	
 	aboutOutlineButton.frame = CGRectMake(10, 214, 300, height + 25);
 	
+	emailButton.frame = CGRectMake(10, height + 249, 300, 45);
+	tweetButton.frame = CGRectMake(10, height + 304, 300, 45);
+	
 	if (appDelegate.isPaid) {
 		[buttonsView removeFromSuperview];
 		CGRect frame = aboutView.frame;
 		frame.origin.y = 0;
-		frame.size.height = height + 25 + 214;
+		frame.size.height = height + 349;
 		aboutView.frame = frame;
-
-		contentScrollView.contentSize = CGSizeMake(320, aboutOutlineButton.frame.origin.y + aboutOutlineButton.frame.size.height + 10);
+		
+		if (!appDelegate.tweetEnabled) {
+			[tweetButton removeFromSuperview];
+			contentScrollView.contentSize = CGSizeMake(320, emailButton.frame.origin.y + emailButton.frame.size.height + 10);
+		}
+		else {
+			contentScrollView.contentSize = CGSizeMake(320, tweetButton.frame.origin.y + tweetButton.frame.size.height + 10);
+		}
 	}
 	else {
 		CGRect frame = aboutView.frame;
 		frame.origin.y = 171;
-		frame.size.height = height + 25 + 214;
+		frame.size.height = height + 349;
 		aboutView.frame = frame;
-
-		contentScrollView.contentSize = CGSizeMake(320, aboutOutlineButton.frame.origin.y + aboutOutlineButton.frame.size.height + 10 + 171);
+		
+		if (!appDelegate.tweetEnabled) {
+			[tweetButton removeFromSuperview];
+			contentScrollView.contentSize = CGSizeMake(320, emailButton.frame.origin.y + emailButton.frame.size.height + 181);
+		}
+		else {
+			contentScrollView.contentSize = CGSizeMake(320, tweetButton.frame.origin.y + tweetButton.frame.size.height + 181);
+		}
 	}
 	
 	[contentTableView reloadData];
+}
+
+- (IBAction)onEmailButton:(id)sender {
+	if ([MFMailComposeViewController canSendMail]) {
+		MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
+		mailComposeViewController.mailComposeDelegate = self;
+		
+		[mailComposeViewController setSubject:@"99 reddits feedback"];
+		[mailComposeViewController setToRecipients:[NSArray arrayWithObject:@"99reddits@lensie.com"]];
+		
+		[self presentModalViewController:mailComposeViewController animated:YES];
+		[mailComposeViewController release];
+	}
+}
+
+- (IBAction)onTweetButton:(id)sender {
+	TWTweetComposeViewController *tweetComposeViewController = [[TWTweetComposeViewController alloc] init];
+	
+	if ([TWTweetComposeViewController canSendTweet]) {
+		[tweetComposeViewController setInitialText:@"@99reddits"];
+	}
+	
+	tweetComposeViewController.completionHandler = ^(TWTweetComposeViewControllerResult result) {
+		[tweetComposeViewController dismissModalViewControllerAnimated:YES];
+	};
+	
+	[self presentModalViewController:tweetComposeViewController animated:YES];
+	[tweetComposeViewController release];
+}
+
+// MFMailComposeViewControllerDelegate
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+	[controller dismissModalViewControllerAnimated:YES];
 }
 
 @end

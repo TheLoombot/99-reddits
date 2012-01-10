@@ -9,11 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
 #import "PurchaseManager.h"
+#import <MessageUI/MFMailComposeViewController.h>
 
 
 @class RedditsAppDelegate;
 
-@interface SettingsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIWebViewDelegate> {
+@interface SettingsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIWebViewDelegate, MFMailComposeViewControllerDelegate> {
 	RedditsAppDelegate *appDelegate;
 	
 	IBOutlet UIScrollView *contentScrollView;
@@ -24,6 +25,9 @@
 	IBOutlet UITableView *contentTableView;
 	IBOutlet UIButton *aboutOutlineButton;
 	IBOutlet UIWebView *aboutWebView;
+	
+	IBOutlet UIButton *emailButton;
+	IBOutlet UIButton *tweetButton;
 	
 	NSString *imagesSeenString;
 	NSString *titleString;

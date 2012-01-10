@@ -33,6 +33,8 @@
 
 - (void)dealloc {
 	[originalSubRedditsArray release];
+	[categoryArray release];
+	[sectionArray release];
 	[super dealloc];
 }
 
@@ -50,6 +52,31 @@
 	
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	originalSubRedditsArray = [[NSMutableArray alloc] initWithArray:appDelegate.subRedditsArray];
+	
+	categoryArray = [[NSMutableArray alloc] init];
+	sectionArray = [[NSMutableArray alloc] init];
+	
+	for (SubRedditItem *subReddit in appDelegate.staticSubRedditsArray) {
+		int index = -1;
+		for (int i = 0; i < categoryArray.count; i ++) {
+			if ([subReddit.category isEqualToString:[categoryArray objectAtIndex:i]]) {
+				index = i;
+				break;
+			}
+		}
+		
+		if (index == -1) {
+			NSMutableArray *section = [[NSMutableArray alloc] init];
+			[section addObject:subReddit];
+			[sectionArray addObject:section];
+			[categoryArray addObject:subReddit.category];
+			[section release];
+		}
+		else {
+			NSMutableArray *section = [sectionArray objectAtIndex:index];
+			[section addObject:subReddit];
+		}
+	}
 }
 
 - (void)viewDidUnload {
@@ -108,8 +135,17 @@
 	[addViewController release];
 }
 
+// UITableViewDatasource, UITableViewDelegate
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+	return categoryArray.count;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+	return [categoryArray objectAtIndex:section];
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return appDelegate.staticSubRedditsArray.count;
+	return [[sectionArray objectAtIndex:section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -124,7 +160,8 @@
 		cell.textLabel.backgroundColor = [UIColor clearColor];
 	}
 	
-	SubRedditItem *subReddit = [appDelegate.staticSubRedditsArray objectAtIndex:indexPath.row];
+	NSMutableArray *section = [sectionArray objectAtIndex:indexPath.section];
+	SubRedditItem *subReddit = [section objectAtIndex:indexPath.row];
 	cell.textLabel.text = subReddit.nameString;
 	if (subReddit.subscribe) {
 		cell.backgroundView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"CheckCellBack.png"]] autorelease];
@@ -141,7 +178,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[contentTableView deselectRowAtIndexPath:indexPath animated:YES];
 	
-	SubRedditItem *subReddit = [appDelegate.staticSubRedditsArray objectAtIndex:indexPath.row];
+	NSMutableArray *section = [sectionArray objectAtIndex:indexPath.section];
+	SubRedditItem *subReddit = [section objectAtIndex:indexPath.row];
 	UITableViewCell *cell = [contentTableView cellForRowAtIndexPath:indexPath];
 	subReddit.subscribe = !subReddit.subscribe;
 	if (subReddit.subscribe) {

@@ -19,6 +19,9 @@
 	IBOutlet UITableView *contentTableView;
 	
 	NSMutableArray *originalSubRedditsArray;
+	
+	NSMutableArray *categoryArray;
+	NSMutableArray *sectionArray;
 }
 
 @property (nonatomic, assign) MainViewController *mainViewController;

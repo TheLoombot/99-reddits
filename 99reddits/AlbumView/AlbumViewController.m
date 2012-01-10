@@ -116,11 +116,16 @@
 	tabBar.selectedItem = hotItem;
 	currentItem = hotItem;
 	
-	currentSubReddit = [[SubRedditItem alloc] init];
-	currentSubReddit.nameString = subReddit.nameString;
-	currentSubReddit.urlString = subReddit.urlString;
-	[currentSubReddit.photosArray addObjectsFromArray:subReddit.photosArray];
-	currentSubReddit.afterString = subReddit.afterString;
+	if (bFavorites) {
+		currentSubReddit = [subReddit retain];
+	}
+	else {
+		currentSubReddit = [[SubRedditItem alloc] init];
+		currentSubReddit.nameString = subReddit.nameString;
+		currentSubReddit.urlString = subReddit.urlString;
+		[currentSubReddit.photosArray addObjectsFromArray:subReddit.photosArray];
+		currentSubReddit.afterString = subReddit.afterString;
+	}
 }
 
 - (void)viewDidUnload {
@@ -360,8 +365,8 @@
 	[currentSubReddit release];
 	
 	moarButton.enabled = NO;
-	[moarButton setTitle:@"MOAR" forState:UIControlStateNormal];
-	moarWaitingView.hidden = YES;
+	[moarButton setTitle:@"" forState:UIControlStateNormal];
+	moarWaitingView.hidden = NO;
 	
 	currentItem = item;
 	if (currentItem == hotItem) {

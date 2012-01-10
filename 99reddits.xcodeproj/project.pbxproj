@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D1A1C1414BC238500B41F5E /* SubRedditsList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D1A1C1314BC238500B41F5E /* SubRedditsList.plist */; };
 		8D21115614B54ADA00E08AF2 /* CheckCellBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D21115414B54ADA00E08AF2 /* CheckCellBack.png */; };
 		8D21115714B54ADA00E08AF2 /* UncheckCellBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D21115514B54ADA00E08AF2 /* UncheckCellBack.png */; };
 		8D21115B14B5D3B700E08AF2 /* UpgradeButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D21115914B5D3B700E08AF2 /* UpgradeButton.png */; };
@@ -34,7 +35,6 @@
 		8D3468CD14B3E25C0033BD55 /* RedditsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D3468CB14B3E25C0033BD55 /* RedditsViewController.xib */; };
 		8D3468D014B3E6D90033BD55 /* CheckIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D3468CE14B3E6D90033BD55 /* CheckIcon.png */; };
 		8D3468D114B3E6D90033BD55 /* UncheckIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D3468CF14B3E6D90033BD55 /* UncheckIcon.png */; };
-		8D3468D914B3F4D30033BD55 /* SubReddits.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D3468D814B3F4D30033BD55 /* SubReddits.plist */; };
 		8D4B1CA3145AEA7D005E9BFE /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D4B1CA2145AEA7D005E9BFE /* libxml2.dylib */; };
 		8D5080071445923700788875 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D5080061445923700788875 /* UIKit.framework */; };
 		8D5080091445923700788875 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D5080081445923700788875 /* Foundation.framework */; };
@@ -166,6 +166,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8D1A1C1314BC238500B41F5E /* SubRedditsList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SubRedditsList.plist; sourceTree = "<group>"; };
 		8D21115414B54ADA00E08AF2 /* CheckCellBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CheckCellBack.png; sourceTree = "<group>"; };
 		8D21115514B54ADA00E08AF2 /* UncheckCellBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UncheckCellBack.png; sourceTree = "<group>"; };
 		8D21115914B5D3B700E08AF2 /* UpgradeButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UpgradeButton.png; sourceTree = "<group>"; };
@@ -197,7 +198,6 @@
 		8D3468CB14B3E25C0033BD55 /* RedditsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RedditsViewController.xib; sourceTree = "<group>"; };
 		8D3468CE14B3E6D90033BD55 /* CheckIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CheckIcon.png; sourceTree = "<group>"; };
 		8D3468CF14B3E6D90033BD55 /* UncheckIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UncheckIcon.png; sourceTree = "<group>"; };
-		8D3468D814B3F4D30033BD55 /* SubReddits.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SubReddits.plist; sourceTree = "<group>"; };
 		8D4B1CA2145AEA7D005E9BFE /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		8D5080021445923700788875 /* 99reddits.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 99reddits.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8D5080061445923700788875 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -780,7 +780,7 @@
 				9C16323514733A9400CF0443 /* Default.png */,
 				8D3468BE14B3E0D10033BD55 /* SettingsIcon.png */,
 				8D3468BF14B3E0D10033BD55 /* SettingsIcon@2x.png */,
-				8D3468D814B3F4D30033BD55 /* SubReddits.plist */,
+				8D1A1C1314BC238500B41F5E /* SubRedditsList.plist */,
 				8D22CA3114B76BAD00E4DDD3 /* SubscribeList.plist */,
 				8DA6A37D14B6DD4400A97A10 /* Titles.plist */,
 			);
@@ -1020,7 +1020,6 @@
 				8D3468CD14B3E25C0033BD55 /* RedditsViewController.xib in Resources */,
 				8D3468D014B3E6D90033BD55 /* CheckIcon.png in Resources */,
 				8D3468D114B3E6D90033BD55 /* UncheckIcon.png in Resources */,
-				8D3468D914B3F4D30033BD55 /* SubReddits.plist in Resources */,
 				8D21115614B54ADA00E08AF2 /* CheckCellBack.png in Resources */,
 				8D21115714B54ADA00E08AF2 /* UncheckCellBack.png in Resources */,
 				8D21115B14B5D3B700E08AF2 /* UpgradeButton.png in Resources */,
@@ -1038,6 +1037,7 @@
 				8D22CA2F14B7622000E4DDD3 /* TopIcon.png in Resources */,
 				8D22CA3014B7622000E4DDD3 /* TopIcon@2x.png in Resources */,
 				8D22CA3214B76BAD00E4DDD3 /* SubscribeList.plist in Resources */,
+				8D1A1C1414BC238500B41F5E /* SubRedditsList.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

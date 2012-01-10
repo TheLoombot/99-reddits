@@ -18,6 +18,7 @@
 @synthesize urlString;
 @synthesize photosArray;
 @synthesize afterString;
+@synthesize category;
 @synthesize subscribe;
 @synthesize loading;
 @synthesize unshowedCount;
@@ -27,6 +28,7 @@
 	if (self) {
 		photosArray = [[NSMutableArray alloc] init];
 		loading = NO;
+		self.category = @"";
 	}
 	
 	return self;
@@ -50,6 +52,7 @@
 		}
 		
 		self.afterString = [decoder decodeObjectForKey:@"after"];
+		self.category = [decoder decodeObjectForKey:@"category"];
 		self.subscribe = [decoder decodeBoolForKey:@"subscribe"];
 		
 		loading = NO;
@@ -71,6 +74,7 @@
 	[data release];
 	
 	[encoder encodeObject:self.afterString forKey:@"after"];
+	[encoder encodeObject:self.category forKey:@"category"];
 	[encoder encodeBool:self.subscribe forKey:@"subscribe"];
 }
 
@@ -79,6 +83,7 @@
 	[urlString release];
 	[photosArray release];
 	[afterString release];
+	[category release];
 	[super dealloc];
 }
 
@@ -126,6 +131,14 @@
 		afterString = [_afterString retain];
 	else
 		afterString = [[NSString alloc] initWithString:@""];
+}
+
+- (void)setCategory:(NSString *)_category {
+	[category release];
+	if (_category)
+		category = [_category retain];
+	else
+		category = [[NSString alloc] initWithString:@""];
 }
 
 @end

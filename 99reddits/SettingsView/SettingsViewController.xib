@@ -231,11 +231,11 @@
 											<bytes key="NSRGB">MC4xOTYwNzg0MzQ2IDAuMzA5ODAzOTMyOSAwLjUyMTU2ODY1NgA</bytes>
 										</object>
 										<reference key="IBUINormalTitleShadowColor" ref="695719921"/>
-										<object class="IBUIFontDescription" key="IBUIFontDescription">
+										<object class="IBUIFontDescription" key="IBUIFontDescription" id="918874870">
 											<int key="type">2</int>
 											<double key="pointSize">15</double>
 										</object>
-										<object class="NSFont" key="IBUIFont">
+										<object class="NSFont" key="IBUIFont" id="678903680">
 											<string key="NSName">Helvetica-Bold</string>
 											<double key="NSSize">15</double>
 											<int key="NSfFlags">16</int>
@@ -247,13 +247,69 @@
 										<string key="NSFrame">{{20, 197}, {280, 30}}</string>
 										<reference key="NSSuperview" ref="701958624"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView"/>
+										<reference key="NSNextKeyView" ref="338069451"/>
 										<string key="NSReuseIdentifierKey">_NS:693</string>
 										<object class="NSColor" key="IBUIBackgroundColor">
 											<int key="NSColorSpace">1</int>
 											<bytes key="NSRGB">MSAxIDEAA</bytes>
 										</object>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+									</object>
+									<object class="IBUIButton" id="338069451">
+										<reference key="NSNextResponder" ref="701958624"/>
+										<int key="NSvFlags">292</int>
+										<string key="NSFrame">{{10, 100}, {300, 45}}</string>
+										<reference key="NSSuperview" ref="701958624"/>
+										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView" ref="880660914"/>
+										<string key="NSReuseIdentifierKey">_NS:225</string>
+										<reference key="IBUIBackgroundColor" ref="296073982"/>
+										<bool key="IBUIOpaque">NO</bool>
+										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+										<int key="IBUIContentHorizontalAlignment">0</int>
+										<int key="IBUIContentVerticalAlignment">0</int>
+										<int key="IBUIButtonType">1</int>
+										<string key="IBUINormalTitle">E-mail Me</string>
+										<reference key="IBUIHighlightedTitleColor" ref="78565098"/>
+										<object class="NSColor" key="IBUIDisabledTitleColor">
+											<int key="NSColorSpace">1</int>
+											<bytes key="NSRGB">MC40MzkyMTU2ODYzIDAuNDYyNzQ1MDk4IDAuNjExNzY0NzA1OSAwLjU3AA</bytes>
+										</object>
+										<object class="NSColor" key="IBUINormalTitleColor">
+											<int key="NSColorSpace">1</int>
+											<bytes key="NSRGB">MC40MzkyMTU2ODYzIDAuNDYyNzQ1MDk4IDAuNjExNzY0NzA1OQA</bytes>
+										</object>
+										<reference key="IBUINormalTitleShadowColor" ref="695719921"/>
+										<reference key="IBUIFontDescription" ref="918874870"/>
+										<reference key="IBUIFont" ref="678903680"/>
+									</object>
+									<object class="IBUIButton" id="880660914">
+										<reference key="NSNextResponder" ref="701958624"/>
+										<int key="NSvFlags">292</int>
+										<string key="NSFrame">{{10, 100}, {300, 45}}</string>
+										<reference key="NSSuperview" ref="701958624"/>
+										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView"/>
+										<string key="NSReuseIdentifierKey">_NS:225</string>
+										<reference key="IBUIBackgroundColor" ref="296073982"/>
+										<bool key="IBUIOpaque">NO</bool>
+										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+										<int key="IBUIContentHorizontalAlignment">0</int>
+										<int key="IBUIContentVerticalAlignment">0</int>
+										<int key="IBUIButtonType">1</int>
+										<string key="IBUINormalTitle">Tweet at Me</string>
+										<reference key="IBUIHighlightedTitleColor" ref="78565098"/>
+										<object class="NSColor" key="IBUIDisabledTitleColor">
+											<int key="NSColorSpace">1</int>
+											<bytes key="NSRGB">MC40MzkyMTU2ODYzIDAuNDYyNzQ1MDk4IDAuNjExNzY0NzA1OSAwLjU3AA</bytes>
+										</object>
+										<object class="NSColor" key="IBUINormalTitleColor">
+											<int key="NSColorSpace">1</int>
+											<bytes key="NSRGB">MC40MzkyMTU2ODYzIDAuNDYyNzQ1MDk4IDAuNjExNzY0NzA1OQA</bytes>
+										</object>
+										<reference key="IBUINormalTitleShadowColor" ref="695719921"/>
+										<reference key="IBUIFontDescription" ref="918874870"/>
+										<reference key="IBUIFont" ref="678903680"/>
 									</object>
 								</array>
 								<string key="NSFrame">{{0, 171}, {320, 245}}</string>
@@ -415,6 +471,22 @@ AAgACAAIAAEAAQABAAE</bytes>
 					<int key="connectionID">30</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">emailButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="338069451"/>
+					</object>
+					<int key="connectionID">33</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">tweetButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="880660914"/>
+					</object>
+					<int key="connectionID">34</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">onDoneButton:</string>
 						<reference key="source" ref="1047392730"/>
@@ -463,6 +535,24 @@ AAgACAAIAAEAAQABAAE</bytes>
 						<reference key="destination" ref="372490531"/>
 					</object>
 					<int key="connectionID">26</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">onEmailButton:</string>
+						<reference key="source" ref="338069451"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">35</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">onTweetButton:</string>
+						<reference key="source" ref="880660914"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">36</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -555,6 +645,8 @@ AAgACAAIAAEAAQABAAE</bytes>
 							<reference ref="331749734"/>
 							<reference ref="163625872"/>
 							<reference ref="276571330"/>
+							<reference ref="880660914"/>
+							<reference ref="338069451"/>
 						</array>
 						<reference key="parent" ref="503752337"/>
 					</object>
@@ -573,6 +665,16 @@ AAgACAAIAAEAAQABAAE</bytes>
 						<reference key="object" ref="331749734"/>
 						<reference key="parent" ref="701958624"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">31</int>
+						<reference key="object" ref="338069451"/>
+						<reference key="parent" ref="701958624"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">32</int>
+						<reference key="object" ref="880660914"/>
+						<reference key="parent" ref="701958624"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -589,6 +691,10 @@ AAgACAAIAAEAAQABAAE</bytes>
 				<string key="23.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="27.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="28.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="31.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<real value="0.0" key="31.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
+				<string key="32.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<real value="0.0" key="32.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -600,7 +706,7 @@ AAgACAAIAAEAAQABAAE</bytes>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">30</int>
+			<int key="maxID">36</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -609,7 +715,9 @@ AAgACAAIAAEAAQABAAE</bytes>
 					<string key="superclassName">UIViewController</string>
 					<dictionary class="NSMutableDictionary" key="actions">
 						<string key="onDoneButton:">id</string>
+						<string key="onEmailButton:">id</string>
 						<string key="onRestoreUpgradeButton:">id</string>
+						<string key="onTweetButton:">id</string>
 						<string key="onUpgradeForMOARButton:">id</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="actionInfosByName">
@@ -617,8 +725,16 @@ AAgACAAIAAEAAQABAAE</bytes>
 							<string key="name">onDoneButton:</string>
 							<string key="candidateClassName">id</string>
 						</object>
+						<object class="IBActionInfo" key="onEmailButton:">
+							<string key="name">onEmailButton:</string>
+							<string key="candidateClassName">id</string>
+						</object>
 						<object class="IBActionInfo" key="onRestoreUpgradeButton:">
 							<string key="name">onRestoreUpgradeButton:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="onTweetButton:">
+							<string key="name">onTweetButton:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="onUpgradeForMOARButton:">
@@ -633,7 +749,9 @@ AAgACAAIAAEAAQABAAE</bytes>
 						<string key="buttonsView">UIView</string>
 						<string key="contentScrollView">UIScrollView</string>
 						<string key="contentTableView">UITableView</string>
+						<string key="emailButton">UIButton</string>
 						<string key="restoreUpdateButton">UIButton</string>
+						<string key="tweetButton">UIButton</string>
 						<string key="upgradeForMOARButton">UIButton</string>
 					</dictionary>
 					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -661,8 +779,16 @@ AAgACAAIAAEAAQABAAE</bytes>
 							<string key="name">contentTableView</string>
 							<string key="candidateClassName">UITableView</string>
 						</object>
+						<object class="IBToOneOutletInfo" key="emailButton">
+							<string key="name">emailButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
 						<object class="IBToOneOutletInfo" key="restoreUpdateButton">
 							<string key="name">restoreUpdateButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="tweetButton">
+							<string key="name">tweetButton</string>
 							<string key="candidateClassName">UIButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="upgradeForMOARButton">

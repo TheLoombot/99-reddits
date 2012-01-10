@@ -98,7 +98,53 @@
 		[unarchiver release];
 	}
 	
-	if (staticSubRedditsArray.count == 100) {
+	if (staticSubRedditsArray.count > 0) {
+		BOOL correct = YES;
+		for (SubRedditItem *subReddit in staticSubRedditsArray) {
+			if (subReddit.category.length == 0) {
+				correct = NO;
+				break;
+			}
+		}
+		
+		if (!correct) {
+			NSArray *tempStaticArray = [NSArray arrayWithArray:staticSubRedditsArray];
+			[staticSubRedditsArray removeAllObjects];
+			
+			NSArray *array = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"SubRedditsList" ofType:@"plist"]];
+			for (NSDictionary *dictionary in array) {
+				NSString *category = [dictionary objectForKey:@"category"];
+				NSArray *staticArray = [dictionary objectForKey:@"subreddits"];
+				
+				for (int i = 0; i < staticArray.count; i ++) {
+					SubRedditItem *subReddit = [[SubRedditItem alloc] init];
+					subReddit.nameString = [staticArray objectAtIndex:i];
+					subReddit.urlString = [NSString stringWithFormat:SUBREDDIT_FORMAT1, subReddit.nameString];
+					subReddit.subscribe = NO;
+					subReddit.category = category;
+					[staticSubRedditsArray addObject:subReddit];
+					[subReddit release];
+				}
+			}
+			
+			for (SubRedditItem *tempSubReddit in tempStaticArray) {
+				BOOL bExist = NO;
+				for (SubRedditItem *subReddit in staticSubRedditsArray) {
+					if ([tempSubReddit.nameString isEqualToString:subReddit.nameString]) {
+						subReddit.afterString = tempSubReddit.afterString;
+						[subReddit.photosArray addObjectsFromArray:tempSubReddit.photosArray];
+						subReddit.subscribe = tempSubReddit.subscribe;
+						bExist = YES;
+						break;
+					}
+				}
+				
+				if (!bExist && tempSubReddit.subscribe) {
+					[manualSubRedditsArray addObject:tempSubReddit];
+				}
+			}
+		}
+		
 		data = [defaults objectForKey:@"MANUAL_SUBREDDITS"];
 		if (data != nil) {
 			NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
@@ -109,15 +155,20 @@
 		}
 	}
 	else {
-		NSArray *staticArray = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"SubReddits" ofType:@"plist"]];
-		
-		for (int i = 0; i < staticArray.count; i ++) {
-			SubRedditItem *subReddit = [[SubRedditItem alloc] init];
-			subReddit.nameString = [staticArray objectAtIndex:i];
-			subReddit.urlString = [NSString stringWithFormat:SUBREDDIT_FORMAT1, subReddit.nameString];
-			subReddit.subscribe = NO;
-			[staticSubRedditsArray addObject:subReddit];
-			[subReddit release];
+		NSArray *array = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"SubRedditsList" ofType:@"plist"]];
+		for (NSDictionary *dictionary in array) {
+			NSString *category = [dictionary objectForKey:@"category"];
+			NSArray *staticArray = [dictionary objectForKey:@"subreddits"];
+			
+			for (int i = 0; i < staticArray.count; i ++) {
+				SubRedditItem *subReddit = [[SubRedditItem alloc] init];
+				subReddit.nameString = [staticArray objectAtIndex:i];
+				subReddit.urlString = [NSString stringWithFormat:SUBREDDIT_FORMAT1, subReddit.nameString];
+				subReddit.subscribe = NO;
+				subReddit.category = category;
+				[staticSubRedditsArray addObject:subReddit];
+				[subReddit release];
+			}
 		}
 		
 		NSMutableArray *tempSubRedditsArray = [[NSMutableArray alloc] init];

@@ -335,7 +335,7 @@
 	TWTweetComposeViewController *tweetComposeViewController = [[TWTweetComposeViewController alloc] init];
 	
 	if ([TWTweetComposeViewController canSendTweet]) {
-		[tweetComposeViewController setInitialText:@"@99reddits"];
+		[tweetComposeViewController setInitialText:@"@99reddits "];
 	}
 	
 	tweetComposeViewController.completionHandler = ^(TWTweetComposeViewControllerResult result) {

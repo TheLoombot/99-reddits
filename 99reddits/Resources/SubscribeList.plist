@@ -2,15 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <array>
-	<string>aww</string>
-	<string>AdviceAnimals</string>
-	<string>pics</string>
-	<string>fffffffuuuuuuuuuuuu</string>
-	<string>gifs</string>
-	<string>funny</string>
-	<string>classicrage</string>
-	<string>treecomics</string>
-	<string>WTF</string>
-	<string>TestingPlatform</string>
+    <string>aww</string>
+    <string>lolcats</string>
+    <string>gifs</string>
+    <string>classicrage</string>
+    <string>MoviePosterPorn</string>
+    <string>food</string>
+    <string>gaming</string>
+    <string>AdviceAnimals</string>
+    <string>AlbumArtPorn</string>
+    <string>99reddits</string>
+    <string>funny</string>
+    <string>iWallPaper</string>
+    <string>pics</string>
+    <string>MachinePorn</string>
+    <string>Pareidolia</string>
+    <string>TheSimpsons</string>
 </array>
 </plist>

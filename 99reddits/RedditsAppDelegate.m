@@ -99,54 +99,42 @@
 	}
 	
 	if (staticSubRedditsArray.count > 0) {
-        // Aman updated this so the static sub-reddit list will always refresh on load from defaults 10-Jan-2011
-        // Change back if Frank says it will break everything, but it seems to work ok so far
-		BOOL correct = NO;
-		for (SubRedditItem *subReddit in staticSubRedditsArray) {
-			if (subReddit.category.length == 0) {
-				correct = NO;
-				break;
+		NSArray *tempStaticArray = [NSArray arrayWithArray:staticSubRedditsArray];
+		[staticSubRedditsArray removeAllObjects];
+		
+		NSArray *array = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"SubRedditsList" ofType:@"plist"]];
+		for (NSDictionary *dictionary in array) {
+			NSString *category = [dictionary objectForKey:@"category"];
+			NSArray *staticArray = [dictionary objectForKey:@"subreddits"];
+			
+			for (int i = 0; i < staticArray.count; i ++) {
+				SubRedditItem *subReddit = [[SubRedditItem alloc] init];
+				subReddit.nameString = [staticArray objectAtIndex:i];
+				subReddit.urlString = [NSString stringWithFormat:SUBREDDIT_FORMAT1, subReddit.nameString];
+				subReddit.subscribe = NO;
+				subReddit.category = category;
+				[staticSubRedditsArray addObject:subReddit];
+				[subReddit release];
 			}
 		}
 		
-		if (!correct) {
-			NSArray *tempStaticArray = [NSArray arrayWithArray:staticSubRedditsArray];
-			[staticSubRedditsArray removeAllObjects];
-			
-			NSArray *array = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"SubRedditsList" ofType:@"plist"]];
-			for (NSDictionary *dictionary in array) {
-				NSString *category = [dictionary objectForKey:@"category"];
-				NSArray *staticArray = [dictionary objectForKey:@"subreddits"];
-				
-				for (int i = 0; i < staticArray.count; i ++) {
-					SubRedditItem *subReddit = [[SubRedditItem alloc] init];
-					subReddit.nameString = [staticArray objectAtIndex:i];
-					subReddit.urlString = [NSString stringWithFormat:SUBREDDIT_FORMAT1, subReddit.nameString];
-					subReddit.subscribe = NO;
-					subReddit.category = category;
-					[staticSubRedditsArray addObject:subReddit];
-					[subReddit release];
+		for (SubRedditItem *tempSubReddit in tempStaticArray) {
+			BOOL bExist = NO;
+			for (SubRedditItem *subReddit in staticSubRedditsArray) {
+				if ([tempSubReddit.nameString isEqualToString:subReddit.nameString]) {
+					subReddit.afterString = tempSubReddit.afterString;
+					[subReddit.photosArray addObjectsFromArray:tempSubReddit.photosArray];
+					subReddit.subscribe = tempSubReddit.subscribe;
+					bExist = YES;
+					break;
 				}
 			}
 			
-			for (SubRedditItem *tempSubReddit in tempStaticArray) {
-				BOOL bExist = NO;
-				for (SubRedditItem *subReddit in staticSubRedditsArray) {
-					if ([tempSubReddit.nameString isEqualToString:subReddit.nameString]) {
-						subReddit.afterString = tempSubReddit.afterString;
-						[subReddit.photosArray addObjectsFromArray:tempSubReddit.photosArray];
-						subReddit.subscribe = tempSubReddit.subscribe;
-						bExist = YES;
-						break;
-					}
-				}
-				
-				if (!bExist && tempSubReddit.subscribe) {
-					[manualSubRedditsArray addObject:tempSubReddit];
-				}
+			if (!bExist && tempSubReddit.subscribe) {
+				[manualSubRedditsArray addObject:tempSubReddit];
 			}
 		}
-		
+
 		data = [defaults objectForKey:@"MANUAL_SUBREDDITS"];
 		if (data != nil) {
 			NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];

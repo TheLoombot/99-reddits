@@ -11,6 +11,7 @@
 #import "UserDef.h"
 #import "Reachability.h"
 #import "SA_OAuthTwitterEngine.h"
+#import "FlurryAnalytics.h"
 
 
 @implementation RedditsAppDelegate
@@ -27,9 +28,16 @@
 @synthesize favoritesItem;
 @synthesize isPaid;
 
+void uncaughtExceptionHandler(NSException *exception) {
+    [FlurryAnalytics logError:@"Uncaught" message:@"Crash!" exception:exception];
+}
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	[[UIApplication sharedApplication] setStatusBarHidden:NO];
-	
+
+    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+	[FlurryAnalytics startSession:@"29Y8B1XXMBQVLEPC3ZPU"];
+
 	tweetEnabled = NO;
 	Class tweetClass = (NSClassFromString(@"TWTweetComposeViewController"));
 	if (tweetClass != nil) {

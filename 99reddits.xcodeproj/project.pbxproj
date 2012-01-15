@@ -163,7 +163,7 @@
 		9C16324E14733A9400CF0443 /* DefaultAlbumIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C16323314733A9400CF0443 /* DefaultAlbumIcon.png */; };
 		9C16324F14733A9400CF0443 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C16323414733A9400CF0443 /* Default@2x.png */; };
 		9C16325014733A9400CF0443 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C16323514733A9400CF0443 /* Default.png */; };
-		9CEF449114C253B0008AFF1F /* libFlurryAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9CEF449014C253B0008AFF1F /* libFlurryAnalytics.a */; };
+		9C1FEB5E14C281D700767DD5 /* libFlurryAnalytics.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C1FEB5D14C281D700767DD5 /* libFlurryAnalytics.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -436,8 +436,8 @@
 		9C16323314733A9400CF0443 /* DefaultAlbumIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultAlbumIcon.png; sourceTree = "<group>"; };
 		9C16323414733A9400CF0443 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		9C16323514733A9400CF0443 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		9CEF448F14C253B0008AFF1F /* FlurryAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAnalytics.h; sourceTree = "<group>"; };
-		9CEF449014C253B0008AFF1F /* libFlurryAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurryAnalytics.a; sourceTree = "<group>"; };
+		9C1FEB5C14C281D700767DD5 /* FlurryAnalytics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlurryAnalytics.h; sourceTree = "<group>"; };
+		9C1FEB5D14C281D700767DD5 /* libFlurryAnalytics.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurryAnalytics.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -458,7 +458,7 @@
 				8D5080BB1445944500788875 /* libz.dylib in Frameworks */,
 				8D4B1CA3145AEA7D005E9BFE /* libxml2.dylib in Frameworks */,
 				8DF36280145B1EF10087E646 /* libOAuth.a in Frameworks */,
-				9CEF449114C253B0008AFF1F /* libFlurryAnalytics.a in Frameworks */,
+				9C1FEB5E14C281D700767DD5 /* libFlurryAnalytics.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,12 +489,12 @@
 		8D507FF71445923700788875 = {
 			isa = PBXGroup;
 			children = (
+				9C1FEB5B14C281D700767DD5 /* FlurryAnalytics */,
 				8D50800C1445923700788875 /* 99reddits */,
 				8DA003B6145A8F5B000F6E07 /* Facebook */,
 				8D4B1C51145AE9B9005E9BFE /* Twitter+OAuth */,
 				8D508024144593DD00788875 /* Nimbus */,
 				8D5080051445923700788875 /* Frameworks */,
-				9CEF448E14C253B0008AFF1F /* FlurryAnalytics */,
 				8D5080031445923700788875 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -928,13 +928,14 @@
 			path = SAOAuthTwitterEngine;
 			sourceTree = "<group>";
 		};
-		9CEF448E14C253B0008AFF1F /* FlurryAnalytics */ = {
+		9C1FEB5B14C281D700767DD5 /* FlurryAnalytics */ = {
 			isa = PBXGroup;
 			children = (
-				9CEF448F14C253B0008AFF1F /* FlurryAnalytics.h */,
-				9CEF449014C253B0008AFF1F /* libFlurryAnalytics.a */,
+				9C1FEB5C14C281D700767DD5 /* FlurryAnalytics.h */,
+				9C1FEB5D14C281D700767DD5 /* libFlurryAnalytics.a */,
 			);
-			path = FlurryAnalytics;
+			name = FlurryAnalytics;
+			path = 99reddits/FlurryAnalytics;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1232,7 +1233,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/99reddits/Twitter+OAuth/Libraries & Headers\"",
-					"\"$(SRCROOT)/FlurryAnalytics\"",
+					"\"$(SRCROOT)/99reddits/FlurryAnalytics\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -1249,7 +1250,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/99reddits/Twitter+OAuth/Libraries & Headers\"",
-					"\"$(SRCROOT)/FlurryAnalytics\"",
+					"\"$(SRCROOT)/99reddits/FlurryAnalytics\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

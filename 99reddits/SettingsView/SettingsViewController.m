@@ -12,7 +12,6 @@
 #import <Twitter/TWTweetComposeViewController.h>
 #import <Accounts/Accounts.h>
 
-
 @interface SettingsViewController ()
 
 - (IBAction)onDoneButton:(id)sender;
@@ -68,6 +67,7 @@
 	[upgradeForMOARButton setBackgroundImage:[[UIImage imageNamed:@"UpgradeButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
 	[restoreUpdateButton setBackgroundImage:[[UIImage imageNamed:@"UpgradeButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
 
+    
 	aboutWebView.frame = CGRectMake(20, 229, 280, 100);
 	[aboutWebView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"about" ofType:@"html"]]]];
 	
@@ -136,9 +136,9 @@
 		cell.textLabel.text = @"Version";
 		cell.detailTextLabel.textColor = [UIColor colorWithRed:80 / 255.0 green:114 / 255.0 blue:160 / 255.0 alpha:1.0];
 		if (appDelegate.isPaid)
-			cell.detailTextLabel.text = @"2.0 MOAR";
+			cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ MOAR",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 		else
-			cell.detailTextLabel.text = @"2.0 FREE";
+			cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ FREE",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 	}
 	else if (row == 1) {
 		cell.textLabel.text = @"Images Seen";

@@ -11,12 +11,15 @@
 #import "UserDef.h"
 #import <Twitter/TWTweetComposeViewController.h>
 #import <Accounts/Accounts.h>
+#import "ASIDownloadCache.h"
+
 
 @interface SettingsViewController ()
 
 - (IBAction)onDoneButton:(id)sender;
 - (IBAction)onUpgradeForMOARButton:(id)sender;
 - (IBAction)onRestoreUpgradeButton:(id)sender;
+- (IBAction)onClearButton:(id)sender;
 - (IBAction)onEmailButton:(id)sender;
 - (IBAction)onTweetButton:(id)sender;
 
@@ -64,11 +67,13 @@
 	
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	
+	contentScrollView.frame = CGRectMake(0, 44, 320, 416);
+	
 	[upgradeForMOARButton setBackgroundImage:[[UIImage imageNamed:@"UpgradeButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
 	[restoreUpdateButton setBackgroundImage:[[UIImage imageNamed:@"UpgradeButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
-
+	[clearButton setBackgroundImage:[[UIImage imageNamed:@"ClearButton.png"] stretchableImageWithLeftCapWidth:12 topCapHeight:0] forState:UIControlStateNormal];
     
-	aboutWebView.frame = CGRectMake(20, 229, 280, 100);
+	aboutWebView.frame = CGRectMake(20, 335, 280, 100);
 	[aboutWebView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"about" ofType:@"html"]]]];
 	
 	int showedCount = [[appDelegate showedSet] count];
@@ -280,16 +285,16 @@
 	frame.size.height = height;
 	aboutWebView.frame = frame;
 	
-	aboutOutlineButton.frame = CGRectMake(10, 214, 300, height + 25);
+	aboutOutlineButton.frame = CGRectMake(10, 318, 300, height + 25);
 	
-	emailButton.frame = CGRectMake(10, height + 249, 300, 45);
-	tweetButton.frame = CGRectMake(10, height + 304, 300, 45);
+	emailButton.frame = CGRectMake(10, height + 354, 300, 45);
+	tweetButton.frame = CGRectMake(10, height + 409, 300, 45);
 	
 	if (appDelegate.isPaid) {
 		[buttonsView removeFromSuperview];
 		CGRect frame = aboutView.frame;
 		frame.origin.y = 0;
-		frame.size.height = height + 349;
+		frame.size.height = height + 454;
 		aboutView.frame = frame;
 		
 		if (!appDelegate.tweetEnabled) {
@@ -303,7 +308,7 @@
 	else {
 		CGRect frame = aboutView.frame;
 		frame.origin.y = 171;
-		frame.size.height = height + 349;
+		frame.size.height = height + 454;
 		aboutView.frame = frame;
 		
 		if (!appDelegate.tweetEnabled) {
@@ -349,6 +354,26 @@
 // MFMailComposeViewControllerDelegate
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
 	[controller dismissModalViewControllerAnimated:YES];
+}
+
+- (IBAction)onClearButton:(id)sender {
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Clear the Cache" otherButtonTitles:nil];
+	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+	[actionSheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+	if (actionSheet.cancelButtonIndex != buttonIndex) {
+		self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+		hud.labelText = @"Clearing ...";
+		
+		[self performSelector:@selector(clearCaches) withObject:nil afterDelay:0.01];
+	}
+}
+
+- (void)clearCaches {
+	[[ASIDownloadCache sharedCache] clearCachedResponsesForStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
+	[self performSelector:@selector(dismissHUD:) withObject:nil afterDelay:0.01];
 }
 
 @end

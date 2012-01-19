@@ -35,7 +35,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	[[UIApplication sharedApplication] setStatusBarHidden:NO];
 
-    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+	NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
 	[FlurryAnalytics startSession:@"29Y8B1XXMBQVLEPC3ZPU"];
 
 	tweetEnabled = NO;

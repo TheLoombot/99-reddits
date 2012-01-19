@@ -14,7 +14,7 @@
 
 @class RedditsAppDelegate;
 
-@interface SettingsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIWebViewDelegate, MFMailComposeViewControllerDelegate> {
+@interface SettingsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIWebViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate> {
 	RedditsAppDelegate *appDelegate;
 	
 	IBOutlet UIScrollView *contentScrollView;
@@ -22,6 +22,7 @@
 	IBOutlet UIButton *upgradeForMOARButton;
 	IBOutlet UIButton *restoreUpdateButton;
 	IBOutlet UIView *aboutView;
+	IBOutlet UIButton *clearButton;
 	IBOutlet UITableView *contentTableView;
 	IBOutlet UIButton *aboutOutlineButton;
 	IBOutlet UIWebView *aboutWebView;

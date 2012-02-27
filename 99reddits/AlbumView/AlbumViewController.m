@@ -47,35 +47,32 @@
 - (void)releaseObjects {
 	for (ASIHTTPRequest *request in refreshQueue.operations) {
 		[request clearDelegatesAndCancel];
-//		request.delegate = nil;
 	}
-//	[refreshQueue cancelAllOperations];
 	
 	for (ASIHTTPRequest *request in queue.operations) {
 		[request clearDelegatesAndCancel];
-//		request.delegate = nil;
 	}
-//	[queue cancelAllOperations];
 	
 	NI_RELEASE_SAFELY(activeRequests);
 	NI_RELEASE_SAFELY(thumbnailImageCache);
 	NI_RELEASE_SAFELY(refreshQueue);
 	NI_RELEASE_SAFELY(queue);
+	NI_RELEASE_SAFELY(currentSubReddit);
 }
 
 - (void)dealloc {
 	[self releaseObjects];
 	
 	[subReddit release];
-	[currentSubReddit release];
+	[mainViewController release];
 	[super dealloc];
 }
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
+ 
+	[self releaseObjects];
 }
 
 #pragma mark - View lifecycle
@@ -145,6 +142,8 @@
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
+	[super viewDidDisappear:animated];
+	
 	if (!bFromSubview) {
 		[self releaseObjects];
 	}
@@ -235,8 +234,8 @@
 	
 	[readOp setCompletionBlock:^{
 		UIImage *image = [UIImage imageWithData:[readOp responseData]];
-
-		if (image) {
+		
+		if (image && subReddit.photosArray.count > photoIndex) {
 			int x, y, w, h;
 			if (image.size.width > THUMB_WIDTH * 2 && image.size.height > THUMB_HEIGHT * 2) {
 				float imgRatio = image.size.width / image.size.height;
@@ -350,15 +349,11 @@
 	
 	for (ASIHTTPRequest *request in refreshQueue.operations) {
 		[request clearDelegatesAndCancel];
-//		request.delegate = nil;
 	}
-//	[refreshQueue cancelAllOperations];
 
 	for (ASIHTTPRequest *request in queue.operations) {
 		[request clearDelegatesAndCancel];
-//		request.delegate = nil;
 	}
-//	[queue cancelAllOperations];
 
 	[activeRequests removeAllObjects];
 
@@ -521,7 +516,7 @@
 		
 		NSString *permalinkString = [itemData objectForKey:@"permalink"];
 		if (permalinkString.length == 0)
-			permalinkString = @"";
+			photo.permalinkString = @"";
 		else if ([permalinkString hasPrefix:@"http"])
 			photo.permalinkString = permalinkString;
 		else
@@ -529,7 +524,6 @@
 		
 		photo.titleString = [RedditsAppDelegate stringByRemoveHTML:[itemData objectForKey:@"title"]];
 		photo.urlString = [RedditsAppDelegate getImageURL:[itemData objectForKey:@"url"]];
-		//		photo.showed = NO;
 		
 		NSString *thumbnailString = [itemData objectForKey:@"thumbnail"];
 		

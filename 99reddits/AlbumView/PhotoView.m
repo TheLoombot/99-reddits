@@ -1,0 +1,86 @@
+//
+//  PhotoView.m
+//  99reddits
+//
+//  Created by Frank Jacob on 2/27/12.
+//  Copyright (c) 2012 Bara. All rights reserved.
+//
+
+#import "PhotoView.h"
+#import "PhotoViewController.h"
+#import "GifViewController.h"
+
+
+@implementation PhotoView
+
+@synthesize photoViewController;
+
+- (id)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+		activityIndicator = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge] autorelease];
+		activityIndicator.center = self.center;
+		activityIndicator.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+		[activityIndicator startAnimating];
+		[self addSubview:activityIndicator];
+		
+		playButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+		playButton.frame = CGRectMake(0, 0, 73, 73);
+		playButton.center = self.center;
+		playButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
+		[playButton setBackgroundImage:[UIImage imageNamed:@"PlayButton.png"] forState:UIControlStateNormal];
+		[self addSubview:playButton];
+		
+		UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onPlay:)];
+		[playButton addGestureRecognizer:gesture];
+		[gesture release];
+    }
+    return self;
+}
+
+- (void)dealloc {
+	[activityIndicator release];
+	[playButton release];
+	[gifData release];
+	[photoViewController release];
+	[super dealloc];
+}
+
+- (void)setImage:(UIImage *)image photoSize:(NIPhotoScrollViewPhotoSize)photoSize {
+	[super setImage:image photoSize:photoSize];
+	
+	if (photoSize == NIPhotoScrollViewPhotoSizeOriginal && image != nil)
+		activityIndicator.alpha = 0.0;
+	else
+		activityIndicator.alpha = 1.0;
+}
+
+- (void)onPlay:(UITapGestureRecognizer *)gesture {
+	photoViewController.disappearForSubview = YES;
+	
+	BOOL hidden = [UIApplication sharedApplication].statusBarHidden;
+	if (!hidden)
+		[photoViewController toggleChromeVisibility];
+	
+	GifViewController *gifViewController = [[GifViewController alloc] initWithNibName:@"GifViewController" bundle:nil];
+	gifViewController.gifData = gifData;
+	gifViewController.width = self.image.size.width;
+	gifViewController.height = self.image.size.height;
+	[photoViewController presentModalViewController:gifViewController animated:NO];
+	[gifViewController release];
+}
+
+- (void)setGifData:(NSData *)data {
+	[gifData release];
+	gifData = nil;
+	
+	if (data) {
+		gifData = [data retain];
+		playButton.hidden = NO;
+	}
+	else {
+		playButton.hidden = YES;
+	}
+}
+
+@end

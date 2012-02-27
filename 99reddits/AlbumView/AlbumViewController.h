@@ -47,7 +47,7 @@
 	BOOL bMOARLoading;
 }
 
-@property (nonatomic, assign) MainViewController *mainViewController;
+@property (nonatomic, retain) MainViewController *mainViewController;
 @property (nonatomic, retain) SubRedditItem *subReddit;
 @property (nonatomic) BOOL bFavorites;
 

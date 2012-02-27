@@ -96,6 +96,8 @@
 	[item2 release];
 	[item3 release];
 	[item4 release];
+	[photosArray release];
+	[albumViewController release];
 	[super dealloc];
 }
 

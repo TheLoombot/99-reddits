@@ -26,8 +26,8 @@
 	BOOL bFavorites;
 }
 
-@property (nonatomic, assign) AlbumViewController *albumViewController;
-@property (nonatomic, assign) NSMutableArray *photosArray;
+@property (nonatomic, retain) AlbumViewController *albumViewController;
+@property (nonatomic, retain) NSMutableArray *photosArray;
 @property (nonatomic) int row;
 @property (nonatomic) BOOL bFavorites;
 

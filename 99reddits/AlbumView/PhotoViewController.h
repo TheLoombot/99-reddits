@@ -25,7 +25,6 @@
 	NSMutableSet *activeRequests;
 	
 	NIImageMemoryCache *highQualityImageCache;
-//	NIImageMemoryCache *thumbnailImageCache;
 	
 	SubRedditItem *subReddit;
 	int index;

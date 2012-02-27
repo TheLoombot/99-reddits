@@ -44,15 +44,11 @@
 - (void)releaseObjects {
 	for (ASIHTTPRequest *request in refreshQueue.operations) {
 		[request clearDelegatesAndCancel];
-//		request.delegate = nil;
 	}
-//	[refreshQueue cancelAllOperations];
 	
 	for (ASIHTTPRequest *request in queue.operations) {
 		[request clearDelegatesAndCancel];
-//		request.delegate = nil;
 	}
-//	[queue cancelAllOperations];
 	
 	NI_RELEASE_SAFELY(activeRequests);
 	NI_RELEASE_SAFELY(thumbnailImageCache);
@@ -68,8 +64,8 @@
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
+
+    [self releaseObjects];
 }
 
 #pragma mark - View lifecycle
@@ -252,8 +248,6 @@
 			for (ASIHTTPRequest *request in queue.operations) {
 				if ([[request.originalURL absoluteString] isEqualToString:thumbnailString]) {
 					[request clearDelegatesAndCancel];
-//					request.delegate = nil;
-//					[request cancel];
 					[activeRequests removeObject:thumbnailString];
 					break;
 				}
@@ -266,8 +260,8 @@
 		[subRedditsArray removeObject:subReddit];
 		[contentTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
 		
-//		[appDelegate saveToDefaults];
-    }    
+		[appDelegate saveToDefaults];
+	}
 }
 
 - (void)reloadData {
@@ -278,15 +272,11 @@
 	
 	for (ASIHTTPRequest *request in refreshQueue.operations) {
 		[request clearDelegatesAndCancel];
-//		request.delegate = nil;
 	}
-//	[refreshQueue cancelAllOperations];
 	
 	for (ASIHTTPRequest *request in queue.operations) {
 		[request clearDelegatesAndCancel];
-//		request.delegate = nil;
 	}
-//	[queue cancelAllOperations];
 	[activeRequests removeAllObjects];
 	
 	refreshCount = 0;
@@ -298,7 +288,6 @@
 		refreshCount ++;
 		
 		NSURL *url = [NSURL URLWithString:subReddit.urlString];
-//		NIProcessorHTTPRequest* albumRequest = [NIJSONKitProcessorHTTPRequest requestWithURL:url usingCache:[ASIDownloadCache sharedCache]];
 		NIProcessorHTTPRequest* albumRequest = [NIJSONKitProcessorHTTPRequest requestWithURL:url usingCache:nil];
 		albumRequest.timeOutSeconds = 30;
 		albumRequest.delegate = self;
@@ -341,11 +330,6 @@
 
 	subReddit.afterString = [dictionary objectForKey:@"after"];
 
-//	for (PhotoItem *photo in subReddit.photosArray) {
-//		if ([appDelegate.showedSet containsObject:photo.idString])
-//			photo.showed = YES;
-//	}
-	
 	[subReddit calUnshowedCount];
 	
 	[contentTableView reloadData];
@@ -356,6 +340,7 @@
 	refreshCount --;
 	if (refreshCount == 0) {
 		self.navigationItem.leftBarButtonItem.enabled = YES;
+		[appDelegate saveToDefaults];
 	}
 }
 
@@ -413,8 +398,8 @@
 		photo.nameString = [itemData objectForKey:@"name"];
 		
 		NSString *permalinkString = [itemData objectForKey:@"permalink"];
-		if (permalinkString.length == 0)
-			permalinkString = @"";
+		if (!permalinkString)
+			photo.permalinkString = @"";
 		else if ([permalinkString hasPrefix:@"http"])
 			photo.permalinkString = permalinkString;
 		else
@@ -422,7 +407,6 @@
 		
 		photo.titleString = [RedditsAppDelegate stringByRemoveHTML:[itemData objectForKey:@"title"]];
 		photo.urlString = [RedditsAppDelegate getImageURL:[itemData objectForKey:@"url"]];
-//		photo.showed = NO;
 
 		NSString *thumbnailString = [itemData objectForKey:@"thumbnail"];
 
@@ -485,7 +469,6 @@
 	refreshCount ++;
 	
 	NSURL *url = [NSURL URLWithString:subReddit.urlString];
-//	NIProcessorHTTPRequest* albumRequest = [NIJSONKitProcessorHTTPRequest requestWithURL:url usingCache:[ASIDownloadCache sharedCache]];
 	NIProcessorHTTPRequest* albumRequest = [NIJSONKitProcessorHTTPRequest requestWithURL:url usingCache:nil];
 	albumRequest.timeOutSeconds = 30;
 	albumRequest.delegate = self;
@@ -546,7 +529,7 @@
 		}
 		
 		if (index != -2) {
-			if (image) {
+			if (image && (subRedditsArray.count + 1 > photoIndex || photoIndex == -1)) {
 				int x, y, w, h;
 				if (image.size.width > THUMB_WIDTH * 2 && image.size.height > THUMB_HEIGHT * 2) {
 					float imgRatio = image.size.width / image.size.height;
@@ -616,8 +599,6 @@
 		for (ASIHTTPRequest *request in queue.operations) {
 			if ([[request.originalURL absoluteString] isEqualToString:thumbnailString]) {
 				[request clearDelegatesAndCancel];
-//				request.delegate = nil;
-//				[request cancel];
 				[activeRequests removeObject:thumbnailString];
 				break;
 			}

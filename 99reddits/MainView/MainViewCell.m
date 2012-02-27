@@ -79,8 +79,10 @@
 	totalCount = _totalCount;
 	loading = _loading;
 
-	if (loading)
-		self.accessoryView = activityIndicator;
+	if (loading) {
+		if (self.accessoryView == nil)
+			self.accessoryView = activityIndicator;
+	}
 	else
 		self.accessoryView = nil;
 	
@@ -142,8 +144,10 @@
 	totalCount = _totalCount;
 	loading = NO;
 	
-	if (loading)
-		self.accessoryView = activityIndicator;
+	if (loading) {
+		if (self.accessoryView == nil)
+			self.accessoryView = activityIndicator;
+	}
 	else
 		self.accessoryView = nil;
 	

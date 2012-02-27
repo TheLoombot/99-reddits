@@ -24,7 +24,6 @@
 @synthesize firstRun;
 @synthesize tweetEnabled;
 @synthesize engine = _engine;
-@synthesize photoViewController;
 @synthesize favoritesItem;
 @synthesize isPaid;
 
@@ -251,11 +250,13 @@ void uncaughtExceptionHandler(NSException *exception) {
 		[favoritesUnarchiver release];
 		favoritesSet = [[NSMutableSet alloc] initWithArray:[defaults objectForKey:@"FAVORITES_SET"]];
 	}
-	else {
+	
+	if (favoritesItem == nil) {
 		favoritesItem = [[SubRedditItem alloc] init];
-		favoritesItem.nameString = @"Favorites";
 		favoritesSet = [[NSMutableSet alloc] init];
 	}
+
+	favoritesItem.nameString = @"Favorites";
 	
 	isPaid = [defaults boolForKey:@"IS_PAID"];
 }
@@ -281,6 +282,16 @@ void uncaughtExceptionHandler(NSException *exception) {
 	
 	[defaults setObject:[showedSet allObjects] forKey:@"SHOWEDSET"];
 	
+	[defaults setBool:isPaid forKey:@"IS_PAID"];
+	
+	[defaults synchronize];
+	
+	[self saveFavoritesData];
+}
+
+- (void)saveFavoritesData {
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	
 	NSMutableData *favoritesData = [[NSMutableData alloc] init];
 	NSKeyedArchiver *favoritesArchiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:favoritesData];
 	[favoritesArchiver encodeObject:favoritesItem forKey:@"data"];
@@ -290,8 +301,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 	[favoritesData release];
 	
 	[defaults setObject:[favoritesSet allObjects] forKey:@"FAVORITES_SET"];
-	
-	[defaults setBool:isPaid forKey:@"IS_PAID"];
 	
 	[defaults synchronize];
 }
@@ -420,6 +429,8 @@ void uncaughtExceptionHandler(NSException *exception) {
 	[favoritesItem.photosArray insertObject:photo atIndex:0];
 	[favoritesSet addObject:photo.idString];
 	
+	[self saveFavoritesData];
+	
 	return YES;
 }
 
@@ -435,6 +446,8 @@ void uncaughtExceptionHandler(NSException *exception) {
 			return YES;
 		}
 	}
+	
+	[self saveFavoritesData];
 	
 	return NO;
 }

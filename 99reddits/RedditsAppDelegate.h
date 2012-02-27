@@ -13,7 +13,6 @@
 
 @class MainViewController;
 @class SA_OAuthTwitterEngine;
-@class PhotoViewController;
 
 @interface RedditsAppDelegate : NSObject <UIApplicationDelegate> {
 	UIWindow *_window;
@@ -34,8 +33,6 @@
 	
     SA_OAuthTwitterEngine *_engine;
 	
-	PhotoViewController *photoViewController;
-
 	SubRedditItem *favoritesItem;
 	NSMutableSet *favoritesSet;
 	
@@ -50,7 +47,6 @@
 @property (nonatomic, assign) NSMutableSet *showedSet;
 @property (nonatomic, readonly) BOOL tweetEnabled;
 @property (nonatomic, readonly) SA_OAuthTwitterEngine *engine;
-@property (nonatomic, assign) PhotoViewController *photoViewController;
 @property (nonatomic, retain) SubRedditItem *favoritesItem;
 @property (nonatomic) BOOL isPaid;
 
@@ -62,6 +58,7 @@
 
 - (void)loadFromDefaults;
 - (void)saveToDefaults;
+- (void)saveFavoritesData;
 
 - (BOOL)addToFavorites:(PhotoItem *)photo;
 - (BOOL)removeFromFavorites:(PhotoItem *)photo;

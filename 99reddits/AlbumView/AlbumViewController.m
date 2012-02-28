@@ -235,7 +235,7 @@
 	[readOp setCompletionBlock:^{
 		UIImage *image = [UIImage imageWithData:[readOp responseData]];
 		
-		if (image && subReddit.photosArray.count > photoIndex) {
+		if (image && currentSubReddit.photosArray.count > photoIndex) {
 			int x, y, w, h;
 			if (image.size.width > THUMB_WIDTH * 2 && image.size.height > THUMB_HEIGHT * 2) {
 				float imgRatio = image.size.width / image.size.height;

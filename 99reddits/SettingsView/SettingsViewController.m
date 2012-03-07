@@ -366,7 +366,7 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
 	if (actionSheet.cancelButtonIndex != buttonIndex) {
 		self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-		hud.labelText = @"Clearing ...";
+		hud.labelText = @"Clearing...";
 		
 		[self performSelector:@selector(clearCaches) withObject:nil afterDelay:0.01];
 	}

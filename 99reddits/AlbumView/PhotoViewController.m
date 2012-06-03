@@ -162,7 +162,7 @@
 		
 		sharing = NO;
 		
-		[appDelegate saveToDefaults];
+//		[appDelegate saveToDefaults];
 	}
 }
 

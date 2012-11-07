@@ -55,7 +55,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 	
 	[self loadFromDefaults];
 	
-	[self.window addSubview:mainNavigationController.view];
+	self.window.rootViewController = mainNavigationController;
 	[self.window makeKeyAndVisible];
 	
     return YES;

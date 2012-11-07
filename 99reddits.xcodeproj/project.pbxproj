@@ -1041,7 +1041,7 @@
 		8D507FF91445923700788875 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0450;
 			};
 			buildConfigurationList = 8D507FFC1445923700788875 /* Build configuration list for PBXProject "99reddits" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1308,7 +1308,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "99reddits/99reddits-Prefix.pch";
 				INFOPLIST_FILE = "99reddits/99reddits-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/99reddits/Twitter+OAuth/Libraries & Headers\"",
@@ -1325,7 +1324,6 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "99reddits/99reddits-Prefix.pch";
 				INFOPLIST_FILE = "99reddits/99reddits-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/99reddits/Twitter+OAuth/Libraries & Headers\"",

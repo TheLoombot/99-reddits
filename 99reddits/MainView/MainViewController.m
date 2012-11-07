@@ -16,6 +16,17 @@
 #import "SettingsViewController.h"
 #import "UserDef.h"
 
+@implementation UINavigationController (iOS6OrientationFix)
+
+- (BOOL)shouldAutorotate {
+	return [self.topViewController shouldAutorotate];
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    return [self.topViewController supportedInterfaceOrientations];
+}
+
+@end
 
 #define THUMB_WIDTH			55
 #define THUMB_HEIGHT		55
@@ -114,6 +125,14 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (BOOL)shouldAutorotate {
+	return NO;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+	return UIInterfaceOrientationMaskPortrait;
 }
 
 - (void)viewWillAppear:(BOOL)animated {

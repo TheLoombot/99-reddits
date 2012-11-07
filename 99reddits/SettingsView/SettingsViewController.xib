@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
-		<int key="IBDocument.SystemTarget">1280</int>
-		<string key="IBDocument.SystemVersion">10K549</string>
-		<string key="IBDocument.InterfaceBuilderVersion">1938</string>
-		<string key="IBDocument.AppKitVersion">1038.36</string>
-		<string key="IBDocument.HIToolboxVersion">461.00</string>
+		<int key="IBDocument.SystemTarget">1536</int>
+		<string key="IBDocument.SystemVersion">12C60</string>
+		<string key="IBDocument.InterfaceBuilderVersion">2844</string>
+		<string key="IBDocument.AppKitVersion">1187.34</string>
+		<string key="IBDocument.HIToolboxVersion">625.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-			<string key="NS.object.0">933</string>
+			<string key="NS.object.0">1930</string>
 		</object>
 		<array key="IBDocument.IntegratedClassDependencies">
 			<string>IBProxyObject</string>
 			<string>IBUIBarButtonItem</string>
 			<string>IBUIButton</string>
 			<string>IBUILabel</string>
-			<string>IBUIWebView</string>
 			<string>IBUINavigationBar</string>
 			<string>IBUINavigationItem</string>
-			<string>IBUITableView</string>
 			<string>IBUIScrollView</string>
+			<string>IBUITableView</string>
 			<string>IBUIView</string>
+			<string>IBUIWebView</string>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -152,7 +152,6 @@
 										</object>
 										<nil key="IBUIHighlightedColor"/>
 										<int key="IBUIBaselineAdjustment">1</int>
-										<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 										<float key="IBUIMinimumFontSize">10</float>
 										<int key="IBUINumberOfLines">2</int>
 										<int key="IBUITextAlignment">1</int>
@@ -165,6 +164,8 @@
 											<double key="NSSize">14</double>
 											<int key="NSfFlags">16</int>
 										</object>
+										<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
+										<double key="preferredMaxLayoutWidth">260</double>
 									</object>
 								</array>
 								<string key="NSFrameSize">{320, 171}</string>
@@ -217,12 +218,13 @@
 										<reference key="IBUITextColor" ref="784043044"/>
 										<nil key="IBUIHighlightedColor"/>
 										<int key="IBUIBaselineAdjustment">1</int>
-										<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
 										<float key="IBUIMinimumFontSize">10</float>
 										<int key="IBUINumberOfLines">3</int>
 										<int key="IBUITextAlignment">1</int>
 										<reference key="IBUIFontDescription" ref="961400010"/>
 										<reference key="IBUIFont" ref="105542455"/>
+										<bool key="IBUIAdjustsFontSizeToFit">NO</bool>
+										<double key="preferredMaxLayoutWidth">260</double>
 									</object>
 									<object class="IBUITableView" id="276571330">
 										<reference key="NSNextResponder" ref="701958624"/>
@@ -367,62 +369,7 @@
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="852296915"/>
-				<object class="NSColor" key="IBUIBackgroundColor">
-					<int key="NSColorSpace">10</int>
-					<object class="NSImage" key="NSImage">
-						<int key="NSImageFlags">549453824</int>
-						<string key="NSSize">{512, 1}</string>
-						<array class="NSMutableArray" key="NSReps">
-							<array>
-								<integer value="0"/>
-								<object class="NSBitmapImageRep">
-									<object class="NSData" key="NSTIFFRepresentation">
-										<bytes key="NS.bytes">TU0AKgAACAjFzNT/xczU/8XM1P/FzNT/xczS/8vS2P/L0tj/xczU/8XM1P/FzNT/xczU/8XM0v/L0tj/
-y9LY/8XM1P/FzNT/xczU/8XM1P/FzNL/y9LY/8vS2P/FzNT/xczU/8XM1P/FzNT/xczS/8vS2P/L0tj/
-xczU/8XM1P/FzNT/xczU/8XM0v/L0tj/y9LY/8XM1P/FzNT/xczU/8XM1P/FzNL/y9LY/8vS2P/FzNT/
-xczU/8XM1P/FzNT/xczS/8vS2P/L0tj/xczU/8XM1P/FzNT/xczU/8XM0v/L0tj/y9LY/8XM1P/FzNT/
-xczU/8XM1P/FzNL/y9LY/8vS2P/FzNT/xczU/8XM1P/FzNT/xczS/8vS2P/L0tj/xczU/8XM1P/FzNT/
-xczU/8XM0v/L0tj/y9LY/8XM1P/FzNT/xczU/8XM1P/FzNL/y9LY/8vS2P/FzNT/xczU/8XM1P/FzNT/
-xczS/8vS2P/L0tj/xczU/8XM1P/FzNT/xczU/8XM0v/L0tj/y9LY/8XM1P/FzNT/xczU/8XM1P/FzNL/
-y9LY/8vS2P/FzNT/xczU/8XM1P/FzNT/xczS/8vS2P/L0tj/xczU/8XM1P/FzNT/xczU/8XM0v/L0tj/
-y9LY/8XM1P/FzNT/xczU/8XM1P/FzNL/y9LY/8vS2P/FzNT/xczU/8XM1P/FzNT/xczS/8vS2P/L0tj/
-xczU/8XM1P/FzNT/xczU/8XM0v/L0tj/y9LY/8XM1P/FzNT/xczU/8XM1P/FzNL/y9LY/8vS2P/FzNT/
-xczU/8XM1P/FzNT/xczS/8vS2P/L0tj/xczU/8XM1P/FzNT/xczU/8XM0v/L0tj/y9LY/8XM1P/FzNT/
-xczU/8XM1P/FzNL/y9LY/8vS2P/FzNT/xczU/8XM1P/FzNT/xczS/8vS2P/L0tj/xczU/8XM1P/FzNT/
-xczU/8XM0v/L0tj/y9LY/8XM1P/FzNT/xczU/8XM1P/FzNL/y9LY/8vS2P/FzNT/xczU/8XM1P/FzNT/
-xczS/8vS2P/L0tj/xczU/8XM1P/FzNT/xczU/8XM0v/L0tj/y9LY/8XM1P/FzNT/xczU/8XM1P/FzNL/
-y9LY/8vS2P/FzNT/xczU/8XM1P/FzNT/xczS/8vS2P/L0tj/xczU/8XM1P/FzNT/xczU/8XM0v/L0tj/
-y9LY/8XM1P/FzNT/xczU/8XM1P/FzNL/y9LY/8vS2P/FzNT/xczU/8XM1P/FzNT/xczS/8vS2P/L0tj/
-xczU/8XM1P/FzNT/xczU/8XM0v/L0tj/y9LY/8XM1P/FzNT/xczU/8XM1P/FzNL/y9LY/8vS2P/FzNT/
-xczU/8XM1P/FzNT/xczS/8vS2P/L0tj/xczU/8XM1P/FzNT/xczU/8XM0v/L0tj/y9LY/8XM1P/FzNT/
-xczU/8XM1P/FzNL/y9LY/8vS2P/FzNT/xczU/8XM1P/FzNT/xczS/8vS2P/L0tj/xczU/8XM1P/FzNT/
-xczU/8XM0v/L0tj/y9LY/8XM1P/FzNT/xczU/8XM1P/FzNL/y9LY/8vS2P/FzNT/xczU/8XM1P/FzNT/
-xczS/8vS2P/L0tj/xczU/8XM1P/FzNT/xczU/8XM0v/L0tj/y9LY/8XM1P/FzNT/xczU/8XM1P/FzNL/
-y9LY/8vS2P/FzNT/xczU/8XM1P/FzNT/xczS/8vS2P/L0tj/xczU/8XM1P/FzNT/xczU/8XM0v/L0tj/
-y9LY/8XM1P/FzNT/xczU/8XM1P/FzNL/y9LY/8vS2P/FzNT/xczU/8XM1P/FzNT/xczS/8vS2P/L0tj/
-xczU/8XM1P/FzNT/xczU/8XM0v/L0tj/y9LY/8XM1P/FzNT/xczU/8XM1P/FzNL/y9LY/8vS2P/FzNT/
-xczU/8XM1P/FzNT/xczS/8vS2P/L0tj/xczU/8XM1P/FzNT/xczU/8XM0v/L0tj/y9LY/8XM1P/FzNT/
-xczU/8XM1P/FzNL/y9LY/8vS2P/FzNT/xczU/8XM1P/FzNT/xczS/8vS2P/L0tj/xczU/8XM1P/FzNT/
-xczU/8XM0v/L0tj/y9LY/8XM1P/FzNT/xczU/8XM1P/FzNL/y9LY/8vS2P/FzNT/xczU/8XM1P/FzNT/
-xczS/8vS2P/L0tj/xczU/8XM1P/FzNT/xczU/8XM0v/L0tj/y9LY/8XM1P/FzNT/xczU/8XM1P/FzNL/
-y9LY/8vS2P/FzNT/xczU/8XM1P/FzNT/xczS/8vS2P/L0tj/xczU/8XM1P/FzNT/xczU/8XM0v/L0tj/
-y9LY/8XM1P/FzNT/xczU/8XM1P/FzNL/y9LY/8vS2P/FzNT/xczU/8XM1P/FzNT/xczS/8vS2P/L0tj/
-xczU/8XM1P/FzNT/xczU/8XM0v/L0tj/y9LY/8XM1P/FzNT/xczU/8XM1P/FzNL/y9LY/8vS2P/FzNT/
-xczU/8XM1P/FzNT/xczS/8vS2P/L0tj/xczU/8XM1P/FzNT/xczU/8XM0v/L0tj/y9LY/8XM1P/FzNT/
-xczU/8XM1P/FzNL/y9LY/8vS2P/FzNT/xczU/8XM1P/FzNT/xczS/8vS2P/L0tj/xczU/8XM1P/FzNT/
-xczU/8XM0v/L0tj/y9LY/8XM1P/FzNT/xczU/8XM1P/FzNL/y9LY/8vS2P/FzNT/xczU/8XM1P/FzNT/
-xczS/8vS2P/L0tj/xczU/wANAQAAAwAAAAECAAAAAQEAAwAAAAEAAQAAAQIAAwAAAAQAAAiqAQMAAwAA
-AAEAAQAAAQYAAwAAAAEAAgAAAREABAAAAAEAAAAIARIAAwAAAAEAAQAAARUAAwAAAAEABAAAARYAAwAA
-AAEAAQAAARcABAAAAAEAAAgAARwAAwAAAAEAAQAAAVIAAwAAAAEAAQAAAVMAAwAAAAQAAAiyAAAAAAAI
-AAgACAAIAAEAAQABAAE</bytes>
-									</object>
-								</object>
-							</array>
-						</array>
-						<reference key="NSColor" ref="296073982"/>
-					</object>
-					<string key="IBUIColorCocoaTouchKeyPath">groupTableViewBackgroundColor</string>
-				</object>
+				<reference key="IBUIBackgroundColor" ref="78565098"/>
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 		</array>
@@ -879,6 +826,6 @@ AAgACAAIAAEAAQABAAE</bytes>
 		<string key="IBDocument.TargetRuntimeIdentifier">IBCocoaTouchFramework</string>
 		<bool key="IBDocument.PluginDeclaredDependenciesTrackSystemTargetVersion">YES</bool>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
-		<string key="IBCocoaTouchPluginVersion">933</string>
+		<string key="IBCocoaTouchPluginVersion">1930</string>
 	</data>
 </archive>

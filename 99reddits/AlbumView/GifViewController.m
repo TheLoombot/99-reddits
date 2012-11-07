@@ -64,6 +64,14 @@
 	return YES;
 }
 
+- (BOOL)shouldAutorotate {
+	return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+	return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
 	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 	

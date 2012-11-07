@@ -144,6 +144,26 @@
 	return YES;
 }
 
+- (BOOL)shouldAutorotate {
+	UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+	if (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
+		return NO;
+	
+	if (disappearForSubview) {
+		if (interfaceOrientation == currentInterfaceOrientation)
+			return YES;
+		else
+			return NO;
+	}
+	
+	currentInterfaceOrientation = interfaceOrientation;
+	return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+	return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:YES];
 	

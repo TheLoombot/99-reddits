@@ -3,7 +3,7 @@
 //  99reddits
 //
 //  Created by Frank Jacob on 10/14/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 99 reddits. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
@@ -13,7 +13,6 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import "FBConnect.h"
 #import "SA_OAuthTwitterController.h"
-
 
 @class RedditsAppDelegate;
 

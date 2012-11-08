@@ -3,22 +3,18 @@
 //  99reddits
 //
 //  Created by Frank Jacob on 10/12/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 99 reddits. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "SubRedditItem.h"
 #import "PhotoItem.h"
 
-
 @class MainViewController;
 @class SA_OAuthTwitterEngine;
 
 @interface RedditsAppDelegate : NSObject <UIApplicationDelegate> {
-	UIWindow *_window;
-	
 	IBOutlet UINavigationController *mainNavigationController;
-	IBOutlet MainViewController *mainViewController;
 
 	NSMutableArray *staticSubRedditsArray;
 	NSMutableArray *manualSubRedditsArray;
@@ -39,7 +35,7 @@
 	BOOL isPaid;
 }
 
-@property (nonatomic, retain) IBOutlet UIWindow *window;
+@property (strong, nonatomic) IBOutlet UIWindow *window;
 @property (nonatomic, assign) NSMutableArray *staticSubRedditsArray;
 @property (nonatomic, assign) NSMutableArray *manualSubRedditsArray;
 @property (nonatomic, assign) NSMutableArray *subRedditsArray;
@@ -49,7 +45,6 @@
 @property (nonatomic, readonly) SA_OAuthTwitterEngine *engine;
 @property (nonatomic, retain) SubRedditItem *favoritesItem;
 @property (nonatomic) BOOL isPaid;
-
 
 + (NSString *)getImageURL:(NSString *)urlString;
 + (NSString *)stringByRemoveHTML:(NSString *)string;

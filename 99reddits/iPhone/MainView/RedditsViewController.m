@@ -11,7 +11,6 @@
 #import "MainViewController.h"
 #import "AddViewController.h"
 
-
 @interface RedditsViewController ()
 
 - (IBAction)onDoneButton:(id)sender;
@@ -35,6 +34,8 @@
 	[originalSubRedditsArray release];
 	[categoryArray release];
 	[sectionArray release];
+	
+	[contentTableView release];
 	[super dealloc];
 }
 

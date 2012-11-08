@@ -8,7 +8,6 @@
 
 #import "PurchaseManager.h"
 
-
 @implementation PurchaseManager
 
 static PurchaseManager *_sharedManager;

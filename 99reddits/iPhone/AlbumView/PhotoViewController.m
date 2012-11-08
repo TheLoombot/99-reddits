@@ -3,7 +3,7 @@
 //  99reddits
 //
 //  Created by Frank Jacob on 10/14/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 99 reddits. All rights reserved.
 //
 
 #import "PhotoViewController.h"
@@ -16,7 +16,6 @@
 #import "SA_OAuthTwitterEngine.h"
 #import <ImageIO/CGImageSource.h>
 #import "PhotoView.h"
-
 
 @interface PhotoViewController ()
 
@@ -64,6 +63,8 @@
 	[self releaseObjects];
 	
 	[subReddit release];
+	
+	[loadingView release];
 	[super dealloc];
 }
 
@@ -491,7 +492,7 @@
 	}
 	else if (sharingType == 1) {
 		if ([MFMailComposeViewController canSendMail]) {
-			MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
+			MFMailComposeViewController *mailComposeViewController = [[[MFMailComposeViewController alloc] init] autorelease];
 			mailComposeViewController.mailComposeDelegate = self;
 			
 			PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
@@ -521,7 +522,6 @@
 			
 			disappearForSubview = YES;
 			[self presentModalViewController:mailComposeViewController animated:YES];
-			[mailComposeViewController release];
 		}
 	}
 	else if (sharingType == 2) {

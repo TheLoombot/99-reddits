@@ -3,11 +3,10 @@
 //  99reddits
 //
 //  Created by Frank Jacob on 11/3/11.
-//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//  Copyright (c) 2011 99 reddits. All rights reserved.
 //
 
 #import "GifViewController.h"
-
 
 @interface GifViewController ()
 - (void)resizeWebview:(BOOL)portrait;
@@ -30,6 +29,9 @@
 - (void)dealloc {
 	[_gifData release];
 	[_tapGesture release];
+	
+	[webView release];
+	[overlayView release];
 	[super dealloc];
 }
 
@@ -83,14 +85,16 @@
 }
 
 - (void)resizeWebview:(BOOL)portrait {
+	CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+
 	int screenWidth, screenHeight;
 	if (portrait) {
-		screenWidth = 320;
-		screenHeight = 480;
+		screenWidth = screenSize.width;
+		screenHeight = screenSize.height;
 	}
 	else {
-		screenWidth = 480;
-		screenHeight = 320;
+		screenWidth = screenSize.height;
+		screenHeight = screenSize.width;
 	}
 	
 	float imgRatio = (float)width / (float)height;

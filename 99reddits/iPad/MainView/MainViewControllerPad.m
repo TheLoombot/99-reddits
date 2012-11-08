@@ -1,35 +1,33 @@
 //
-//  MainViewController.m
+//  MainViewControllerPad.m
 //  99reddits
 //
-//  Created by Frank Jacob on 10/12/11.
-//  Copyright 2011 99 reddits. All rights reserved.
+//  Created by Frank Jacob on 11/8/12.
+//  Copyright 2012 99 reddits. All rights reserved.
 //
 
-#import "MainViewController.h"
+#import "MainViewControllerPad.h"
 #import "RedditsAppDelegate.h"
-#import "MainViewCell.h"
+#import "MainViewCellPad.h"
 #import "NIHTTPRequest.h"
 #import "ASIDownloadCache.h"
-#import "AlbumViewController.h"
-#import "RedditsViewController.h"
-#import "SettingsViewController.h"
+#import "AlbumViewControllerPad.h"
+#import "RedditsViewControllerPad.h"
+#import "SettingsViewControllerPad.h"
 #import "UserDef.h"
 
-#define THUMB_WIDTH			55
-#define THUMB_HEIGHT		55
+#define THUMB_WIDTH			108
+#define THUMB_HEIGHT		108
 
-@interface MainViewController ()
+@interface MainViewControllerPad ()
 
 - (void)reloadData;
 - (NSString *)cacheKeyForPhotoIndex:(NSInteger)photoIndex;
 - (void)requestImageFromSource:(NSString *)source photoIndex:(NSInteger)photoIndex;
 
-- (IBAction)onRefreshButton;
-
 @end
 
-@implementation MainViewController
+@implementation MainViewControllerPad
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -58,32 +56,29 @@
 	[self releaseObjects];
 	
 	[contentTableView release];
-	[toolbar release];
+	[leftItemsBar release];
+	[rightItemsBar release];
+	[refreshItem release];
+	[settingsItem release];
+	[editItem release];
+	[doneItem release];
+	[addItem release];
 	[super dealloc];
 }
 
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-
-    [self releaseObjects];
-}
-
-#pragma mark - View lifecycle
-
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+	
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	subRedditsArray = appDelegate.subRedditsArray;
 
 	self.title = @"99 reddits";
 	
-	self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefreshButton)] autorelease];
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(onAddButton)] autorelease];
-	
-	[[ASIDownloadCache sharedCache] setShouldRespectCacheControlHeaders:NO];
+	self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:leftItemsBar] autorelease];
+	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:rightItemsBar] autorelease];
 
+	[[ASIDownloadCache sharedCache] setShouldRespectCacheControlHeaders:NO];
+	
 	
 	refreshQueue = [[NSOperationQueue alloc] init];
 	[queue setMaxConcurrentOperationCount:5];
@@ -96,6 +91,7 @@
 	thumbnailImageCache = [[NIImageMemoryCache alloc] init];
 	
 	refreshCount = 0;
+	scale = [[UIScreen mainScreen] scale];
 	
 	if (appDelegate.firstRun) {
 		[self reloadData];
@@ -113,16 +109,13 @@
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+	[contentTableView reloadData];
+    return YES;
 }
 
 - (BOOL)shouldAutorotate {
-	return NO;
-}
-
-- (NSUInteger)supportedInterfaceOrientations {
-	return UIInterfaceOrientationMaskPortrait;
+	[contentTableView reloadData];
+	return YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -132,145 +125,87 @@
 	[contentTableView reloadData];
 }
 
-- (IBAction)onRefreshButton {
+- (IBAction)onEditButton:(id)sender {
+}
+
+- (IBAction)onRefreshButton:(id)sender {
 	if (subRedditsArray.count == 0)
 		return;
 	[self reloadData];
 }
 
-- (void)onAddButton {
-	RedditsViewController *redditsViewController = [[RedditsViewController alloc] initWithNibName:@"RedditsViewController" bundle:nil];
-	redditsViewController.mainViewController = self;
-	[self presentModalViewController:redditsViewController animated:YES];
-	[redditsViewController release];
+- (IBAction)onAddButton:(id)sender {
+//	RedditsViewControllerPad *redditsViewController = [[RedditsViewControllerPad alloc] initWithNibName:@"RedditsViewControllerPad" bundle:nil];
+//	redditsViewController.mainViewController = self;
+//	[self presentModalViewController:redditsViewController animated:YES];
+//	[redditsViewController release];
 }
 
 // UITableViewDatasource, UITableViewDelegate
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return subRedditsArray.count + 1;
+	int count = subRedditsArray.count + 1;
+	int colCount = PORT_COL_COUNT;
+	if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
+		colCount = LAND_COL_COUNT;
+	int rowCount = count / colCount + (count % colCount ? 1 : 0);
+	return rowCount;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	static NSString *identifer = @"MAINVIEWCELL";
-	MainViewCell *cell = (MainViewCell *)[contentTableView dequeueReusableCellWithIdentifier:identifer];
+	static NSString *identifer = @"MAINVIEWCELLPAD";
+	MainViewCellPad *cell = (MainViewCellPad *)[contentTableView dequeueReusableCellWithIdentifier:identifer];
 	if (cell == nil) {
-		cell = [[[MainViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifer] autorelease];
+		cell = [[[MainViewCellPad alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifer] autorelease];
+		cell.mainViewController = self;
+		cell.subRedditsArray = subRedditsArray;
 	}
 	
-	if (indexPath.row == 0) {
-		cell.textLabel.text = appDelegate.favoritesItem.nameString;
-		
-		if (appDelegate.favoritesItem.photosArray.count == 0) {
-			cell.accessoryType = UITableViewCellAccessoryNone;
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-			cell.imageView.image = [UIImage imageNamed:@"FavoritesIcon.png"];
-		}
-		else {
-			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-			
-			NSString *urlString = [self cacheKeyForPhotoIndex:indexPath.row - 1];
-			UIImage *image = [thumbnailImageCache objectWithName:urlString];
-			if (image == nil) {
-				[self requestImageFromSource:urlString photoIndex:indexPath.row - 1];
-				cell.imageView.image = [UIImage imageNamed:@"FavoritesIcon.png"];
+	cell.row = indexPath.row;
+	
+	int colCount = PORT_COL_COUNT;
+	if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
+		colCount = LAND_COL_COUNT;
+	for (int i = 0; i < colCount; i ++) {
+		int index = colCount * indexPath.row + i - 1;
+		if (index == -1) {
+			if (appDelegate.favoritesItem.photosArray.count == 0) {
+				[cell setImage:[UIImage imageNamed:@"FavoritesIconPad.png"] index:i];
 			}
 			else {
-				cell.imageView.image = image;
-			}
-		}
-		
-		[cell setTotalCount:appDelegate.favoritesItem.photosArray.count];
-	}
-	else {
-		SubRedditItem *subReddit = [subRedditsArray objectAtIndex:indexPath.row - 1];
-		cell.textLabel.text = subReddit.nameString;
-		
-		if (subReddit.photosArray.count == 0 || subReddit.loading) {
-			cell.accessoryType = UITableViewCellAccessoryNone;
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-			cell.imageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
-		}
-		else {
-			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-			
-			NSString *urlString = [self cacheKeyForPhotoIndex:indexPath.row - 1];
-			UIImage *image = [thumbnailImageCache objectWithName:urlString];
-			if (image == nil) {
-				[self requestImageFromSource:urlString photoIndex:indexPath.row - 1];
-				cell.imageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
-			}
-			else {
-				cell.imageView.image = image;
-			}
-		}
-		
-		[cell setUnshowedCount:subReddit.unshowedCount totalCount:subReddit.photosArray.count loading:subReddit.loading];
-	}
-	
-	return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	[contentTableView deselectRowAtIndexPath:indexPath animated:YES];
-	
-	if (indexPath.row == 0) {
-		if (appDelegate.favoritesItem.photosArray.count > 0) {
-			AlbumViewController *albumViewController = [[AlbumViewController alloc] initWithNibName:@"AlbumViewController" bundle:nil];
-			albumViewController.mainViewController = self;
-			albumViewController.subReddit = appDelegate.favoritesItem;
-			albumViewController.bFavorites = YES;
-			[self.navigationController pushViewController:albumViewController animated:YES];
-			[albumViewController release];
-		}
-	}
-	else {
-		SubRedditItem *subReddit = [subRedditsArray objectAtIndex:indexPath.row - 1];
-		
-		if (subReddit.photosArray.count > 0 && !subReddit.loading) {
-			AlbumViewController *albumViewController = [[AlbumViewController alloc] initWithNibName:@"AlbumViewController" bundle:nil];
-			albumViewController.mainViewController = self;
-			albumViewController.subReddit = subReddit;
-			albumViewController.bFavorites = NO;
-			[self.navigationController pushViewController:albumViewController animated:YES];
-			[albumViewController release];
-		}
-	}
-}
-
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (indexPath.row == 0)
-		return NO;
-	
-	if (refreshCount != 0)
-		return NO;
-	
-    return YES;
-}
-
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-		SubRedditItem *subReddit = [subRedditsArray objectAtIndex:indexPath.row - 1];
-		if (subReddit.photosArray.count > 0) {
-			NSString *thumbnailString = [[subReddit.photosArray objectAtIndex:0] thumbnailString];
-			for (ASIHTTPRequest *request in queue.operations) {
-				if ([[request.originalURL absoluteString] isEqualToString:thumbnailString]) {
-					[request clearDelegatesAndCancel];
-					[activeRequests removeObject:thumbnailString];
-					break;
+				NSString *urlString = [self cacheKeyForPhotoIndex:index];
+				UIImage *image = [thumbnailImageCache objectWithName:urlString];
+				if (image == nil) {
+					[self requestImageFromSource:urlString photoIndex:index];
+					[cell setImage:[UIImage imageNamed:@"FavoritesIconPad.png"] index:i];
+				}
+				else {
+					[cell setImage:image index:i];
 				}
 			}
-			[subReddit removeAllCaches];
 		}
-		
-		subReddit.subscribe = NO;
-		[appDelegate.manualSubRedditsArray removeObject:subReddit];
-		[subRedditsArray removeObject:subReddit];
-		[contentTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-		
-		[appDelegate saveToDefaults];
+		else {
+			if (index < subRedditsArray.count) {
+				SubRedditItem *subReddit = [subRedditsArray objectAtIndex:index];
+				
+				if (subReddit.photosArray.count == 0 || subReddit.loading) {
+					[cell setImage:[UIImage imageNamed:@"DefaultPhotoPad.png"] index:i];
+				}
+				else {
+					NSString *urlString = [self cacheKeyForPhotoIndex:index];
+					UIImage *image = [thumbnailImageCache objectWithName:urlString];
+					if (image == nil) {
+						[self requestImageFromSource:urlString photoIndex:index];
+						[cell setImage:[UIImage imageNamed:@"DefaultPhotoPad.png"] index:i];
+					}
+					else {
+						[cell setImage:image index:i];
+					}
+				}
+			}
+		}
 	}
+
+	return cell;
 }
 
 - (void)reloadData {
@@ -310,7 +245,7 @@
 // ASIHTTPRequestDelegate
 - (void)requestFinished:(NIProcessorHTTPRequest *)request {
 	NSString *urlString = [[request originalURL] absoluteString];
-
+	
 	SubRedditItem *subReddit = nil;
 	for (SubRedditItem *tempSubReddit in subRedditsArray) {
 		if ([tempSubReddit.urlString isEqualToString:urlString]) {
@@ -332,13 +267,13 @@
 	
 	NSMutableArray *tempPhotosArray = [[NSMutableArray alloc] init];
 	[tempPhotosArray addObjectsFromArray:subReddit.photosArray];
-
+	
 	NSDictionary *dictionary = (NSDictionary *)request.processedObject;
 	[subReddit.photosArray removeAllObjects];
 	[subReddit.photosArray addObjectsFromArray:[dictionary objectForKey:@"photos"]];
-
+	
 	subReddit.afterString = [dictionary objectForKey:@"after"];
-
+	
 	[subReddit calUnshowedCount];
 	
 	[contentTableView reloadData];
@@ -416,20 +351,20 @@
 		
 		photo.titleString = [RedditsAppDelegate stringByRemoveHTML:[itemData objectForKey:@"title"]];
 		photo.urlString = [RedditsAppDelegate getImageURL:[itemData objectForKey:@"url"]];
-
+		
 		NSString *thumbnailString = [itemData objectForKey:@"thumbnail"];
-
+		
 		// If the thumbnail string is empty or a default value, AND the URL is an imgur link,
         // then we go to imgur to get the thumbnail
-        // Small square [90x90px]:    http://i.imgur.com/46dFas.jpg
+        // Thumb        [160px max]:  http://i.imgur.com/46dFat.jpg
         if ((thumbnailString.length == 0 || [thumbnailString isEqualToString:@"default"] || [thumbnailString isEqualToString:@"nsfw"]) &&
-			([photo.urlString hasPrefix:@"http://i.imgur.com/"] || [photo.urlString hasPrefix:@"http://imgur.com/"]) 
+			([photo.urlString hasPrefix:@"http://i.imgur.com/"] || [photo.urlString hasPrefix:@"http://imgur.com/"])
             ) {
 			NSString *lastComp = [photo.urlString lastPathComponent];
 			NSRange range = [lastComp rangeOfString:@"."];
 			if (range.location != NSNotFound) {
 				lastComp = [lastComp substringToIndex:range.location-1];
-				photo.thumbnailString = [NSString stringWithFormat:@"http://i.imgur.com/%@s.png", lastComp];
+				photo.thumbnailString = [NSString stringWithFormat:@"http://i.imgur.com/%@t.png", lastComp];
 			}
 		}
 		else {
@@ -437,12 +372,12 @@
 		}
         
 		NSString *extension = [[photo.urlString pathExtension] lowercaseString];
-		if (extension.length != 0 && ([extension isEqualToString:@"jpg"] || 
-									  [extension isEqualToString:@"jpeg"] || 
-									  [extension isEqualToString:@"gif"] || 
-									  [extension isEqualToString:@"png"] || 
-									  [extension isEqualToString:@"tiff"] || 
-									  [extension isEqualToString:@"tif"] || 
+		if (extension.length != 0 && ([extension isEqualToString:@"jpg"] ||
+									  [extension isEqualToString:@"jpeg"] ||
+									  [extension isEqualToString:@"gif"] ||
+									  [extension isEqualToString:@"png"] ||
+									  [extension isEqualToString:@"tiff"] ||
+									  [extension isEqualToString:@"tif"] ||
 									  [extension isEqualToString:@"bmp"]
 									  )) {
             
@@ -457,14 +392,13 @@
 			
             [photosArray addObject:photo];
 		}
-		
 		[photo release];
 	}
 	
 	NSString *afterString = [data objectForKey:@"after"];
 	
 	NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:photosArray, @"photos", afterString, @"after", nil];
-
+	
 	return dictionary;
 }
 
@@ -505,7 +439,7 @@
 - (void)requestImageFromSource:(NSString *)source photoIndex:(NSInteger)photoIndex {
 //	if (![appDelegate checkNetworkReachable:NO])
 //		return;
-
+	
 	if (source.length == 0)
 		return;
 	
@@ -541,45 +475,41 @@
 		if (index != -2) {
 			if (image && (subRedditsArray.count + 1 > photoIndex || photoIndex == -1)) {
 				int x, y, w, h;
-				if (image.size.width > THUMB_WIDTH * 2 && image.size.height > THUMB_HEIGHT * 2) {
-					float imgRatio = image.size.width / image.size.height;
-					if (imgRatio < 1) {
-						w = THUMB_WIDTH;
-						h = w / imgRatio;
-						x = 0;
-						y = (THUMB_HEIGHT - h) / 2;
-					}
-					else if (imgRatio > 1) {
-						h = THUMB_HEIGHT;
-						w = h * imgRatio;
-						x = (THUMB_WIDTH - w) / 2;
-						y = 0;
-					}
-					else {
-						w = THUMB_WIDTH;
-						h = THUMB_HEIGHT;
-						x = 0.0;
-						y = 0.0;
-					}
+				float imgRatio = image.size.width / image.size.height;
+				if (imgRatio < 1) {
+					h = THUMB_HEIGHT;
+					w = h * imgRatio;
+					x = 0;
+					y = 0;
+				}
+				else if (imgRatio > 1) {
+					w = THUMB_WIDTH;
+					h = w / imgRatio;
+					x = 0;
+					y = 0;
 				}
 				else {
-					w = image.size.width;
-					h = image.size.height;
-					x = (THUMB_WIDTH - w) / 2;
-					y = (THUMB_HEIGHT - h) / 2;
+					w = THUMB_WIDTH;
+					h = THUMB_HEIGHT;
+					x = 0.0;
+					y = 0.0;
 				}
 				
-				UIGraphicsBeginImageContext(CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT));
-				CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(), [UIColor whiteColor].CGColor);
-				CGContextFillRect(UIGraphicsGetCurrentContext(), CGRectMake(0, 0, THUMB_WIDTH, THUMB_HEIGHT));
-				CGRect rect = CGRectMake(x, y, w, h);
+				UIGraphicsBeginImageContext(CGSizeMake(w * scale, h * scale));
+				CGRect rect = CGRectMake(x * scale, y * scale, w * scale, h * scale);
 				[image drawInRect:rect];
 				UIImage *thumbImage = UIGraphicsGetImageFromCurrentImageContext();
 				UIGraphicsEndImageContext();
 				
 				[thumbnailImageCache storeObject:thumbImage withName:photoIndexKey];
-				MainViewCell *cell = (MainViewCell *)[contentTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index + 1 inSection:0]];
-				cell.imageView.image = thumbImage;
+				
+				int colCount = PORT_COL_COUNT;
+				if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
+					colCount = LAND_COL_COUNT;
+				int row = (index + 1) / colCount;
+				int col = (index + 1) % colCount;
+				MainViewCellPad *cell = (MainViewCellPad *)[contentTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+				[cell setImage:thumbImage index:col];
 			}
 		}
 		
@@ -598,9 +528,9 @@
 }
 
 - (IBAction)onSettingsButton:(id)sender {
-	SettingsViewController *settingsViewController = [[SettingsViewController alloc] initWithNibName:@"SettingsViewController" bundle:nil];
-	[self presentModalViewController:settingsViewController animated:YES];
-	[settingsViewController release];
+//	SettingsViewControllerPad *settingsViewController = [[SettingsViewControllerPad alloc] initWithNibName:@"SettingsViewControllerPad" bundle:nil];
+//	[self presentModalViewController:settingsViewController animated:YES];
+//	[settingsViewController release];
 }
 
 - (void)removeSubRedditOperations:(SubRedditItem *)subReddit {

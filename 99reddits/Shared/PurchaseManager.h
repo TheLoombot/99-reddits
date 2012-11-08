@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import <StoreKit/StoreKit.h>
 
-
 #define kProductsLoadedNotification						@"ProductsLoaded"
 #define kProductPurchasedNotification					@"ProductPurchased"
 #define kProductPurchaseFailedNotification				@"ProductPurchaseFailed"

@@ -10,7 +10,6 @@
 #import "PhotoViewController.h"
 #import "GifViewController.h"
 
-
 @implementation PhotoView
 
 @synthesize photoViewController;

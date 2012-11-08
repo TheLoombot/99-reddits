@@ -3,7 +3,7 @@
 //  99reddits
 //
 //  Created by Frank Jacob on 10/12/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 99 reddits. All rights reserved.
 //
 
 #import "AlbumViewController.h"
@@ -16,7 +16,6 @@
 #import "RedditsAppDelegate.h"
 #import "MainViewController.h"
 #import "UserDef.h"
-
 
 #define THUMB_WIDTH			75
 #define THUMB_HEIGHT		75
@@ -65,6 +64,16 @@
 	
 	[subReddit release];
 	[mainViewController release];
+	
+	[contentTableView release];
+	[footerView release];
+	[moarButton release];
+	[moarWaitingView release];
+	[tabBar release];
+	[hotItem release];
+	[newItem release];
+	[controversialItem release];
+	[topItem release];
 	[super dealloc];
 }
 
@@ -100,7 +109,8 @@
 	
 	if (bFavorites) {
 		[tabBar removeFromSuperview];
-		contentTableView.frame = CGRectMake(0, 0, 320, 460);
+		CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+		contentTableView.frame = CGRectMake(0, 0, 320, screenSize.height - 64);
 	}
 	else {
 		contentTableView.tableFooterView = footerView;

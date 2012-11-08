@@ -271,9 +271,8 @@ Ugly. I apologize for its inelegance. Bleah.
 *********************************************************************************************************/
 
 - (NSString *) locateAuthPinInWebView: (UIWebView *) webView {
-	NSString			*js = @"var d = document.getElementById('oauth-pin'); if (d == null) d = document.getElementById('oauth_pin'); if (d) d = d.innerHTML; if (d == null) {var r = new RegExp('\\\\s[0-9]+\\\\s'); d = r.exec(document.body.innerHTML); if (d.length > 0) d = d[0];} d.replace(/^\\s*/, '').replace(/\\s*$/, ''); d;";
-	NSString			*pin = [webView stringByEvaluatingJavaScriptFromString: js];
-	
+//	NSString			*js = @"var d = document.getElementById('oauth-pin'); if (d == null) d = document.getElementById('oauth_pin'); if (d) d = d.innerHTML; if (d == null) {var r = new RegExp('\\\\s[0-9]+\\\\s'); d = r.exec(document.body.innerHTML); if (d.length > 0) d = d[0];} d.replace(/^\\s*/, '').replace(/\\s*$/, ''); d;";
+//	NSString			*pin = [webView stringByEvaluatingJavaScriptFromString: js];
 //	if (pin.length > 0) return pin;
 	
 	NSString			*html = [webView stringByEvaluatingJavaScriptFromString: @"document.body.innerText"];
@@ -291,7 +290,7 @@ Ugly. I apologize for its inelegance. Bleah.
 				memmove(buffer, &rawHTML[i - chunkLength], chunkLength);
 				buffer[chunkLength] = 0;
 		
-				pin = [NSString stringWithUTF8String: buffer];
+				NSString *pin = [NSString stringWithUTF8String: buffer];
 				free(buffer);
 			return pin;
 		}

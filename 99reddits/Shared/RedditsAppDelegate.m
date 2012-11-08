@@ -3,16 +3,26 @@
 //  99reddits
 //
 //  Created by Frank Jacob on 10/12/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 99 reddits. All rights reserved.
 //
 
 #import "RedditsAppDelegate.h"
-#import "MainViewController.h"
 #import "UserDef.h"
 #import "Reachability.h"
 #import "SA_OAuthTwitterEngine.h"
 #import "FlurryAnalytics.h"
 
+@implementation UINavigationController (iOS6OrientationFix)
+
+- (BOOL)shouldAutorotate {
+	return [self.topViewController shouldAutorotate];
+}
+
+- (NSUInteger)supportedInterfaceOrientations {
+    return [self.topViewController supportedInterfaceOrientations];
+}
+
+@end
 
 @implementation RedditsAppDelegate
 
@@ -88,6 +98,8 @@ void uncaughtExceptionHandler(NSException *exception) {
 	[showedSet release];
 	[connectionAlertView release];
 	[_engine release];
+	
+	[mainNavigationController release];
 	[_window release];
     [super dealloc];
 }

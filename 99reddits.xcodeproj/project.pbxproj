@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D0BF512164B9581000EF3A8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0BF511164B9581000EF3A8 /* Default-568h@2x.png */; };
+		8D0BF517164B9EAE000EF3A8 /* MainViewControllerPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D0BF515164B9EAE000EF3A8 /* MainViewControllerPad.m */; };
+		8D0BF518164B9EAE000EF3A8 /* MainViewControllerPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D0BF516164B9EAE000EF3A8 /* MainViewControllerPad.xib */; };
 		8D1A1C1414BC238500B41F5E /* SubRedditsList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D1A1C1314BC238500B41F5E /* SubRedditsList.plist */; };
 		8D21115614B54ADA00E08AF2 /* CheckCellBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D21115414B54ADA00E08AF2 /* CheckCellBack.png */; };
 		8D21115714B54ADA00E08AF2 /* UncheckCellBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D21115514B54ADA00E08AF2 /* UncheckCellBack.png */; };
@@ -40,6 +43,28 @@
 		8D5080B71445942600788875 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D5080B61445942600788875 /* SystemConfiguration.framework */; };
 		8D5080B91445942D00788875 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D5080B81445942D00788875 /* CFNetwork.framework */; };
 		8D5080BB1445944500788875 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D5080BA1445944500788875 /* libz.dylib */; };
+		8D66C1AE164BA38300EAC2C0 /* RedditsAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D66C1AD164BA38300EAC2C0 /* RedditsAppDelegate.m */; };
+		8D66C1B4164BAF3E00EAC2C0 /* SettingsViewControllerPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D66C1B2164BAF3E00EAC2C0 /* SettingsViewControllerPad.m */; };
+		8D66C1B5164BAF3E00EAC2C0 /* SettingsViewControllerPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D66C1B3164BAF3E00EAC2C0 /* SettingsViewControllerPad.xib */; };
+		8D66C1B9164BAF4900EAC2C0 /* AlbumViewControllerPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D66C1B7164BAF4900EAC2C0 /* AlbumViewControllerPad.m */; };
+		8D66C1BA164BAF4900EAC2C0 /* AlbumViewControllerPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D66C1B8164BAF4900EAC2C0 /* AlbumViewControllerPad.xib */; };
+		8D66C1BD164BAF5A00EAC2C0 /* MainViewCellPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D66C1BC164BAF5A00EAC2C0 /* MainViewCellPad.m */; };
+		8D66C1C1164BAFA200EAC2C0 /* RedditsViewControllerPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D66C1BF164BAFA200EAC2C0 /* RedditsViewControllerPad.m */; };
+		8D66C1C2164BAFA200EAC2C0 /* RedditsViewControllerPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D66C1C0164BAFA200EAC2C0 /* RedditsViewControllerPad.xib */; };
+		8D66C207164BB9E400EAC2C0 /* MainViewCellItemPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D66C206164BB9E400EAC2C0 /* MainViewCellItemPad.m */; };
+		8D66C215164BCFB200EAC2C0 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D66C211164BCFB200EAC2C0 /* Default-Landscape~ipad.png */; };
+		8D66C216164BCFB200EAC2C0 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D66C212164BCFB200EAC2C0 /* Default-Landscape@2x~ipad.png */; };
+		8D66C217164BCFB200EAC2C0 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D66C213164BCFB200EAC2C0 /* Default-Portrait~ipad.png */; };
+		8D66C218164BCFB200EAC2C0 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D66C214164BCFB200EAC2C0 /* Default-Portrait@2x~ipad.png */; };
+		8D66C21A164BD03900EAC2C0 /* Icon-72@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D66C219164BD03900EAC2C0 /* Icon-72@2x.png */; };
+		8D66C21D164BE83000EAC2C0 /* DefaultPhotoPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D66C21B164BE82F00EAC2C0 /* DefaultPhotoPad.png */; };
+		8D66C21E164BE83000EAC2C0 /* DefaultPhotoPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D66C21C164BE83000EAC2C0 /* DefaultPhotoPad@2x.png */; };
+		8D66C221164BE92000EAC2C0 /* FavoritesIconPad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D66C21F164BE92000EAC2C0 /* FavoritesIconPad.png */; };
+		8D66C222164BE92000EAC2C0 /* FavoritesIconPad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D66C220164BE92000EAC2C0 /* FavoritesIconPad@2x.png */; };
+		8D66C225164BF84B00EAC2C0 /* DeleteButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D66C223164BF84B00EAC2C0 /* DeleteButton.png */; };
+		8D66C226164BF84B00EAC2C0 /* DeleteButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D66C224164BF84B00EAC2C0 /* DeleteButton@2x.png */; };
+		8D66C22A164C049E00EAC2C0 /* AddViewControllerPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D66C228164C049E00EAC2C0 /* AddViewControllerPad.m */; };
+		8D66C22B164C049E00EAC2C0 /* AddViewControllerPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D66C229164C049E00EAC2C0 /* AddViewControllerPad.xib */; };
 		8D68FD5914F88DCB00CDCF66 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D68FD4314F88DCB00CDCF66 /* ASIAuthenticationDialog.m */; };
 		8D68FD5A14F88DCB00CDCF66 /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D68FD4614F88DCB00CDCF66 /* ASIDataCompressor.m */; };
 		8D68FD5B14F88DCB00CDCF66 /* ASIDataDecompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D68FD4814F88DCB00CDCF66 /* ASIDataDecompressor.m */; };
@@ -97,7 +122,6 @@
 		8D6C5D3A164ACCCC008A98A7 /* RedditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D18164ACCCC008A98A7 /* RedditsViewController.m */; };
 		8D6C5D3B164ACCCC008A98A7 /* RedditsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D6C5D19164ACCCC008A98A7 /* RedditsViewController.xib */; };
 		8D6C5D3C164ACCCC008A98A7 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D6C5D1A164ACCCC008A98A7 /* MainWindow.xib */; };
-		8D6C5D3D164ACCCC008A98A7 /* RedditsAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D1C164ACCCC008A98A7 /* RedditsAppDelegate.m */; };
 		8D6C5D3E164ACCCC008A98A7 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D1F164ACCCC008A98A7 /* SettingsViewController.m */; };
 		8D6C5D3F164ACCCC008A98A7 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D6C5D20164ACCCC008A98A7 /* SettingsViewController.xib */; };
 		8D6C5D40164ACCCC008A98A7 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D23164ACCCC008A98A7 /* MBProgressHUD.m */; };
@@ -105,6 +129,7 @@
 		8D6C5D42164ACCCC008A98A7 /* PurchaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D27164ACCCC008A98A7 /* PurchaseManager.m */; };
 		8D6C5D43164ACCCC008A98A7 /* SubRedditItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D29164ACCCC008A98A7 /* SubRedditItem.m */; };
 		8D6C5D44164ACCCC008A98A7 /* UserDef.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D2B164ACCCC008A98A7 /* UserDef.m */; };
+		8D6C5D4A164ACE0E008A98A7 /* MainWindowPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D6C5D49164ACE0E008A98A7 /* MainWindowPad.xib */; };
 		8D8710FE147497F400583812 /* Facebook.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8710E7147497F400583812 /* Facebook.m */; };
 		8D8710FF147497F400583812 /* FBDialog.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8D8710E9147497F400583812 /* FBDialog.bundle */; };
 		8D871100147497F400583812 /* FBDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D8710EB147497F400583812 /* FBDialog.m */; };
@@ -173,6 +198,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8D0BF511164B9581000EF3A8 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		8D0BF514164B9EAE000EF3A8 /* MainViewControllerPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewControllerPad.h; sourceTree = "<group>"; };
+		8D0BF515164B9EAE000EF3A8 /* MainViewControllerPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewControllerPad.m; sourceTree = "<group>"; };
+		8D0BF516164B9EAE000EF3A8 /* MainViewControllerPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewControllerPad.xib; sourceTree = "<group>"; };
 		8D1A1C1314BC238500B41F5E /* SubRedditsList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SubRedditsList.plist; sourceTree = "<group>"; };
 		8D21115414B54ADA00E08AF2 /* CheckCellBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CheckCellBack.png; sourceTree = "<group>"; };
 		8D21115514B54ADA00E08AF2 /* UncheckCellBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UncheckCellBack.png; sourceTree = "<group>"; };
@@ -210,6 +239,35 @@
 		8D5080B61445942600788875 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		8D5080B81445942D00788875 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		8D5080BA1445944500788875 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		8D66C1AC164BA38300EAC2C0 /* RedditsAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedditsAppDelegate.h; sourceTree = "<group>"; };
+		8D66C1AD164BA38300EAC2C0 /* RedditsAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedditsAppDelegate.m; sourceTree = "<group>"; };
+		8D66C1B1164BAF3E00EAC2C0 /* SettingsViewControllerPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewControllerPad.h; sourceTree = "<group>"; };
+		8D66C1B2164BAF3E00EAC2C0 /* SettingsViewControllerPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewControllerPad.m; sourceTree = "<group>"; };
+		8D66C1B3164BAF3E00EAC2C0 /* SettingsViewControllerPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewControllerPad.xib; sourceTree = "<group>"; };
+		8D66C1B6164BAF4900EAC2C0 /* AlbumViewControllerPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumViewControllerPad.h; sourceTree = "<group>"; };
+		8D66C1B7164BAF4900EAC2C0 /* AlbumViewControllerPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumViewControllerPad.m; sourceTree = "<group>"; };
+		8D66C1B8164BAF4900EAC2C0 /* AlbumViewControllerPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlbumViewControllerPad.xib; sourceTree = "<group>"; };
+		8D66C1BB164BAF5A00EAC2C0 /* MainViewCellPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewCellPad.h; sourceTree = "<group>"; };
+		8D66C1BC164BAF5A00EAC2C0 /* MainViewCellPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewCellPad.m; sourceTree = "<group>"; };
+		8D66C1BE164BAFA200EAC2C0 /* RedditsViewControllerPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedditsViewControllerPad.h; sourceTree = "<group>"; };
+		8D66C1BF164BAFA200EAC2C0 /* RedditsViewControllerPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedditsViewControllerPad.m; sourceTree = "<group>"; };
+		8D66C1C0164BAFA200EAC2C0 /* RedditsViewControllerPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RedditsViewControllerPad.xib; sourceTree = "<group>"; };
+		8D66C205164BB9E300EAC2C0 /* MainViewCellItemPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewCellItemPad.h; sourceTree = "<group>"; };
+		8D66C206164BB9E400EAC2C0 /* MainViewCellItemPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewCellItemPad.m; sourceTree = "<group>"; };
+		8D66C211164BCFB200EAC2C0 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
+		8D66C212164BCFB200EAC2C0 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
+		8D66C213164BCFB200EAC2C0 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
+		8D66C214164BCFB200EAC2C0 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
+		8D66C219164BD03900EAC2C0 /* Icon-72@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72@2x.png"; sourceTree = "<group>"; };
+		8D66C21B164BE82F00EAC2C0 /* DefaultPhotoPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultPhotoPad.png; sourceTree = "<group>"; };
+		8D66C21C164BE83000EAC2C0 /* DefaultPhotoPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DefaultPhotoPad@2x.png"; sourceTree = "<group>"; };
+		8D66C21F164BE92000EAC2C0 /* FavoritesIconPad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FavoritesIconPad.png; sourceTree = "<group>"; };
+		8D66C220164BE92000EAC2C0 /* FavoritesIconPad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FavoritesIconPad@2x.png"; sourceTree = "<group>"; };
+		8D66C223164BF84B00EAC2C0 /* DeleteButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DeleteButton.png; sourceTree = "<group>"; };
+		8D66C224164BF84B00EAC2C0 /* DeleteButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DeleteButton@2x.png"; sourceTree = "<group>"; };
+		8D66C227164C049E00EAC2C0 /* AddViewControllerPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddViewControllerPad.h; sourceTree = "<group>"; };
+		8D66C228164C049E00EAC2C0 /* AddViewControllerPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddViewControllerPad.m; sourceTree = "<group>"; };
+		8D66C229164C049E00EAC2C0 /* AddViewControllerPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AddViewControllerPad.xib; sourceTree = "<group>"; };
 		8D68FD4214F88DCB00CDCF66 /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIAuthenticationDialog.h; sourceTree = "<group>"; };
 		8D68FD4314F88DCB00CDCF66 /* ASIAuthenticationDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIAuthenticationDialog.m; sourceTree = "<group>"; };
 		8D68FD4414F88DCB00CDCF66 /* ASICacheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASICacheDelegate.h; sourceTree = "<group>"; };
@@ -339,8 +397,6 @@
 		8D6C5D18164ACCCC008A98A7 /* RedditsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedditsViewController.m; sourceTree = "<group>"; };
 		8D6C5D19164ACCCC008A98A7 /* RedditsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RedditsViewController.xib; sourceTree = "<group>"; };
 		8D6C5D1A164ACCCC008A98A7 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
-		8D6C5D1B164ACCCC008A98A7 /* RedditsAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedditsAppDelegate.h; sourceTree = "<group>"; };
-		8D6C5D1C164ACCCC008A98A7 /* RedditsAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedditsAppDelegate.m; sourceTree = "<group>"; };
 		8D6C5D1E164ACCCC008A98A7 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
 		8D6C5D1F164ACCCC008A98A7 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
 		8D6C5D20164ACCCC008A98A7 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
@@ -354,6 +410,7 @@
 		8D6C5D29164ACCCC008A98A7 /* SubRedditItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubRedditItem.m; sourceTree = "<group>"; };
 		8D6C5D2A164ACCCC008A98A7 /* UserDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDef.h; sourceTree = "<group>"; };
 		8D6C5D2B164ACCCC008A98A7 /* UserDef.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDef.m; sourceTree = "<group>"; };
+		8D6C5D49164ACE0E008A98A7 /* MainWindowPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindowPad.xib; sourceTree = "<group>"; };
 		8D8710E6147497F400583812 /* Facebook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Facebook.h; sourceTree = "<group>"; };
 		8D8710E7147497F400583812 /* Facebook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Facebook.m; sourceTree = "<group>"; };
 		8D8710E8147497F400583812 /* FBConnect.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FBConnect.h; sourceTree = "<group>"; };
@@ -495,6 +552,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		8D0BF513164B9E95000EF3A8 /* MainView */ = {
+			isa = PBXGroup;
+			children = (
+				8D0BF514164B9EAE000EF3A8 /* MainViewControllerPad.h */,
+				8D0BF515164B9EAE000EF3A8 /* MainViewControllerPad.m */,
+				8D0BF516164B9EAE000EF3A8 /* MainViewControllerPad.xib */,
+				8D66C1BB164BAF5A00EAC2C0 /* MainViewCellPad.h */,
+				8D66C1BC164BAF5A00EAC2C0 /* MainViewCellPad.m */,
+				8D66C205164BB9E300EAC2C0 /* MainViewCellItemPad.h */,
+				8D66C206164BB9E400EAC2C0 /* MainViewCellItemPad.m */,
+				8D66C1BE164BAFA200EAC2C0 /* RedditsViewControllerPad.h */,
+				8D66C1BF164BAFA200EAC2C0 /* RedditsViewControllerPad.m */,
+				8D66C1C0164BAFA200EAC2C0 /* RedditsViewControllerPad.xib */,
+				8D66C227164C049E00EAC2C0 /* AddViewControllerPad.h */,
+				8D66C228164C049E00EAC2C0 /* AddViewControllerPad.m */,
+				8D66C229164C049E00EAC2C0 /* AddViewControllerPad.xib */,
+			);
+			path = MainView;
+			sourceTree = "<group>";
+		};
 		8D24A76814F888F7001CC042 /* JSONKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -519,9 +596,9 @@
 		8D507FF71445923700788875 = {
 			isa = PBXGroup;
 			children = (
+				8D6C5D21164ACCCC008A98A7 /* Shared */,
 				8D6C5CFD164ACCCC008A98A7 /* iPhone */,
 				8D6C5D45164ACD24008A98A7 /* iPad */,
-				8D6C5D21164ACCCC008A98A7 /* Shared */,
 				8D68FD7214F8909000CDCF66 /* Nimbus */,
 				8D68FD4114F88DCB00CDCF66 /* ASIHTTPRequest */,
 				8D24A76814F888F7001CC042 /* JSONKit */,
@@ -578,9 +655,18 @@
 		8D5080CE14459CB600788875 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9C16323514733A9400CF0443 /* Default.png */,
+				9C16323414733A9400CF0443 /* Default@2x.png */,
+				8D0BF511164B9581000EF3A8 /* Default-568h@2x.png */,
+				8D66C211164BCFB200EAC2C0 /* Default-Landscape~ipad.png */,
+				8D66C212164BCFB200EAC2C0 /* Default-Landscape@2x~ipad.png */,
+				8D66C213164BCFB200EAC2C0 /* Default-Portrait~ipad.png */,
+				8D66C214164BCFB200EAC2C0 /* Default-Portrait@2x~ipad.png */,
 				8D21116114B5E25E00E08AF2 /* about.css */,
 				8D21116214B5E25E00E08AF2 /* about.html */,
 				8D21116314B5E25E00E08AF2 /* about.jpg */,
+				8D66C223164BF84B00EAC2C0 /* DeleteButton.png */,
+				8D66C224164BF84B00EAC2C0 /* DeleteButton@2x.png */,
 				8DC0823214C7DCFC00E092A2 /* ClearButton.png */,
 				8DC0823314C7DCFC00E092A2 /* ClearButton@2x.png */,
 				8D22CA2114B75A6D00E4DDD3 /* FireIcon.png */,
@@ -597,33 +683,36 @@
 				8D21115514B54ADA00E08AF2 /* UncheckCellBack.png */,
 				8D3468CE14B3E6D90033BD55 /* CheckIcon.png */,
 				8D3468CF14B3E6D90033BD55 /* UncheckIcon.png */,
-				9C16321B14733A9400CF0443 /* PlayButton@2x.png */,
 				9C16321C14733A9400CF0443 /* PlayButton.png */,
-				9C16321D14733A9400CF0443 /* Overlay@2x.png */,
+				9C16321B14733A9400CF0443 /* PlayButton@2x.png */,
 				9C16321E14733A9400CF0443 /* Overlay.png */,
+				9C16321D14733A9400CF0443 /* Overlay@2x.png */,
 				9C16321F14733A9400CF0443 /* iTunesArtwork */,
-				9C16322014733A9400CF0443 /* Icon@2x.png */,
 				9C16322114733A9400CF0443 /* Icon.png */,
-				9C16322214733A9400CF0443 /* Icon-Small@2x.png */,
-				9C16322314733A9400CF0443 /* Icon-Small.png */,
-				9C16322414733A9400CF0443 /* Icon-Small-50.png */,
+				9C16322014733A9400CF0443 /* Icon@2x.png */,
 				9C16322514733A9400CF0443 /* Icon-72.png */,
-				9C16322614733A9400CF0443 /* FavoritesWhiteIcon@2x.png */,
+				8D66C219164BD03900EAC2C0 /* Icon-72@2x.png */,
+				9C16322314733A9400CF0443 /* Icon-Small.png */,
+				9C16322214733A9400CF0443 /* Icon-Small@2x.png */,
+				9C16322414733A9400CF0443 /* Icon-Small-50.png */,
 				9C16322714733A9400CF0443 /* FavoritesWhiteIcon.png */,
-				9C16322814733A9400CF0443 /* FavoritesRedIcon@2x.png */,
+				9C16322614733A9400CF0443 /* FavoritesWhiteIcon@2x.png */,
 				9C16322914733A9400CF0443 /* FavoritesRedIcon.png */,
-				9C16322A14733A9400CF0443 /* FavoritesMask@2x.png */,
+				9C16322814733A9400CF0443 /* FavoritesRedIcon@2x.png */,
 				9C16322B14733A9400CF0443 /* FavoritesMask.png */,
-				9C16322C14733A9400CF0443 /* FavoritesIcon@2x.png */,
+				9C16322A14733A9400CF0443 /* FavoritesMask@2x.png */,
 				9C16322D14733A9400CF0443 /* FavoritesIcon.png */,
+				9C16322C14733A9400CF0443 /* FavoritesIcon@2x.png */,
+				8D66C21F164BE92000EAC2C0 /* FavoritesIconPad.png */,
+				8D66C220164BE92000EAC2C0 /* FavoritesIconPad@2x.png */,
 				9C16322E14733A9400CF0443 /* Error.png */,
 				9C16322F14733A9400CF0443 /* DefaultPhotoLarge.png */,
-				9C16323014733A9400CF0443 /* DefaultPhoto@2x.png */,
 				9C16323114733A9400CF0443 /* DefaultPhoto.png */,
-				9C16323214733A9400CF0443 /* DefaultAlbumIcon@2x.png */,
+				9C16323014733A9400CF0443 /* DefaultPhoto@2x.png */,
+				8D66C21B164BE82F00EAC2C0 /* DefaultPhotoPad.png */,
+				8D66C21C164BE83000EAC2C0 /* DefaultPhotoPad@2x.png */,
 				9C16323314733A9400CF0443 /* DefaultAlbumIcon.png */,
-				9C16323414733A9400CF0443 /* Default@2x.png */,
-				9C16323514733A9400CF0443 /* Default.png */,
+				9C16323214733A9400CF0443 /* DefaultAlbumIcon@2x.png */,
 				8D3468BE14B3E0D10033BD55 /* SettingsIcon.png */,
 				8D3468BF14B3E0D10033BD55 /* SettingsIcon@2x.png */,
 				8D1A1C1314BC238500B41F5E /* SubRedditsList.plist */,
@@ -632,6 +721,26 @@
 			);
 			name = Resources;
 			path = 99reddits/Resources;
+			sourceTree = "<group>";
+		};
+		8D66C1AF164BAF2900EAC2C0 /* AlbumView */ = {
+			isa = PBXGroup;
+			children = (
+				8D66C1B6164BAF4900EAC2C0 /* AlbumViewControllerPad.h */,
+				8D66C1B7164BAF4900EAC2C0 /* AlbumViewControllerPad.m */,
+				8D66C1B8164BAF4900EAC2C0 /* AlbumViewControllerPad.xib */,
+			);
+			path = AlbumView;
+			sourceTree = "<group>";
+		};
+		8D66C1B0164BAF2900EAC2C0 /* SettingsView */ = {
+			isa = PBXGroup;
+			children = (
+				8D66C1B1164BAF3E00EAC2C0 /* SettingsViewControllerPad.h */,
+				8D66C1B2164BAF3E00EAC2C0 /* SettingsViewControllerPad.m */,
+				8D66C1B3164BAF3E00EAC2C0 /* SettingsViewControllerPad.xib */,
+			);
+			path = SettingsView;
 			sourceTree = "<group>";
 		};
 		8D68FD4114F88DCB00CDCF66 /* ASIHTTPRequest */ = {
@@ -811,8 +920,6 @@
 		8D6C5CFD164ACCCC008A98A7 /* iPhone */ = {
 			isa = PBXGroup;
 			children = (
-				8D6C5D1B164ACCCC008A98A7 /* RedditsAppDelegate.h */,
-				8D6C5D1C164ACCCC008A98A7 /* RedditsAppDelegate.m */,
 				8D6C5D1A164ACCCC008A98A7 /* MainWindow.xib */,
 				8D6C5D0E164ACCCC008A98A7 /* MainView */,
 				8D6C5CFE164ACCCC008A98A7 /* AlbumView */,
@@ -825,21 +932,21 @@
 		8D6C5CFE164ACCCC008A98A7 /* AlbumView */ = {
 			isa = PBXGroup;
 			children = (
+				8D6C5D03164ACCCC008A98A7 /* AlbumViewController.h */,
+				8D6C5D04164ACCCC008A98A7 /* AlbumViewController.m */,
+				8D6C5D05164ACCCC008A98A7 /* AlbumViewController.xib */,
 				8D6C5CFF164ACCCC008A98A7 /* AlbumViewCell.h */,
 				8D6C5D00164ACCCC008A98A7 /* AlbumViewCell.m */,
 				8D6C5D01164ACCCC008A98A7 /* AlbumViewCellItem.h */,
 				8D6C5D02164ACCCC008A98A7 /* AlbumViewCellItem.m */,
-				8D6C5D03164ACCCC008A98A7 /* AlbumViewController.h */,
-				8D6C5D04164ACCCC008A98A7 /* AlbumViewController.m */,
-				8D6C5D05164ACCCC008A98A7 /* AlbumViewController.xib */,
-				8D6C5D06164ACCCC008A98A7 /* GifViewController.h */,
-				8D6C5D07164ACCCC008A98A7 /* GifViewController.m */,
-				8D6C5D08164ACCCC008A98A7 /* GifViewController.xib */,
-				8D6C5D09164ACCCC008A98A7 /* PhotoView.h */,
-				8D6C5D0A164ACCCC008A98A7 /* PhotoView.m */,
 				8D6C5D0B164ACCCC008A98A7 /* PhotoViewController.h */,
 				8D6C5D0C164ACCCC008A98A7 /* PhotoViewController.m */,
 				8D6C5D0D164ACCCC008A98A7 /* PhotoViewController.xib */,
+				8D6C5D09164ACCCC008A98A7 /* PhotoView.h */,
+				8D6C5D0A164ACCCC008A98A7 /* PhotoView.m */,
+				8D6C5D06164ACCCC008A98A7 /* GifViewController.h */,
+				8D6C5D07164ACCCC008A98A7 /* GifViewController.m */,
+				8D6C5D08164ACCCC008A98A7 /* GifViewController.xib */,
 			);
 			path = AlbumView;
 			sourceTree = "<group>";
@@ -847,17 +954,17 @@
 		8D6C5D0E164ACCCC008A98A7 /* MainView */ = {
 			isa = PBXGroup;
 			children = (
-				8D6C5D0F164ACCCC008A98A7 /* AddViewController.h */,
-				8D6C5D10164ACCCC008A98A7 /* AddViewController.m */,
-				8D6C5D11164ACCCC008A98A7 /* AddViewController.xib */,
-				8D6C5D12164ACCCC008A98A7 /* MainViewCell.h */,
-				8D6C5D13164ACCCC008A98A7 /* MainViewCell.m */,
 				8D6C5D14164ACCCC008A98A7 /* MainViewController.h */,
 				8D6C5D15164ACCCC008A98A7 /* MainViewController.m */,
 				8D6C5D16164ACCCC008A98A7 /* MainViewController.xib */,
+				8D6C5D12164ACCCC008A98A7 /* MainViewCell.h */,
+				8D6C5D13164ACCCC008A98A7 /* MainViewCell.m */,
 				8D6C5D17164ACCCC008A98A7 /* RedditsViewController.h */,
 				8D6C5D18164ACCCC008A98A7 /* RedditsViewController.m */,
 				8D6C5D19164ACCCC008A98A7 /* RedditsViewController.xib */,
+				8D6C5D0F164ACCCC008A98A7 /* AddViewController.h */,
+				8D6C5D10164ACCCC008A98A7 /* AddViewController.m */,
+				8D6C5D11164ACCCC008A98A7 /* AddViewController.xib */,
 			);
 			path = MainView;
 			sourceTree = "<group>";
@@ -875,16 +982,18 @@
 		8D6C5D21164ACCCC008A98A7 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
-				8D6C5D22164ACCCC008A98A7 /* MBProgressHUD.h */,
-				8D6C5D23164ACCCC008A98A7 /* MBProgressHUD.m */,
-				8D6C5D24164ACCCC008A98A7 /* PhotoItem.h */,
-				8D6C5D25164ACCCC008A98A7 /* PhotoItem.m */,
-				8D6C5D26164ACCCC008A98A7 /* PurchaseManager.h */,
-				8D6C5D27164ACCCC008A98A7 /* PurchaseManager.m */,
-				8D6C5D28164ACCCC008A98A7 /* SubRedditItem.h */,
-				8D6C5D29164ACCCC008A98A7 /* SubRedditItem.m */,
+				8D66C1AC164BA38300EAC2C0 /* RedditsAppDelegate.h */,
+				8D66C1AD164BA38300EAC2C0 /* RedditsAppDelegate.m */,
 				8D6C5D2A164ACCCC008A98A7 /* UserDef.h */,
 				8D6C5D2B164ACCCC008A98A7 /* UserDef.m */,
+				8D6C5D24164ACCCC008A98A7 /* PhotoItem.h */,
+				8D6C5D25164ACCCC008A98A7 /* PhotoItem.m */,
+				8D6C5D28164ACCCC008A98A7 /* SubRedditItem.h */,
+				8D6C5D29164ACCCC008A98A7 /* SubRedditItem.m */,
+				8D6C5D22164ACCCC008A98A7 /* MBProgressHUD.h */,
+				8D6C5D23164ACCCC008A98A7 /* MBProgressHUD.m */,
+				8D6C5D26164ACCCC008A98A7 /* PurchaseManager.h */,
+				8D6C5D27164ACCCC008A98A7 /* PurchaseManager.m */,
 			);
 			name = Shared;
 			path = 99reddits/Shared;
@@ -893,6 +1002,10 @@
 		8D6C5D45164ACD24008A98A7 /* iPad */ = {
 			isa = PBXGroup;
 			children = (
+				8D6C5D49164ACE0E008A98A7 /* MainWindowPad.xib */,
+				8D0BF513164B9E95000EF3A8 /* MainView */,
+				8D66C1AF164BAF2900EAC2C0 /* AlbumView */,
+				8D66C1B0164BAF2900EAC2C0 /* SettingsView */,
 			);
 			name = iPad;
 			path = 99reddits/iPad;
@@ -1058,6 +1171,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0450;
+				ORGANIZATIONNAME = "99 reddits";
 			};
 			buildConfigurationList = 8D507FFC1445923700788875 /* Build configuration list for PBXProject "99reddits" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1146,6 +1260,24 @@
 				8D6C5D3B164ACCCC008A98A7 /* RedditsViewController.xib in Resources */,
 				8D6C5D3C164ACCCC008A98A7 /* MainWindow.xib in Resources */,
 				8D6C5D3F164ACCCC008A98A7 /* SettingsViewController.xib in Resources */,
+				8D6C5D4A164ACE0E008A98A7 /* MainWindowPad.xib in Resources */,
+				8D0BF512164B9581000EF3A8 /* Default-568h@2x.png in Resources */,
+				8D0BF518164B9EAE000EF3A8 /* MainViewControllerPad.xib in Resources */,
+				8D66C1B5164BAF3E00EAC2C0 /* SettingsViewControllerPad.xib in Resources */,
+				8D66C1BA164BAF4900EAC2C0 /* AlbumViewControllerPad.xib in Resources */,
+				8D66C1C2164BAFA200EAC2C0 /* RedditsViewControllerPad.xib in Resources */,
+				8D66C215164BCFB200EAC2C0 /* Default-Landscape~ipad.png in Resources */,
+				8D66C216164BCFB200EAC2C0 /* Default-Landscape@2x~ipad.png in Resources */,
+				8D66C217164BCFB200EAC2C0 /* Default-Portrait~ipad.png in Resources */,
+				8D66C218164BCFB200EAC2C0 /* Default-Portrait@2x~ipad.png in Resources */,
+				8D66C21A164BD03900EAC2C0 /* Icon-72@2x.png in Resources */,
+				8D66C21D164BE83000EAC2C0 /* DefaultPhotoPad.png in Resources */,
+				8D66C21E164BE83000EAC2C0 /* DefaultPhotoPad@2x.png in Resources */,
+				8D66C221164BE92000EAC2C0 /* FavoritesIconPad.png in Resources */,
+				8D66C222164BE92000EAC2C0 /* FavoritesIconPad@2x.png in Resources */,
+				8D66C225164BF84B00EAC2C0 /* DeleteButton.png in Resources */,
+				8D66C226164BF84B00EAC2C0 /* DeleteButton@2x.png in Resources */,
+				8D66C22B164C049E00EAC2C0 /* AddViewControllerPad.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1233,13 +1365,20 @@
 				8D6C5D37164ACCCC008A98A7 /* MainViewCell.m in Sources */,
 				8D6C5D38164ACCCC008A98A7 /* MainViewController.m in Sources */,
 				8D6C5D3A164ACCCC008A98A7 /* RedditsViewController.m in Sources */,
-				8D6C5D3D164ACCCC008A98A7 /* RedditsAppDelegate.m in Sources */,
 				8D6C5D3E164ACCCC008A98A7 /* SettingsViewController.m in Sources */,
 				8D6C5D40164ACCCC008A98A7 /* MBProgressHUD.m in Sources */,
 				8D6C5D41164ACCCC008A98A7 /* PhotoItem.m in Sources */,
 				8D6C5D42164ACCCC008A98A7 /* PurchaseManager.m in Sources */,
 				8D6C5D43164ACCCC008A98A7 /* SubRedditItem.m in Sources */,
 				8D6C5D44164ACCCC008A98A7 /* UserDef.m in Sources */,
+				8D0BF517164B9EAE000EF3A8 /* MainViewControllerPad.m in Sources */,
+				8D66C1AE164BA38300EAC2C0 /* RedditsAppDelegate.m in Sources */,
+				8D66C1B4164BAF3E00EAC2C0 /* SettingsViewControllerPad.m in Sources */,
+				8D66C1B9164BAF4900EAC2C0 /* AlbumViewControllerPad.m in Sources */,
+				8D66C1BD164BAF5A00EAC2C0 /* MainViewCellPad.m in Sources */,
+				8D66C1C1164BAFA200EAC2C0 /* RedditsViewControllerPad.m in Sources */,
+				8D66C207164BB9E400EAC2C0 /* MainViewCellItemPad.m in Sources */,
+				8D66C22A164C049E00EAC2C0 /* AddViewControllerPad.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1282,6 +1421,7 @@
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = armv7;
 			};
 			name = Debug;
@@ -1305,6 +1445,7 @@
 				PROVISIONING_PROFILE = "";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VALID_ARCHS = armv7;
 			};

@@ -80,6 +80,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<object class="IBUIViewController" id="320607533">
 						<object class="IBUINavigationItem" key="IBUINavigationItem" id="650434377">
+							<reference key="IBUINavigationBar"/>
 							<string key="IBUITitle">Root View Controller</string>
 							<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 						</object>
@@ -121,14 +122,6 @@
 						<reference key="destination" ref="1063733910"/>
 					</object>
 					<int key="connectionID">14</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">mainViewController</string>
-						<reference key="source" ref="664661524"/>
-						<reference key="destination" ref="320607533"/>
-					</object>
-					<int key="connectionID">15</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -333,13 +326,11 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>mainNavigationController</string>
-							<string>mainViewController</string>
 							<string>window</string>
 						</object>
 						<object class="NSArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UINavigationController</string>
-							<string>MainViewController</string>
 							<string>UIWindow</string>
 						</object>
 					</object>
@@ -348,7 +339,6 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>mainNavigationController</string>
-							<string>mainViewController</string>
 							<string>window</string>
 						</object>
 						<object class="NSArray" key="dict.values">
@@ -356,10 +346,6 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">mainNavigationController</string>
 								<string key="candidateClassName">UINavigationController</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">mainViewController</string>
-								<string key="candidateClassName">MainViewController</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">window</string>

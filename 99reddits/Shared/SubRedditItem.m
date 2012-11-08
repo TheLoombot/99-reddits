@@ -3,14 +3,13 @@
 //  99reddits
 //
 //  Created by Frank Jacob on 10/12/11.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Copyright 2011 99 reddits. All rights reserved.
 //
 
 #import "SubRedditItem.h"
 #import "NIHTTPRequest.h"
 #import "ASIDownloadCache.h"
 #import "RedditsAppDelegate.h"
-
 
 @implementation SubRedditItem
 

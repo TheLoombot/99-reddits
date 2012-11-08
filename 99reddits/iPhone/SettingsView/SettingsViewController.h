@@ -11,7 +11,6 @@
 #import "PurchaseManager.h"
 #import <MessageUI/MFMailComposeViewController.h>
 
-
 @class RedditsAppDelegate;
 
 @interface SettingsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIWebViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate> {

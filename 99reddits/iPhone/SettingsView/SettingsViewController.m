@@ -13,7 +13,6 @@
 #import <Accounts/Accounts.h>
 #import "ASIDownloadCache.h"
 
-
 @interface SettingsViewController ()
 
 - (IBAction)onDoneButton:(id)sender;
@@ -52,6 +51,18 @@
 	[imagesSeenString release];
 	[titleString release];
 	[imagesToNextTitleString release];
+	
+	[contentScrollView release];
+	[buttonsView release];
+	[upgradeForMOARButton release];
+	[restoreUpdateButton release];
+	[aboutView release];
+	[clearButton release];
+	[contentTableView release];
+	[aboutOutlineButton release];
+	[aboutWebView release];
+	[emailButton release];
+	[tweetButton release];
 	[super dealloc];
 }
 
@@ -71,7 +82,8 @@
 	
 	self.view.backgroundColor = [self groupTableViewBackgroundColor];
 	
-	contentScrollView.frame = CGRectMake(0, 44, 320, 416);
+	CGSize screenSize = [[UIScreen mainScreen] bounds].size;
+	contentScrollView.frame = CGRectMake(0, 44, 320, screenSize.height - 64);
 	
 	[upgradeForMOARButton setBackgroundImage:[[UIImage imageNamed:@"UpgradeButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
 	[restoreUpdateButton setBackgroundImage:[[UIImage imageNamed:@"UpgradeButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
@@ -393,20 +405,18 @@
 }
 
 - (UIColor *)groupTableViewBackgroundColor {
-	__strong static UIImage* tableViewBackgroundImage = nil;
-	static dispatch_once_t onceToken;
-	dispatch_once(&onceToken, ^{
-		UIGraphicsBeginImageContextWithOptions(CGSizeMake(7.f, 1.f), NO, 0.0);
-		CGContextRef c = UIGraphicsGetCurrentContext();
-		[[UIColor colorWithRed:185/255.f green:192/255.f blue:202/255.f alpha:1.f] setFill];
-		CGContextFillRect(c, CGRectMake(0, 0, 4, 1));
-		[[UIColor colorWithRed:185/255.f green:193/255.f blue:200/255.f alpha:1.f] setFill];
-		CGContextFillRect(c, CGRectMake(4, 0, 1, 1));
-		[[UIColor colorWithRed:192/255.f green:200/255.f blue:207/255.f alpha:1.f] setFill];
-		CGContextFillRect(c, CGRectMake(5, 0, 2, 1));
-		tableViewBackgroundImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-    });
+	UIImage *tableViewBackgroundImage = nil;
+	UIGraphicsBeginImageContextWithOptions(CGSizeMake(7.f, 1.f), NO, 0.0);
+	CGContextRef c = UIGraphicsGetCurrentContext();
+	[[UIColor colorWithRed:185/255.f green:192/255.f blue:202/255.f alpha:1.f] setFill];
+	CGContextFillRect(c, CGRectMake(0, 0, 4, 1));
+	[[UIColor colorWithRed:185/255.f green:193/255.f blue:200/255.f alpha:1.f] setFill];
+	CGContextFillRect(c, CGRectMake(4, 0, 1, 1));
+	[[UIColor colorWithRed:192/255.f green:200/255.f blue:207/255.f alpha:1.f] setFill];
+	CGContextFillRect(c, CGRectMake(5, 0, 2, 1));
+	tableViewBackgroundImage = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+
 	return [UIColor colorWithPatternImage:tableViewBackgroundImage];
 }
 

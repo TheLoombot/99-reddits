@@ -81,32 +81,50 @@
 
 - (void)setIdString:(NSString *)_idString {
 	[idString release];
-	idString = [_idString retain];
+	if (_idString)
+		idString = [_idString retain];
+	else
+		idString = [[NSString alloc] initWithString:@""];
 }
 
 - (void)setNameString:(NSString *)_nameString {
 	[nameString release];
-	nameString = [_nameString retain];
+	if (_nameString)
+		nameString = [_nameString retain];
+	else
+		nameString = [[NSString alloc] initWithString:@""];
 }
 
 - (void)setPermalinkString:(NSString *)_permalinkString {
 	[permalinkString release];
-	permalinkString = [_permalinkString retain];
+	if (_permalinkString)
+		permalinkString = [_permalinkString retain];
+	else
+		permalinkString = [[NSString alloc] initWithString:@""];
 }
 
 - (void)setThumbnailString:(NSString *)_thumbnailString {
 	[thumbnailString release];
-	thumbnailString = [_thumbnailString retain];
+	if (_thumbnailString)
+		thumbnailString = [_thumbnailString retain];
+	else
+		thumbnailString = [[NSString alloc] initWithString:@""];
 }
 
 - (void)setTitleString:(NSString *)_titleString {
 	[titleString release];
-	titleString = [_titleString retain];
+	if (_titleString)
+		titleString = [_titleString retain];
+	else
+		titleString = [[NSString alloc] initWithString:@""];
 }
 
 - (void)setUrlString:(NSString *)_urlString {
 	[urlString release];
-	urlString = [_urlString retain];
+	if (_urlString)
+		urlString = [_urlString retain];
+	else
+		urlString = [[NSString alloc] initWithString:@""];
 }
 
 @end

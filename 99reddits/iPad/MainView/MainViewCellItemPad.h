@@ -26,6 +26,7 @@
 	BOOL loading;
 	
 	BOOL bFavorites;
+	BOOL editing;
 }
 
 @property (nonatomic, assign) MainViewCellPad *mainViewCell;
@@ -34,6 +35,6 @@
 - (void)setImage:(UIImage *)image;
 - (void)setUnshowedCount:(int)_unshowedCount totalCount:(int)_totalCount loading:(BOOL)_loading;
 - (void)setTotalCount:(int)_totalCount;
-- (void)showDeleteButton:(BOOL)show;
+- (void)setEditing:(BOOL)_editing;
 
 @end

@@ -8,6 +8,23 @@
 
 #import <UIKit/UIKit.h>
 
-@interface RedditsViewControllerPad : UIViewController
+@class RedditsAppDelegate;
+@class MainViewControllerPad;
+
+@interface RedditsViewControllerPad : UIViewController <UITableViewDelegate, UITableViewDataSource> {
+	RedditsAppDelegate *appDelegate;
+	MainViewControllerPad *mainViewController;
+	
+	IBOutlet UITableView *contentTableView;
+	
+	NSMutableArray *originalSubRedditsArray;
+	
+	NSMutableArray *categoryArray;
+	NSMutableArray *sectionArray;
+}
+
+@property (nonatomic, assign) MainViewControllerPad *mainViewController;
+
+- (void)onManualAdded;
 
 @end

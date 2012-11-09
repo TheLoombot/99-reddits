@@ -26,5 +26,7 @@
 @property (nonatomic, assign) int row;
 
 - (void)setImage:(UIImage *)image index:(int)index;
+- (void)onClick:(int)index;
+- (void)onDeleteButton:(int)index;
 
 @end

@@ -8,6 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AddViewControllerPad : UIViewController
+@class RedditsAppDelegate;
+@class RedditsViewControllerPad;
+
+@interface AddViewControllerPad : UIViewController <UITextFieldDelegate> {
+	RedditsAppDelegate *appDelegate;
+	RedditsViewControllerPad *redditsViewController;
+	
+	IBOutlet UITextField *urlTextField;
+	IBOutlet UIButton *tipButton;
+}
+
+@property (nonatomic, assign) RedditsViewControllerPad *redditsViewController;
 
 @end

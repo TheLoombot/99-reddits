@@ -3,7 +3,7 @@
 //  99reddits
 //
 //  Created by Frank Jacob on 1/4/12.
-//  Copyright (c) 2012 Bara. All rights reserved.
+//  Copyright (c) 2012 99 reddits. All rights reserved.
 //
 
 #import "SettingsViewController.h"

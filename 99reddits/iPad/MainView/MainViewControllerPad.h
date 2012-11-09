@@ -21,6 +21,7 @@
 	IBOutlet UIToolbar *rightItemsBar;
 	IBOutlet UIBarButtonItem *refreshItem;
 	IBOutlet UIBarButtonItem *settingsItem;
+	IBOutlet UIBarButtonItem *spaceItem;
 	IBOutlet UIBarButtonItem *editItem;
 	IBOutlet UIBarButtonItem *doneItem;
 	IBOutlet UIBarButtonItem *addItem;
@@ -44,5 +45,8 @@
 
 - (void)removeSubRedditOperations:(SubRedditItem *)subReddit;
 - (void)addSubReddit:(SubRedditItem *)subReddit;
+
+- (void)showSubRedditAtIndex:(int)index;
+- (void)removeSubRedditAtIndex:(int)index;
 
 @end

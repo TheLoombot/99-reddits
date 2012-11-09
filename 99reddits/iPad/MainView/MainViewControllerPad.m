@@ -60,6 +60,7 @@
 	[rightItemsBar release];
 	[refreshItem release];
 	[settingsItem release];
+	[spaceItem release];
 	[editItem release];
 	[doneItem release];
 	[addItem release];
@@ -126,6 +127,22 @@
 }
 
 - (IBAction)onEditButton:(id)sender {
+	self.editing = !self.editing;
+	contentTableView.editing = self.editing;
+	if (self.editing) {
+		refreshItem.enabled = NO;
+		settingsItem.enabled = NO;
+		addItem.enabled = NO;
+		
+		[rightItemsBar setItems:[NSArray arrayWithObjects:spaceItem, doneItem, addItem, nil] animated:YES];
+	}
+	else {
+		refreshItem.enabled = YES;
+		settingsItem.enabled = YES;
+		addItem.enabled = YES;
+		
+		[rightItemsBar setItems:[NSArray arrayWithObjects:spaceItem, editItem, addItem, nil] animated:YES];
+	}
 }
 
 - (IBAction)onRefreshButton:(id)sender {
@@ -135,10 +152,10 @@
 }
 
 - (IBAction)onAddButton:(id)sender {
-//	RedditsViewControllerPad *redditsViewController = [[RedditsViewControllerPad alloc] initWithNibName:@"RedditsViewControllerPad" bundle:nil];
-//	redditsViewController.mainViewController = self;
-//	[self presentModalViewController:redditsViewController animated:YES];
-//	[redditsViewController release];
+	RedditsViewControllerPad *redditsViewController = [[RedditsViewControllerPad alloc] initWithNibName:@"RedditsViewControllerPad" bundle:nil];
+	redditsViewController.mainViewController = self;
+	[self presentModalViewController:redditsViewController animated:YES];
+	[redditsViewController release];
 }
 
 // UITableViewDatasource, UITableViewDelegate
@@ -208,11 +225,16 @@
 	return cell;
 }
 
+- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
+	return UITableViewCellEditingStyleNone;
+}
+
 - (void)reloadData {
 	if (![appDelegate checkNetworkReachable:YES])
 		return;
 	
-	self.navigationItem.leftBarButtonItem.enabled = NO;
+	refreshItem.enabled = NO;
+	editItem.enabled = NO;
 	
 	for (ASIHTTPRequest *request in refreshQueue.operations) {
 		[request clearDelegatesAndCancel];
@@ -257,7 +279,8 @@
 	if (subReddit == nil) {
 		refreshCount --;
 		if (refreshCount == 0) {
-			self.navigationItem.leftBarButtonItem.enabled = YES;
+			refreshItem.enabled = YES;
+			editItem.enabled = YES;
 		}
 		return;
 	}
@@ -283,7 +306,8 @@
 	
 	refreshCount --;
 	if (refreshCount == 0) {
-		self.navigationItem.leftBarButtonItem.enabled = YES;
+		refreshItem.enabled = YES;
+		editItem.enabled = YES;
 		[appDelegate saveToDefaults];
 	}
 }
@@ -302,7 +326,8 @@
 	if (subReddit == nil) {
 		refreshCount --;
 		if (refreshCount == 0) {
-			self.navigationItem.leftBarButtonItem.enabled = YES;
+			refreshItem.enabled = YES;
+			editItem.enabled = YES;
 		}
 		return;
 	}
@@ -315,7 +340,8 @@
 	
 	refreshCount --;
 	if (refreshCount == 0) {
-		self.navigationItem.leftBarButtonItem.enabled = YES;
+		refreshItem.enabled = YES;
+		editItem.enabled = YES;
 	}
 }
 
@@ -406,7 +432,8 @@
 	if (![appDelegate checkNetworkReachable:YES])
 		return;
 	
-	self.navigationItem.leftBarButtonItem.enabled = NO;
+	refreshItem.enabled = NO;
+	editItem.enabled = NO;
 	
 	subReddit.loading = YES;
 	
@@ -528,9 +555,9 @@
 }
 
 - (IBAction)onSettingsButton:(id)sender {
-//	SettingsViewControllerPad *settingsViewController = [[SettingsViewControllerPad alloc] initWithNibName:@"SettingsViewControllerPad" bundle:nil];
-//	[self presentModalViewController:settingsViewController animated:YES];
-//	[settingsViewController release];
+	SettingsViewControllerPad *settingsViewController = [[SettingsViewControllerPad alloc] initWithNibName:@"SettingsViewControllerPad" bundle:nil];
+	[self presentModalViewController:settingsViewController animated:YES];
+	[settingsViewController release];
 }
 
 - (void)removeSubRedditOperations:(SubRedditItem *)subReddit {
@@ -544,6 +571,53 @@
 			}
 		}
 	}
+}
+
+- (void)showSubRedditAtIndex:(int)index {
+	if (index == -1) {
+		if (appDelegate.favoritesItem.photosArray.count > 0) {
+//			AlbumViewControllerPad *albumViewController = [[AlbumViewControllerPad alloc] initWithNibName:@"AlbumViewControllerPad" bundle:nil];
+//			albumViewController.mainViewController = self;
+//			albumViewController.subReddit = appDelegate.favoritesItem;
+//			albumViewController.bFavorites = YES;
+//			[self.navigationController pushViewController:albumViewController animated:YES];
+//			[albumViewController release];
+		}
+	}
+	else {
+		SubRedditItem *subReddit = [subRedditsArray objectAtIndex:index];
+		
+		if (subReddit.photosArray.count > 0 && !subReddit.loading) {
+//			AlbumViewControllerPad *albumViewController = [[AlbumViewControllerPad alloc] initWithNibName:@"AlbumViewControllerPad" bundle:nil];
+//			albumViewController.mainViewController = self;
+//			albumViewController.subReddit = subReddit;
+//			albumViewController.bFavorites = NO;
+//			[self.navigationController pushViewController:albumViewController animated:YES];
+//			[albumViewController release];
+		}
+	}
+}
+
+- (void)removeSubRedditAtIndex:(int)index {
+	SubRedditItem *subReddit = [subRedditsArray objectAtIndex:index];
+	if (subReddit.photosArray.count > 0) {
+		NSString *thumbnailString = [[subReddit.photosArray objectAtIndex:0] thumbnailString];
+		for (ASIHTTPRequest *request in queue.operations) {
+			if ([[request.originalURL absoluteString] isEqualToString:thumbnailString]) {
+				[request clearDelegatesAndCancel];
+				[activeRequests removeObject:thumbnailString];
+				break;
+			}
+		}
+		[subReddit removeAllCaches];
+	}
+	
+	subReddit.subscribe = NO;
+	[appDelegate.manualSubRedditsArray removeObject:subReddit];
+	[subRedditsArray removeObject:subReddit];
+	[appDelegate saveToDefaults];
+	
+	[contentTableView reloadData];
 }
 
 @end

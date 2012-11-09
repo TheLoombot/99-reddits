@@ -12,5 +12,6 @@ p {	line-height: 1.5em; margin-bottom: 10px; }
 
 h1 { font-size: 16px; color: #70769c; }
 
-.wrap { width: 280px; margin: auto; }
+// .wrap { width: 280px; margin: auto; }
+.wrap { margin: auto; }
 #logo { float: left; margin-right: 10px; width: 85px; height: 85px;}

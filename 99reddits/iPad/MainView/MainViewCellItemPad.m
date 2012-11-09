@@ -19,6 +19,9 @@
     if (self) {
 		tapView = [[UIView alloc] initWithFrame:CGRectMake(15, 15, 120, 120)];
 		tapView.backgroundColor = [UIColor whiteColor];
+		UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTapGesture:)];
+		[tapView addGestureRecognizer:tapGesture];
+		[tapGesture release];
 		[self addSubview:tapView];
 		imageView = [[UIImageView alloc] initWithFrame:CGRectMake(21, 21, 108, 108)];
 		[self addSubview:imageView];
@@ -33,6 +36,11 @@
 		nameLabel.backgroundColor = [UIColor clearColor];
 		nameLabel.textAlignment = UITextAlignmentCenter;
 		[self addSubview:nameLabel];
+		deleteButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+		deleteButton.frame = CGRectMake(0, 0, 29, 29);
+		[deleteButton setBackgroundImage:[UIImage imageNamed:@"DeleteButton.png"] forState:UIControlStateNormal];
+		[deleteButton addTarget:self action:@selector(onDeleteButton:) forControlEvents:UIControlEventTouchUpInside];
+		[self addSubview:deleteButton];
     }
     return self;
 }
@@ -74,6 +82,12 @@
 		rect.size.width += 12;
 		rect.size.height += 12;
 		tapView.frame = rect;
+		
+		rect.origin.x -= 15;
+		rect.origin.y -= 15;
+		rect.size.width = 29;
+		rect.size.height = 29;
+		deleteButton.frame = rect;
 	}
 }
 
@@ -83,10 +97,13 @@
 	loading = _loading;
 	bFavorites = NO;
 	
-	if (loading)
+	if (loading) {
 		activityIndicator.hidden = NO;
-	else
+		[activityIndicator startAnimating];
+	}
+	else {
 		activityIndicator.hidden = YES;
+	}
 }
 
 - (void)setTotalCount:(int)_totalCount {
@@ -96,8 +113,26 @@
 	activityIndicator.hidden = YES;
 }
 
-- (void)showDeleteButton:(BOOL)show {
-	deleteButton.hidden = !show;
+- (void)setEditing:(BOOL)_editing {
+	editing = _editing;
+	if (bFavorites)
+		deleteButton.hidden = YES;
+	else
+		deleteButton.hidden = !editing;
+}
+
+- (void)onTapGesture:(id)sender {
+	if (editing)
+		return;
+	
+	[mainViewCell onClick:self.tag];
+}
+
+- (void)onDeleteButton:(id)sender {
+	if (!editing)
+		return;
+
+	[mainViewCell onDeleteButton:self.tag];
 }
 
 @end

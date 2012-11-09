@@ -10,6 +10,7 @@
 #import "MainViewCellItemPad.h"
 #import "UserDef.h"
 #import "RedditsAppDelegate.h"
+#import "MainViewControllerPad.h"
 
 @implementation MainViewCellPad
 
@@ -50,7 +51,7 @@
 	for (int i = 0; i < colCount; i ++) {
 		MainViewCellItemPad *cellItem = [itemViewsArray objectAtIndex:i];
 		int index = colCount * row + i - 1;
-		if (index > subRedditsArray.count - 1) {
+		if (index >= 0 && index > subRedditsArray.count - 1) {
 			cellItem.alpha = 0.0;
 		}
 		else {
@@ -85,7 +86,8 @@
 		for (int i = 0; i < LAND_COL_COUNT; i ++) {
 			MainViewCellItemPad *cellItem = [itemViewsArray objectAtIndex:i];
 			cellItem.frame = CGRectMake(20 + 148 * i, 0, 135, 200);
-			
+			[cellItem setEditing:mainViewController.editing];
+
 			int index = colCount * row + i;
 			if (index > subRedditsArray.count) {
 				cellItem.alpha = 0.0;
@@ -103,6 +105,7 @@
 		for (int i = 0; i < LAND_COL_COUNT; i ++) {
 			MainViewCellItemPad *cellItem = [itemViewsArray objectAtIndex:i];
 			cellItem.frame = CGRectMake(8 + 143 * i, 0, 135, 220);
+			[cellItem setEditing:mainViewController.editing];
 			
 			int index = colCount * row + i;
 			if (index > subRedditsArray.count) {
@@ -113,6 +116,20 @@
 			}
 		}
 	}
+}
+
+- (void)onClick:(int)index {
+	int colCount = PORT_COL_COUNT;
+	if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
+		colCount = LAND_COL_COUNT;
+	[mainViewController showSubRedditAtIndex:row * colCount + index - 1];
+}
+
+- (void)onDeleteButton:(int)index {
+	int colCount = PORT_COL_COUNT;
+	if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
+		colCount = LAND_COL_COUNT;
+	[mainViewController removeSubRedditAtIndex:row * colCount + index - 1];
 }
 
 @end

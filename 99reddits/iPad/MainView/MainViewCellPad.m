@@ -85,7 +85,7 @@
 	if (colCount == PORT_COL_COUNT) {
 		for (int i = 0; i < LAND_COL_COUNT; i ++) {
 			MainViewCellItemPad *cellItem = [itemViewsArray objectAtIndex:i];
-			cellItem.frame = CGRectMake(20 + 148 * i, 0, 135, 200);
+			cellItem.frame = CGRectMake(14 + 148 * i, 0, 135, 200);
 			[cellItem setEditing:mainViewController.editing];
 
 			int index = colCount * row + i;

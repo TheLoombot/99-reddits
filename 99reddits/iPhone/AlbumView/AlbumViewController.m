@@ -11,7 +11,6 @@
 #import "AlbumViewCell.h"
 #import "NIHTTPRequest.h"
 #import "ASIDownloadCache.h"
-#import "AlbumViewController.h"
 #import "PhotoViewController.h"
 #import "RedditsAppDelegate.h"
 #import "MainViewController.h"

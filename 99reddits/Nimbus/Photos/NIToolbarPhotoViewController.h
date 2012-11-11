@@ -98,6 +98,11 @@
   BOOL _chromeCanBeHidden;
   BOOL _animateMovingToNextAndPreviousPhotos;
   BOOL _scrubberIsEnabled;
+
+@public
+  int toolbarOffset;
+  IBOutlet UIButton *prevPhotoButton;
+  IBOutlet UIButton *nextPhotoButton;
 }
 
 #pragma mark Configuring Functionality
@@ -121,6 +126,8 @@
 
 @property (nonatomic, readonly, retain) UIBarButtonItem* nextButton;
 @property (nonatomic, readonly, retain) UIBarButtonItem* previousButton;
+
+@property (nonatomic, assign) int toolbarOffset;
 
 - (void)toggleChromeVisibility;
 - (void)setTitleLabelText:(NSString *)titleString;

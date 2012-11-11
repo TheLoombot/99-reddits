@@ -576,24 +576,24 @@
 - (void)showSubRedditAtIndex:(int)index {
 	if (index == -1) {
 		if (appDelegate.favoritesItem.photosArray.count > 0) {
-//			AlbumViewControllerPad *albumViewController = [[AlbumViewControllerPad alloc] initWithNibName:@"AlbumViewControllerPad" bundle:nil];
-//			albumViewController.mainViewController = self;
-//			albumViewController.subReddit = appDelegate.favoritesItem;
-//			albumViewController.bFavorites = YES;
-//			[self.navigationController pushViewController:albumViewController animated:YES];
-//			[albumViewController release];
+			AlbumViewControllerPad *albumViewController = [[AlbumViewControllerPad alloc] initWithNibName:@"AlbumViewControllerPad" bundle:nil];
+			albumViewController.mainViewController = self;
+			albumViewController.subReddit = appDelegate.favoritesItem;
+			albumViewController.bFavorites = YES;
+			[self.navigationController pushViewController:albumViewController animated:YES];
+			[albumViewController release];
 		}
 	}
 	else {
 		SubRedditItem *subReddit = [subRedditsArray objectAtIndex:index];
 		
 		if (subReddit.photosArray.count > 0 && !subReddit.loading) {
-//			AlbumViewControllerPad *albumViewController = [[AlbumViewControllerPad alloc] initWithNibName:@"AlbumViewControllerPad" bundle:nil];
-//			albumViewController.mainViewController = self;
-//			albumViewController.subReddit = subReddit;
-//			albumViewController.bFavorites = NO;
-//			[self.navigationController pushViewController:albumViewController animated:YES];
-//			[albumViewController release];
+			AlbumViewControllerPad *albumViewController = [[AlbumViewControllerPad alloc] initWithNibName:@"AlbumViewControllerPad" bundle:nil];
+			albumViewController.mainViewController = self;
+			albumViewController.subReddit = subReddit;
+			albumViewController.bFavorites = NO;
+			[self.navigationController pushViewController:albumViewController animated:YES];
+			[albumViewController release];
 		}
 	}
 }

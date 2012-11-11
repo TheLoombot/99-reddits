@@ -1,20 +1,20 @@
 //
-//  GifViewController.m
+//  GifViewControllerPad.m
 //  99reddits
 //
-//  Created by Frank Jacob on 11/3/11.
-//  Copyright (c) 2011 99 reddits. All rights reserved.
+//  Created by Frank Jacob on 11/11/12.
+//  Copyright (c) 2012 99 reddits. All rights reserved.
 //
 
-#import "GifViewController.h"
+#import "GifViewControllerPad.h"
 
-@interface GifViewController ()
+@interface GifViewControllerPad ()
 
 - (void)resizeWebview:(BOOL)portrait;
 
 @end
 
-@implementation GifViewController
+@implementation GifViewControllerPad
 
 @synthesize gifData = _gifData;
 @synthesize width;
@@ -55,7 +55,7 @@
 	[overlayView addGestureRecognizer:_tapGesture];
 	
 	[self resizeWebview:UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])];
-}	
+}
 
 - (void)viewDidUnload {
     [super viewDidUnload];
@@ -64,18 +64,11 @@
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	if (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
-		return NO;
-	
 	return YES;
 }
 
 - (BOOL)shouldAutorotate {
 	return YES;
-}
-
-- (NSUInteger)supportedInterfaceOrientations {
-	return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
@@ -90,7 +83,7 @@
 
 - (void)resizeWebview:(BOOL)portrait {
 	CGSize screenSize = [[UIScreen mainScreen] bounds].size;
-
+	
 	int screenWidth, screenHeight;
 	if (portrait) {
 		screenWidth = screenSize.width;

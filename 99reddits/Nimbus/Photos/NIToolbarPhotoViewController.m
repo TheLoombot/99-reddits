@@ -37,7 +37,7 @@
 @synthesize photoScrubberView = _photoScrubberView;
 @synthesize nextButton = _nextButton;
 @synthesize previousButton = _previousButton;
-
+@synthesize toolbarOffset;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)shutdown_NIToolbarPhotoViewController {
@@ -57,6 +57,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)dealloc {
   [self shutdown_NIToolbarPhotoViewController];
+  [prevPhotoButton release];
+  [nextPhotoButton release];
 
   [super dealloc];
 }
@@ -257,6 +259,15 @@
 
   _previousButton.enabled = [self.photoAlbumView hasPrevious];
   _nextButton.enabled = [self.photoAlbumView hasNext];
+
+	if ([self.photoAlbumView hasPrevious])
+		prevPhotoButton.alpha = 1.0;
+	else
+		prevPhotoButton.alpha = 0.0;
+	if ([self.photoAlbumView hasNext])
+		nextPhotoButton.alpha = 1.0;
+	else
+		nextPhotoButton.alpha = 0.0;
 }
 
 
@@ -294,7 +305,7 @@
 
   CGRect toolbarFrame = self.toolbar.frame;
   toolbarFrame.size.height = NIToolbarHeightForOrientation(toInterfaceOrientation);
-  toolbarFrame.origin.y = self.view.bounds.size.height - toolbarFrame.size.height;
+  toolbarFrame.origin.y = self.view.bounds.size.height - toolbarFrame.size.height + toolbarOffset;
   self.toolbar.frame = toolbarFrame;
 	
   [self setTitleLabelText:self.titleLabel.text];
@@ -313,6 +324,8 @@
   if (self.toolbarIsTranslucent) {
     self.toolbar.hidden = YES;
     self.titleLabel.hidden = YES;
+	prevPhotoButton.hidden = YES;
+	nextPhotoButton.hidden = YES;
   }
 
   _isChromeHidden = YES;
@@ -349,6 +362,8 @@
       // Ensure that the toolbar is visible through the animation.
       self.toolbar.hidden = NO;
       self.titleLabel.hidden = NO;
+	  prevPhotoButton.hidden = NO;
+	  nextPhotoButton.hidden = NO;
 
 //      toolbarFrame.origin.y = bounds.size.height;
     }
@@ -430,11 +445,21 @@
 		self.navigationController.navigationBar.alpha = 1.0;
 		self.toolbar.alpha = 1.0;
 		self.titleLabel.alpha = 1.0;
+		if ([self.photoAlbumView hasPrevious])
+			prevPhotoButton.alpha = 1.0;
+		else
+			prevPhotoButton.alpha = 0.0;
+		if ([self.photoAlbumView hasNext])
+			nextPhotoButton.alpha = 1.0;
+		else
+			nextPhotoButton.alpha = 0.0;
 	}
 	else {
 		self.navigationController.navigationBar.alpha = 0.0;
 		self.toolbar.alpha = 0.0;
 		self.titleLabel.alpha = 0.0;
+		prevPhotoButton.alpha = 0.0;
+		nextPhotoButton.alpha = 0.0;
 	}
 
 
@@ -488,6 +513,15 @@
 - (void)refreshChromeState {
   self.previousButton.enabled = [self.photoAlbumView hasPrevious];
   self.nextButton.enabled = [self.photoAlbumView hasNext];
+
+	if ([self.photoAlbumView hasPrevious])
+		prevPhotoButton.alpha = 1.0;
+	else
+		prevPhotoButton.alpha = 0.0;
+	if ([self.photoAlbumView hasNext])
+		nextPhotoButton.alpha = 1.0;
+	else
+		nextPhotoButton.alpha = 0.0;
 
   self.title = [NSString stringWithFormat:@"%d of %d",
                 (self.photoAlbumView.centerPageIndex + 1),
@@ -607,10 +641,12 @@
       // Ensure that the toolbar is visible.
       self.toolbar.hidden = NO;
       self.titleLabel.hidden = NO;
+	  prevPhotoButton.hidden = NO;
+	  nextPhotoButton.hidden = NO;
 
       CGRect toolbarFrame = self.toolbar.frame;
       CGRect bounds = self.view.bounds;
-      toolbarFrame.origin.y = bounds.size.height - toolbarFrame.size.height;
+      toolbarFrame.origin.y = bounds.size.height - toolbarFrame.size.height + toolbarOffset;
       self.toolbar.frame = toolbarFrame;
 		
       [self setTitleLabelText:self.titleLabel.text];
@@ -645,6 +681,14 @@
 	
 	_titleLabel.text = titleString;
 	_titleLabel.frame = titleLabelFrame;
+}
+
+- (void)setToolbarOffset:(int)_toolbarOffset {
+	toolbarOffset = _toolbarOffset;
+	CGRect toolbarFrame = self.toolbar.frame;
+	toolbarFrame.size.height = NIToolbarHeightForOrientation([[UIApplication sharedApplication] statusBarOrientation]);
+	toolbarFrame.origin.y = self.view.bounds.size.height - toolbarFrame.size.height + toolbarOffset;
+	self.toolbar.frame = toolbarFrame;
 }
 
 @end

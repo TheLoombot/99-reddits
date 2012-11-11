@@ -1,12 +1,12 @@
 //
-//  PhotoViewController.m
+//  PhotoViewControllerPad.m
 //  99reddits
 //
-//  Created by Frank Jacob on 10/14/11.
-//  Copyright 2011 99 reddits. All rights reserved.
+//  Created by Frank Jacob on 11/11/12.
+//  Copyright (c) 2012 99 reddits. All rights reserved.
 //
 
-#import "PhotoViewController.h"
+#import "PhotoViewControllerPad.h"
 #import "NIHTTPRequest.h"
 #import "ASIDownloadCache.h"
 #import "RedditsAppDelegate.h"
@@ -15,9 +15,9 @@
 #import "UserDef.h"
 #import "SA_OAuthTwitterEngine.h"
 #import <ImageIO/CGImageSource.h>
-#import "PhotoView.h"
+#import "PhotoViewPad.h"
 
-@interface PhotoViewController ()
+@interface PhotoViewControllerPad ()
 
 - (NSString *)cacheKeyForPhotoIndex:(NSInteger)photoIndex;
 - (void)requestImageFromSource:(NSString *)source photoSize:(NIPhotoScrollViewPhotoSize)photoSize photoIndex:(NSInteger)photoIndex;
@@ -28,7 +28,7 @@
 
 @end
 
-@implementation PhotoViewController
+@implementation PhotoViewControllerPad
 
 @synthesize subReddit;
 @synthesize index;
@@ -65,6 +65,13 @@
 	[subReddit release];
 	
 	[loadingView release];
+	[rightItemsView release];
+	[spaceItem release];
+	[actionItem release];
+	[favoriteWhiteItem release];
+	[favoriteRedItem release];
+	
+	[actionSheet release];
 	[super dealloc];
 }
 
@@ -79,8 +86,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"FavoritesRedIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onFavoriteButton:)] autorelease];
 	
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	
@@ -99,19 +104,26 @@
 	self.photoAlbumView.photoViewBackgroundColor = [UIColor blackColor];
 	
 	[self.photoAlbumView reloadData];
-	[self.photoAlbumView moveToPageAtIndex:index animated:NO];
+//	[self.photoAlbumView moveToPageAtIndex:index animated:NO];
 	
 	[appDelegate checkNetworkReachable:YES];
+
+	UIButton *favoriteRedButton = [UIButton buttonWithType:UIButtonTypeCustom];
+	favoriteRedButton.frame = CGRectMake(0, 0, 25, 25);
+	favoriteRedButton.showsTouchWhenHighlighted = YES;
+	[favoriteRedButton setBackgroundImage:[UIImage imageNamed:@"FavoritesRedIcon.png"] forState:UIControlStateNormal];
+	[favoriteRedButton addTarget:self action:@selector(onFavoriteButton:) forControlEvents:UIControlEventTouchUpInside];
+	favoriteRedItem = [[UIBarButtonItem alloc] initWithCustomView:favoriteRedButton];
 	
-	UIBarButtonItem *actionButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(onActionButton)] autorelease];
-	UIBarButtonItem *spaceButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil] autorelease];
-	spaceButtonItem.width = 32;
+	UIButton *favoriteWhiteButton = [UIButton buttonWithType:UIButtonTypeCustom];
+	favoriteWhiteButton.frame = CGRectMake(0, 0, 25, 25);
+	favoriteWhiteButton.showsTouchWhenHighlighted = YES;
+	[favoriteWhiteButton setBackgroundImage:[UIImage imageNamed:@"FavoritesWhiteIcon.png"] forState:UIControlStateNormal];
+	[favoriteWhiteButton addTarget:self action:@selector(onFavoriteButton:) forControlEvents:UIControlEventTouchUpInside];
+	favoriteWhiteItem = [[UIBarButtonItem alloc] initWithCustomView:favoriteWhiteButton];
 	
-	NSMutableArray *items = [[[NSMutableArray alloc] initWithArray:self.toolbar.items] autorelease];
-	[items insertObject:actionButtonItem atIndex:0];
-	[items addObject:spaceButtonItem];
-	
-	self.toolbar.items = items;
+	rightItemsView.items = [NSArray arrayWithObjects:spaceItem, actionItem, favoriteRedItem, nil];
+	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:rightItemsView] autorelease];
 	
 	disappearForSubview = NO;
 	
@@ -125,6 +137,11 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTwitterFailed) name:@"TWITTER_FAILED" object:nil];
 	
 	self.titleLabel.hidden = YES;
+	
+	self.toolbarOffset = 44;
+	
+	[self.view bringSubviewToFront:prevPhotoButton];
+	[self.view bringSubviewToFront:nextPhotoButton];
 }
 
 - (void)viewDidUnload {
@@ -133,9 +150,6 @@
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	if (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
-		return NO;
-	
 	if (disappearForSubview) {
 		if (interfaceOrientation == currentInterfaceOrientation)
 			return YES;
@@ -149,9 +163,7 @@
 
 - (BOOL)shouldAutorotate {
 	UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-	if (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
-		return NO;
-	
+
 	if (disappearForSubview) {
 		if (interfaceOrientation == currentInterfaceOrientation)
 			return YES;
@@ -163,16 +175,13 @@
 	return YES;
 }
 
-- (NSUInteger)supportedInterfaceOrientations {
-	return UIInterfaceOrientationMaskAllButUpsideDown;
-}
-
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:YES];
 	
-//	if (!disappearForSubview) {
+	if (!disappearForSubview) {
 //		[self toggleChromeVisibility];
-//	}
+		[self.photoAlbumView moveToPageAtIndex:index animated:NO];
+	}
 	
 	disappearForSubview = NO;
 }
@@ -195,20 +204,32 @@
 	}
 }
 
-- (void)onActionButton {
-	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil 
-															 delegate:self 
-													cancelButtonTitle:@"Cancel" 
-											   destructiveButtonTitle:nil 
+- (IBAction)onActionButton:(id)sender {
+	if (actionSheet) {
+		[actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:NO];
+		if (actionSheet.tag == 100) {
+			[actionSheet release];
+			actionSheet = nil;
+			return;
+		}
+		else {
+			[actionSheet release];
+			actionSheet = nil;
+		}
+	}
+	
+	actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+															 delegate:self
+													cancelButtonTitle:@"Cancel"
+											   destructiveButtonTitle:nil
 													otherButtonTitles:@"Save Photo", @"Email Photo", @"Tweet", @"Share on Facebook", @"See Comments on reddit", nil];
 	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
 	actionSheet.tag = 100;
-	[actionSheet showInView:self.view];
-	[actionSheet release];
+	[actionSheet showFromBarButtonItem:actionItem animated:YES];
 }
 
 // UIActionSheetDelegate
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
+- (void)actionSheet:(UIActionSheet *)as didDismissWithButtonIndex:(NSInteger)buttonIndex {
 	if (actionSheet.tag == 100) {
 		if (buttonIndex == actionSheet.cancelButtonIndex)
 			return;
@@ -218,16 +239,16 @@
 			[[UIApplication sharedApplication] openURL:[NSURL URLWithString:photo.permalinkString]];
 			return;
 		}
-
+		
 		if (sharing)
 			return;
-
+		
 		sharing = YES;
 		sharingType = buttonIndex;
 		sharingIndex = self.photoAlbumView.centerPageIndex;
 		
 		PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
-
+		
 		[self requestImageFromSource:photo.urlString photoSize:NIPhotoScrollViewPhotoSizeOriginal photoIndex:sharingIndex];
 	}
 	else if (actionSheet.tag == 101) {
@@ -254,6 +275,9 @@
 			[self pagingScrollViewDidChangePages:self.photoAlbumView];
 		}
 	}
+	
+	[actionSheet release];
+	actionSheet = nil;
 }
 
 - (NSString *)cacheKeyForPhotoIndex:(NSInteger)photoIndex {
@@ -261,12 +285,12 @@
 }
 
 - (void)requestImageFromSource:(NSString *)source photoSize:(NIPhotoScrollViewPhotoSize)photoSize photoIndex:(NSInteger)photoIndex {
-//	if (![appDelegate checkNetworkReachable:NO])
-//		return;
-
+	//	if (![appDelegate checkNetworkReachable:NO])
+	//		return;
+	
 	if (photoIndex >= subReddit.photosArray.count)
 		return;
-
+	
 	NSInteger identifier = photoIndex;
 	NSNumber *identifierKey = [NSNumber numberWithInt:identifier];
 	
@@ -348,7 +372,7 @@
 			PhotoItem *photo = [subReddit.photosArray objectAtIndex:photoIndex];
 			
 			if (![photo isShowed]) {
-//				photo.showed = YES;
+				//				photo.showed = YES;
 				[appDelegate.showedSet addObject:photo.idString];
 				subReddit.unshowedCount --;
 			}
@@ -363,7 +387,7 @@
 		else {
 			sharing = NO;
 		}
-
+		
 		
 		[activeRequests removeObject:identifierKey];
 	}];
@@ -371,7 +395,7 @@
 	[readOp setFailedBlock:^{
 		[self.photoAlbumView setZoomingIsEnabled:NO];
 		[self.photoAlbumView didLoadPhoto:[UIImage imageNamed:@"Error.png"] atIndex:photoIndex photoSize:photoSize];
-
+		
 		if (photoIndex == self.photoAlbumView.centerPageIndex) {
 			PhotoItem *photo = [subReddit.photosArray objectAtIndex:photoIndex];
 			
@@ -381,9 +405,9 @@
 				subReddit.unshowedCount --;
 			}
 		}
-
+		
 		sharing = NO;
-
+		
 		[activeRequests removeObject:identifierKey];
 	}];
 	
@@ -399,11 +423,11 @@
 }
 
 - (UIView<NIPagingScrollViewPage> *)pagingScrollView:(NIPagingScrollView *)pagingScrollView pageViewForIndex:(NSInteger)pageIndex {
-	PhotoView *photoView = nil;
+	PhotoViewPad *photoView = nil;
 	NSString *reuseIdentifier = @"PHOTO_VIEW";
-	photoView = (PhotoView *)[pagingScrollView dequeueReusablePageWithIdentifier:reuseIdentifier];
+	photoView = (PhotoViewPad *)[pagingScrollView dequeueReusablePageWithIdentifier:reuseIdentifier];
 	if (nil == photoView) {
-		photoView = [[[PhotoView alloc] init] autorelease];
+		photoView = [[[PhotoViewPad alloc] init] autorelease];
 		photoView.reuseIdentifier = reuseIdentifier;
 		photoView.zoomingAboveOriginalSizeIsEnabled = YES;
 	}
@@ -420,7 +444,7 @@
                         photoSize:(NIPhotoScrollViewPhotoSize *)photoSize
                         isLoading:(BOOL *)isLoading
           originalPhotoDimensions:(CGSize *)originalPhotoDimensions {
-
+	
 	if (photoIndex >= subReddit.photosArray.count)
 		return nil;
 	
@@ -464,10 +488,10 @@
 	
 	PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
 	[self setTitleLabelText:photo.titleString];
-
+	
 	NSString *photoIndexKey = [self cacheKeyForPhotoIndex:self.photoAlbumView.centerPageIndex];
 	UIImage *image = [highQualityImageCache objectWithName:photoIndexKey];
-
+	
 	if (image && ![photo isShowed]) {
 //		photo.showed = YES;
 		[appDelegate.showedSet addObject:photo.idString];
@@ -480,12 +504,12 @@
 	
 	if ([[[photo.urlString pathExtension] lowercaseString] isEqualToString:@"gif"])
 		[self requestImageFromSource:photo.urlString photoSize:NIPhotoScrollViewPhotoSizeOriginal photoIndex:self.photoAlbumView.centerPageIndex];
-
+	
 	if (!bFavorites) {
 		if ([appDelegate isFavorite:photo])
-			self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"FavoritesRedIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onFavoriteButton:)] autorelease];
+			rightItemsView.items = [NSArray arrayWithObjects:spaceItem, actionItem, favoriteRedItem, nil];
 		else
-			self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"FavoritesWhiteIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onFavoriteButton:)] autorelease];
+			rightItemsView.items = [NSArray arrayWithObjects:spaceItem, actionItem, favoriteWhiteItem, nil];
 	}
 }
 
@@ -535,10 +559,10 @@
 	else if (sharingType == 2) {
 		if (appDelegate.tweetEnabled) {
 			TWTweetComposeViewController *tweetComposeViewController = [[TWTweetComposeViewController alloc] init];
-
+			
 			if ([TWTweetComposeViewController canSendTweet]) {
 				PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
-
+				
 				[tweetComposeViewController setInitialText:photo.titleString];
 				[tweetComposeViewController addImage:image];
 				[tweetComposeViewController addURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://redd.it/%@", photo.idString]]];
@@ -552,7 +576,7 @@
 			[tweetComposeViewController release];
 		}
 		else {
-			if(![appDelegate.engine isAuthorized]){  
+			if(![appDelegate.engine isAuthorized]){
 				UIViewController *controller = [SA_OAuthTwitterController controllerToEnterCredentialsWithTwitterEngine:appDelegate.engine delegate:self];
 				if (controller) {
 					disappearForSubview = YES;
@@ -575,7 +599,7 @@
 		else
 			[self performSelector:@selector(loginFacebook)];
 	}
-
+	
 	sharing = NO;
 }
 
@@ -609,10 +633,10 @@
 	PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
 	
 	NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-								   photo.titleString, @"name", 
-								   @"Found using the 99 reddits iOS app!", @"caption", 
-								   [NSString stringWithFormat:@"http://redd.it/%@", photo.idString], @"link", 
-								   photo.urlString, @"picture", 
+								   photo.titleString, @"name",
+								   @"Found using the 99 reddits iOS app!", @"caption",
+								   [NSString stringWithFormat:@"http://redd.it/%@", photo.idString], @"link",
+								   photo.urlString, @"picture",
                                    nil];
     
 	[_facebook dialog:@"feed" andParams:params andDelegate:self];
@@ -620,7 +644,7 @@
 
 /**
  * Callback for facebook login
- */ 
+ */
 -(void)fbDidLogin {
 	fbLogin = YES;
 	
@@ -643,7 +667,7 @@
 
 /**
  * Callback for facebook logout
- */ 
+ */
 -(void)fbDidLogout {
 	fbLogin = NO;
 }
@@ -653,7 +677,7 @@
 
 /**
  * Callback when a request receives Response
- */ 
+ */
 - (void)request:(FBRequest*)request didReceiveResponse:(NSURLResponse*)response{
 }
 
@@ -731,35 +755,45 @@
 
 - (void)onTwitterFailed {
 	[loadingView removeFromSuperview];
-
+	
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"" message:@"Can't share on Twitter" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 	[alertView show];
 	[alertView release];
 }
 
-- (void)onFavoriteButton:(id)sender {
+- (IBAction)onFavoriteButton:(id)sender {
 	if (bFavorites) {
-		UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil 
-																 delegate:self 
-														cancelButtonTitle:@"Cancel" 
-												   destructiveButtonTitle:@"Remove from Favorites" 
+		if (actionSheet) {
+			[actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:NO];
+			if (actionSheet.tag == 101) {
+				[actionSheet release];
+				actionSheet = nil;
+				return;
+			}
+			else {
+				[actionSheet release];
+				actionSheet = nil;
+			}
+		}
+		
+		actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+																 delegate:self
+														cancelButtonTitle:@"Cancel"
+												   destructiveButtonTitle:@"Remove from Favorites"
 														otherButtonTitles:nil];
 		actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
 		actionSheet.tag = 101;
-		[actionSheet showInView:self.view];
-		[actionSheet release];
+		[actionSheet showFromBarButtonItem:favoriteRedItem animated:YES];
 	}
 	else {
 		PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
 		if ([appDelegate isFavorite:photo]) {
-			if ([appDelegate removeFromFavorites:photo]) {
-				self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"FavoritesWhiteIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onFavoriteButton:)] autorelease];
-			}
+			if ([appDelegate removeFromFavorites:photo])
+				rightItemsView.items = [NSArray arrayWithObjects:spaceItem, actionItem, favoriteWhiteItem, nil];
 		}
 		else {
-			if ([appDelegate addToFavorites:photo]) {
-				self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"FavoritesRedIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onFavoriteButton:)] autorelease];
-			}
+			if ([appDelegate addToFavorites:photo])
+				rightItemsView.items = [NSArray arrayWithObjects:spaceItem, actionItem, favoriteRedItem, nil];
 		}
 	}
 }
@@ -767,6 +801,14 @@
 - (void)setSubReddit:(SubRedditItem *)_subReddit {
 	[subReddit release];
 	subReddit = [_subReddit retain];
+}
+
+- (IBAction)onPrevPhotoButton:(id)sender {
+	[self.photoAlbumView moveToPreviousAnimated:self.animateMovingToNextAndPreviousPhotos];
+}
+
+- (IBAction)onNextPhotoButton:(id)sender {
+	[self.photoAlbumView moveToNextAnimated:self.animateMovingToNextAndPreviousPhotos];
 }
 
 @end

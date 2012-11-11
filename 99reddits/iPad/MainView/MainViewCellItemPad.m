@@ -41,6 +41,14 @@
 		[deleteButton setBackgroundImage:[UIImage imageNamed:@"DeleteButton.png"] forState:UIControlStateNormal];
 		[deleteButton addTarget:self action:@selector(onDeleteButton:) forControlEvents:UIControlEventTouchUpInside];
 		[self addSubview:deleteButton];
+		unshowedBackImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 29, 29)];
+		unshowedBackImageView.image = [[UIImage imageNamed:@"BadgeBack.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0];
+		[self addSubview:unshowedBackImageView];
+		unshowedLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+		unshowedLabel.font = [UIFont boldSystemFontOfSize:14];
+		unshowedLabel.backgroundColor = [UIColor clearColor];
+		unshowedLabel.textColor = [UIColor whiteColor];
+		[self addSubview:unshowedLabel];
     }
     return self;
 }
@@ -88,6 +96,19 @@
 		rect.size.width = 29;
 		rect.size.height = 29;
 		deleteButton.frame = rect;
+		
+		rect = unshowedLabel.frame;
+		rect.size.width = ceil(rect.size.width);
+		rect.size.height = 20;
+		rect.origin.x = tapView.frame.origin.x + tapView.frame.size.width + 2 - rect.size.width;
+		rect.origin.y = tapView.frame.origin.y + tapView.frame.size.height - 11;
+		unshowedLabel.frame = rect;
+		
+		rect.origin.x -= 10;
+		rect.origin.y -= 3;
+		rect.size.width += 20;
+		rect.size.height += 9;
+		unshowedBackImageView.frame = rect;
 	}
 }
 
@@ -104,6 +125,32 @@
 	else {
 		activityIndicator.hidden = YES;
 	}
+	
+	if (unshowedCount == 0) {
+		unshowedBackImageView.hidden = YES;
+		unshowedLabel.hidden = YES;
+	}
+	else {
+		unshowedBackImageView.hidden = NO;
+		unshowedLabel.hidden = NO;
+
+		unshowedLabel.frame = CGRectMake(0, 0, 200, 20);
+		unshowedLabel.text = [NSString stringWithFormat:@"%d", unshowedCount];
+		[unshowedLabel sizeToFit];
+		
+		CGRect rect = unshowedLabel.frame;
+		rect.size.width = ceil(rect.size.width);
+		rect.size.height = 20;
+		rect.origin.x = tapView.frame.origin.x + tapView.frame.size.width + 2 - rect.size.width;
+		rect.origin.y = tapView.frame.origin.y + tapView.frame.size.height - 11;
+		unshowedLabel.frame = rect;
+		
+		rect.origin.x -= 10;
+		rect.origin.y -= 3;
+		rect.size.width += 20;
+		rect.size.height += 9;
+		unshowedBackImageView.frame = rect;
+	}
 }
 
 - (void)setTotalCount:(int)_totalCount {
@@ -111,6 +158,9 @@
 	bFavorites = YES;
 	
 	activityIndicator.hidden = YES;
+	
+	unshowedBackImageView.hidden = YES;
+	unshowedLabel.hidden = YES;
 }
 
 - (void)setEditing:(BOOL)_editing {

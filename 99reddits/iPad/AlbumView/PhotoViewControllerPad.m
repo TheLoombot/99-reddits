@@ -47,7 +47,7 @@
 	for (ASIHTTPRequest *request in queue.operations) {
 		[request clearDelegatesAndCancel];
 	}
-	
+
 	NI_RELEASE_SAFELY(activeRequests);
 	NI_RELEASE_SAFELY(highQualityImageCache);
 	NI_RELEASE_SAFELY(queue);
@@ -87,27 +87,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
-	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
-	
-	activeRequests = [[NSMutableSet alloc] init];
-	
-	highQualityImageCache = [[NIImageMemoryCache alloc] init];
-	
-	[highQualityImageCache setMaxNumberOfPixelsUnderStress:1024 * 1024 * 3];
-	
-	queue = [[NSOperationQueue alloc] init];
-	[queue setMaxConcurrentOperationCount:5];
-	
-	self.photoAlbumView.loadingImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"DefaultPhotoLarge" ofType:@"png"]];
-	self.photoAlbumView.dataSource = self;
-	self.photoAlbumView.backgroundColor = [UIColor blackColor];
-	self.photoAlbumView.photoViewBackgroundColor = [UIColor blackColor];
-	
-	[self.photoAlbumView reloadData];
-//	[self.photoAlbumView moveToPageAtIndex:index animated:NO];
-	
-	[appDelegate checkNetworkReachable:YES];
-
 	UIButton *favoriteRedButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	favoriteRedButton.frame = CGRectMake(0, 0, 25, 25);
 	favoriteRedButton.showsTouchWhenHighlighted = YES;
@@ -124,6 +103,30 @@
 	
 	rightItemsView.items = [NSArray arrayWithObjects:spaceItem, actionItem, favoriteRedItem, nil];
 	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:rightItemsView] autorelease];
+
+	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
+
+	activeRequests = [[NSMutableSet alloc] init];
+	
+	highQualityImageCache = [[NIImageMemoryCache alloc] init];
+	
+	[highQualityImageCache setMaxNumberOfPixelsUnderStress:1024 * 1024 * 2];
+	
+	queue = [[NSOperationQueue alloc] init];
+	[queue setMaxConcurrentOperationCount:3];
+
+	self.titleLabel.font = [UIFont boldSystemFontOfSize:30];
+
+	self.photoAlbumView.loadingImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"DefaultPhotoLarge" ofType:@"png"]];
+	self.photoAlbumView.dataSource = self;
+	self.photoAlbumView.backgroundColor = [UIColor blackColor];
+	self.photoAlbumView.photoViewBackgroundColor = [UIColor blackColor];
+	
+	[self.photoAlbumView reloadData];
+//	[self.photoAlbumView moveToPageAtIndex:index animated:NO];
+	
+	[appDelegate checkNetworkReachable:YES];
+
 	
 	disappearForSubview = NO;
 	
@@ -150,40 +153,18 @@
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	if (disappearForSubview) {
-		if (interfaceOrientation == currentInterfaceOrientation)
-			return YES;
-		else
-			return NO;
-	}
-	
-	currentInterfaceOrientation = interfaceOrientation;
 	return YES;
 }
 
 - (BOOL)shouldAutorotate {
-	UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
-
-	if (disappearForSubview) {
-		if (interfaceOrientation == currentInterfaceOrientation)
-			return YES;
-		else
-			return NO;
-	}
-	
-	currentInterfaceOrientation = interfaceOrientation;
 	return YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:YES];
 	
-	if (!disappearForSubview) {
-//		[self toggleChromeVisibility];
-		[self.photoAlbumView moveToPageAtIndex:index animated:NO];
-	}
-	
 	disappearForSubview = NO;
+	[self.photoAlbumView moveToPageAtIndex:index animated:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -460,7 +441,8 @@
 		*originalPhotoDimensions = image.size;
 		
 		*isLoading = NO;
-	} else {
+	}
+	else {
 		self.photoAlbumView.zoomingIsEnabled = NO;
 		[self requestImageFromSource:photo.urlString photoSize:NIPhotoScrollViewPhotoSizeOriginal photoIndex:photoIndex];
 		

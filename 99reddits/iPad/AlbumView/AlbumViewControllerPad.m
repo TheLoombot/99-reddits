@@ -117,6 +117,8 @@
 		contentTableView.tableFooterView = footerView;
 	}
 	
+	[moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
+	[moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateHighlighted];
 	moarWaitingView.hidden = YES;
 	
 	[appDelegate checkNetworkReachable:YES];
@@ -174,18 +176,28 @@
 - (void)onSelectPhoto:(PhotoItem *)photo {
 	bFromSubview = YES;
 	
-	SubRedditItem *photoSubReddit = [[[SubRedditItem alloc] init] autorelease];
-	photoSubReddit.nameString = currentSubReddit.nameString;
-	photoSubReddit.urlString = currentSubReddit.urlString;
-	[photoSubReddit.photosArray addObjectsFromArray:currentPhotosArray];
-	photoSubReddit.afterString = currentSubReddit.afterString;
-	
-	PhotoViewControllerPad *photoViewController = [[PhotoViewControllerPad alloc] initWithNibName:@"PhotoViewControllerPad" bundle:nil];
-	photoViewController.bFavorites = bFavorites;
-	photoViewController.subReddit = photoSubReddit;
-	photoViewController.index = [currentPhotosArray indexOfObject:photo];
-	[self.navigationController pushViewController:photoViewController animated:YES];
-	[photoViewController release];
+	if (bFavorites) {
+		PhotoViewControllerPad *photoViewController = [[PhotoViewControllerPad alloc] initWithNibName:@"PhotoViewControllerPad" bundle:nil];
+		photoViewController.bFavorites = bFavorites;
+		photoViewController.subReddit = currentSubReddit;
+		photoViewController.index = [currentSubReddit.photosArray indexOfObject:photo];
+		[self.navigationController pushViewController:photoViewController animated:YES];
+		[photoViewController release];
+	}
+	else {
+		SubRedditItem *photoSubReddit = [[[SubRedditItem alloc] init] autorelease];
+		photoSubReddit.nameString = currentSubReddit.nameString;
+		photoSubReddit.urlString = currentSubReddit.urlString;
+		[photoSubReddit.photosArray addObjectsFromArray:currentPhotosArray];
+		photoSubReddit.afterString = currentSubReddit.afterString;
+		
+		PhotoViewControllerPad *photoViewController = [[PhotoViewControllerPad alloc] initWithNibName:@"PhotoViewControllerPad" bundle:nil];
+		photoViewController.bFavorites = bFavorites;
+		photoViewController.subReddit = photoSubReddit;
+		photoViewController.index = [currentPhotosArray indexOfObject:photo];
+		[self.navigationController pushViewController:photoViewController animated:YES];
+		[photoViewController release];
+	}
 }
 
 // UITableViewDelegate, UITableViewDatasource

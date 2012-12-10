@@ -260,7 +260,6 @@
 										<bool key="IBUIEnabled">NO</bool>
 										<int key="IBUIContentHorizontalAlignment">0</int>
 										<int key="IBUIContentVerticalAlignment">0</int>
-										<int key="IBUIButtonType">1</int>
 										<bool key="IBUIAdjustsImageWhenHighlighted">NO</bool>
 										<bool key="IBUIAdjustsImageWhenDisabled">NO</bool>
 										<reference key="IBUIHighlightedTitleColor" ref="78565098"/>
@@ -299,12 +298,10 @@
 										<reference key="NSSuperview" ref="701958624"/>
 										<reference key="NSWindow"/>
 										<reference key="NSNextKeyView" ref="880660914"/>
-										<reference key="IBUIBackgroundColor" ref="296073982"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 										<int key="IBUIContentHorizontalAlignment">0</int>
 										<int key="IBUIContentVerticalAlignment">0</int>
-										<int key="IBUIButtonType">1</int>
 										<string key="IBUINormalTitle">E-mail Me</string>
 										<reference key="IBUIHighlightedTitleColor" ref="78565098"/>
 										<object class="NSColor" key="IBUIDisabledTitleColor">
@@ -325,13 +322,10 @@
 										<string key="NSFrame">{{10, 425}, {300, 45}}</string>
 										<reference key="NSSuperview" ref="701958624"/>
 										<reference key="NSWindow"/>
-										<reference key="NSNextKeyView"/>
-										<reference key="IBUIBackgroundColor" ref="296073982"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 										<int key="IBUIContentHorizontalAlignment">0</int>
 										<int key="IBUIContentVerticalAlignment">0</int>
-										<int key="IBUIButtonType">1</int>
 										<string key="IBUINormalTitle">Tweet at Me</string>
 										<reference key="IBUIHighlightedTitleColor" ref="78565098"/>
 										<object class="NSColor" key="IBUIDisabledTitleColor">

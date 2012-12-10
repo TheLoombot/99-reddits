@@ -44,8 +44,6 @@
 	
 	IBOutlet UIView *loadingView;
 	
-	UIInterfaceOrientation currentInterfaceOrientation;
-	
 	BOOL bFavorites;
 }
 

@@ -7,6 +7,7 @@
 //
 
 #import "GifViewControllerPad.h"
+#import "PhotoViewPad.h"
 
 @interface GifViewControllerPad ()
 
@@ -19,6 +20,7 @@
 @synthesize gifData = _gifData;
 @synthesize width;
 @synthesize height;
+@synthesize photoView;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -71,8 +73,8 @@
 	return YES;
 }
 
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+	[super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 	
 	[UIView beginAnimations:nil context:NULL];
 	[UIView setAnimationDuration:duration];
@@ -148,7 +150,7 @@
 }
 
 - (void)didTap {
-	[self dismissModalViewControllerAnimated:NO];
+	[photoView dismissPopover];
 }
 
 @end

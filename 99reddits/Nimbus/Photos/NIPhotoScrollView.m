@@ -395,9 +395,10 @@
   // every pixel if we limit the maximum zoom scale to 0.5.
   // If the photo size is unknown, it's likely that we're showing the loading image and
   // don't want to shrink it down with the zoom because it should be a scaled image.
-  CGFloat maxScale = ((NIPhotoScrollViewPhotoSizeUnknown == photoSize)
-                      ? 1
-                      : (1.0f / NIScreenScale()));
+//  CGFloat maxScale = ((NIPhotoScrollViewPhotoSizeUnknown == photoSize)
+//                      ? 1
+//                      : (1.0f / NIScreenScale()));
+  CGFloat maxScale = 1;
 
   if (NIPhotoScrollViewPhotoSizeThumbnail != photoSize) {
     // Don't let minScale exceed maxScale. (If the image is smaller than the screen, we
@@ -463,7 +464,8 @@
                              minScale: &scaleToFitOriginal
                              maxScale: &originalMaxScale];
     
-    if (scaleToFitOriginal + FLT_EPSILON >= (1.0 / NIScreenScale())) {
+//    if (scaleToFitOriginal + FLT_EPSILON >= (1.0 / NIScreenScale())) {
+    if (scaleToFitOriginal + FLT_EPSILON >= 1.0) {
       // If the final image will be smaller than the view then we want to use that
       // scale as the "true" scale and adjust it relatively to the thumbnail's dimensions.
       // This ensures that the thumbnail will always be the same visual size as the original

@@ -16,7 +16,7 @@
 	
 	PhotoItem *photo;
 	
-	UIView *tapView;
+	UIView *imageOutlineView;
 	UIImageView *imageView;
 	UIImageView *overlayView;
 	UIImageView *favoriteOverlayView;

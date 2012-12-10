@@ -129,13 +129,14 @@
 		}
 	}
 	
-	[self dismissModalViewControllerAnimated:YES];
+	[mainViewController dismissPopover];
+	[mainViewController viewWillAppear:YES];
 }
 
 - (IBAction)onAddButton:(id)sender {
 	AddViewControllerPad *addViewController = [[AddViewControllerPad alloc] initWithNibName:@"AddViewControllerPad" bundle:nil];
 	addViewController.redditsViewController = self;
-	[self presentModalViewController:addViewController animated:YES];
+	[self.navigationController pushViewController:addViewController animated:YES];
 	[addViewController release];
 }
 
@@ -227,8 +228,8 @@
 		}
 	}
 	
-	[self dismissModalViewControllerAnimated:NO];
-	[self dismissModalViewControllerAnimated:YES];
+	[mainViewController dismissPopover];
+	[mainViewController viewWillAppear:YES];
 }
 
 @end

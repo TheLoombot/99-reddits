@@ -114,7 +114,6 @@
 						<bool key="IBUIEnabled">NO</bool>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<int key="IBUIButtonType">1</int>
 						<bool key="IBUIAdjustsImageWhenHighlighted">NO</bool>
 						<bool key="IBUIAdjustsImageWhenDisabled">NO</bool>
 						<object class="NSColor" key="IBUIHighlightedTitleColor">

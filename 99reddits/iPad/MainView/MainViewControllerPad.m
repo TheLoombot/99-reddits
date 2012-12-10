@@ -64,6 +64,7 @@
 	[editItem release];
 	[doneItem release];
 	[addItem release];
+	[popoverController release];
 	[super dealloc];
 }
 
@@ -154,8 +155,15 @@
 - (IBAction)onAddButton:(id)sender {
 	RedditsViewControllerPad *redditsViewController = [[RedditsViewControllerPad alloc] initWithNibName:@"RedditsViewControllerPad" bundle:nil];
 	redditsViewController.mainViewController = self;
-	[self presentModalViewController:redditsViewController animated:YES];
+	UINavigationController *redditsNavigationController = [[UINavigationController alloc] initWithRootViewController:redditsViewController];
+	redditsNavigationController.navigationBarHidden = YES;
+	popoverController = [[PopoverController alloc] initWithContentViewController:redditsNavigationController];
+	popoverController.popoverContentSize = CGSizeMake(540, 620);
+	popoverController.delegate = self;
+	[redditsNavigationController release];
 	[redditsViewController release];
+
+	[popoverController showPopover:YES];
 }
 
 // UITableViewDatasource, UITableViewDelegate
@@ -556,8 +564,13 @@
 
 - (IBAction)onSettingsButton:(id)sender {
 	SettingsViewControllerPad *settingsViewController = [[SettingsViewControllerPad alloc] initWithNibName:@"SettingsViewControllerPad" bundle:nil];
-	[self presentModalViewController:settingsViewController animated:YES];
+	settingsViewController.mainViewController = self;
+	popoverController = [[PopoverController alloc] initWithContentViewController:settingsViewController];
+	popoverController.popoverContentSize = CGSizeMake(540, 620);
+	popoverController.delegate = self;
 	[settingsViewController release];
+	
+	[popoverController showPopover:YES];
 }
 
 - (void)removeSubRedditOperations:(SubRedditItem *)subReddit {
@@ -618,6 +631,16 @@
 	[appDelegate saveToDefaults];
 	
 	[contentTableView reloadData];
+}
+
+// PopoverControllerDelegate
+- (void)popoverControllerDidDismissed:(PopoverController *)controller {
+	[popoverController release];
+	popoverController = nil;
+}
+
+- (void)dismissPopover {
+	[popoverController dismissPopover:YES];
 }
 
 @end

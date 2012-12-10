@@ -10,6 +10,7 @@
 #import "AlbumViewCellPad.h"
 #import "AlbumViewController.h"
 #import "RedditsAppDelegate.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation AlbumViewCellItemPad
 
@@ -21,13 +22,12 @@
     if (self) {
 		appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 		
-		tapView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 120, 120)];
-		tapView.backgroundColor = [UIColor whiteColor];
-		tapView.userInteractionEnabled = NO;
-		[self addSubview:tapView];
+		imageOutlineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 120, 120)];
+		imageOutlineView.backgroundColor = [UIColor whiteColor];
+		imageOutlineView.userInteractionEnabled = NO;
 		imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 6, 108, 108)];
-		[self addSubview:imageView];
-
+		[imageOutlineView addSubview:imageView];
+		
 		overlayView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 120)];
 //		[self addSubview:overlayView];
 		
@@ -42,7 +42,7 @@
 - (void)dealloc {
 	appDelegate = nil;
 	[photo release];
-	[tapView release];
+	[imageOutlineView release];
 	[imageView release];
 	[overlayView release];
 	[favoriteOverlayView release];
@@ -94,7 +94,7 @@
 
 - (void)setItemImage:(UIImage *)image {
 	if (image == nil) {
-		tapView.frame = CGRectMake(0, 0, 120, 120);
+		imageOutlineView.frame = CGRectMake(0, 0, 120, 120);
 		imageView.frame = CGRectMake(6, 6, 120, 120);
 		imageView.image = nil;
 	}
@@ -110,23 +110,31 @@
 			width = width * height / image.size.height;
 		}
 		CGRect rect = CGRectMake((int)(108 - width) / 2 + 6, (int)(108 - height) / 2 + 6, width, height);
-		imageView.frame = rect;
-		imageView.image = image;
 		
 		rect.origin.x -= 6;
 		rect.origin.y -= 6;
 		rect.size.width += 12;
 		rect.size.height += 12;
-		tapView.frame = rect;
+		imageOutlineView.frame = rect;
 		overlayView.frame = rect;
-		
+
 		rect = imageView.frame;
 		rect.origin.x += (rect.size.width - 25);
 		rect.origin.y += (rect.size.height - 25);
 		rect.size.width = 25;
 		rect.size.height = 25;
 		favoriteOverlayView.frame = rect;
+		
+		imageView.frame = CGRectMake(6, 6, width, height);
+		imageView.image = image;
 	}
+	
+	[self addSubview:imageOutlineView];
+	UIGraphicsBeginImageContext(imageOutlineView.frame.size);
+	[imageOutlineView.layer renderInContext:UIGraphicsGetCurrentContext()];
+	[self setImage:UIGraphicsGetImageFromCurrentImageContext() forState:UIControlStateNormal];
+	UIGraphicsEndImageContext();
+	[imageOutlineView removeFromSuperview];
 }
 
 @end

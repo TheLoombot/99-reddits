@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class PhotoView;
+
 @interface GifViewController : UIViewController {
 	IBOutlet UIWebView *webView;
 	IBOutlet UIView *overlayView;
@@ -19,10 +21,13 @@
 	UITapGestureRecognizer* _tapGesture;
 	
 	BOOL hidden;
+	
+	PhotoView *photoView;
 }
 
 @property (nonatomic, retain) NSData *gifData;
 @property (nonatomic) int width;
 @property (nonatomic) int height;
+@property (nonatomic, assign) PhotoView *photoView;
 
 @end

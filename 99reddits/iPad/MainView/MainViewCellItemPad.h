@@ -13,8 +13,9 @@
 @interface MainViewCellItemPad : UIView {
 	MainViewCellPad *mainViewCell;
 	
-	UIView *tapView;
+	UIView *imageOutlineView;
 	UIImageView *imageView;
+	UIButton *tapButton;
 	UIActivityIndicatorView *activityIndicator;
 	UIButton *deleteButton;
 	UIImageView *unshowedBackImageView;

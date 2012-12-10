@@ -8,6 +8,7 @@
 
 #import "MainViewCellItemPad.h"
 #import "MainViewCellPad.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation MainViewCellItemPad
 
@@ -17,16 +18,18 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-		tapView = [[UIView alloc] initWithFrame:CGRectMake(15, 15, 120, 120)];
-		tapView.backgroundColor = [UIColor whiteColor];
-		UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTapGesture:)];
-		[tapView addGestureRecognizer:tapGesture];
-		[tapGesture release];
-		[self addSubview:tapView];
-		imageView = [[UIImageView alloc] initWithFrame:CGRectMake(21, 21, 108, 108)];
-		[self addSubview:imageView];
+		imageOutlineView = [[UIView alloc] initWithFrame:CGRectMake(15, 15, 120, 120)];
+		imageOutlineView.backgroundColor = [UIColor whiteColor];
+		imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 6, 108, 108)];
+		[imageOutlineView addSubview:imageView];
+		
+		tapButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+		tapButton.frame = imageOutlineView.frame;
+		[tapButton addTarget:self action:@selector(onTap:) forControlEvents:UIControlEventTouchUpInside];
+		[self addSubview:tapButton];
+		
 		activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-		activityIndicator.center = tapView.center;
+		activityIndicator.center = imageOutlineView.center;
 		[activityIndicator startAnimating];
 		[self addSubview:activityIndicator];
 		nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 135, 120, 40)];
@@ -54,8 +57,9 @@
 }
 
 - (void)dealloc {
-	[tapView release];
+	[imageOutlineView release];
 	[imageView release];
+	[tapButton release];
 	[activityIndicator release];
 	[deleteButton release];
 	[unshowedBackImageView release];
@@ -66,8 +70,8 @@
 
 - (void)setImage:(UIImage *)image {
 	if (image == nil) {
-		tapView.frame = CGRectMake(15, 15, 120, 120);
-		imageView.frame = CGRectMake(21, 21, 120, 120);
+		imageOutlineView.frame = CGRectMake(15, 15, 120, 120);
+		imageView.frame = CGRectMake(6, 6, 120, 120);
 		imageView.image = nil;
 	}
 	else {
@@ -82,14 +86,11 @@
 			width = width * height / image.size.height;
 		}
 		CGRect rect = CGRectMake((int)(108 - width) / 2 + 21, (int)(108 - height) / 2 + 21, width, height);
-		imageView.frame = rect;
-		imageView.image = image;
-		
 		rect.origin.x -= 6;
 		rect.origin.y -= 6;
 		rect.size.width += 12;
 		rect.size.height += 12;
-		tapView.frame = rect;
+		imageOutlineView.frame = rect;
 		
 		rect.origin.x -= 15;
 		rect.origin.y -= 15;
@@ -100,8 +101,8 @@
 		rect = unshowedLabel.frame;
 		rect.size.width = ceil(rect.size.width);
 		rect.size.height = 20;
-		rect.origin.x = tapView.frame.origin.x + tapView.frame.size.width + 2 - rect.size.width;
-		rect.origin.y = tapView.frame.origin.y + tapView.frame.size.height - 11;
+		rect.origin.x = imageOutlineView.frame.origin.x + imageOutlineView.frame.size.width + 2 - rect.size.width;
+		rect.origin.y = imageOutlineView.frame.origin.y + imageOutlineView.frame.size.height - 11;
 		unshowedLabel.frame = rect;
 		
 		rect.origin.x -= 10;
@@ -109,7 +110,19 @@
 		rect.size.width += 20;
 		rect.size.height += 9;
 		unshowedBackImageView.frame = rect;
+		
+		imageView.frame = CGRectMake(6, 6, width, height);
+		imageView.image = image;
 	}
+	
+	tapButton.frame = imageOutlineView.frame;
+	
+	[self addSubview:imageOutlineView];
+	UIGraphicsBeginImageContext(imageOutlineView.frame.size);
+	[imageOutlineView.layer renderInContext:UIGraphicsGetCurrentContext()];
+	[tapButton setBackgroundImage:UIGraphicsGetImageFromCurrentImageContext() forState:UIControlStateNormal];
+	UIGraphicsEndImageContext();
+	[imageOutlineView removeFromSuperview];
 }
 
 - (void)setUnshowedCount:(int)_unshowedCount totalCount:(int)_totalCount loading:(BOOL)_loading {
@@ -124,6 +137,7 @@
 	}
 	else {
 		activityIndicator.hidden = YES;
+		[activityIndicator stopAnimating];
 	}
 	
 	if (unshowedCount == 0) {
@@ -133,7 +147,7 @@
 	else {
 		unshowedBackImageView.hidden = NO;
 		unshowedLabel.hidden = NO;
-
+		
 		unshowedLabel.frame = CGRectMake(0, 0, 200, 20);
 		unshowedLabel.text = [NSString stringWithFormat:@"%d", unshowedCount];
 		[unshowedLabel sizeToFit];
@@ -141,8 +155,8 @@
 		CGRect rect = unshowedLabel.frame;
 		rect.size.width = ceil(rect.size.width);
 		rect.size.height = 20;
-		rect.origin.x = tapView.frame.origin.x + tapView.frame.size.width + 2 - rect.size.width;
-		rect.origin.y = tapView.frame.origin.y + tapView.frame.size.height - 11;
+		rect.origin.x = imageOutlineView.frame.origin.x + imageOutlineView.frame.size.width + 2 - rect.size.width;
+		rect.origin.y = imageOutlineView.frame.origin.y + imageOutlineView.frame.size.height - 11;
 		unshowedLabel.frame = rect;
 		
 		rect.origin.x -= 10;
@@ -158,6 +172,7 @@
 	bFavorites = YES;
 	
 	activityIndicator.hidden = YES;
+	[activityIndicator stopAnimating];
 	
 	unshowedBackImageView.hidden = YES;
 	unshowedLabel.hidden = YES;
@@ -171,7 +186,7 @@
 		deleteButton.hidden = !editing;
 }
 
-- (void)onTapGesture:(id)sender {
+- (void)onTap:(id)sender {
 	if (editing)
 		return;
 	
@@ -181,7 +196,7 @@
 - (void)onDeleteButton:(id)sender {
 	if (!editing)
 		return;
-
+	
 	[mainViewCell onDeleteButton:self.tag];
 }
 

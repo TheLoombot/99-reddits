@@ -42,6 +42,7 @@
 	[playButton release];
 	[gifData release];
 	[photoViewController release];
+	[popoverController release];
 	[super dealloc];
 }
 
@@ -55,8 +56,6 @@
 }
 
 - (void)onPlay:(UITapGestureRecognizer *)gesture {
-	photoViewController.disappearForSubview = YES;
-	
 	BOOL hidden = [UIApplication sharedApplication].statusBarHidden;
 	if (!hidden)
 		[photoViewController toggleChromeVisibility];
@@ -65,8 +64,13 @@
 	gifViewController.gifData = gifData;
 	gifViewController.width = self.image.size.width;
 	gifViewController.height = self.image.size.height;
-	[photoViewController presentModalViewController:gifViewController animated:NO];
+	gifViewController.photoView = self;
+	popoverController = [[PopoverController alloc] initWithContentViewController:gifViewController];
+	popoverController.delegate = self;
+	popoverController.fullscreen = YES;
 	[gifViewController release];
+	
+	[popoverController showPopover:NO];
 }
 
 - (void)setGifData:(NSData *)data {
@@ -80,6 +84,16 @@
 	else {
 		playButton.hidden = YES;
 	}
+}
+
+- (void)dismissPopover {
+	[popoverController dismissPopover:NO];
+}
+
+// PopoverControllerDelegate
+- (void)popoverControllerDidDismissed:(PopoverController *)controller {
+	[popoverController release];
+	popoverController = nil;
 }
 
 @end

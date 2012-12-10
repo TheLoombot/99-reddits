@@ -50,8 +50,6 @@
 	UIBarButtonItem *favoriteWhiteItem;
 	UIBarButtonItem *favoriteRedItem;
 	
-	UIInterfaceOrientation currentInterfaceOrientation;
-	
 	BOOL bFavorites;
 	
 	UIActionSheet *actionSheet;

@@ -12,9 +12,11 @@
 #import <MessageUI/MFMailComposeViewController.h>
 
 @class RedditsAppDelegate;
+@class MainViewControllerPad;
 
 @interface SettingsViewControllerPad : UIViewController <UITableViewDelegate, UITableViewDataSource, UIWebViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate> {
 	RedditsAppDelegate *appDelegate;
+	MainViewControllerPad *mainViewController;
 	
 	IBOutlet UIScrollView *contentScrollView;
 	IBOutlet UIView *buttonsView;
@@ -37,5 +39,6 @@
 }
 
 @property (retain) MBProgressHUD *hud;
+@property (nonatomic, assign) MainViewControllerPad *mainViewController;
 
 @end

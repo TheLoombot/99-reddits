@@ -140,12 +140,10 @@
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="20394510"/>
 						<string key="NSReuseIdentifierKey">_NS:225</string>
-						<reference key="IBUIBackgroundColor" ref="483176051"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<int key="IBUIContentHorizontalAlignment">0</int>
 						<int key="IBUIContentVerticalAlignment">0</int>
-						<int key="IBUIButtonType">1</int>
 						<string key="IBUINormalTitle">MOAR</string>
 						<object class="NSColor" key="IBUIHighlightedTitleColor">
 							<int key="NSColorSpace">3</int>

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class PhotoViewPad;
+
 @interface GifViewControllerPad : UIViewController {
 	IBOutlet UIWebView *webView;
 	IBOutlet UIView *overlayView;
@@ -19,10 +21,13 @@
 	UITapGestureRecognizer* _tapGesture;
 	
 	BOOL hidden;
+	
+	PhotoViewPad *photoView;
 }
 
 @property (nonatomic, retain) NSData *gifData;
 @property (nonatomic) int width;
 @property (nonatomic) int height;
+@property (nonatomic, assign) PhotoViewPad *photoView;
 
 @end

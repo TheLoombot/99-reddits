@@ -115,6 +115,8 @@
 		contentTableView.tableFooterView = footerView;
 	}
 	
+	[moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
+	[moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateHighlighted];
 	moarWaitingView.hidden = YES;
 	
 	[appDelegate checkNetworkReachable:YES];

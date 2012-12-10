@@ -12,6 +12,7 @@
 #import <Twitter/TWTweetComposeViewController.h>
 #import <Accounts/Accounts.h>
 #import "ASIDownloadCache.h"
+#import "MainViewControllerPad.h"
 
 @interface SettingsViewControllerPad ()
 
@@ -30,6 +31,7 @@
 
 @implementation SettingsViewControllerPad
 
+@synthesize mainViewController;
 @synthesize hud;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -93,7 +95,7 @@
 	[clearButton setBackgroundImage:[[UIImage imageNamed:@"ClearButton.png"] stretchableImageWithLeftCapWidth:12 topCapHeight:0] forState:UIControlStateNormal];
 
     int width = self.view.bounds.size.width;
-	aboutWebView.frame = CGRectMake((width - 658) / 2, 335, 658, 100);
+	aboutWebView.frame = CGRectMake((width - 430) / 2, 335, 430, 100);
 	[aboutWebView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"about" ofType:@"html"]]]];
 	
 	int showedCount = [[appDelegate showedSet] count];
@@ -113,6 +115,12 @@
 	
 	[formatter release];
 	
+	[aboutOutlineButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:10] forState:UIControlStateNormal];
+	[emailButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
+	[emailButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateHighlighted];
+	[tweetButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
+	[tweetButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateHighlighted];
+
 	contentTableView.backgroundColor = [UIColor clearColor];
 	
 	[self refreshViews];
@@ -141,7 +149,7 @@
 }
 
 - (IBAction)onDoneButton:(id)sender {
-	[self dismissModalViewControllerAnimated:YES];
+	[mainViewController dismissPopover];
 }
 
 // UITableViewDatasource
@@ -312,38 +320,38 @@
 	frame.size.height = height;
 	aboutWebView.frame = frame;
 	
-	aboutOutlineButton.frame = CGRectMake((width - 678) / 2, 318, 678, height + 25);
+	aboutOutlineButton.frame = CGRectMake((width - 480) / 2, 318, 480, height + 25);
 	
-	emailButton.frame = CGRectMake((width - 678) / 2, height + 354, 678, 45);
-	tweetButton.frame = CGRectMake((width - 678) / 2, height + 409, 678, 45);
+	emailButton.frame = CGRectMake((width - 480) / 2, height + 354, 480, 45);
+	tweetButton.frame = CGRectMake((width - 480) / 2, height + 409, 480, 45);
 	
 	if (appDelegate.isPaid) {
 		[buttonsView removeFromSuperview];
 		CGRect frame = aboutView.frame;
-		frame.origin.y = 0;
-		frame.size.height = height + 454;
+		frame.origin.y = 20;
+		frame.size.height = height + 474;
 		aboutView.frame = frame;
 		
 		if (!appDelegate.tweetEnabled) {
 			[tweetButton removeFromSuperview];
-			contentScrollView.contentSize = CGSizeMake(width, emailButton.frame.origin.y + emailButton.frame.size.height + 10);
+			contentScrollView.contentSize = CGSizeMake(width, emailButton.frame.origin.y + emailButton.frame.size.height + 50);
 		}
 		else {
-			contentScrollView.contentSize = CGSizeMake(width, tweetButton.frame.origin.y + tweetButton.frame.size.height + 10);
+			contentScrollView.contentSize = CGSizeMake(width, tweetButton.frame.origin.y + tweetButton.frame.size.height + 50);
 		}
 	}
 	else {
 		CGRect frame = aboutView.frame;
-		frame.origin.y = 171;
-		frame.size.height = height + 454;
+		frame.origin.y = 191;
+		frame.size.height = height + 474;
 		aboutView.frame = frame;
 		
 		if (!appDelegate.tweetEnabled) {
 			[tweetButton removeFromSuperview];
-			contentScrollView.contentSize = CGSizeMake(width, emailButton.frame.origin.y + emailButton.frame.size.height + 181);
+			contentScrollView.contentSize = CGSizeMake(width, emailButton.frame.origin.y + emailButton.frame.size.height + 221);
 		}
 		else {
-			contentScrollView.contentSize = CGSizeMake(width, tweetButton.frame.origin.y + tweetButton.frame.size.height + 181);
+			contentScrollView.contentSize = CGSizeMake(width, tweetButton.frame.origin.y + tweetButton.frame.size.height + 221);
 		}
 	}
 	
@@ -400,7 +408,7 @@
 }
 
 - (void)clearCaches {
-	//	[[ASIDownloadCache sharedCache] clearCachedResponsesForStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
+//	[[ASIDownloadCache sharedCache] clearCachedResponsesForStoragePolicy:ASICachePermanentlyCacheStoragePolicy];
 	NSString *cachePath = [[[ASIDownloadCache sharedCache] storagePath] stringByAppendingPathComponent:@"PermanentStore"];
 	[[NSFileManager defaultManager] removeItemAtPath:cachePath error:nil];
 	[[NSFileManager defaultManager] createDirectoryAtPath:cachePath withIntermediateDirectories:NO attributes:nil error:nil];

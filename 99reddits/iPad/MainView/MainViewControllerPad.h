@@ -9,11 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "ASIHTTPRequestDelegate.h"
 #import "NIProcessorHTTPRequest.h"
+#import "PopoverController.h"
 
 @class RedditsAppDelegate;
 @class SubRedditItem;
 
-@interface MainViewControllerPad : UIViewController  <UITableViewDelegate, UITableViewDataSource, ASIHTTPRequestDelegate> {
+@interface MainViewControllerPad : UIViewController  <UITableViewDelegate, UITableViewDataSource, ASIHTTPRequestDelegate, PopoverControllerDelegate> {
 	RedditsAppDelegate *appDelegate;
 	
 	IBOutlet UITableView *contentTableView;
@@ -36,6 +37,8 @@
 	
 	int refreshCount;
 	float scale;
+	
+	PopoverController *popoverController;
 }
 
 - (IBAction)onRefreshButton:(id)sender;
@@ -48,5 +51,7 @@
 
 - (void)showSubRedditAtIndex:(int)index;
 - (void)removeSubRedditAtIndex:(int)index;
+
+- (void)dismissPopover;
 
 @end

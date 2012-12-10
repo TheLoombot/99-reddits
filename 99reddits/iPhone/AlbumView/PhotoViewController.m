@@ -136,14 +136,6 @@
 	if (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
 		return NO;
 	
-	if (disappearForSubview) {
-		if (interfaceOrientation == currentInterfaceOrientation)
-			return YES;
-		else
-			return NO;
-	}
-	
-	currentInterfaceOrientation = interfaceOrientation;
 	return YES;
 }
 
@@ -151,15 +143,6 @@
 	UIInterfaceOrientation interfaceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
 	if (interfaceOrientation == UIInterfaceOrientationPortraitUpsideDown)
 		return NO;
-	
-	if (disappearForSubview) {
-		if (interfaceOrientation == currentInterfaceOrientation)
-			return YES;
-		else
-			return NO;
-	}
-	
-	currentInterfaceOrientation = interfaceOrientation;
 	return YES;
 }
 
@@ -170,11 +153,8 @@
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:YES];
 	
-//	if (!disappearForSubview) {
-//		[self toggleChromeVisibility];
-//	}
-	
 	disappearForSubview = NO;
+	[self.photoAlbumView moveToPageAtIndex:self.photoAlbumView.centerPageIndex animated:NO];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

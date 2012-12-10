@@ -48,6 +48,8 @@
 		8D59A7D216757C0900739E26 /* ButtonNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D59A7CE16757C0900739E26 /* ButtonNormal.png */; };
 		8D59A7D316757C0900739E26 /* ButtonNormal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D59A7CF16757C0900739E26 /* ButtonNormal@2x.png */; };
 		8D59A7EA1676229500739E26 /* PopoverController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D59A7E91676229500739E26 /* PopoverController.m */; };
+		8D59A7F0167639C600739E26 /* CheckIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D59A7EF167639C500739E26 /* CheckIcon@2x.png */; };
+		8D59A7F3167639D400739E26 /* UncheckIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D59A7F2167639D400739E26 /* UncheckIcon@2x.png */; };
 		8D66C1AE164BA38300EAC2C0 /* RedditsAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D66C1AD164BA38300EAC2C0 /* RedditsAppDelegate.m */; };
 		8D66C1B4164BAF3E00EAC2C0 /* SettingsViewControllerPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D66C1B2164BAF3E00EAC2C0 /* SettingsViewControllerPad.m */; };
 		8D66C1B5164BAF3E00EAC2C0 /* SettingsViewControllerPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D66C1B3164BAF3E00EAC2C0 /* SettingsViewControllerPad.xib */; };
@@ -264,6 +266,8 @@
 		8D59A7CF16757C0900739E26 /* ButtonNormal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ButtonNormal@2x.png"; sourceTree = "<group>"; };
 		8D59A7E81676229500739E26 /* PopoverController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PopoverController.h; sourceTree = "<group>"; };
 		8D59A7E91676229500739E26 /* PopoverController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopoverController.m; sourceTree = "<group>"; };
+		8D59A7EF167639C500739E26 /* CheckIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CheckIcon@2x.png"; sourceTree = "<group>"; };
+		8D59A7F2167639D400739E26 /* UncheckIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UncheckIcon@2x.png"; sourceTree = "<group>"; };
 		8D66C1AC164BA38300EAC2C0 /* RedditsAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedditsAppDelegate.h; sourceTree = "<group>"; };
 		8D66C1AD164BA38300EAC2C0 /* RedditsAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedditsAppDelegate.m; sourceTree = "<group>"; };
 		8D66C1B1164BAF3E00EAC2C0 /* SettingsViewControllerPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewControllerPad.h; sourceTree = "<group>"; };
@@ -733,7 +737,9 @@
 				8D21115414B54ADA00E08AF2 /* CheckCellBack.png */,
 				8D21115514B54ADA00E08AF2 /* UncheckCellBack.png */,
 				8D3468CE14B3E6D90033BD55 /* CheckIcon.png */,
+				8D59A7EF167639C500739E26 /* CheckIcon@2x.png */,
 				8D3468CF14B3E6D90033BD55 /* UncheckIcon.png */,
+				8D59A7F2167639D400739E26 /* UncheckIcon@2x.png */,
 				9C16321C14733A9400CF0443 /* PlayButton.png */,
 				9C16321B14733A9400CF0443 /* PlayButton@2x.png */,
 				9C16321E14733A9400CF0443 /* Overlay.png */,
@@ -1361,6 +1367,8 @@
 				8D59A7D116757C0900739E26 /* ButtonHighlighted@2x.png in Resources */,
 				8D59A7D216757C0900739E26 /* ButtonNormal.png in Resources */,
 				8D59A7D316757C0900739E26 /* ButtonNormal@2x.png in Resources */,
+				8D59A7F0167639C600739E26 /* CheckIcon@2x.png in Resources */,
+				8D59A7F3167639D400739E26 /* UncheckIcon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

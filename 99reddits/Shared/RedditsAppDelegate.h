@@ -61,4 +61,7 @@
 
 - (void)refreshSubscribe;
 
+- (void)setNavAppearance;
+- (void)unsetNavAppearance;
+
 @end

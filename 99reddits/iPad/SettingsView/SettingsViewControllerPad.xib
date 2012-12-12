@@ -717,7 +717,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">58</int>
+			<int key="maxID">59</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -766,6 +766,7 @@
 						<string key="clearButton">UIButton</string>
 						<string key="contentScrollView">UIScrollView</string>
 						<string key="contentTableView">UITableView</string>
+						<string key="doneButton">UIBarButtonItem</string>
 						<string key="emailButton">UIButton</string>
 						<string key="restoreUpdateButton">UIButton</string>
 						<string key="tweetButton">UIButton</string>
@@ -799,6 +800,10 @@
 						<object class="IBToOneOutletInfo" key="contentTableView">
 							<string key="name">contentTableView</string>
 							<string key="candidateClassName">UITableView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="doneButton">
+							<string key="name">doneButton</string>
+							<string key="candidateClassName">UIBarButtonItem</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="emailButton">
 							<string key="name">emailButton</string>

@@ -10,6 +10,7 @@
 #import "ASIHTTPRequestDelegate.h"
 #import "NIProcessorHTTPRequest.h"
 #import "PopoverController.h"
+#import "PhotoToolbar.h"
 
 @class RedditsAppDelegate;
 @class SubRedditItem;
@@ -18,8 +19,8 @@
 	RedditsAppDelegate *appDelegate;
 	
 	IBOutlet UITableView *contentTableView;
-	IBOutlet UIToolbar *leftItemsBar;
-	IBOutlet UIToolbar *rightItemsBar;
+	IBOutlet PhotoToolbar *leftItemsBar;
+	IBOutlet PhotoToolbar *rightItemsBar;
 	IBOutlet UIBarButtonItem *refreshItem;
 	IBOutlet UIBarButtonItem *settingsItem;
 	IBOutlet UIBarButtonItem *spaceItem;

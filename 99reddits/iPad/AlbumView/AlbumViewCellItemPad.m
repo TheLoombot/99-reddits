@@ -123,7 +123,7 @@
 		rect.origin.y += (rect.size.height - 25);
 		rect.size.width = 25;
 		rect.size.height = 25;
-		favoriteOverlayView.frame = rect;
+//		favoriteOverlayView.frame = rect;
 		
 		imageView.frame = CGRectMake(6, 6, width, height);
 		imageView.image = image;

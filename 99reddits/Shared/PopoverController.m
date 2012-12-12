@@ -137,13 +137,13 @@
 	}
 	
 	if (animated) {
-		window.alpha = 1.0;
-	}
-	else {
 		[UIView animateWithDuration:0.2
 						 animations:^{
 							 window.alpha = 1.0;
 						 }];
+	}
+	else {
+		window.alpha = 1.0;
 	}
 }
 

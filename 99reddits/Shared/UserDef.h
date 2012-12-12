@@ -27,5 +27,5 @@ extern NSString *kAppId;
 
 #define PRODUCT_ID						@"PAID_USER"
 
-#define PORT_COL_COUNT				5
-#define LAND_COL_COUNT				7
+#define PORT_COL_COUNT					5
+#define LAND_COL_COUNT					7

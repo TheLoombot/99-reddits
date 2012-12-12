@@ -73,6 +73,8 @@
 	
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	subRedditsArray = appDelegate.subRedditsArray;
+	
+	[appDelegate setNavAppearance];
 
 	self.title = @"99 reddits";
 	
@@ -263,6 +265,7 @@
 		
 		NSURL *url = [NSURL URLWithString:subReddit.urlString];
 		NIProcessorHTTPRequest* albumRequest = [NIJSONKitProcessorHTTPRequest requestWithURL:url usingCache:nil];
+		albumRequest.shouldAttemptPersistentConnection = NO;
 		albumRequest.timeOutSeconds = 30;
 		albumRequest.delegate = self;
 		albumRequest.processorDelegate = (id)[self class];
@@ -449,6 +452,7 @@
 	
 	NSURL *url = [NSURL URLWithString:subReddit.urlString];
 	NIProcessorHTTPRequest* albumRequest = [NIJSONKitProcessorHTTPRequest requestWithURL:url usingCache:nil];
+	albumRequest.shouldAttemptPersistentConnection = NO;
 	albumRequest.timeOutSeconds = 30;
 	albumRequest.delegate = self;
 	albumRequest.processorDelegate = (id)[self class];
@@ -485,6 +489,7 @@
 	NSURL *url = [NSURL URLWithString:source];
 	
 	__block NIHTTPRequest *readOp = [NIHTTPRequest requestWithURL:url usingCache:[ASIDownloadCache sharedCache]];
+	readOp.shouldAttemptPersistentConnection = NO;
 	readOp.cacheStoragePolicy = ASICachePermanentlyCacheStoragePolicy;
 	readOp.timeOutSeconds = 30;
 	

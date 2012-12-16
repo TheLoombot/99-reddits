@@ -122,6 +122,7 @@
 	[tweetButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateHighlighted];
 
 	contentTableView.backgroundColor = [UIColor clearColor];
+	contentTableView.backgroundView = nil;
 	
 	[self refreshViews];
 	

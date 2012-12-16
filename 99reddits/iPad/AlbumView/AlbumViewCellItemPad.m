@@ -118,12 +118,12 @@
 		imageOutlineView.frame = rect;
 		overlayView.frame = rect;
 
-		rect = imageView.frame;
-		rect.origin.x += (rect.size.width - 25);
-		rect.origin.y += (rect.size.height - 25);
+		rect = imageOutlineView.frame;
+		rect.origin.x += (rect.size.width - 12);
+		rect.origin.y += (rect.size.height - 12);
 		rect.size.width = 25;
 		rect.size.height = 25;
-//		favoriteOverlayView.frame = rect;
+		favoriteOverlayView.frame = rect;
 		
 		imageView.frame = CGRectMake(6, 6, width, height);
 		imageView.image = image;

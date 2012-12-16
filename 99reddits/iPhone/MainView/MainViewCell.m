@@ -15,7 +15,6 @@
     self = [super initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:reuseIdentifier];
     if (self) {
 		activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-		[activityIndicator startAnimating];
 		
 		self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		self.selectionStyle = UITableViewCellSelectionStyleBlue;
@@ -79,8 +78,8 @@
 	loading = _loading;
 
 	if (loading) {
-		if (self.accessoryView == nil)
-			self.accessoryView = activityIndicator;
+		self.accessoryView = activityIndicator;
+		[activityIndicator startAnimating];
 	}
 	else
 		self.accessoryView = nil;
@@ -144,8 +143,8 @@
 	loading = NO;
 	
 	if (loading) {
-		if (self.accessoryView == nil)
-			self.accessoryView = activityIndicator;
+		self.accessoryView = activityIndicator;
+		[activityIndicator startAnimating];
 	}
 	else
 		self.accessoryView = nil;

@@ -56,11 +56,8 @@
 	[self releaseObjects];
 	
 	[contentTableView release];
-	[leftItemsBar release];
-	[rightItemsBar release];
 	[refreshItem release];
 	[settingsItem release];
-	[spaceItem release];
 	[editItem release];
 	[doneItem release];
 	[addItem release];
@@ -78,11 +75,10 @@
 
 	self.title = @"99 reddits";
 	
-	self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:leftItemsBar] autorelease];
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:rightItemsBar] autorelease];
+	self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:refreshItem, settingsItem, nil];
+	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:editItem, addItem, nil];
 
 	[[ASIDownloadCache sharedCache] setShouldRespectCacheControlHeaders:NO];
-	
 	
 	refreshQueue = [[NSOperationQueue alloc] init];
 	[queue setMaxConcurrentOperationCount:5];
@@ -105,6 +101,9 @@
 //		if (currentTime - appDelegate.updatedTime > 300)
 //			[self reloadData];
 	}
+	
+	contentTableView.delaysContentTouches = NO;
+	contentTableView.canCancelContentTouches = YES;
 }
 
 - (void)viewDidUnload {
@@ -137,14 +136,14 @@
 		settingsItem.enabled = NO;
 		addItem.enabled = NO;
 		
-		[rightItemsBar setItems:[NSArray arrayWithObjects:spaceItem, doneItem, addItem, nil] animated:YES];
+		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:doneItem, addItem, nil];
 	}
 	else {
 		refreshItem.enabled = YES;
 		settingsItem.enabled = YES;
 		addItem.enabled = YES;
-		
-		[rightItemsBar setItems:[NSArray arrayWithObjects:spaceItem, editItem, addItem, nil] animated:YES];
+
+		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:editItem, addItem, nil];
 	}
 }
 

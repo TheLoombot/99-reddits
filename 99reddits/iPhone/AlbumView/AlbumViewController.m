@@ -108,8 +108,8 @@
 	
 	if (bFavorites) {
 		[tabBar removeFromSuperview];
-		CGSize screenSize = [[UIScreen mainScreen] bounds].size;
-		contentTableView.frame = CGRectMake(0, 0, 320, screenSize.height - 64);
+		contentTableView.frame = CGRectMake(0, 0, 320, self.view.bounds.size.height);
+		contentTableView.tableFooterView = nil;
 	}
 	else {
 		contentTableView.tableFooterView = footerView;
@@ -134,6 +134,9 @@
 		[currentSubReddit.photosArray addObjectsFromArray:subReddit.photosArray];
 		currentSubReddit.afterString = subReddit.afterString;
 	}
+	
+	contentTableView.delaysContentTouches = NO;
+	contentTableView.canCancelContentTouches = YES;
 }
 
 - (void)viewDidUnload {

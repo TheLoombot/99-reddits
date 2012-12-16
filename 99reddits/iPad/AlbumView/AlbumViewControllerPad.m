@@ -143,6 +143,9 @@
 		
 		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl] autorelease];
 	}
+	
+	contentTableView.delaysContentTouches = NO;
+	contentTableView.canCancelContentTouches = YES;
 }
 
 - (void)viewDidUnload {

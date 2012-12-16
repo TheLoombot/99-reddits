@@ -11,6 +11,7 @@
 #import "PhotoItem.h"
 #import "ASIHTTPRequestDelegate.h"
 #import "NIProcessorHTTPRequest.h"
+#import "CustomTableView.h"
 
 @class RedditsAppDelegate;
 @class MainViewController;
@@ -19,7 +20,7 @@
 	RedditsAppDelegate *appDelegate;
 	MainViewController *mainViewController;
 	
-	IBOutlet UITableView *contentTableView;
+	IBOutlet CustomTableView *contentTableView;
 	IBOutlet UIView *footerView;
 	IBOutlet UIButton *moarButton;
 	IBOutlet UIActivityIndicatorView *moarWaitingView;

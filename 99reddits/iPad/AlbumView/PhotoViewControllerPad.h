@@ -13,7 +13,6 @@
 #import <MessageUI/MFMailComposeViewController.h>
 #import "FBConnect.h"
 #import "SA_OAuthTwitterController.h"
-#import "PhotoToolbar.h"
 
 @class RedditsAppDelegate;
 
@@ -44,8 +43,6 @@
 	NSArray *_permissions;
 	
 	IBOutlet UIView *loadingView;
-	IBOutlet PhotoToolbar *rightItemsView;
-	IBOutlet UIBarButtonItem *spaceItem;
 	IBOutlet UIBarButtonItem *actionItem;
 	UIBarButtonItem *favoriteWhiteItem;
 	UIBarButtonItem *favoriteRedItem;

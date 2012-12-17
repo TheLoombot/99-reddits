@@ -69,10 +69,13 @@
 }
 
 - (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
+	for (ASIHTTPRequest *request in queue.operations) {
+		[request clearDelegatesAndCancel];
+	}
+	[activeRequests removeAllObjects];
+	[highQualityImageCache reduceMemoryUsage];
+
     [super didReceiveMemoryWarning];
-    
-	[self releaseObjects];
 }
 
 #pragma mark - View lifecycle
@@ -88,10 +91,10 @@
 	
 	highQualityImageCache = [[NIImageMemoryCache alloc] init];
 	
-	[highQualityImageCache setMaxNumberOfPixelsUnderStress:1024 * 1024 * 3];
+	[highQualityImageCache setMaxNumberOfPixelsUnderStress:1024 * 1024 * 2];
 	
 	queue = [[NSOperationQueue alloc] init];
-	[queue setMaxConcurrentOperationCount:5];
+	[queue setMaxConcurrentOperationCount:3];
 	
 	self.photoAlbumView.loadingImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"DefaultPhotoLarge" ofType:@"png"]];
 	self.photoAlbumView.dataSource = self;
@@ -129,7 +132,8 @@
 
 - (void)viewDidUnload {
     [super viewDidUnload];
-	[self releaseObjects];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

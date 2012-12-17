@@ -65,6 +65,21 @@
 	[super dealloc];
 }
 
+- (void)didReceiveMemoryWarning {
+	for (ASIHTTPRequest *request in refreshQueue.operations) {
+		[request clearDelegatesAndCancel];
+	}
+	
+	for (ASIHTTPRequest *request in queue.operations) {
+		[request clearDelegatesAndCancel];
+	}
+	
+	[activeRequests removeAllObjects];
+	[thumbnailImageCache reduceMemoryUsage];
+
+    [super didReceiveMemoryWarning];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 	
@@ -108,7 +123,8 @@
 
 - (void)viewDidUnload {
     [super viewDidUnload];
-	[self releaseObjects];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

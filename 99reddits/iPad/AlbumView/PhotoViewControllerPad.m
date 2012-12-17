@@ -74,10 +74,13 @@
 }
 
 - (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
+	for (ASIHTTPRequest *request in queue.operations) {
+		[request clearDelegatesAndCancel];
+	}
+	[activeRequests removeAllObjects];
+	[highQualityImageCache reduceMemoryUsage];
+
     [super didReceiveMemoryWarning];
-    
-	[self releaseObjects];
 }
 
 #pragma mark - View lifecycle
@@ -135,7 +138,8 @@
 
 - (void)viewDidUnload {
     [super viewDidUnload];
-	[self releaseObjects];
+    // Release any retained subviews of the main view.
+    // e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

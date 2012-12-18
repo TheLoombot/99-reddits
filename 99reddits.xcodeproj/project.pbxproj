@@ -1598,8 +1598,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/99reddits/Twitter+OAuth/Libraries & Headers\"",
-					"\"$(SRCROOT)/99reddits/FlurryAnalytics\"",
-					"\"$(SRCROOT)/Flurry\"",
 					"\"$(SRCROOT)/99reddits/Flurry\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1616,8 +1614,6 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/99reddits/Twitter+OAuth/Libraries & Headers\"",
-					"\"$(SRCROOT)/99reddits/FlurryAnalytics\"",
-					"\"$(SRCROOT)/Flurry\"",
 					"\"$(SRCROOT)/99reddits/Flurry\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -87,6 +87,7 @@
 		<string>Gaming</string>
 		<key>subreddits</key>
 		<array>
+            <string>bindingofisaac</string>
 			<string>gaming</string>
 			<string>Minecraft</string>
 			<string>pokemon</string>
@@ -130,7 +131,6 @@
 			<string>LadyBoners</string>
 			<string>malemodels</string>
 			<string>PrettyGirls</string>
-			<string>realasians</string>
 			<string>RedditLaqueristas</string>
 			<string>tattoos</string>
 		</array>

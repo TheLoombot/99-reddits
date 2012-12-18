@@ -54,7 +54,7 @@
 	
 	tipButton.titleLabel.numberOfLines = 0;
 	tipButton.titleLabel.textAlignment = UITextAlignmentCenter;
-	[tipButton setTitle:@"Tip: To delete a sub-reddit, please tap Edit\nand X on it." forState:UIControlStateNormal];
+	[tipButton setTitle:@"Tip: To delete a sub-reddit, tap \"Edit\" and\n then tap the \"x\"." forState:UIControlStateNormal];
 	[tipButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:10] forState:UIControlStateNormal];
 }
 

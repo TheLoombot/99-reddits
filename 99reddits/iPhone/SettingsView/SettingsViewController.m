@@ -95,18 +95,23 @@
 	int showedCount = [[appDelegate showedSet] count];
 	NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
 	[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-	
-	imagesSeenString = [[formatter stringFromNumber:[NSNumber numberWithInteger:showedCount]] retain];
+	   
+    imagesSeenString = [[formatter stringFromNumber:[NSNumber numberWithInteger:showedCount]] retain];
 	int imagesSeenLevel = showedCount / 1000;
-	if (imagesSeenLevel > 26)
-		imagesSeenLevel = 26;
+	if (imagesSeenLevel > 53)
+		imagesSeenLevel = 53;
 	NSString *key = [NSString stringWithFormat:@"%d", imagesSeenLevel * 1000 - 1];
 	
 	NSDictionary *titleDictionary = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Titles" ofType:@"plist"]];
 	titleString = [[titleDictionary objectForKey:key] retain];
-	
-	imagesToNextTitleString = [[formatter stringFromNumber:[NSNumber numberWithInt:(imagesSeenLevel + 1) * 1000 - showedCount]] retain];
-	
+    
+	if (showedCount < 53000)
+    {
+        imagesToNextTitleString = [[formatter stringFromNumber:[NSNumber numberWithInt:(imagesSeenLevel + 1) * 1000 - showedCount]] retain];
+    } else {
+        imagesToNextTitleString = @"You win!";
+    }
+
 	[formatter release];
 
 	[aboutOutlineButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:10] forState:UIControlStateNormal];

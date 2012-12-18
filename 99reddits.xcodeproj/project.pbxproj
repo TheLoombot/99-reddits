@@ -225,7 +225,7 @@
 		9C16324E14733A9400CF0443 /* DefaultAlbumIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C16323314733A9400CF0443 /* DefaultAlbumIcon.png */; };
 		9C16324F14733A9400CF0443 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C16323414733A9400CF0443 /* Default@2x.png */; };
 		9C16325014733A9400CF0443 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C16323514733A9400CF0443 /* Default.png */; };
-		9C57D58616801C7B00AB7126 /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C57D58516801C7B00AB7126 /* libFlurry.a */; };
+		9C57D58A16801EC600AB7126 /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C57D58916801EC600AB7126 /* libFlurry.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -592,8 +592,8 @@
 		9C16323314733A9400CF0443 /* DefaultAlbumIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultAlbumIcon.png; sourceTree = "<group>"; };
 		9C16323414733A9400CF0443 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		9C16323514733A9400CF0443 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
-		9C57D58416801C7B00AB7126 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
-		9C57D58516801C7B00AB7126 /* libFlurry.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry.a; sourceTree = "<group>"; };
+		9C57D58816801EC600AB7126 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
+		9C57D58916801EC600AB7126 /* libFlurry.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -614,7 +614,7 @@
 				8D5080BB1445944500788875 /* libz.dylib in Frameworks */,
 				8D4B1CA3145AEA7D005E9BFE /* libxml2.dylib in Frameworks */,
 				8DF36280145B1EF10087E646 /* libOAuth.a in Frameworks */,
-				9C57D58616801C7B00AB7126 /* libFlurry.a in Frameworks */,
+				9C57D58A16801EC600AB7126 /* libFlurry.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -665,6 +665,7 @@
 		8D507FF71445923700788875 = {
 			isa = PBXGroup;
 			children = (
+				9C57D58716801EC500AB7126 /* Flurry */,
 				8D6C5D21164ACCCC008A98A7 /* Shared */,
 				8D6C5CFD164ACCCC008A98A7 /* iPhone */,
 				8D6C5D45164ACD24008A98A7 /* iPad */,
@@ -677,7 +678,6 @@
 				8D50800D1445923700788875 /* Supporting Files */,
 				8D5080051445923700788875 /* Frameworks */,
 				8D5080031445923700788875 /* Products */,
-				9C57D58316801C7B00AB7126 /* Flurry */,
 			);
 			sourceTree = "<group>";
 		};
@@ -1241,13 +1241,14 @@
 			path = SAOAuthTwitterEngine;
 			sourceTree = "<group>";
 		};
-		9C57D58316801C7B00AB7126 /* Flurry */ = {
+		9C57D58716801EC500AB7126 /* Flurry */ = {
 			isa = PBXGroup;
 			children = (
-				9C57D58416801C7B00AB7126 /* Flurry.h */,
-				9C57D58516801C7B00AB7126 /* libFlurry.a */,
+				9C57D58816801EC600AB7126 /* Flurry.h */,
+				9C57D58916801EC600AB7126 /* libFlurry.a */,
 			);
-			path = Flurry;
+			name = Flurry;
+			path = 99reddits/Flurry;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1599,6 +1600,7 @@
 					"\"$(SRCROOT)/99reddits/Twitter+OAuth/Libraries & Headers\"",
 					"\"$(SRCROOT)/99reddits/FlurryAnalytics\"",
 					"\"$(SRCROOT)/Flurry\"",
+					"\"$(SRCROOT)/99reddits/Flurry\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -1616,6 +1618,7 @@
 					"\"$(SRCROOT)/99reddits/Twitter+OAuth/Libraries & Headers\"",
 					"\"$(SRCROOT)/99reddits/FlurryAnalytics\"",
 					"\"$(SRCROOT)/Flurry\"",
+					"\"$(SRCROOT)/99reddits/Flurry\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

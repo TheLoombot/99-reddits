@@ -291,8 +291,8 @@
 			}
 			
 			BOOL shouldRefresh = NO;
-			PhotoItem *photo = [subReddit.photosArray objectAtIndex:photoIndex];
-			if ([[[photo.urlString pathExtension] lowercaseString] isEqualToString:@"gif"]) {
+//			PhotoItem *photo = [subReddit.photosArray objectAtIndex:photoIndex];
+//			if ([[[photo.urlString pathExtension] lowercaseString] isEqualToString:@"gif"]) {
 				if (![highQualityImageCache objectWithName:photoIndexKey]) {
 					[highQualityImageCache storeObject:image withName:photoIndexKey];
 					shouldRefresh = YES;
@@ -312,11 +312,11 @@
 						CFRelease(imageSource);
 					}
 				}
-			}
-			else {
-				[highQualityImageCache storeObject:image withName:photoIndexKey];
-				shouldRefresh = YES;
-			}
+//			}
+//			else {
+//				[highQualityImageCache storeObject:image withName:photoIndexKey];
+//				shouldRefresh = YES;
+//			}
 			
 			if (shouldRefresh) {
 				[self.photoAlbumView setZoomingIsEnabled:YES];
@@ -462,7 +462,7 @@
 		sharing = NO;
 	}
 	
-	if ([[[photo.urlString pathExtension] lowercaseString] isEqualToString:@"gif"])
+//	if ([[[photo.urlString pathExtension] lowercaseString] isEqualToString:@"gif"])
 		[self requestImageFromSource:photo.urlString photoSize:NIPhotoScrollViewPhotoSizeOriginal photoIndex:self.photoAlbumView.centerPageIndex];
 
 	if (!bFavorites) {

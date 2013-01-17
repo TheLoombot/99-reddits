@@ -53,7 +53,7 @@
 	[urlTextField becomeFirstResponder];
 
 	tipButton.titleLabel.numberOfLines = 0;
-	tipButton.titleLabel.textAlignment = UITextAlignmentCenter;
+	tipButton.titleLabel.textAlignment = NSTextAlignmentCenter;
 	[tipButton setTitle:@"Tip: To delete a sub-reddit, swipe your\nfinger across it." forState:UIControlStateNormal];
 	[tipButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:10] forState:UIControlStateNormal];
 }
@@ -78,7 +78,7 @@
 }
 
 - (IBAction)onCancelButton {
-	[self dismissModalViewControllerAnimated:YES];
+	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {

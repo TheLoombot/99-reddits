@@ -11,12 +11,10 @@
 #import "PhotoItem.h"
 #import "ASIHTTPRequestDelegate.h"
 #import <MessageUI/MFMailComposeViewController.h>
-#import "FBConnect.h"
-#import "SA_OAuthTwitterController.h"
 
 @class RedditsAppDelegate;
 
-@interface PhotoViewController : NIToolbarPhotoViewController <NIPhotoAlbumScrollViewDataSource, UIActionSheetDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate, FBRequestDelegate, FBDialogDelegate, FBSessionDelegate, SA_OAuthTwitterControllerDelegate> {
+@interface PhotoViewController : NIToolbarPhotoViewController <NIPhotoAlbumScrollViewDataSource, UIActionSheetDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate> {
 	RedditsAppDelegate *appDelegate;
 	
 	NSOperationQueue *queue;
@@ -37,10 +35,6 @@
 	int sharingIndex;
 	
 	NSData *sharingData;
-	
-	BOOL fbLogin;
-	Facebook *_facebook;
-	NSArray *_permissions;
 	
 	IBOutlet UIView *loadingView;
 	

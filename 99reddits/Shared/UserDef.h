@@ -18,13 +18,6 @@
 extern NSString *htmlStrings[];
 extern NSString *normalStrings[];
 
-// Facebook
-extern NSString *kAppId;
-
-// Twitter
-#define kOAuthConsumerKey				@"grEwIZVG1i29zrAMxJqevA"
-#define kOAuthConsumerSecret			@"ETZcVuwWdtMMgTwEb5RE1igz5AEiZh6Mfsv5Msc"
-
 #define PRODUCT_ID						@"PAID_USER"
 
 #define PORT_COL_COUNT					5

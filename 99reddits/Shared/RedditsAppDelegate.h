@@ -11,7 +11,6 @@
 #import "PhotoItem.h"
 
 @class MainViewController;
-@class SA_OAuthTwitterEngine;
 
 @interface RedditsAppDelegate : NSObject <UIApplicationDelegate> {
 	IBOutlet UINavigationController *mainNavigationController;
@@ -25,10 +24,6 @@
 	
 	UIAlertView *connectionAlertView;
 	
-	BOOL tweetEnabled;
-	
-    SA_OAuthTwitterEngine *_engine;
-	
 	SubRedditItem *favoritesItem;
 	NSMutableSet *favoritesSet;
 	
@@ -41,8 +36,6 @@
 @property (nonatomic, assign) NSMutableArray *subRedditsArray;
 @property (nonatomic) BOOL firstRun;
 @property (nonatomic, assign) NSMutableSet *showedSet;
-@property (nonatomic, readonly) BOOL tweetEnabled;
-@property (nonatomic, readonly) SA_OAuthTwitterEngine *engine;
 @property (nonatomic, retain) SubRedditItem *favoritesItem;
 @property (nonatomic) BOOL isPaid;
 

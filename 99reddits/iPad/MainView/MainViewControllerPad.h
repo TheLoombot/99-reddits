@@ -15,11 +15,9 @@
 @class RedditsAppDelegate;
 @class SubRedditItem;
 
-@interface MainViewControllerPad : UIViewController  <UITableViewDelegate, UITableViewDataSource, ASIHTTPRequestDelegate, PopoverControllerDelegate> {
+@interface MainViewControllerPad : UITableViewController  <ASIHTTPRequestDelegate, PopoverControllerDelegate> {
 	RedditsAppDelegate *appDelegate;
 	
-	IBOutlet CustomTableView *contentTableView;
-	IBOutlet UIBarButtonItem *refreshItem;
 	IBOutlet UIBarButtonItem *settingsItem;
 	IBOutlet UIBarButtonItem *editItem;
 	IBOutlet UIBarButtonItem *doneItem;
@@ -39,7 +37,6 @@
 	PopoverController *popoverController;
 }
 
-- (IBAction)onRefreshButton:(id)sender;
 - (IBAction)onSettingsButton:(id)sender;
 - (IBAction)onEditButton:(id)sender;
 - (IBAction)onAddButton:(id)sender;

@@ -55,8 +55,6 @@
 - (void)dealloc {
 	[self releaseObjects];
 	
-	[contentTableView release];
-	[refreshItem release];
 	[settingsItem release];
 	[editItem release];
 	[doneItem release];
@@ -86,11 +84,17 @@
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	subRedditsArray = appDelegate.subRedditsArray;
 	
+	UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+	refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
+	[refreshControl addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
+	self.refreshControl = refreshControl;
+	[refreshControl release];
+	
 	[appDelegate setNavAppearance];
 
 	self.title = @"99 reddits";
 	
-	self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:refreshItem, settingsItem, nil];
+	self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:settingsItem, nil];
 	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:editItem, addItem, nil];
 
 	[[ASIDownloadCache sharedCache] setShouldRespectCacheControlHeaders:NO];
@@ -117,8 +121,8 @@
 //			[self reloadData];
 	}
 	
-	contentTableView.delaysContentTouches = NO;
-	contentTableView.canCancelContentTouches = YES;
+	self.tableView.delaysContentTouches = NO;
+	self.tableView.canCancelContentTouches = YES;
 }
 
 - (void)viewDidUnload {
@@ -128,12 +132,12 @@
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	[contentTableView reloadData];
+	[self.tableView reloadData];
     return YES;
 }
 
 - (BOOL)shouldAutorotate {
-	[contentTableView reloadData];
+	[self.tableView reloadData];
 	return YES;
 }
 
@@ -141,32 +145,30 @@
 	for (SubRedditItem *subReddit in subRedditsArray) {
 		[subReddit calUnshowedCount];
 	}
-	[contentTableView reloadData];
+	[self.tableView reloadData];
 }
 
 - (IBAction)onEditButton:(id)sender {
 	self.editing = !self.editing;
-	contentTableView.editing = self.editing;
+	self.tableView.editing = self.editing;
 	if (self.editing) {
-		refreshItem.enabled = NO;
+		self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Refreshing..."] autorelease];
+		[self.refreshControl beginRefreshing];
+
 		settingsItem.enabled = NO;
 		addItem.enabled = NO;
 		
 		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:doneItem, addItem, nil];
 	}
 	else {
-		refreshItem.enabled = YES;
+		self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
+		[self.refreshControl endRefreshing];
+	
 		settingsItem.enabled = YES;
 		addItem.enabled = YES;
 
 		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:editItem, addItem, nil];
 	}
-}
-
-- (IBAction)onRefreshButton:(id)sender {
-	if (subRedditsArray.count == 0)
-		return;
-	[self reloadData];
 }
 
 - (IBAction)onAddButton:(id)sender {
@@ -195,7 +197,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	static NSString *identifer = @"MAINVIEWCELLPAD";
-	MainViewCellPad *cell = (MainViewCellPad *)[contentTableView dequeueReusableCellWithIdentifier:identifer];
+	MainViewCellPad *cell = (MainViewCellPad *)[tableView dequeueReusableCellWithIdentifier:identifer];
 	if (cell == nil) {
 		cell = [[[MainViewCellPad alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifer] autorelease];
 		cell.mainViewController = self;
@@ -255,10 +257,18 @@
 }
 
 - (void)reloadData {
+	if (subRedditsArray.count == 0)
+		return;
+
 	if (![appDelegate checkNetworkReachable:YES])
 		return;
 	
-	refreshItem.enabled = NO;
+	if (refreshCount != 0)
+		return;
+	
+	self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Refreshing..."] autorelease];
+	[self.refreshControl beginRefreshing];
+	
 	editItem.enabled = NO;
 	
 	for (ASIHTTPRequest *request in refreshQueue.operations) {
@@ -287,7 +297,7 @@
 		[refreshQueue addOperation:albumRequest];
 	}
 	
-	[contentTableView reloadData];
+	[self.tableView reloadData];
 }
 
 // ASIHTTPRequestDelegate
@@ -305,7 +315,9 @@
 	if (subReddit == nil) {
 		refreshCount --;
 		if (refreshCount == 0) {
-			refreshItem.enabled = YES;
+			self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
+			[self.refreshControl endRefreshing];
+
 			editItem.enabled = YES;
 		}
 		return;
@@ -325,14 +337,16 @@
 	
 	[subReddit calUnshowedCount];
 	
-	[contentTableView reloadData];
+	[self.tableView reloadData];
 	
 	[tempPhotosArray removeAllObjects];
 	[tempPhotosArray release];
 	
 	refreshCount --;
 	if (refreshCount == 0) {
-		refreshItem.enabled = YES;
+		self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
+		[self.refreshControl endRefreshing];
+	
 		editItem.enabled = YES;
 		[appDelegate saveToDefaults];
 	}
@@ -352,7 +366,9 @@
 	if (subReddit == nil) {
 		refreshCount --;
 		if (refreshCount == 0) {
-			refreshItem.enabled = YES;
+			self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
+			[self.refreshControl endRefreshing];
+
 			editItem.enabled = YES;
 		}
 		return;
@@ -362,11 +378,13 @@
 	subReddit.unshowedCount = 0;
 	[subReddit.photosArray removeAllObjects];
 	
-	[contentTableView reloadData];
+	[self.tableView reloadData];
 	
 	refreshCount --;
 	if (refreshCount == 0) {
-		refreshItem.enabled = YES;
+		self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
+		[self.refreshControl endRefreshing];
+
 		editItem.enabled = YES;
 	}
 }
@@ -458,7 +476,9 @@
 	if (![appDelegate checkNetworkReachable:YES])
 		return;
 	
-	refreshItem.enabled = NO;
+	self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Refreshing..."] autorelease];
+	[self.refreshControl beginRefreshing];
+
 	editItem.enabled = NO;
 	
 	subReddit.loading = YES;
@@ -563,7 +583,7 @@
 					colCount = LAND_COL_COUNT;
 				int row = (index + 1) / colCount;
 				int col = (index + 1) % colCount;
-				MainViewCellPad *cell = (MainViewCellPad *)[contentTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
+				MainViewCellPad *cell = (MainViewCellPad *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
 				[cell setImage:thumbImage index:col];
 			}
 		}
@@ -650,7 +670,7 @@
 	[subRedditsArray removeObject:subReddit];
 	[appDelegate saveToDefaults];
 	
-	[contentTableView reloadData];
+	[self.tableView reloadData];
 }
 
 // PopoverControllerDelegate

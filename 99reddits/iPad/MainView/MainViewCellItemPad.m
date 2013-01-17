@@ -8,7 +8,6 @@
 
 #import "MainViewCellItemPad.h"
 #import "MainViewCellPad.h"
-#import <QuartzCore/QuartzCore.h>
 
 @implementation MainViewCellItemPad
 
@@ -22,11 +21,14 @@
 		imageOutlineView.backgroundColor = [UIColor whiteColor];
 		imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 6, 108, 108)];
 		[imageOutlineView addSubview:imageView];
+		[self addSubview:imageOutlineView];
 		
 		tapButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 		tapButton.frame = imageOutlineView.frame;
 		[tapButton addTarget:self action:@selector(onTap:) forControlEvents:UIControlEventTouchUpInside];
 		[self addSubview:tapButton];
+		
+		[tapButton setImage:[UIImage imageNamed:@"ButtonOverlay.png"] forState:UIControlStateHighlighted];
 		
 		activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 		activityIndicator.center = imageOutlineView.center;
@@ -37,7 +39,7 @@
 		nameLabel.numberOfLines = 2;
 		nameLabel.textColor = [UIColor colorWithRed:146 / 255.0 green:146 / 255.0 blue:146 / 255.0 alpha:1.0];
 		nameLabel.backgroundColor = [UIColor clearColor];
-		nameLabel.textAlignment = UITextAlignmentCenter;
+		nameLabel.textAlignment = NSTextAlignmentCenter;
 		[self addSubview:nameLabel];
 		deleteButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
 		deleteButton.frame = CGRectMake(0, 0, 29, 29);
@@ -116,13 +118,6 @@
 	}
 	
 	tapButton.frame = imageOutlineView.frame;
-	
-	[self addSubview:imageOutlineView];
-	UIGraphicsBeginImageContext(imageOutlineView.frame.size);
-	[imageOutlineView.layer renderInContext:UIGraphicsGetCurrentContext()];
-	[tapButton setBackgroundImage:UIGraphicsGetImageFromCurrentImageContext() forState:UIControlStateNormal];
-	UIGraphicsEndImageContext();
-	[imageOutlineView removeFromSuperview];
 }
 
 - (void)setUnshowedCount:(int)_unshowedCount totalCount:(int)_totalCount loading:(BOOL)_loading {

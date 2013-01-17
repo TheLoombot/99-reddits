@@ -209,7 +209,7 @@
   _titleLabel.shadowColor = [UIColor blackColor];
   _titleLabel.shadowOffset = CGSizeMake(0, -1);
   _titleLabel.font = [UIFont boldSystemFontOfSize:16];
-  _titleLabel.textAlignment = UITextAlignmentCenter;
+  _titleLabel.textAlignment = NSTextAlignmentCenter;
   _titleLabel.numberOfLines = 0;
 
   // Photo Album View Setup

@@ -134,13 +134,13 @@
 		}
 	}
 	
-	[self dismissModalViewControllerAnimated:YES];	
+	[self dismissViewControllerAnimated:YES completion:nil];	
 }
 
 - (IBAction)onAddButton:(id)sender {
 	AddViewController *addViewController = [[AddViewController alloc] initWithNibName:@"AddViewController" bundle:nil];
 	addViewController.redditsViewController = self;
-	[self presentModalViewController:addViewController animated:YES];
+	[self presentViewController:addViewController animated:YES completion:nil];
 	[addViewController release];
 }
 
@@ -232,8 +232,8 @@
 		}
 	}
 	
-	[self dismissModalViewControllerAnimated:NO];
-	[self dismissModalViewControllerAnimated:YES];
+	[self dismissViewControllerAnimated:NO completion:nil];
+	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

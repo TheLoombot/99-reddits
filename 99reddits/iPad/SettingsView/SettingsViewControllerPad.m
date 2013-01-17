@@ -9,10 +9,10 @@
 #import "SettingsViewControllerPad.h"
 #import "RedditsAppDelegate.h"
 #import "UserDef.h"
-#import <Twitter/TWTweetComposeViewController.h>
 #import <Accounts/Accounts.h>
 #import "ASIDownloadCache.h"
 #import "MainViewControllerPad.h"
+#import <Social/Social.h>
 
 @interface SettingsViewControllerPad ()
 
@@ -338,13 +338,7 @@
 		frame.size.height = height + 474;
 		aboutView.frame = frame;
 		
-		if (!appDelegate.tweetEnabled) {
-			[tweetButton removeFromSuperview];
-			contentScrollView.contentSize = CGSizeMake(width, emailButton.frame.origin.y + emailButton.frame.size.height + 50);
-		}
-		else {
-			contentScrollView.contentSize = CGSizeMake(width, tweetButton.frame.origin.y + tweetButton.frame.size.height + 50);
-		}
+		contentScrollView.contentSize = CGSizeMake(width, tweetButton.frame.origin.y + tweetButton.frame.size.height + 50);
 	}
 	else {
 		CGRect frame = aboutView.frame;
@@ -352,13 +346,7 @@
 		frame.size.height = height + 474;
 		aboutView.frame = frame;
 		
-		if (!appDelegate.tweetEnabled) {
-			[tweetButton removeFromSuperview];
-			contentScrollView.contentSize = CGSizeMake(width, emailButton.frame.origin.y + emailButton.frame.size.height + 221);
-		}
-		else {
-			contentScrollView.contentSize = CGSizeMake(width, tweetButton.frame.origin.y + tweetButton.frame.size.height + 221);
-		}
+		contentScrollView.contentSize = CGSizeMake(width, tweetButton.frame.origin.y + tweetButton.frame.size.height + 221);
 	}
 	
 	[contentTableView reloadData];
@@ -372,29 +360,25 @@
 		[mailComposeViewController setSubject:@"99 reddits feedback"];
 		[mailComposeViewController setToRecipients:[NSArray arrayWithObject:@"99reddits@lensie.com"]];
 		
-		[self presentModalViewController:mailComposeViewController animated:YES];
+		[self presentViewController:mailComposeViewController animated:YES completion:nil];
 		[mailComposeViewController release];
 	}
 }
 
 - (IBAction)onTweetButton:(id)sender {
-	TWTweetComposeViewController *tweetComposeViewController = [[TWTweetComposeViewController alloc] init];
+	SLComposeViewController *tweetComposeViewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+	[tweetComposeViewController setInitialText:@"@99reddits "];
 	
-	if ([TWTweetComposeViewController canSendTweet]) {
-		[tweetComposeViewController setInitialText:@"@99reddits "];
-	}
-	
-	tweetComposeViewController.completionHandler = ^(TWTweetComposeViewControllerResult result) {
-		[tweetComposeViewController dismissModalViewControllerAnimated:YES];
+	tweetComposeViewController.completionHandler = ^(SLComposeViewControllerResult result) {
+		[tweetComposeViewController dismissViewControllerAnimated:YES completion:nil];
 	};
 	
-	[self presentModalViewController:tweetComposeViewController animated:YES];
-	[tweetComposeViewController release];
+	[self presentViewController:tweetComposeViewController animated:YES completion:nil];
 }
 
 // MFMailComposeViewControllerDelegate
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
-	[controller dismissModalViewControllerAnimated:YES];
+	[controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)onClearButton:(id)sender {

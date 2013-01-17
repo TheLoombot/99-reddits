@@ -10,12 +10,11 @@
 #import "NIHTTPRequest.h"
 #import "ASIDownloadCache.h"
 #import "RedditsAppDelegate.h"
-#import <Twitter/TWTweetComposeViewController.h>
 #import <Accounts/Accounts.h>
 #import "UserDef.h"
-#import "SA_OAuthTwitterEngine.h"
 #import <ImageIO/CGImageSource.h>
 #import "PhotoView.h"
+#import <Social/Social.h>
 
 @interface PhotoViewController ()
 
@@ -23,8 +22,6 @@
 - (void)requestImageFromSource:(NSString *)source photoSize:(NIPhotoScrollViewPhotoSize)photoSize photoIndex:(NSInteger)photoIndex;
 
 - (void)shareImage:(UIImage *)image data:(NSData *)data;
-
-- (void)shareToTwitter;
 
 @end
 
@@ -51,15 +48,10 @@
 	NI_RELEASE_SAFELY(activeRequests);
 	NI_RELEASE_SAFELY(highQualityImageCache);
 	NI_RELEASE_SAFELY(queue);
-	NI_RELEASE_SAFELY(_facebook);
-	NI_RELEASE_SAFELY(_permissions);
 	NI_RELEASE_SAFELY(sharingData);
 }
 
 - (void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"TWITTER_SUCCESS" object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"TWITTER_FAILED" object:nil];
-	
 	[self releaseObjects];
 	
 	[subReddit release];
@@ -119,13 +111,6 @@
 	disappearForSubview = NO;
 	
 	sharing = NO;
-	
-	fbLogin = NO;
-	_permissions = [[NSArray alloc] initWithObjects:@"publish_stream", nil];
-	_facebook = [[Facebook alloc] initWithAppId:kAppId andDelegate:self];
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTwitterSuccess) name:@"TWITTER_SUCCESS" object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onTwitterFailed) name:@"TWITTER_FAILED" object:nil];
 	
 	self.titleLabel.hidden = YES;
 }
@@ -475,7 +460,7 @@
 
 // MFMailComposeViewControllerDelegate
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
-	[controller dismissModalViewControllerAnimated:YES];
+	[controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)shareImage:(UIImage *)image data:(NSData *)data {
@@ -513,212 +498,39 @@
 			[mailComposeViewController addAttachmentData:data mimeType:mimeType fileName:[photo.urlString lastPathComponent]];
 			
 			disappearForSubview = YES;
-			[self presentModalViewController:mailComposeViewController animated:YES];
+			[self presentViewController:mailComposeViewController animated:YES completion:nil];
 		}
 	}
 	else if (sharingType == 2) {
-		if (appDelegate.tweetEnabled) {
-			TWTweetComposeViewController *tweetComposeViewController = [[TWTweetComposeViewController alloc] init];
-
-			if ([TWTweetComposeViewController canSendTweet]) {
-				PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
-
-				[tweetComposeViewController setInitialText:photo.titleString];
-				[tweetComposeViewController addImage:image];
-				[tweetComposeViewController addURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://redd.it/%@", photo.idString]]];
-			}
-			
-			tweetComposeViewController.completionHandler = ^(TWTweetComposeViewControllerResult result) {
-				[tweetComposeViewController dismissModalViewControllerAnimated:YES];
-			};
-			
-			[self presentModalViewController:tweetComposeViewController animated:YES];
-			[tweetComposeViewController release];
-		}
-		else {
-			if(![appDelegate.engine isAuthorized]){  
-				UIViewController *controller = [SA_OAuthTwitterController controllerToEnterCredentialsWithTwitterEngine:appDelegate.engine delegate:self];
-				if (controller) {
-					disappearForSubview = YES;
-					[self presentModalViewController:controller animated:YES];
-				}
-			}
-			else {
-				[self shareToTwitter];
-			}
-		}
+		PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
+		
+		SLComposeViewController *tweetComposeViewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+		[tweetComposeViewController setInitialText:photo.titleString];
+		[tweetComposeViewController addImage:image];
+		[tweetComposeViewController addURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://redd.it/%@", photo.idString]]];
+		
+		tweetComposeViewController.completionHandler = ^(SLComposeViewControllerResult result) {
+			[tweetComposeViewController dismissViewControllerAnimated:YES completion:nil];
+		};
+		
+		[self presentViewController:tweetComposeViewController animated:YES completion:nil];
 	}
 	else if (sharingType == 3) {
-		[appDelegate.window addSubview:loadingView];
+		PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
 		
-		[sharingData release];
-		sharingData = [data retain];
+		SLComposeViewController *facebookComposeViewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+		[facebookComposeViewController setInitialText:photo.titleString];
+		[facebookComposeViewController addImage:image];
+		[facebookComposeViewController addURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://redd.it/%@", photo.idString]]];
 		
-		if (fbLogin)
-			[self performSelector:@selector(uploadToFacebook)];
-		else
-			[self performSelector:@selector(loginFacebook)];
+		facebookComposeViewController.completionHandler = ^(SLComposeViewControllerResult result) {
+			[facebookComposeViewController dismissViewControllerAnimated:YES completion:nil];
+		};
+		
+		[self presentViewController:facebookComposeViewController animated:YES completion:nil];
 	}
 
 	sharing = NO;
-}
-
-// Facebook
-- (void)loginFacebook {
-	if (!fbLogin) {
-		[_facebook authorize:_permissions];
-	}
-}
-
-- (void)logoutFacebook {
-	[_facebook logout:self];
-}
-
-- (BOOL)isLoginFacebook {
-	return fbLogin;
-}
-
-- (void)facebookPublishInfo {
-	[_facebook requestWithGraphPath:@"me/permissions" andDelegate:self];
-}
-
-- (void)uploadToFacebook {
-	[appDelegate.window addSubview:loadingView];
-	[self facebookPublishInfo];
-}
-
-- (void)uploadPhotoToFacebook {
-	[appDelegate.window addSubview:loadingView];
-	
-	PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
-	
-	NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-								   photo.titleString, @"name", 
-								   @"Found using the 99 reddits iOS app!", @"caption", 
-								   [NSString stringWithFormat:@"http://redd.it/%@", photo.idString], @"link", 
-								   photo.urlString, @"picture", 
-                                   nil];
-    
-	[_facebook dialog:@"feed" andParams:params andDelegate:self];
-}
-
-/**
- * Callback for facebook login
- */ 
--(void)fbDidLogin {
-	fbLogin = YES;
-	
-	[self performSelector:@selector(uploadToFacebook)];
-}
-
-/**
- * Callback for facebook did not login
- */
-- (void)fbDidNotLogin:(BOOL)cancelled {
-	[loadingView removeFromSuperview];
-	
-	if (cancelled)
-		return;
-	
-	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"" message:@"Can't login to Facebook." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-	[alertView show];
-	[alertView release];
-}
-
-/**
- * Callback for facebook logout
- */ 
--(void)fbDidLogout {
-	fbLogin = NO;
-}
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-// FBRequestDelegate
-
-/**
- * Callback when a request receives Response
- */ 
-- (void)request:(FBRequest*)request didReceiveResponse:(NSURLResponse*)response{
-}
-
-/**
- * Called when an error prevents the request from completing successfully.
- */
-- (void)request:(FBRequest *)request didFailWithError:(NSError *)error{
-	[loadingView removeFromSuperview];
-	
-	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"" message:@"Can't share on Facebook" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-	[alertView show];
-	[alertView release];
-}
-
-/**
- * Called when a request returns and its response has been parsed into an object.
- * The resulting object may be a dictionary, an array, a string, or a number, depending
- * on thee format of the API response.
- */
-- (void)request:(FBRequest*)request didLoad:(id)result {
-	if ([result isKindOfClass:[NSArray class]]) {
-		result = [result objectAtIndex:0];
-	}
-	
-	if ([result isKindOfClass:[NSDictionary class]]) {
-		if ([result objectForKey:@"owner"]) {
-			[loadingView removeFromSuperview];
-		}
-		else {
-			[loadingView removeFromSuperview];
-			
-			[self uploadPhotoToFacebook];
-		}
-	}
-	else {
-		[loadingView removeFromSuperview];
-	}
-}
-
-- (void)dialogDidComplete:(FBDialog *)dialog {
-	[loadingView removeFromSuperview];
-}
-
-- (void) dialogDidNotComplete:(FBDialog *)dialog {
-	[loadingView removeFromSuperview];
-}
-
-- (void)dialog:(FBDialog*)dialog didFailWithError:(NSError *)error {
-	[loadingView removeFromSuperview];
-}
-
-- (void)shareToTwitter {
-	[appDelegate.window addSubview:loadingView];
-	
-	PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
-	[appDelegate.engine sendUpdate:[NSString stringWithFormat:@"%@ http://redd.it/%@", photo.titleString, photo.idString]];
-}
-
-- (void)OAuthTwitterController:(SA_OAuthTwitterController *)controller authenticatedWithUsername:(NSString *)username {
-	[self shareToTwitter];
-}
-
-- (void)OAuthTwitterControllerFailed:(SA_OAuthTwitterController *)controller {
-	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"" message:@"Can't login to Twitter." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-	[alertView show];
-	[alertView release];
-}
-
-- (void)OAuthTwitterControllerCanceled:(SA_OAuthTwitterController *)controller {
-}
-
-- (void)onTwitterSuccess {
-	[loadingView removeFromSuperview];
-}
-
-- (void)onTwitterFailed {
-	[loadingView removeFromSuperview];
-
-	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"" message:@"Can't share on Twitter" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-	[alertView show];
-	[alertView release];
 }
 
 - (void)onFavoriteButton:(id)sender {

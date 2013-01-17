@@ -25,8 +25,6 @@
 - (NSString *)cacheKeyForPhotoIndex:(NSInteger)photoIndex;
 - (void)requestImageFromSource:(NSString *)source photoIndex:(NSInteger)photoIndex;
 
-- (IBAction)onRefreshButton;
-
 @end
 
 @implementation MainViewController
@@ -56,9 +54,6 @@
 
 - (void)dealloc {
 	[self releaseObjects];
-	
-	[contentTableView release];
-	[toolbar release];
 	[super dealloc];
 }
 
@@ -84,10 +79,16 @@
 	
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	subRedditsArray = appDelegate.subRedditsArray;
+	
+	UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+	refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
+	[refreshControl addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
+	self.refreshControl = refreshControl;
+	[refreshControl release];
 
 	self.title = @"99 reddits";
 	
-	self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(onRefreshButton)] autorelease];
+	self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"SettingsIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(onSettingsButton:)] autorelease];
 	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(onAddButton)] autorelease];
 	
 	[[ASIDownloadCache sharedCache] setShouldRespectCacheControlHeaders:NO];
@@ -138,19 +139,13 @@
 	for (SubRedditItem *subReddit in subRedditsArray) {
 		[subReddit calUnshowedCount];
 	}
-	[contentTableView reloadData];
-}
-
-- (IBAction)onRefreshButton {
-	if (subRedditsArray.count == 0)
-		return;
-	[self reloadData];
+	[self.tableView reloadData];
 }
 
 - (void)onAddButton {
 	RedditsViewController *redditsViewController = [[RedditsViewController alloc] initWithNibName:@"RedditsViewController" bundle:nil];
 	redditsViewController.mainViewController = self;
-	[self presentModalViewController:redditsViewController animated:YES];
+	[self presentViewController:redditsViewController animated:YES completion:nil];
 	[redditsViewController release];
 }
 
@@ -161,7 +156,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	static NSString *identifer = @"MAINVIEWCELL";
-	MainViewCell *cell = (MainViewCell *)[contentTableView dequeueReusableCellWithIdentifier:identifer];
+	MainViewCell *cell = (MainViewCell *)[tableView dequeueReusableCellWithIdentifier:identifer];
 	if (cell == nil) {
 		cell = [[[MainViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifer] autorelease];
 	}
@@ -222,7 +217,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	[contentTableView deselectRowAtIndexPath:indexPath animated:YES];
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
 	if (indexPath.row == 0) {
 		if (appDelegate.favoritesItem.photosArray.count > 0) {
@@ -276,17 +271,24 @@
 		subReddit.subscribe = NO;
 		[appDelegate.manualSubRedditsArray removeObject:subReddit];
 		[subRedditsArray removeObject:subReddit];
-		[contentTableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
 		
 		[appDelegate saveToDefaults];
 	}
 }
 
 - (void)reloadData {
+	if (subRedditsArray.count == 0)
+		return;
+	
 	if (![appDelegate checkNetworkReachable:YES])
 		return;
 	
-	self.navigationItem.leftBarButtonItem.enabled = NO;
+	if (refreshCount != 0)
+		return;
+	
+	self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Refreshing..."] autorelease];
+	[self.refreshControl beginRefreshing];
 	
 	for (ASIHTTPRequest *request in refreshQueue.operations) {
 		[request clearDelegatesAndCancel];
@@ -313,7 +315,7 @@
 		[refreshQueue addOperation:albumRequest];
 	}
 	
-	[contentTableView reloadData];
+	[self.tableView reloadData];
 }
 
 // ASIHTTPRequestDelegate
@@ -331,7 +333,8 @@
 	if (subReddit == nil) {
 		refreshCount --;
 		if (refreshCount == 0) {
-			self.navigationItem.leftBarButtonItem.enabled = YES;
+			self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
+			[self.refreshControl endRefreshing];
 		}
 		return;
 	}
@@ -350,14 +353,15 @@
 
 	[subReddit calUnshowedCount];
 	
-	[contentTableView reloadData];
+	[self.tableView reloadData];
 	
 	[tempPhotosArray removeAllObjects];
 	[tempPhotosArray release];
 	
 	refreshCount --;
 	if (refreshCount == 0) {
-		self.navigationItem.leftBarButtonItem.enabled = YES;
+		self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
+		[self.refreshControl endRefreshing];
 		[appDelegate saveToDefaults];
 	}
 }
@@ -376,7 +380,8 @@
 	if (subReddit == nil) {
 		refreshCount --;
 		if (refreshCount == 0) {
-			self.navigationItem.leftBarButtonItem.enabled = YES;
+			self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
+			[self.refreshControl endRefreshing];
 		}
 		return;
 	}
@@ -385,11 +390,12 @@
 	subReddit.unshowedCount = 0;
 	[subReddit.photosArray removeAllObjects];
 	
-	[contentTableView reloadData];
+	[self.tableView reloadData];
 	
 	refreshCount --;
 	if (refreshCount == 0) {
-		self.navigationItem.leftBarButtonItem.enabled = YES;
+		self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
+		[self.refreshControl endRefreshing];
 	}
 }
 
@@ -481,7 +487,8 @@
 	if (![appDelegate checkNetworkReachable:YES])
 		return;
 	
-	self.navigationItem.leftBarButtonItem.enabled = NO;
+	self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Refreshing..."] autorelease];
+	[self.refreshControl beginRefreshing];
 	
 	subReddit.loading = YES;
 	
@@ -587,7 +594,7 @@
 				UIGraphicsEndImageContext();
 				
 				[thumbnailImageCache storeObject:thumbImage withName:photoIndexKey];
-				MainViewCell *cell = (MainViewCell *)[contentTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index + 1 inSection:0]];
+				MainViewCell *cell = (MainViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index + 1 inSection:0]];
 				cell.imageView.image = thumbImage;
 			}
 		}
@@ -606,9 +613,9 @@
 	[queue addOperation:readOp];
 }
 
-- (IBAction)onSettingsButton:(id)sender {
+- (void)onSettingsButton:(id)sender {
 	SettingsViewController *settingsViewController = [[SettingsViewController alloc] initWithNibName:@"SettingsViewController" bundle:nil];
-	[self presentModalViewController:settingsViewController animated:YES];
+	[self presentViewController:settingsViewController animated:YES completion:nil];
 	[settingsViewController release];
 }
 

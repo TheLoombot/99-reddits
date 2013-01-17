@@ -13,11 +13,8 @@
 @class RedditsAppDelegate;
 @class SubRedditItem;
 
-@interface MainViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, ASIHTTPRequestDelegate> {
+@interface MainViewController : UITableViewController <ASIHTTPRequestDelegate> {
 	RedditsAppDelegate *appDelegate;
-	
-	IBOutlet UITableView *contentTableView;
-	IBOutlet UIToolbar *toolbar;
 	
 	NSMutableArray *subRedditsArray;
 	
@@ -32,6 +29,6 @@
 
 - (void)removeSubRedditOperations:(SubRedditItem *)subReddit;
 - (void)addSubReddit:(SubRedditItem *)subReddit;
-- (IBAction)onSettingsButton:(id)sender;
+- (void)onSettingsButton:(id)sender;
 
 @end

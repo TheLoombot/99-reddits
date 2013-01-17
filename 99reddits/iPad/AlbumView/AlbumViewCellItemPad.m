@@ -129,12 +129,10 @@
 		imageView.image = image;
 	}
 	
-	[self addSubview:imageOutlineView];
 	UIGraphicsBeginImageContext(imageOutlineView.frame.size);
 	[imageOutlineView.layer renderInContext:UIGraphicsGetCurrentContext()];
 	[self setImage:UIGraphicsGetImageFromCurrentImageContext() forState:UIControlStateNormal];
 	UIGraphicsEndImageContext();
-	[imageOutlineView removeFromSuperview];
 }
 
 @end

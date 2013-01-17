@@ -9,7 +9,6 @@
 #import "RedditsAppDelegate.h"
 #import "UserDef.h"
 #import "Reachability.h"
-#import "SA_OAuthTwitterEngine.h"
 #import "Flurry.h"
 
 @implementation UINavigationController (iOS6OrientationFix)
@@ -32,8 +31,6 @@
 @synthesize subRedditsArray;
 @synthesize showedSet;
 @synthesize firstRun;
-@synthesize tweetEnabled;
-@synthesize engine = _engine;
 @synthesize favoritesItem;
 @synthesize isPaid;
 
@@ -47,17 +44,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 	NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
 	[Flurry startSession:@"29Y8B1XXMBQVLEPC3ZPU"];
 
-	tweetEnabled = NO;
-	Class tweetClass = (NSClassFromString(@"TWTweetComposeViewController"));
-	if (tweetClass != nil) {
-		tweetEnabled = YES;
-	}
-	else {
-		_engine = [[SA_OAuthTwitterEngine alloc] initOAuthWithDelegate:self];
-        _engine.consumerKey    = kOAuthConsumerKey;
-        _engine.consumerSecret = kOAuthConsumerSecret;
-	}
-	
 	staticSubRedditsArray = [[NSMutableArray alloc] init];
 	manualSubRedditsArray = [[NSMutableArray alloc] init];
 	subRedditsArray = [[NSMutableArray alloc] init];
@@ -97,7 +83,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 	[subRedditsArray release];
 	[showedSet release];
 	[connectionAlertView release];
-	[_engine release];
 	
 	[mainNavigationController release];
 	[_window release];
@@ -411,26 +396,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 	}
 	
 	return bRet;
-}
-
-// SA_OAuthTwitterEngineDelegate
-- (void)storeCachedTwitterOAuthData:(NSString *)data forUsername:(NSString *)username {
-	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	[defaults setObject:data forKey:@"TWITTER_AUTH_DATA"];
-	[defaults synchronize];
-}
-
-- (NSString *)cachedTwitterOAuthDataForUsername:(NSString *)username {
-	return [[NSUserDefaults standardUserDefaults] objectForKey:@"TWITTER_AUTH_DATA"];
-}
-
-// MGTwitterEngineDelegate
-- (void)requestSucceeded:(NSString *)requestIdentifier {
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"TWITTER_SUCCESS" object:nil];
-}
-
-- (void)requestFailed:(NSString *)requestIdentifier withError: (NSError *)error {
-	[[NSNotificationCenter defaultCenter] postNotificationName:@"TWITTER_FAILED" object:nil];
 }
 
 // Favorites

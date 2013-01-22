@@ -7,16 +7,9 @@
 //
 
 #import "MainViewCellPad.h"
-#import "MainViewCellItemPad.h"
 #import "UserDef.h"
 #import "RedditsAppDelegate.h"
 #import "MainViewControllerPad.h"
-
-@interface MainViewCellItemPad ()
-
-- (void)setEditing:(BOOL)_editing;
-
-@end
 
 @implementation MainViewCellPad
 

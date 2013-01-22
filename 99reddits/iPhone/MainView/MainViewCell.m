@@ -22,24 +22,14 @@
 		self.textLabel.textColor = [UIColor blackColor];
 		self.textLabel.backgroundColor = [UIColor clearColor];
 		
-		braketLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-		braketLabel.font = [UIFont systemFontOfSize:16];
-		braketLabel.textColor = [UIColor grayColor];
-		braketLabel.backgroundColor = [UIColor clearColor];
-		braketLabel.text = @"(";
-		[self addSubview:braketLabel];
-		
-		unshowedLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-		unshowedLabel.font = [UIFont systemFontOfSize:16];
-		unshowedLabel.textColor = [UIColor colorWithRed:255 / 255.0 green:69 / 255.0 blue:0.0 alpha:1.0];
+		unshowedBackImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 29, 29)];
+		unshowedBackImageView.image = [[UIImage imageNamed:@"BadgeBack.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0];
+		[self addSubview:unshowedBackImageView];
+		unshowedLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+		unshowedLabel.font = [UIFont boldSystemFontOfSize:14];
 		unshowedLabel.backgroundColor = [UIColor clearColor];
+		unshowedLabel.textColor = [UIColor whiteColor];
 		[self addSubview:unshowedLabel];
-
-		countLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-		countLabel.font = [UIFont systemFontOfSize:16];
-		countLabel.textColor = [UIColor grayColor];
-		countLabel.backgroundColor = [UIColor clearColor];
-		[self addSubview:countLabel];
 
 		self.imageView.contentMode = UIViewContentModeScaleAspectFill;
 		
@@ -50,9 +40,8 @@
 
 - (void)dealloc {
 	[activityIndicator release];
-	[braketLabel release];
+	[unshowedBackImageView release];
 	[unshowedLabel release];
-	[countLabel release];
 	[super dealloc];
 }
 
@@ -84,54 +73,34 @@
 	else
 		self.accessoryView = nil;
 	
-	if (totalCount == 0) {
-		braketLabel.hidden = YES;
+	if (unshowedCount == 0) {
+		unshowedBackImageView.hidden = YES;
 		unshowedLabel.hidden = YES;
-		countLabel.hidden = YES;
 	}
 	else {
-		braketLabel.hidden = NO;
+		unshowedBackImageView.hidden = NO;
 		unshowedLabel.hidden = NO;
-		countLabel.hidden = NO;
 		
 		CGRect frame = self.textLabel.frame;
-		if (frame.size.width > 173) {
-			frame.size.width = 173;
-			self.textLabel.frame = frame;
-		}
+		frame.size.width = 180;
+		self.textLabel.frame = frame;
 		
-		int x = frame.origin.x + frame.size.width + 10;
+		unshowedLabel.frame = CGRectMake(0, 0, 200, 20);
+		unshowedLabel.text = [NSString stringWithFormat:@"%d", unshowedCount];
+		[unshowedLabel sizeToFit];
 		
-		int y = frame.origin.y;
-		int h = frame.size.height;
+		CGRect rect = unshowedLabel.frame;
+		rect.size.width = ceil(rect.size.width);
+		rect.size.height = 20;
+		rect.origin.x = 275 - rect.size.width;
+		rect.origin.y = 17;
+		unshowedLabel.frame = rect;
 		
-		braketLabel.frame = CGRectMake(x, y, 300, h);
-		[braketLabel sizeToFit];
-		braketLabel.frame = CGRectMake(x, y, braketLabel.frame.size.width, h);
-		
-		x = braketLabel.frame.origin.x + braketLabel.frame.size.width - 1;
-		
-		if (unshowedCount == 0) {
-			unshowedLabel.hidden = YES;
-
-			countLabel.frame = CGRectMake(x, y, 300, h);
-			countLabel.text = [NSString stringWithFormat:@"%d)", totalCount];
-			[countLabel sizeToFit];
-			countLabel.frame = CGRectMake(x, y, countLabel.frame.size.width, h);
-		}
-		else {
-			unshowedLabel.frame = CGRectMake(x, y, 300, h);
-			unshowedLabel.text = [NSString stringWithFormat:@"%d", unshowedCount];
-			[unshowedLabel sizeToFit];
-			unshowedLabel.frame = CGRectMake(x, y, unshowedLabel.frame.size.width, h);
-			
-			x = unshowedLabel.frame.origin.x + unshowedLabel.frame.size.width - 1;
-			
-			countLabel.frame = CGRectMake(x, y, 300, h);
-			countLabel.text = [NSString stringWithFormat:@"/%d)", totalCount];
-			[countLabel sizeToFit];
-			countLabel.frame = CGRectMake(x, y, countLabel.frame.size.width, h);
-		}
+		rect.origin.x -= 10;
+		rect.origin.y -= 3;
+		rect.size.width += 20;
+		rect.size.height += 9;
+		unshowedBackImageView.frame = rect;
 	}
 }
 
@@ -149,48 +118,28 @@
 	else
 		self.accessoryView = nil;
 	
-	braketLabel.hidden = NO;
-	unshowedLabel.hidden = NO;
-	countLabel.hidden = NO;
+	unshowedBackImageView.hidden = YES;
+	unshowedLabel.hidden = YES;
 	
 	CGRect frame = self.textLabel.frame;
-	if (frame.size.width > 173) {
-		frame.size.width = 173;
-		self.textLabel.frame = frame;
-	}
+	frame.size.width = 180;
+	self.textLabel.frame = frame;
+}
+
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
+	[super setEditing:editing animated:animated];
 	
-	int x = frame.origin.x + frame.size.width + 10;
-	
-	int y = frame.origin.y;
-	int h = frame.size.height;
-	
-	braketLabel.frame = CGRectMake(x, y, 300, h);
-	[braketLabel sizeToFit];
-	braketLabel.frame = CGRectMake(x, y, braketLabel.frame.size.width, h);
-	
-	x = braketLabel.frame.origin.x + braketLabel.frame.size.width - 1;
-	
-	if (unshowedCount == 0) {
-		unshowedLabel.hidden = YES;
-		
-		countLabel.frame = CGRectMake(x, y, 300, h);
-		countLabel.text = [NSString stringWithFormat:@"%d)", totalCount];
-		[countLabel sizeToFit];
-		countLabel.frame = CGRectMake(x, y, countLabel.frame.size.width, h);
-	}
-	else {
-		unshowedLabel.frame = CGRectMake(x, y, 300, h);
-		unshowedLabel.text = [NSString stringWithFormat:@"%d", unshowedCount];
-		[unshowedLabel sizeToFit];
-		unshowedLabel.frame = CGRectMake(x, y, unshowedLabel.frame.size.width, h);
-		
-		x = unshowedLabel.frame.origin.x + unshowedLabel.frame.size.width - 1;
-		
-		countLabel.frame = CGRectMake(x, y, 300, h);
-		countLabel.text = [NSString stringWithFormat:@"/%d)", totalCount];
-		[countLabel sizeToFit];
-		countLabel.frame = CGRectMake(x, y, countLabel.frame.size.width, h);
-	}
+	[UIView animateWithDuration:0.2
+					 animations:^(void) {
+						 if (editing) {
+							 unshowedBackImageView.alpha = 0.0;
+							 unshowedLabel.alpha = 0.0;
+						 }
+						 else {
+							 unshowedBackImageView.alpha = 1.0;
+							 unshowedLabel.alpha = 1.0;
+						 }
+					 }];
 }
 
 @end

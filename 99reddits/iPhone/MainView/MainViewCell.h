@@ -10,9 +10,8 @@
 
 @interface MainViewCell : UITableViewCell {
 	UIActivityIndicatorView *activityIndicator;
-	UILabel *braketLabel;
+	UIImageView *unshowedBackImageView;
 	UILabel *unshowedLabel;
-	UILabel *countLabel;
 	
 	int unshowedCount;
 	int totalCount;

@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D060A8616AD29E700AED06E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D060A8516AD29E700AED06E /* QuartzCore.framework */; };
+		8D060A9A16AD385B00AED06E /* CustomCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D060A9916AD385B00AED06E /* CustomCollectionView.m */; };
+		8D060AAD16AD525A00AED06E /* MainViewLayoutPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D060AAC16AD525A00AED06E /* MainViewLayoutPad.m */; };
+		8D060AB016AD528A00AED06E /* MainViewLayoutAttributesPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D060AAF16AD528A00AED06E /* MainViewLayoutAttributesPad.m */; };
 		8D0BF512164B9581000EF3A8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0BF511164B9581000EF3A8 /* Default-568h@2x.png */; };
 		8D0BF517164B9EAE000EF3A8 /* MainViewControllerPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D0BF515164B9EAE000EF3A8 /* MainViewControllerPad.m */; };
 		8D0BF518164B9EAE000EF3A8 /* MainViewControllerPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D0BF516164B9EAE000EF3A8 /* MainViewControllerPad.xib */; };
@@ -68,7 +72,6 @@
 		8D66C1BD164BAF5A00EAC2C0 /* MainViewCellPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D66C1BC164BAF5A00EAC2C0 /* MainViewCellPad.m */; };
 		8D66C1C1164BAFA200EAC2C0 /* RedditsViewControllerPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D66C1BF164BAFA200EAC2C0 /* RedditsViewControllerPad.m */; };
 		8D66C1C2164BAFA200EAC2C0 /* RedditsViewControllerPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D66C1C0164BAFA200EAC2C0 /* RedditsViewControllerPad.xib */; };
-		8D66C207164BB9E400EAC2C0 /* MainViewCellItemPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D66C206164BB9E400EAC2C0 /* MainViewCellItemPad.m */; };
 		8D66C215164BCFB200EAC2C0 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D66C211164BCFB200EAC2C0 /* Default-Landscape~ipad.png */; };
 		8D66C216164BCFB200EAC2C0 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D66C212164BCFB200EAC2C0 /* Default-Landscape@2x~ipad.png */; };
 		8D66C217164BCFB200EAC2C0 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D66C213164BCFB200EAC2C0 /* Default-Portrait~ipad.png */; };
@@ -200,6 +203,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		8D060A8516AD29E700AED06E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		8D060A9816AD385B00AED06E /* CustomCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCollectionView.h; sourceTree = "<group>"; };
+		8D060A9916AD385B00AED06E /* CustomCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCollectionView.m; sourceTree = "<group>"; };
+		8D060AAB16AD525A00AED06E /* MainViewLayoutPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewLayoutPad.h; sourceTree = "<group>"; };
+		8D060AAC16AD525A00AED06E /* MainViewLayoutPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewLayoutPad.m; sourceTree = "<group>"; };
+		8D060AAE16AD528A00AED06E /* MainViewLayoutAttributesPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewLayoutAttributesPad.h; sourceTree = "<group>"; };
+		8D060AAF16AD528A00AED06E /* MainViewLayoutAttributesPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewLayoutAttributesPad.m; sourceTree = "<group>"; };
 		8D0BF511164B9581000EF3A8 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		8D0BF514164B9EAE000EF3A8 /* MainViewControllerPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewControllerPad.h; sourceTree = "<group>"; };
 		8D0BF515164B9EAE000EF3A8 /* MainViewControllerPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewControllerPad.m; sourceTree = "<group>"; };
@@ -272,8 +282,6 @@
 		8D66C1BE164BAFA200EAC2C0 /* RedditsViewControllerPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RedditsViewControllerPad.h; sourceTree = "<group>"; };
 		8D66C1BF164BAFA200EAC2C0 /* RedditsViewControllerPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedditsViewControllerPad.m; sourceTree = "<group>"; };
 		8D66C1C0164BAFA200EAC2C0 /* RedditsViewControllerPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RedditsViewControllerPad.xib; sourceTree = "<group>"; };
-		8D66C205164BB9E300EAC2C0 /* MainViewCellItemPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewCellItemPad.h; sourceTree = "<group>"; };
-		8D66C206164BB9E400EAC2C0 /* MainViewCellItemPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewCellItemPad.m; sourceTree = "<group>"; };
 		8D66C211164BCFB200EAC2C0 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
 		8D66C212164BCFB200EAC2C0 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
 		8D66C213164BCFB200EAC2C0 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
@@ -496,6 +504,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D060A8616AD29E700AED06E /* QuartzCore.framework in Frameworks */,
 				8DAACC8516A785DF00237C83 /* Social.framework in Frameworks */,
 				8D22CA1514B750D000E4DDD3 /* StoreKit.framework in Frameworks */,
 				8D8B2C8D1462839700AD968B /* ImageIO.framework in Frameworks */,
@@ -523,8 +532,10 @@
 				8D0BF516164B9EAE000EF3A8 /* MainViewControllerPad.xib */,
 				8D66C1BB164BAF5A00EAC2C0 /* MainViewCellPad.h */,
 				8D66C1BC164BAF5A00EAC2C0 /* MainViewCellPad.m */,
-				8D66C205164BB9E300EAC2C0 /* MainViewCellItemPad.h */,
-				8D66C206164BB9E400EAC2C0 /* MainViewCellItemPad.m */,
+				8D060AAB16AD525A00AED06E /* MainViewLayoutPad.h */,
+				8D060AAC16AD525A00AED06E /* MainViewLayoutPad.m */,
+				8D060AAE16AD528A00AED06E /* MainViewLayoutAttributesPad.h */,
+				8D060AAF16AD528A00AED06E /* MainViewLayoutAttributesPad.m */,
 				8D66C1BE164BAFA200EAC2C0 /* RedditsViewControllerPad.h */,
 				8D66C1BF164BAFA200EAC2C0 /* RedditsViewControllerPad.m */,
 				8D66C1C0164BAFA200EAC2C0 /* RedditsViewControllerPad.xib */,
@@ -575,6 +586,7 @@
 			children = (
 				8D5080BA1445944500788875 /* libz.dylib */,
 				8D4B1CA2145AEA7D005E9BFE /* libxml2.dylib */,
+				8D060A8516AD29E700AED06E /* QuartzCore.framework */,
 				8DAACC8416A785DF00237C83 /* Social.framework */,
 				8D22CA1414B750D000E4DDD3 /* StoreKit.framework */,
 				8D8B2C8C1462839700AD968B /* ImageIO.framework */,
@@ -984,6 +996,8 @@
 				8D59A7E91676229500739E26 /* PopoverController.m */,
 				8DD6A286167E2025009DD0F8 /* CustomTableView.h */,
 				8DD6A287167E2025009DD0F8 /* CustomTableView.m */,
+				8D060A9816AD385B00AED06E /* CustomCollectionView.h */,
+				8D060A9916AD385B00AED06E /* CustomCollectionView.m */,
 			);
 			name = Shared;
 			path = 99reddits/Shared;
@@ -1240,7 +1254,6 @@
 				8D66C1B9164BAF4900EAC2C0 /* AlbumViewControllerPad.m in Sources */,
 				8D66C1BD164BAF5A00EAC2C0 /* MainViewCellPad.m in Sources */,
 				8D66C1C1164BAFA200EAC2C0 /* RedditsViewControllerPad.m in Sources */,
-				8D66C207164BB9E400EAC2C0 /* MainViewCellItemPad.m in Sources */,
 				8D66C22A164C049E00EAC2C0 /* AddViewControllerPad.m in Sources */,
 				8DF07896164F6EDE00B26B8F /* AlbumViewCellPad.m in Sources */,
 				8DF0789A164F6EF700B26B8F /* AlbumViewCellItemPad.m in Sources */,
@@ -1249,6 +1262,9 @@
 				8DF078A6164F6F2E00B26B8F /* GifViewControllerPad.m in Sources */,
 				8D59A7EA1676229500739E26 /* PopoverController.m in Sources */,
 				8DD6A288167E2025009DD0F8 /* CustomTableView.m in Sources */,
+				8D060A9A16AD385B00AED06E /* CustomCollectionView.m in Sources */,
+				8D060AAD16AD525A00AED06E /* MainViewLayoutPad.m in Sources */,
+				8D060AB016AD528A00AED06E /* MainViewLayoutAttributesPad.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

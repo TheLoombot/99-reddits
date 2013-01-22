@@ -22,3 +22,5 @@ extern NSString *normalStrings[];
 
 #define PORT_COL_COUNT					5
 #define LAND_COL_COUNT					7
+
+#define DATA_VERSION					@"1.0"

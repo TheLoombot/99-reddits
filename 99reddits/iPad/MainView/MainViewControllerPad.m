@@ -21,7 +21,6 @@
 
 @interface MainViewControllerPad ()
 
-- (void)reloadData;
 - (NSString *)cacheKeyForPhotoIndex:(NSInteger)photoIndex;
 - (void)requestImageFromSource:(NSString *)source photoIndex:(NSInteger)photoIndex;
 
@@ -59,6 +58,7 @@
 	[editItem release];
 	[doneItem release];
 	[addItem release];
+	[refreshControl release];
 	[popoverController release];
 	[super dealloc];
 }
@@ -84,12 +84,11 @@
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	subRedditsArray = appDelegate.subRedditsArray;
 	
-	UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+	refreshControl = [[UIRefreshControl alloc] init];
 	refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
 	[refreshControl addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
-	self.refreshControl = refreshControl;
-	[refreshControl release];
-	
+	[self.collectionView addSubview:refreshControl];
+
 	[appDelegate setNavAppearance];
 
 	self.title = @"99 reddits";
@@ -120,9 +119,15 @@
 //		if (currentTime - appDelegate.updatedTime > 300)
 //			[self reloadData];
 	}
-	
-	self.tableView.delaysContentTouches = NO;
-	self.tableView.canCancelContentTouches = YES;
+
+	MainViewLayoutPad *mainViewLayout = [[[MainViewLayoutPad alloc] init] autorelease];
+	self.collectionView.allowsSelection = YES;
+	self.collectionView.allowsMultipleSelection = NO;
+	self.collectionView.delaysContentTouches = NO;
+	self.collectionView.canCancelContentTouches = YES;
+	[self.collectionView registerClass:[MainViewCellPad class] forCellWithReuseIdentifier:@"MAINVIEWCELLPAD"];
+	[self.collectionView setCollectionViewLayout:mainViewLayout];
+	[mainViewLayout setUpGestureRecognizersOnCollectionView];
 }
 
 - (void)viewDidUnload {
@@ -132,12 +137,10 @@
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	[self.tableView reloadData];
     return YES;
 }
 
 - (BOOL)shouldAutorotate {
-	[self.tableView reloadData];
 	return YES;
 }
 
@@ -145,15 +148,13 @@
 	for (SubRedditItem *subReddit in subRedditsArray) {
 		[subReddit calUnshowedCount];
 	}
-	[self.tableView reloadData];
+	[self.collectionView reloadData];
 }
 
 - (IBAction)onEditButton:(id)sender {
 	self.editing = !self.editing;
-	self.tableView.editing = self.editing;
 	if (self.editing) {
-		self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Refreshing..."] autorelease];
-		[self.refreshControl beginRefreshing];
+		[refreshControl removeFromSuperview];
 
 		settingsItem.enabled = NO;
 		addItem.enabled = NO;
@@ -161,14 +162,15 @@
 		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:doneItem, addItem, nil];
 	}
 	else {
-		self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
-		[self.refreshControl endRefreshing];
-	
+		[self.collectionView addSubview:refreshControl];
+
 		settingsItem.enabled = YES;
 		addItem.enabled = YES;
 
 		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:editItem, addItem, nil];
 	}
+	
+	[self.collectionView.collectionViewLayout invalidateLayout];
 }
 
 - (IBAction)onAddButton:(id)sender {
@@ -185,78 +187,104 @@
 	[popoverController showPopover:YES];
 }
 
-// UITableViewDatasource, UITableViewDelegate
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	int count = subRedditsArray.count + 1;
-	int colCount = PORT_COL_COUNT;
-	if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
-		colCount = LAND_COL_COUNT;
-	int rowCount = count / colCount + (count % colCount ? 1 : 0);
-	return rowCount;
+// UICollectionViewDataSource, UICollectionViewDelegate
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+	return 1;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	static NSString *identifer = @"MAINVIEWCELLPAD";
-	MainViewCellPad *cell = (MainViewCellPad *)[tableView dequeueReusableCellWithIdentifier:identifer];
-	if (cell == nil) {
-		cell = [[[MainViewCellPad alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifer] autorelease];
-		cell.mainViewController = self;
-		cell.subRedditsArray = subRedditsArray;
-	}
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+	return subRedditsArray.count + 1;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+	MainViewCellPad *cell = (MainViewCellPad *)[collectionView dequeueReusableCellWithReuseIdentifier:@"MAINVIEWCELLPAD" forIndexPath:indexPath];
+	cell.mainViewController = self;
 	
-	cell.row = indexPath.row;
-	
-	int colCount = PORT_COL_COUNT;
-	if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
-		colCount = LAND_COL_COUNT;
-	for (int i = 0; i < colCount; i ++) {
-		int index = colCount * indexPath.row + i - 1;
-		if (index == -1) {
-			if (appDelegate.favoritesItem.photosArray.count == 0) {
-				[cell setImage:[UIImage imageNamed:@"FavoritesIconPad.png"] index:i];
-			}
-			else {
-				NSString *urlString = [self cacheKeyForPhotoIndex:index];
-				UIImage *image = [thumbnailImageCache objectWithName:urlString];
-				if (image == nil) {
-					[self requestImageFromSource:urlString photoIndex:index];
-					[cell setImage:[UIImage imageNamed:@"FavoritesIconPad.png"] index:i];
-				}
-				else {
-					[cell setImage:image index:i];
-				}
-			}
+	if (indexPath.row == 0) {
+		cell.subReddit = appDelegate.favoritesItem;
+		cell.nameLabel.text = appDelegate.favoritesItem.nameString;
+		
+		if (appDelegate.favoritesItem.photosArray.count == 0) {
+			[cell setImage:[UIImage imageNamed:@"FavoritesIconPad.png"]];
 		}
 		else {
-			if (index < subRedditsArray.count) {
-				SubRedditItem *subReddit = [subRedditsArray objectAtIndex:index];
-				
-				if (subReddit.photosArray.count == 0 || subReddit.loading) {
-					[cell setImage:[UIImage imageNamed:@"DefaultPhotoPad.png"] index:i];
-				}
-				else {
-					NSString *urlString = [self cacheKeyForPhotoIndex:index];
-					UIImage *image = [thumbnailImageCache objectWithName:urlString];
-					if (image == nil) {
-						[self requestImageFromSource:urlString photoIndex:index];
-						[cell setImage:[UIImage imageNamed:@"DefaultPhotoPad.png"] index:i];
-					}
-					else {
-						[cell setImage:image index:i];
-					}
-				}
+			NSString *urlString = [self cacheKeyForPhotoIndex:indexPath.row - 1];
+			UIImage *image = [thumbnailImageCache objectWithName:urlString];
+			if (image == nil) {
+				[self requestImageFromSource:urlString photoIndex:indexPath.row - 1];
+				[cell setImage:[UIImage imageNamed:@"FavoritesIconPad.png"]];
+			}
+			else {
+				[cell setImage:image];
 			}
 		}
+		
+		[cell setTotalCount:appDelegate.favoritesItem.photosArray.count];
+	}
+	else {
+		SubRedditItem *subReddit = [subRedditsArray objectAtIndex:indexPath.row - 1];
+		cell.subReddit = subReddit;
+		cell.nameLabel.text = subReddit.nameString;
+		
+		if (subReddit.photosArray.count == 0 || subReddit.loading) {
+			[cell setImage:[UIImage imageNamed:@"DefaultPhotoPad.png"]];
+		}
+		else {
+			NSString *urlString = [self cacheKeyForPhotoIndex:indexPath.row - 1];
+			UIImage *image = [thumbnailImageCache objectWithName:urlString];
+			if (image == nil) {
+				[self requestImageFromSource:urlString photoIndex:indexPath.row - 1];
+				[cell setImage:[UIImage imageNamed:@"DefaultPhotoPad.png"]];
+			}
+			else {
+				[cell setImage:image];
+			}
+		}
+		
+		[cell setUnshowedCount:subReddit.unshowedCount totalCount:subReddit.photosArray.count loading:subReddit.loading];
 	}
 
 	return cell;
 }
 
-- (UITableViewCellEditingStyle)tableView:(UITableView *)tableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath {
-	return UITableViewCellEditingStyleNone;
+// MainViewLayoutPadDelegate
+- (BOOL)isEditingForCollectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout {
+	return self.editing;
+}
+
+- (void)collectionView:(UICollectionView *)theCollectionView layout:(UICollectionViewLayout *)theLayout itemAtIndexPath:(NSIndexPath *)theFromIndexPath willMoveToIndexPath:(NSIndexPath *)theToIndexPath {
+	SubRedditItem *subReddit = [[subRedditsArray objectAtIndex:theFromIndexPath.row - 1] retain];
+	[subRedditsArray removeObjectAtIndex:theFromIndexPath.row - 1];
+	[subRedditsArray insertObject:subReddit atIndex:theToIndexPath.row - 1];
+	[subReddit release];
+	
+	[appDelegate saveToDefaults];
+}
+
+- (BOOL)collectionView:(UICollectionView *)theCollectionView layout:(UICollectionViewLayout *)theLayout shouldBeginReorderingAtIndexPath:(NSIndexPath *)theIndexPath {
+	if (!self.editing)
+		return NO;
+	
+	if (theIndexPath.row == 0)
+		return NO;
+	
+	return YES;
+}
+
+- (BOOL)collectionView:(UICollectionView *)theCollectionView layout:(UICollectionViewLayout *)theLayout itemAtIndexPath:(NSIndexPath *)theFromIndexPath shouldMoveToIndexPath:(NSIndexPath *)theToIndexPath {
+	if (!self.editing)
+		return NO;
+	
+	if (theFromIndexPath.row == 0 || theToIndexPath.row == 0)
+		return NO;
+	
+	return YES;
 }
 
 - (void)reloadData {
+	if (self.editing)
+		return;
+	
 	if (subRedditsArray.count == 0)
 		return;
 
@@ -266,8 +294,8 @@
 	if (refreshCount != 0)
 		return;
 	
-	self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Refreshing..."] autorelease];
-	[self.refreshControl beginRefreshing];
+	refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Refreshing..."] autorelease];
+	[refreshControl beginRefreshing];
 	
 	editItem.enabled = NO;
 	
@@ -297,7 +325,7 @@
 		[refreshQueue addOperation:albumRequest];
 	}
 	
-	[self.tableView reloadData];
+	[self.collectionView reloadData];
 }
 
 // ASIHTTPRequestDelegate
@@ -315,8 +343,8 @@
 	if (subReddit == nil) {
 		refreshCount --;
 		if (refreshCount == 0) {
-			self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
-			[self.refreshControl endRefreshing];
+			refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
+			[refreshControl endRefreshing];
 
 			editItem.enabled = YES;
 		}
@@ -337,15 +365,15 @@
 	
 	[subReddit calUnshowedCount];
 	
-	[self.tableView reloadData];
+	[self.collectionView reloadData];
 	
 	[tempPhotosArray removeAllObjects];
 	[tempPhotosArray release];
 	
 	refreshCount --;
 	if (refreshCount == 0) {
-		self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
-		[self.refreshControl endRefreshing];
+		refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
+		[refreshControl endRefreshing];
 	
 		editItem.enabled = YES;
 		[appDelegate saveToDefaults];
@@ -366,8 +394,8 @@
 	if (subReddit == nil) {
 		refreshCount --;
 		if (refreshCount == 0) {
-			self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
-			[self.refreshControl endRefreshing];
+			refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
+			[refreshControl endRefreshing];
 
 			editItem.enabled = YES;
 		}
@@ -378,12 +406,12 @@
 	subReddit.unshowedCount = 0;
 	[subReddit.photosArray removeAllObjects];
 	
-	[self.tableView reloadData];
+	[self.collectionView reloadData];
 	
 	refreshCount --;
 	if (refreshCount == 0) {
-		self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
-		[self.refreshControl endRefreshing];
+		refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
+		[refreshControl endRefreshing];
 
 		editItem.enabled = YES;
 	}
@@ -476,8 +504,8 @@
 	if (![appDelegate checkNetworkReachable:YES])
 		return;
 	
-	self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Refreshing..."] autorelease];
-	[self.refreshControl beginRefreshing];
+	refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Refreshing..."] autorelease];
+	[refreshControl beginRefreshing];
 
 	editItem.enabled = NO;
 	
@@ -577,14 +605,7 @@
 				UIGraphicsEndImageContext();
 				
 				[thumbnailImageCache storeObject:thumbImage withName:photoIndexKey];
-				
-				int colCount = PORT_COL_COUNT;
-				if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
-					colCount = LAND_COL_COUNT;
-				int row = (index + 1) / colCount;
-				int col = (index + 1) % colCount;
-				MainViewCellPad *cell = (MainViewCellPad *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0]];
-				[cell setImage:thumbImage index:col];
+				[self performSelectorOnMainThread:@selector(reloadCell:) withObject:[NSIndexPath indexPathForRow:index + 1 inSection:0] waitUntilDone:NO];
 			}
 		}
 		
@@ -600,6 +621,10 @@
 	
 	[activeRequests addObject:source];
 	[queue addOperation:readOp];
+}
+
+- (void)reloadCell:(NSIndexPath *)indexPath {
+	[self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
 }
 
 - (IBAction)onSettingsButton:(id)sender {
@@ -626,8 +651,8 @@
 	}
 }
 
-- (void)showSubRedditAtIndex:(int)index {
-	if (index == -1) {
+- (void)showSubReddit:(SubRedditItem *)subReddit {
+	if (subReddit == appDelegate.favoritesItem) {
 		if (appDelegate.favoritesItem.photosArray.count > 0) {
 			AlbumViewControllerPad *albumViewController = [[AlbumViewControllerPad alloc] initWithNibName:@"AlbumViewControllerPad" bundle:nil];
 			albumViewController.mainViewController = self;
@@ -638,8 +663,6 @@
 		}
 	}
 	else {
-		SubRedditItem *subReddit = [subRedditsArray objectAtIndex:index];
-		
 		if (subReddit.photosArray.count > 0 && !subReddit.loading) {
 			AlbumViewControllerPad *albumViewController = [[AlbumViewControllerPad alloc] initWithNibName:@"AlbumViewControllerPad" bundle:nil];
 			albumViewController.mainViewController = self;
@@ -651,8 +674,14 @@
 	}
 }
 
-- (void)removeSubRedditAtIndex:(int)index {
-	SubRedditItem *subReddit = [subRedditsArray objectAtIndex:index];
+- (void)removeSubReddit:(SubRedditItem *)subReddit {
+	if (subReddit == appDelegate.favoritesItem)
+		return;
+
+	if (![subRedditsArray containsObject:subReddit])
+		return;
+	
+	int index = [subRedditsArray indexOfObject:subReddit];
 	if (subReddit.photosArray.count > 0) {
 		NSString *thumbnailString = [[subReddit.photosArray objectAtIndex:0] thumbnailString];
 		for (ASIHTTPRequest *request in queue.operations) {
@@ -662,15 +691,14 @@
 				break;
 			}
 		}
-		[subReddit removeAllCaches];
 	}
 	
 	subReddit.subscribe = NO;
-	[appDelegate.manualSubRedditsArray removeObject:subReddit];
+	[appDelegate.nameStringsSet removeObject:[subReddit.nameString lowercaseString]];
 	[subRedditsArray removeObject:subReddit];
+	[self.collectionView performBatchUpdates:^() { [self.collectionView deleteItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index + 1 inSection:0]]]; } completion:nil];
+
 	[appDelegate saveToDefaults];
-	
-	[self.tableView reloadData];
 }
 
 // PopoverControllerDelegate

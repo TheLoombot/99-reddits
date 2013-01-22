@@ -116,39 +116,22 @@
 	}
 	
 	if (correct) {
-		BOOL bExist = NO;
-		SubRedditItem *tempSubReddit;
-		for (SubRedditItem *subReddit in appDelegate.staticSubRedditsArray) {
-			if ([[subReddit.nameString lowercaseString] isEqualToString:[nameString lowercaseString]]) {
-				tempSubReddit = subReddit;
-				bExist = YES;
-				break;
-			}
-		}
-		
-		if (!bExist) {
-			for (SubRedditItem *subReddit in appDelegate.manualSubRedditsArray) {
-				if ([[subReddit.nameString lowercaseString] isEqualToString:[nameString lowercaseString]]) {
-					bExist = YES;
-					break;
-				}
-			}
+		if (![appDelegate.nameStringsSet containsObject:[nameString lowercaseString]]) {
+			SubRedditItem *subReddit = [[[SubRedditItem alloc] init] autorelease];
+			subReddit.nameString = nameString;
+			subReddit.urlString = urlString;
+			subReddit.subscribe = YES;
+			[appDelegate.subRedditsArray addObject:subReddit];
 			
-			if (!bExist) {
-				SubRedditItem *subReddit = [[SubRedditItem alloc] init];
-				subReddit.nameString = nameString;
-				subReddit.urlString = urlString;
-				subReddit.subscribe = YES;
-				[appDelegate.manualSubRedditsArray addObject:subReddit];
-				[subReddit release];
-			}
-		}
-		else {
-			tempSubReddit.subscribe = YES;
+			[appDelegate.nameStringsSet addObject:[nameString lowercaseString]];
+			
+			[redditsViewController onManualAdded:subReddit];
+			
+			return YES;
 		}
 	}
-
-	[redditsViewController onManualAdded];
+	
+	[redditsViewController onManualAdded:nil];
 	
 	return YES;
 }

@@ -10,6 +10,7 @@
 
 @class RedditsAppDelegate;
 @class MainViewController;
+@class SubRedditItem;
 
 @interface RedditsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
 	RedditsAppDelegate *appDelegate;
@@ -17,14 +18,13 @@
 	
 	IBOutlet UITableView *contentTableView;
 	
-	NSMutableArray *originalSubRedditsArray;
-	
 	NSMutableArray *categoryArray;
 	NSMutableArray *sectionArray;
+	NSMutableSet *nameStringsSet;
 }
 
 @property (nonatomic, assign) MainViewController *mainViewController;
 
-- (void)onManualAdded;
+- (void)onManualAdded:(SubRedditItem *)subReddit;
 
 @end

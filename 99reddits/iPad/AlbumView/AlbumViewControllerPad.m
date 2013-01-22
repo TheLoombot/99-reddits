@@ -172,10 +172,12 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	if (showTypeSegmentedControl.selectedSegmentIndex == 1)
+	if (showTypeSegmentedControl.selectedSegmentIndex == 1) {
 		[self refreshSubReddit];
-	else
+	}
+	else {
 		[contentTableView reloadData];
+	}
 	
 	bFromSubview = NO;
 }
@@ -223,10 +225,36 @@
 	}
 	else {
 		for (PhotoItem *photo in currentSubReddit.photosArray) {
-			if (![photo isShowed])
+			if (![photo isShowed]) {
 				[currentPhotosArray addObject:photo];
+			}
 		}
 	}
+	
+	if (!bFavorites) {
+		BOOL bShowTypeControlEnabled = NO;
+		for (PhotoItem *photo in currentSubReddit.photosArray) {
+			if (![photo isShowed]) {
+				bShowTypeControlEnabled = YES;
+			}
+		}
+		
+		if (bShowTypeControlEnabled) {
+			self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl] autorelease];
+			self.navigationItem.rightBarButtonItem.enabled = YES;
+		}
+		else {
+			self.navigationItem.rightBarButtonItem.enabled = NO;
+			
+			if (showTypeSegmentedControl.selectedSegmentIndex == 1) {
+				showTypeSegmentedControl.selectedSegmentIndex = 0;
+				[self performSelector:@selector(refreshSubReddit) withObject:nil afterDelay:0.1];
+				
+				return 0;
+			}
+		}
+	}
+
 	int count = currentPhotosArray.count;
 	int colCount = PORT_COL_COUNT;
 	if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))

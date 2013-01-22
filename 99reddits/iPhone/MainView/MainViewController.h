@@ -16,6 +16,12 @@
 @interface MainViewController : UITableViewController <ASIHTTPRequestDelegate> {
 	RedditsAppDelegate *appDelegate;
 	
+	IBOutlet UIBarButtonItem *settingsItem;
+	IBOutlet UIBarButtonItem *editItem;
+	IBOutlet UIBarButtonItem *doneItem;
+	IBOutlet UIBarButtonItem *addItem;
+	UIRefreshControl *refreshControl;
+
 	NSMutableArray *subRedditsArray;
 	
 	NSOperationQueue *refreshQueue;
@@ -27,8 +33,13 @@
 	int refreshCount;
 }
 
+- (IBAction)onSettingsButton:(id)sender;
+- (IBAction)onEditButton:(id)sender;
+- (IBAction)onAddButton:(id)sender;
+
+- (void)reloadData;
+
 - (void)removeSubRedditOperations:(SubRedditItem *)subReddit;
 - (void)addSubReddit:(SubRedditItem *)subReddit;
-- (void)onSettingsButton:(id)sender;
 
 @end

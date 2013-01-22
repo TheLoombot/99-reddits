@@ -11,17 +11,19 @@
 #import "NIProcessorHTTPRequest.h"
 #import "PopoverController.h"
 #import "CustomTableView.h"
+#import "MainViewLayoutPad.h"
 
 @class RedditsAppDelegate;
 @class SubRedditItem;
 
-@interface MainViewControllerPad : UITableViewController  <ASIHTTPRequestDelegate, PopoverControllerDelegate> {
+@interface MainViewControllerPad : UICollectionViewController <ASIHTTPRequestDelegate, PopoverControllerDelegate, MainViewLayoutPadDelegate> {
 	RedditsAppDelegate *appDelegate;
 	
 	IBOutlet UIBarButtonItem *settingsItem;
 	IBOutlet UIBarButtonItem *editItem;
 	IBOutlet UIBarButtonItem *doneItem;
 	IBOutlet UIBarButtonItem *addItem;
+	UIRefreshControl *refreshControl;
 
 	NSMutableArray *subRedditsArray;
 	
@@ -41,11 +43,13 @@
 - (IBAction)onEditButton:(id)sender;
 - (IBAction)onAddButton:(id)sender;
 
+- (void)reloadData;
+
 - (void)removeSubRedditOperations:(SubRedditItem *)subReddit;
 - (void)addSubReddit:(SubRedditItem *)subReddit;
 
-- (void)showSubRedditAtIndex:(int)index;
-- (void)removeSubRedditAtIndex:(int)index;
+- (void)showSubReddit:(SubRedditItem *)subReddit;
+- (void)removeSubReddit:(SubRedditItem *)subReddit;
 
 - (void)dismissPopover;
 

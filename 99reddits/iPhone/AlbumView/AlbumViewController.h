@@ -30,6 +30,7 @@
 	IBOutlet UITabBarItem *controversialItem;
 	IBOutlet UITabBarItem *topItem;
 	UITabBarItem *currentItem;
+	IBOutlet UISegmentedControl *showTypeSegmentedControl;
 
 	SubRedditItem *currentSubReddit;
 	SubRedditItem *subReddit;
@@ -45,6 +46,8 @@
 	BOOL bFavorites;
 	
 	BOOL bMOARLoading;
+
+	NSMutableArray *currentPhotosArray;
 }
 
 @property (nonatomic, retain) MainViewController *mainViewController;
@@ -52,6 +55,7 @@
 @property (nonatomic) BOOL bFavorites;
 
 - (IBAction)onMOARButton:(id)sender;
+- (IBAction)onShowType:(id)sender;
 - (void)onSelectPhoto:(PhotoItem *)photo;
 
 @end

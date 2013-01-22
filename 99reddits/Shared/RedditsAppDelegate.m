@@ -26,9 +26,8 @@
 @implementation RedditsAppDelegate
 
 @synthesize window = _window;
-@synthesize staticSubRedditsArray;
-@synthesize manualSubRedditsArray;
 @synthesize subRedditsArray;
+@synthesize nameStringsSet;
 @synthesize showedSet;
 @synthesize firstRun;
 @synthesize favoritesItem;
@@ -44,9 +43,8 @@ void uncaughtExceptionHandler(NSException *exception) {
 	NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
 	[Flurry startSession:@"29Y8B1XXMBQVLEPC3ZPU"];
 
-	staticSubRedditsArray = [[NSMutableArray alloc] init];
-	manualSubRedditsArray = [[NSMutableArray alloc] init];
 	subRedditsArray = [[NSMutableArray alloc] init];
+	nameStringsSet = [[NSMutableSet alloc] init];
 	showedSet = [[NSMutableSet alloc] init];
 	
 	[self loadFromDefaults];
@@ -78,9 +76,8 @@ void uncaughtExceptionHandler(NSException *exception) {
 - (void)dealloc {
 	[favoritesItem release];
 	[favoritesSet release];
-	[staticSubRedditsArray release];
-	[manualSubRedditsArray release];
 	[subRedditsArray release];
+	[nameStringsSet release];
 	[showedSet release];
 	[connectionAlertView release];
 	
@@ -93,149 +90,103 @@ void uncaughtExceptionHandler(NSException *exception) {
 	firstRun = NO;
 	
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-	NSData *data = [defaults objectForKey:@"STATIC_SUBREDDITS"];
-	if (data != nil) {
-		NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-		NSArray *array = [unarchiver decodeObjectForKey:@"data"];
-		[unarchiver finishDecoding];
-		[staticSubRedditsArray addObjectsFromArray:array];
-		[unarchiver release];
-	}
 	
-	if (staticSubRedditsArray.count > 0) {
-		NSArray *tempStaticArray = [NSArray arrayWithArray:staticSubRedditsArray];
-		[staticSubRedditsArray removeAllObjects];
-		
-		NSArray *array = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"SubRedditsList" ofType:@"plist"]];
-		for (NSDictionary *dictionary in array) {
-			NSString *category = [dictionary objectForKey:@"category"];
-			NSArray *staticArray = [dictionary objectForKey:@"subreddits"];
-			
-			for (int i = 0; i < staticArray.count; i ++) {
-				SubRedditItem *subReddit = [[SubRedditItem alloc] init];
-				subReddit.nameString = [staticArray objectAtIndex:i];
-				subReddit.urlString = [NSString stringWithFormat:SUBREDDIT_FORMAT1, subReddit.nameString];
-				subReddit.subscribe = NO;
-				subReddit.category = category;
-				[staticSubRedditsArray addObject:subReddit];
-				[subReddit release];
-			}
-		}
-		
-		for (SubRedditItem *tempSubReddit in tempStaticArray) {
-			BOOL bExist = NO;
-			for (SubRedditItem *subReddit in staticSubRedditsArray) {
-				if ([tempSubReddit.nameString isEqualToString:subReddit.nameString]) {
-					subReddit.afterString = tempSubReddit.afterString;
-					[subReddit.photosArray addObjectsFromArray:tempSubReddit.photosArray];
-					subReddit.subscribe = tempSubReddit.subscribe;
-					bExist = YES;
-					break;
-				}
-			}
-			
-			if (!bExist && tempSubReddit.subscribe) {
-				[manualSubRedditsArray addObject:tempSubReddit];
-			}
+	if ([defaults objectForKey:@"DATA_VERSION"]) {
+		NSData *data = [defaults objectForKey:@"SUBREDDITS"];
+		if (data != nil) {
+			NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+			NSArray *array = [unarchiver decodeObjectForKey:@"data"];
+			[unarchiver finishDecoding];
+			[subRedditsArray addObjectsFromArray:array];
+			[unarchiver release];
 		}
 
-		data = [defaults objectForKey:@"MANUAL_SUBREDDITS"];
-		if (data != nil) {
-			NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-			NSArray *array = [unarchiver decodeObjectForKey:@"data"];
-			[unarchiver finishDecoding];
-			[manualSubRedditsArray addObjectsFromArray:array];
-			[unarchiver release];
-		}
-	}
-	else {
-		NSArray *array = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"SubRedditsList" ofType:@"plist"]];
-		for (NSDictionary *dictionary in array) {
-			NSString *category = [dictionary objectForKey:@"category"];
-			NSArray *staticArray = [dictionary objectForKey:@"subreddits"];
-			
-			for (int i = 0; i < staticArray.count; i ++) {
-				SubRedditItem *subReddit = [[SubRedditItem alloc] init];
-				subReddit.nameString = [staticArray objectAtIndex:i];
-				subReddit.urlString = [NSString stringWithFormat:SUBREDDIT_FORMAT1, subReddit.nameString];
-				subReddit.subscribe = NO;
-				subReddit.category = category;
-				[staticSubRedditsArray addObject:subReddit];
-				[subReddit release];
-			}
-		}
-		
-		NSMutableArray *tempSubRedditsArray = [[NSMutableArray alloc] init];
-		data = [defaults objectForKey:@"subreddits"];
-		if (data != nil) {
-			NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
-			NSArray *array = [unarchiver decodeObjectForKey:@"data"];
-			[unarchiver finishDecoding];
-			[tempSubRedditsArray addObjectsFromArray:array];
-			[unarchiver release];
-			
-			for (SubRedditItem *tempSubReddit in tempSubRedditsArray) {
+		float version = [[defaults objectForKey:@"DATA_VERSION"] floatValue];
+		if (version < [DATA_VERSION floatValue]) {
+			NSArray *subscribeNamesArray = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"SubscribeList" ofType:@"plist"]];
+			for (NSString *nameString in subscribeNamesArray) {
 				BOOL bExist = NO;
-				for (SubRedditItem *subReddit in staticSubRedditsArray) {
-					if ([[subReddit.nameString lowercaseString] isEqualToString:[tempSubReddit.nameString lowercaseString]]) {
+				for (SubRedditItem *subReddit in subRedditsArray) {
+					if ([[subReddit.nameString lowercaseString] isEqualToString:[nameString lowercaseString]]) {
 						bExist = YES;
-						int index = [staticSubRedditsArray indexOfObject:subReddit];
-						[staticSubRedditsArray removeObject:subReddit];
-						tempSubReddit.subscribe = YES;
-						[staticSubRedditsArray insertObject:tempSubReddit atIndex:index];
 						break;
 					}
 				}
 				
 				if (!bExist) {
-					tempSubReddit.subscribe = YES;
-					[manualSubRedditsArray addObject:tempSubReddit];
+					SubRedditItem *subReddit = [[SubRedditItem alloc] init];
+					subReddit.nameString = nameString;
+					subReddit.urlString = [NSString stringWithFormat:SUBREDDIT_FORMAT1, subReddit.nameString];
+					subReddit.subscribe = YES;
+					[subRedditsArray addObject:subReddit];
+					[subReddit release];
 				}
 			}
+		}
+	}
+	else {
+		NSData *data = [defaults objectForKey:@"STATIC_SUBREDDITS"];
+		if (data != nil) {
+			NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+			NSArray *array = [unarchiver decodeObjectForKey:@"data"];
+			[unarchiver finishDecoding];
+			for (SubRedditItem *subReddit in array) {
+				if (subReddit.subscribe)
+					[subRedditsArray addObject:subReddit];
+			}
+			[unarchiver release];
 			
-			[defaults removeObjectForKey:@"subreddits"];
-			[defaults removeObjectForKey:@"INITIALIZTED"];
-			[defaults removeObjectForKey:@"UPDATED_SUBREDDITS_LIST"];
-			[defaults synchronize];
+			[defaults removeObjectForKey:@"STATIC_SUBREDDITS"];
+			
+			data = [defaults objectForKey:@"MANUAL_SUBREDDITS"];
+			if (data != nil) {
+				NSKeyedUnarchiver *unarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:data];
+				NSArray *array = [unarchiver decodeObjectForKey:@"data"];
+				[unarchiver finishDecoding];
+				for (SubRedditItem *subReddit in array) {
+					if (subReddit.subscribe)
+						[subRedditsArray addObject:subReddit];
+				}
+				[unarchiver release];
+			}
+			
+			[defaults removeObjectForKey:@"MANUAL_SUBREDDITS"];
 		}
 		else {
-			NSMutableSet *manualSubscribeSet = [[NSMutableSet alloc] initWithArray:[NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"SubscribeList" ofType:@"plist"]]];
-			for (SubRedditItem *subReddit in staticSubRedditsArray) {
-				if ([manualSubscribeSet containsObject:subReddit.nameString]) {
+			NSArray *subscribeNamesArray = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"SubscribeList" ofType:@"plist"]];
+			for (NSString *nameString in subscribeNamesArray) {
+				BOOL bExist = NO;
+				for (SubRedditItem *subReddit in subRedditsArray) {
+					if ([[subReddit.nameString lowercaseString] isEqualToString:[nameString lowercaseString]]) {
+						bExist = YES;
+						break;
+					}
+				}
+				
+				if (!bExist) {
+					SubRedditItem *subReddit = [[SubRedditItem alloc] init];
+					subReddit.nameString = nameString;
+					subReddit.urlString = [NSString stringWithFormat:SUBREDDIT_FORMAT1, subReddit.nameString];
 					subReddit.subscribe = YES;
-					[manualSubscribeSet removeObject:subReddit.nameString];
+					[subRedditsArray addObject:subReddit];
+					[subReddit release];
 				}
 			}
-			
-			NSArray *tempArray = [manualSubscribeSet allObjects];
-			for (int i = 0; i < tempArray.count; i ++) {
-				SubRedditItem *subReddit = [[SubRedditItem alloc] init];
-				subReddit.nameString = [tempArray objectAtIndex:i];
-				subReddit.urlString = [NSString stringWithFormat:SUBREDDIT_FORMAT1, subReddit.nameString];
-				subReddit.subscribe = YES;
-				[manualSubRedditsArray addObject:subReddit];
-				[subReddit release];
-			}
-			
-			[manualSubscribeSet release];
 			
 			firstRun = YES;
 		}
-		
-		[tempSubRedditsArray release];
 	}
 	
-	[self refreshSubscribe];
+	[defaults setObject:DATA_VERSION forKey:@"DATA_VERSION"];
+	[defaults synchronize];
+
+	[self refreshNameStringsSet];
 	
 	NSArray *array = [defaults objectForKey:@"SHOWEDSET"];
 	if (array)
 		[showedSet addObjectsFromArray:array];
 	
-	for (SubRedditItem *subReddit in staticSubRedditsArray) {
-		[subReddit calUnshowedCount];
-	}
-	
-	for (SubRedditItem *subReddit in manualSubRedditsArray) {
+	for (SubRedditItem *subReddit in subRedditsArray) {
 		[subReddit calUnshowedCount];
 	}
 	
@@ -263,17 +214,9 @@ void uncaughtExceptionHandler(NSException *exception) {
 	
 	NSMutableData *data = [[NSMutableData alloc] init];
 	NSKeyedArchiver *archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-	[archiver encodeObject:staticSubRedditsArray forKey:@"data"];
+	[archiver encodeObject:subRedditsArray forKey:@"data"];
 	[archiver finishEncoding];
-	[defaults setObject:data forKey:@"STATIC_SUBREDDITS"];
-	[archiver release];
-	[data release];
-	
-	data = [[NSMutableData alloc] init];
-	archiver = [[NSKeyedArchiver alloc] initForWritingWithMutableData:data];
-	[archiver encodeObject:manualSubRedditsArray forKey:@"data"];
-	[archiver finishEncoding];
-	[defaults setObject:data forKey:@"MANUAL_SUBREDDITS"];
+	[defaults setObject:data forKey:@"SUBREDDITS"];
 	[archiver release];
 	[data release];
 	
@@ -436,17 +379,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 	return NO;
 }
 
-- (void)refreshSubscribe {
-	[subRedditsArray removeAllObjects];
-	
-	for (SubRedditItem *subReddit in staticSubRedditsArray) {
-		if (subReddit.subscribe)
-			[subRedditsArray addObject:subReddit];
-	}
-	
-	[subRedditsArray addObjectsFromArray:manualSubRedditsArray];
-}
-
 - (void)setNavAppearance {
 	[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"NavBarBack.png"] forBarMetrics:UIBarMetricsDefault];
 	[[UIBarButtonItem appearance] setBackgroundImage:[[UIImage imageNamed:@"BarButtonBack.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
@@ -461,6 +393,13 @@ void uncaughtExceptionHandler(NSException *exception) {
 	[[UIBarButtonItem appearance] setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
 	[[UIBarButtonItem appearance] setBackButtonBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
 	[[UIBarButtonItem appearance] setBackButtonBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+}
+
+- (void)refreshNameStringsSet {
+	[nameStringsSet removeAllObjects];
+	for (SubRedditItem *subReddit in subRedditsArray) {
+		[nameStringsSet addObject:[subReddit.nameString lowercaseString]];
+	}
 }
 
 @end

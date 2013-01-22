@@ -10,23 +10,36 @@
 
 @class RedditsAppDelegate;
 @class MainViewControllerPad;
-@class MainViewCellItemPad;
+@class SubRedditItem;
 
-@interface MainViewCellPad : UITableViewCell {
+@interface MainViewCellPad : UICollectionViewCell {
 	RedditsAppDelegate *appDelegate;
 	MainViewControllerPad *mainViewController;
-	NSMutableArray *subRedditsArray;
-	int row;
+	SubRedditItem *subReddit;
+
+	UIView *imageOutlineView;
+	UIImageView *imageView;
+	UIButton *tapButton;
+	UIActivityIndicatorView *activityIndicator;
+	UIButton *deleteButton;
+	UIImageView *unshowedBackImageView;
+	UILabel *unshowedLabel;
+	UILabel *nameLabel;
 	
-	NSMutableArray *itemViewsArray;
+	int unshowedCount;
+	int totalCount;
+	BOOL loading;
+	
+	BOOL bFavorites;
+	BOOL editing;
 }
 
 @property (nonatomic, assign) MainViewControllerPad *mainViewController;
-@property (nonatomic, assign) NSMutableArray *subRedditsArray;
-@property (nonatomic, assign) int row;
+@property (nonatomic, assign) SubRedditItem *subReddit;
+@property (nonatomic, readonly) UILabel *nameLabel;
 
-- (void)setImage:(UIImage *)image index:(int)index;
-- (void)onClick:(int)index;
-- (void)onDeleteButton:(int)index;
+- (void)setImage:(UIImage *)image;
+- (void)setUnshowedCount:(int)_unshowedCount totalCount:(int)_totalCount loading:(BOOL)_loading;
+- (void)setTotalCount:(int)_totalCount;
 
 @end

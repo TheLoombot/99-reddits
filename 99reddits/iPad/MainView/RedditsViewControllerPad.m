@@ -10,6 +10,7 @@
 #import "RedditsAppDelegate.h"
 #import "MainViewControllerPad.h"
 #import "AddViewControllerPad.h"
+#import "UserDef.h"
 
 @interface RedditsViewControllerPad ()
 
@@ -31,9 +32,9 @@
 }
 
 - (void)dealloc {
-	[originalSubRedditsArray release];
 	[categoryArray release];
 	[sectionArray release];
+	[nameStringsSet release];
 	
 	[contentTableView release];
 	[super dealloc];
@@ -52,31 +53,18 @@
     [super viewDidLoad];
 	
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
-	originalSubRedditsArray = [[NSMutableArray alloc] initWithArray:appDelegate.subRedditsArray];
 	
 	categoryArray = [[NSMutableArray alloc] init];
 	sectionArray = [[NSMutableArray alloc] init];
+	nameStringsSet = [[NSMutableSet alloc] initWithSet:appDelegate.nameStringsSet];
 	
-	for (SubRedditItem *subReddit in appDelegate.staticSubRedditsArray) {
-		int index = -1;
-		for (int i = 0; i < categoryArray.count; i ++) {
-			if ([subReddit.category isEqualToString:[categoryArray objectAtIndex:i]]) {
-				index = i;
-				break;
-			}
-		}
+	NSArray *array = [NSArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"SubRedditsList" ofType:@"plist"]];
+	for (NSDictionary *dictionary in array) {
+		NSString *category = [dictionary objectForKey:@"category"];
+		NSArray *staticArray = [dictionary objectForKey:@"subreddits"];
 		
-		if (index == -1) {
-			NSMutableArray *section = [[NSMutableArray alloc] init];
-			[section addObject:subReddit];
-			[sectionArray addObject:section];
-			[categoryArray addObject:subReddit.category];
-			[section release];
-		}
-		else {
-			NSMutableArray *section = [sectionArray objectAtIndex:index];
-			[section addObject:subReddit];
-		}
+		[categoryArray addObject:category];
+		[sectionArray addObject:staticArray];
 	}
 }
 
@@ -99,12 +87,11 @@
 }
 
 - (IBAction)onDoneButton:(id)sender {
-	[appDelegate refreshSubscribe];
-	
-	for (SubRedditItem *subReddit in originalSubRedditsArray) {
+	NSArray *tempSubRedditsArray = [NSArray arrayWithArray:appDelegate.subRedditsArray];
+	for (SubRedditItem *subReddit in tempSubRedditsArray) {
 		BOOL bExist = NO;
-		for (SubRedditItem *tempSubReddit in appDelegate.subRedditsArray) {
-			if (subReddit == tempSubReddit) {
+		for (NSString *nameString in nameStringsSet) {
+			if ([[subReddit.nameString lowercaseString] isEqualToString:[nameString lowercaseString]]) {
 				bExist = YES;
 				break;
 			}
@@ -112,23 +99,37 @@
 		
 		if (!bExist) {
 			[mainViewController removeSubRedditOperations:subReddit];
+			[appDelegate.subRedditsArray removeObject:subReddit];
 		}
 	}
 	
-	for (SubRedditItem *subReddit in appDelegate.subRedditsArray) {
-		BOOL bExist = NO;
-		for (SubRedditItem *tempSubReddit in originalSubRedditsArray) {
-			if (subReddit == tempSubReddit) {
-				bExist = YES;
-				break;
+	NSMutableArray *nameStringsArray = [NSMutableArray array];
+	for (NSArray *section in sectionArray) {
+		[nameStringsArray addObjectsFromArray:section];
+	}
+	
+	for (NSString *nameString in nameStringsArray) {
+		if ([nameStringsSet containsObject:[nameString lowercaseString]]) {
+			BOOL bExist = NO;
+			for (SubRedditItem *subReddit in appDelegate.subRedditsArray) {
+				if ([[subReddit.nameString lowercaseString] isEqualToString:[nameString lowercaseString]]) {
+					bExist = YES;
+					break;
+				}
+			}
+			
+			if (!bExist) {
+				SubRedditItem *subReddit = [[[SubRedditItem alloc] init] autorelease];
+				subReddit.nameString = nameString;
+				subReddit.urlString = [NSString stringWithFormat:SUBREDDIT_FORMAT1, subReddit.nameString];
+				subReddit.subscribe = YES;
+				[appDelegate.subRedditsArray addObject:subReddit];
+				[mainViewController addSubReddit:subReddit];
 			}
 		}
-		
-		if (!bExist) {
-			[mainViewController addSubReddit:subReddit];
-		}
 	}
 	
+	[appDelegate refreshNameStringsSet];
 	[mainViewController dismissPopover];
 	[mainViewController viewWillAppear:YES];
 }
@@ -165,10 +166,10 @@
 		cell.textLabel.backgroundColor = [UIColor clearColor];
 	}
 	
-	NSMutableArray *section = [sectionArray objectAtIndex:indexPath.section];
-	SubRedditItem *subReddit = [section objectAtIndex:indexPath.row];
-	cell.textLabel.text = subReddit.nameString;
-	if (subReddit.subscribe) {
+	NSArray *section = [sectionArray objectAtIndex:indexPath.section];
+	NSString *nameString = [section objectAtIndex:indexPath.row];
+	cell.textLabel.text = nameString;
+	if ([nameStringsSet containsObject:[nameString lowercaseString]]) {
 		cell.backgroundView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"CheckCellBack.png"]] autorelease];
 		cell.imageView.image = [UIImage imageNamed:@"CheckIcon.png"];
 	}
@@ -183,11 +184,17 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[contentTableView deselectRowAtIndexPath:indexPath animated:YES];
 	
-	NSMutableArray *section = [sectionArray objectAtIndex:indexPath.section];
-	SubRedditItem *subReddit = [section objectAtIndex:indexPath.row];
+	NSArray *section = [sectionArray objectAtIndex:indexPath.section];
+	NSString *nameString = [section objectAtIndex:indexPath.row];
+	if ([nameStringsSet containsObject:[nameString lowercaseString]]) {
+		[nameStringsSet removeObject:[nameString lowercaseString]];
+	}
+	else {
+		[nameStringsSet addObject:[nameString lowercaseString]];
+	}
+	
 	UITableViewCell *cell = [contentTableView cellForRowAtIndexPath:indexPath];
-	subReddit.subscribe = !subReddit.subscribe;
-	if (subReddit.subscribe) {
+	if ([nameStringsSet containsObject:[nameString lowercaseString]]) {
 		cell.backgroundView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"CheckCellBack.png"]] autorelease];
 		cell.imageView.image = [UIImage imageNamed:@"CheckIcon.png"];
 	}
@@ -197,37 +204,10 @@
 	}
 }
 
-- (void)onManualAdded {
-	[appDelegate refreshSubscribe];
-	
-	for (SubRedditItem *subReddit in originalSubRedditsArray) {
-		BOOL bExist = NO;
-		for (SubRedditItem *tempSubReddit in appDelegate.subRedditsArray) {
-			if (subReddit == tempSubReddit) {
-				bExist = YES;
-				break;
-			}
-		}
-		
-		if (!bExist) {
-			[mainViewController removeSubRedditOperations:subReddit];
-		}
+- (void)onManualAdded:(SubRedditItem *)subReddit {
+	if (subReddit) {
+		[mainViewController addSubReddit:subReddit];
 	}
-	
-	for (SubRedditItem *subReddit in appDelegate.subRedditsArray) {
-		BOOL bExist = NO;
-		for (SubRedditItem *tempSubReddit in originalSubRedditsArray) {
-			if (subReddit == tempSubReddit) {
-				bExist = YES;
-				break;
-			}
-		}
-		
-		if (!bExist) {
-			[mainViewController addSubReddit:subReddit];
-		}
-	}
-	
 	[mainViewController dismissPopover];
 	[mainViewController viewWillAppear:YES];
 }

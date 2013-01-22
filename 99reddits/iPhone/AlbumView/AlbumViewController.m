@@ -25,6 +25,7 @@
 - (void)loadThumbnails;
 - (NSString *)cacheKeyForPhotoIndex:(NSInteger)photoIndex;
 - (void)requestImageFromSource:(NSString *)source photoIndex:(NSInteger)photoIndex;
+- (void)refreshSubReddit;
 
 @end
 
@@ -63,6 +64,7 @@
 	
 	[subReddit release];
 	[mainViewController release];
+	[currentPhotosArray release];
 	
 	[contentTableView release];
 	[footerView release];
@@ -73,6 +75,7 @@
 	[newItem release];
 	[controversialItem release];
 	[topItem release];
+	[showTypeSegmentedControl release];
 	[super dealloc];
 }
 
@@ -111,12 +114,9 @@
 	
 	thumbnailImageCache = [[NIImageMemoryCache alloc] init];
 	
-	[self loadThumbnails];
-	
 	if (bFavorites) {
 		[tabBar removeFromSuperview];
-		contentTableView.frame = CGRectMake(0, 0, 320, self.view.bounds.size.height);
-		contentTableView.tableFooterView = nil;
+		contentTableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
 	}
 	else {
 		contentTableView.tableFooterView = footerView;
@@ -124,6 +124,7 @@
 	
 	[moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
 	[moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateHighlighted];
+	[moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateDisabled];
 	moarWaitingView.hidden = YES;
 	
 	[appDelegate checkNetworkReachable:YES];
@@ -131,6 +132,7 @@
 	tabBar.selectedItem = hotItem;
 	currentItem = hotItem;
 	
+	currentPhotosArray = [[NSMutableArray alloc] init];
 	if (bFavorites) {
 		currentSubReddit = [subReddit retain];
 	}
@@ -140,6 +142,8 @@
 		currentSubReddit.urlString = subReddit.urlString;
 		[currentSubReddit.photosArray addObjectsFromArray:subReddit.photosArray];
 		currentSubReddit.afterString = subReddit.afterString;
+
+		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl] autorelease];
 	}
 	
 	contentTableView.delaysContentTouches = NO;
@@ -166,7 +170,12 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	[contentTableView reloadData];
+	if (showTypeSegmentedControl.selectedSegmentIndex == 1) {
+		[self refreshSubReddit];
+	}
+	else {
+		[contentTableView reloadData];
+	}
 	
 	bFromSubview = NO;
 }
@@ -182,17 +191,74 @@
 - (void)onSelectPhoto:(PhotoItem *)photo {
 	bFromSubview = YES;
 	
-	PhotoViewController *photoViewController = [[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:nil];
-	photoViewController.bFavorites = bFavorites;
-	photoViewController.subReddit = currentSubReddit;
-	photoViewController.index = [currentSubReddit.photosArray indexOfObject:photo];
-	[self.navigationController pushViewController:photoViewController animated:YES];
-	[photoViewController release];
+	if (bFavorites) {
+		PhotoViewController *photoViewController = [[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:nil];
+		photoViewController.bFavorites = bFavorites;
+		photoViewController.subReddit = currentSubReddit;
+		photoViewController.index = [currentSubReddit.photosArray indexOfObject:photo];
+		[self.navigationController pushViewController:photoViewController animated:YES];
+		[photoViewController release];
+	}
+	else {
+		SubRedditItem *photoSubReddit = [[[SubRedditItem alloc] init] autorelease];
+		photoSubReddit.nameString = currentSubReddit.nameString;
+		photoSubReddit.urlString = currentSubReddit.urlString;
+		[photoSubReddit.photosArray addObjectsFromArray:currentPhotosArray];
+		photoSubReddit.afterString = currentSubReddit.afterString;
+		
+		PhotoViewController *photoViewController = [[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:nil];
+		photoViewController.bFavorites = bFavorites;
+		photoViewController.subReddit = photoSubReddit;
+		photoViewController.index = [currentPhotosArray indexOfObject:photo];
+		[self.navigationController pushViewController:photoViewController animated:YES];
+		[photoViewController release];
+	}
 }
 
 // UITableViewDelegate, UITableViewDatasource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	return currentSubReddit.photosArray.count / 4 + (currentSubReddit.photosArray.count % 4 ? 1 : 0);
+	[currentPhotosArray removeAllObjects];
+	if (showTypeSegmentedControl.selectedSegmentIndex == 0) {
+		[currentPhotosArray addObjectsFromArray:currentSubReddit.photosArray];
+	}
+	else {
+		for (PhotoItem *photo in currentSubReddit.photosArray) {
+			if (![photo isShowed]) {
+				[currentPhotosArray addObject:photo];
+			}
+		}
+	}
+	
+	if (!bFavorites) {
+		BOOL bShowTypeControlEnabled = NO;
+		for (PhotoItem *photo in currentSubReddit.photosArray) {
+			if (![photo isShowed]) {
+				bShowTypeControlEnabled = YES;
+			}
+		}
+		
+		if (bShowTypeControlEnabled) {
+			self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl] autorelease];
+			self.navigationItem.rightBarButtonItem.enabled = YES;
+		}
+		else {
+			self.navigationItem.rightBarButtonItem.enabled = NO;
+			
+			if (showTypeSegmentedControl.selectedSegmentIndex == 1) {
+				showTypeSegmentedControl.selectedSegmentIndex = 0;
+				[self performSelector:@selector(refreshSubReddit) withObject:nil afterDelay:0.1];
+				
+				return 0;
+			}
+		}
+	}
+
+	int count = currentPhotosArray.count;
+	int rowCount = count / 4 + (count % 4 ? 1 : 0);
+	
+	[self loadThumbnails];
+
+	return rowCount;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -203,13 +269,13 @@
 	}
 	
 	cell.albumViewController = self;
-	cell.photosArray = currentSubReddit.photosArray;
+	cell.photosArray = currentPhotosArray;
 	cell.bFavorites = bFavorites;
 	cell.row = indexPath.row;
 	
 	for (int i = 0; i < 4; i ++) {
 		int index = indexPath.row * 4 + i;
-		if (index < currentSubReddit.photosArray.count) {
+		if (index < currentPhotosArray.count) {
 			NSString *urlString = [self cacheKeyForPhotoIndex:index];
 			UIImage *image = [thumbnailImageCache objectWithName:urlString];
 			if (image == nil) {
@@ -229,16 +295,16 @@
 }
 
 - (void)loadThumbnails {
-	for (int i = 0; i < currentSubReddit.photosArray.count; i ++) {
+	for (int i = 0; i < currentPhotosArray.count; i ++) {
 		NSString *photoIndexKey = [self cacheKeyForPhotoIndex:i];
 		if (![thumbnailImageCache containsObjectWithName:photoIndexKey]) {
-			[self requestImageFromSource:[[currentSubReddit.photosArray objectAtIndex:i] thumbnailString] photoIndex:i];
+			[self requestImageFromSource:[[currentPhotosArray objectAtIndex:i] thumbnailString] photoIndex:i];
 		}
 	}
 }
 
 - (NSString *)cacheKeyForPhotoIndex:(NSInteger)photoIndex {
-	return [[currentSubReddit.photosArray objectAtIndex:photoIndex] thumbnailString];
+	return [[currentPhotosArray objectAtIndex:photoIndex] thumbnailString];
 }
 
 - (void)requestImageFromSource:(NSString *)source photoIndex:(NSInteger)photoIndex {
@@ -265,7 +331,7 @@
 	[readOp setCompletionBlock:^{
 		UIImage *image = [UIImage imageWithData:[readOp responseData]];
 		
-		if (image && currentSubReddit.photosArray.count > photoIndex) {
+		if (image && currentPhotosArray.count > photoIndex) {
 			int x, y, w, h;
 			if (image.size.width > THUMB_WIDTH * 2 && image.size.height > THUMB_HEIGHT * 2) {
 				float imgRatio = image.size.width / image.size.height;
@@ -294,7 +360,7 @@
 				x = (THUMB_WIDTH - w) / 2;
 				y = (THUMB_HEIGHT - h) / 2;
 			}
-			
+
 			UIGraphicsBeginImageContext(CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT));
 			CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(), [UIColor whiteColor].CGColor);
 			CGContextFillRect(UIGraphicsGetCurrentContext(), CGRectMake(0, 0, THUMB_WIDTH, THUMB_HEIGHT));
@@ -416,7 +482,6 @@
 			moarWaitingView.hidden = YES;
 
 			[currentSubReddit.photosArray addObjectsFromArray:subReddit.photosArray];
-			[self loadThumbnails];
 			[contentTableView reloadData];
 		}
 	}
@@ -508,7 +573,6 @@
 		currentSubReddit.afterString = [dictionary objectForKey:@"after"];
 	}
 	
-	[self loadThumbnails];
 	[contentTableView reloadData];
 	
 	bMOARLoading = NO;
@@ -603,6 +667,24 @@
 	NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:photosArray, @"photos", afterString, @"after", nil];
 	
 	return dictionary;
+}
+
+- (IBAction)onShowType:(id)sender {
+	[self refreshSubReddit];
+}
+
+- (void)refreshSubReddit {
+	for (ASIHTTPRequest *request in refreshQueue.operations) {
+		[request clearDelegatesAndCancel];
+	}
+	
+	for (ASIHTTPRequest *request in queue.operations) {
+		[request clearDelegatesAndCancel];
+	}
+	
+	[activeRequests removeAllObjects];
+	
+	[contentTableView reloadData];
 }
 
 @end

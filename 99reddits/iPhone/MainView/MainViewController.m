@@ -21,7 +21,6 @@
 
 @interface MainViewController ()
 
-- (void)reloadData;
 - (NSString *)cacheKeyForPhotoIndex:(NSInteger)photoIndex;
 - (void)requestImageFromSource:(NSString *)source photoIndex:(NSInteger)photoIndex;
 
@@ -54,6 +53,12 @@
 
 - (void)dealloc {
 	[self releaseObjects];
+	
+	[settingsItem release];
+	[editItem release];
+	[doneItem release];
+	[addItem release];
+	[refreshControl release];
 	[super dealloc];
 }
 
@@ -80,16 +85,15 @@
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	subRedditsArray = appDelegate.subRedditsArray;
 	
-	UIRefreshControl *refreshControl = [[UIRefreshControl alloc] init];
+	refreshControl = [[UIRefreshControl alloc] init];
 	refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
 	[refreshControl addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
 	self.refreshControl = refreshControl;
-	[refreshControl release];
 
 	self.title = @"99 reddits";
 	
-	self.navigationItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"SettingsIcon.png"] style:UIBarButtonItemStyleBordered target:self action:@selector(onSettingsButton:)] autorelease];
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(onAddButton)] autorelease];
+	self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:settingsItem, nil];
+	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:editItem, addItem, nil];
 	
 	[[ASIDownloadCache sharedCache] setShouldRespectCacheControlHeaders:NO];
 
@@ -142,7 +146,27 @@
 	[self.tableView reloadData];
 }
 
-- (void)onAddButton {
+- (IBAction)onEditButton:(id)sender {
+	[self setEditing:!self.editing animated:YES];
+	if (self.editing) {
+		self.refreshControl = nil;
+		
+		settingsItem.enabled = NO;
+		addItem.enabled = NO;
+		
+		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:doneItem, addItem, nil];
+	}
+	else {
+		self.refreshControl = refreshControl;
+		
+		settingsItem.enabled = YES;
+		addItem.enabled = YES;
+		
+		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:editItem, addItem, nil];
+	}
+}
+
+- (IBAction)onAddButton:(id)sender {
 	RedditsViewController *redditsViewController = [[RedditsViewController alloc] initWithNibName:@"RedditsViewController" bundle:nil];
 	redditsViewController.mainViewController = self;
 	[self presentViewController:redditsViewController animated:YES completion:nil];
@@ -219,6 +243,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 	
+	if (self.editing)
+		return;
+	
 	if (indexPath.row == 0) {
 		if (appDelegate.favoritesItem.photosArray.count > 0) {
 			AlbumViewController *albumViewController = [[AlbumViewController alloc] initWithNibName:@"AlbumViewController" bundle:nil];
@@ -244,6 +271,9 @@
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+	if (!self.editing)
+		return NO;
+	
 	if (indexPath.row == 0)
 		return NO;
 	
@@ -265,16 +295,43 @@
 					break;
 				}
 			}
-			[subReddit removeAllCaches];
 		}
 		
 		subReddit.subscribe = NO;
-		[appDelegate.manualSubRedditsArray removeObject:subReddit];
 		[subRedditsArray removeObject:subReddit];
 		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
 		
 		[appDelegate saveToDefaults];
 	}
+}
+
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
+	if (!self.editing)
+		return NO;
+	
+	if (indexPath.row == 0)
+		return NO;
+	
+	if (refreshCount != 0)
+		return NO;
+	
+	return YES;
+}
+
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
+	SubRedditItem *subReddit = [[subRedditsArray objectAtIndex:fromIndexPath.row - 1] retain];
+	[subRedditsArray removeObjectAtIndex:fromIndexPath.row - 1];
+	[subRedditsArray insertObject:subReddit atIndex:toIndexPath.row - 1];
+	[subReddit release];
+	
+	[appDelegate saveToDefaults];
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tableView targetIndexPathForMoveFromRowAtIndexPath:(NSIndexPath *)sourceIndexPath toProposedIndexPath:(NSIndexPath *)proposedDestinationIndexPath {
+	if (proposedDestinationIndexPath.row == 0)
+		return sourceIndexPath;
+	
+	return proposedDestinationIndexPath;
 }
 
 - (void)reloadData {
@@ -289,6 +346,8 @@
 	
 	self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Refreshing..."] autorelease];
 	[self.refreshControl beginRefreshing];
+	
+	editItem.enabled = NO;
 	
 	for (ASIHTTPRequest *request in refreshQueue.operations) {
 		[request clearDelegatesAndCancel];
@@ -335,6 +394,8 @@
 		if (refreshCount == 0) {
 			self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
 			[self.refreshControl endRefreshing];
+
+			editItem.enabled = YES;
 		}
 		return;
 	}
@@ -362,6 +423,8 @@
 	if (refreshCount == 0) {
 		self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
 		[self.refreshControl endRefreshing];
+		
+		editItem.enabled = YES;
 		[appDelegate saveToDefaults];
 	}
 }
@@ -382,6 +445,8 @@
 		if (refreshCount == 0) {
 			self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
 			[self.refreshControl endRefreshing];
+
+			editItem.enabled = YES;
 		}
 		return;
 	}
@@ -396,6 +461,8 @@
 	if (refreshCount == 0) {
 		self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
 		[self.refreshControl endRefreshing];
+		
+		editItem.enabled = YES;
 	}
 }
 
@@ -489,6 +556,8 @@
 	
 	self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Refreshing..."] autorelease];
 	[self.refreshControl beginRefreshing];
+	
+	editItem.enabled = NO;
 	
 	subReddit.loading = YES;
 	
@@ -613,7 +682,7 @@
 	[queue addOperation:readOp];
 }
 
-- (void)onSettingsButton:(id)sender {
+- (IBAction)onSettingsButton:(id)sender {
 	SettingsViewController *settingsViewController = [[SettingsViewController alloc] initWithNibName:@"SettingsViewController" bundle:nil];
 	[self presentViewController:settingsViewController animated:YES completion:nil];
 	[settingsViewController release];

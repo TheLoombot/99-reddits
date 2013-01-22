@@ -12,124 +12,213 @@
 #import "RedditsAppDelegate.h"
 #import "MainViewControllerPad.h"
 
+@interface MainViewCellItemPad ()
+
+- (void)setEditing:(BOOL)_editing;
+
+@end
+
 @implementation MainViewCellPad
 
 @synthesize mainViewController;
-@synthesize subRedditsArray;
-@synthesize row;
+@synthesize subReddit;
+@synthesize nameLabel;
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
-    if (self) {
+- (id)initWithFrame:(CGRect)frame {
+	self = [super initWithFrame:frame];
+	if (self) {
+		self.backgroundColor = [UIColor clearColor];
+		self.contentView.backgroundColor = [UIColor clearColor];
+		
 		appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 		
-		itemViewsArray = [[NSMutableArray alloc] init];
-		for (int i = 0; i < LAND_COL_COUNT; i ++) {
-			MainViewCellItemPad *cellItem = [[MainViewCellItemPad alloc] initWithFrame:CGRectMake(0, 0, 135, 175)];
-			cellItem.mainViewCell = self;
-			cellItem.tag = i;
-			[self addSubview:cellItem];
-			[itemViewsArray addObject:cellItem];
-			[cellItem release];
-		}
-    }
-    return self;
+		imageOutlineView = [[UIView alloc] initWithFrame:CGRectMake(15, 15, 120, 120)];
+		imageOutlineView.backgroundColor = [UIColor whiteColor];
+		imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 6, 108, 108)];
+		[imageOutlineView addSubview:imageView];
+		[self.contentView addSubview:imageOutlineView];
+		
+		tapButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+		tapButton.frame = imageOutlineView.frame;
+		[tapButton setImage:[UIImage imageNamed:@"ButtonOverlay.png"] forState:UIControlStateHighlighted];
+		[tapButton addTarget:self action:@selector(onTap:) forControlEvents:UIControlEventTouchUpInside];
+		[self.contentView addSubview:tapButton];
+		
+		activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+		activityIndicator.center = imageOutlineView.center;
+		[activityIndicator startAnimating];
+		[self.contentView addSubview:activityIndicator];
+		nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 135, 120, 40)];
+		nameLabel.font = [UIFont boldSystemFontOfSize:15];
+		nameLabel.numberOfLines = 2;
+		nameLabel.textColor = [UIColor colorWithRed:146 / 255.0 green:146 / 255.0 blue:146 / 255.0 alpha:1.0];
+		nameLabel.backgroundColor = [UIColor clearColor];
+		nameLabel.textAlignment = NSTextAlignmentCenter;
+		[self.contentView addSubview:nameLabel];
+		deleteButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+		deleteButton.frame = CGRectMake(0, 0, 29, 29);
+		[deleteButton setBackgroundImage:[UIImage imageNamed:@"DeleteButton.png"] forState:UIControlStateNormal];
+		[deleteButton addTarget:self action:@selector(onDeleteButton:) forControlEvents:UIControlEventTouchUpInside];
+		[self.contentView addSubview:deleteButton];
+		unshowedBackImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 29, 29)];
+		unshowedBackImageView.image = [[UIImage imageNamed:@"BadgeBack.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0];
+		[self.contentView addSubview:unshowedBackImageView];
+		unshowedLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+		unshowedLabel.font = [UIFont boldSystemFontOfSize:14];
+		unshowedLabel.backgroundColor = [UIColor clearColor];
+		unshowedLabel.textColor = [UIColor whiteColor];
+		[self.contentView addSubview:unshowedLabel];
+	}
+	return self;
 }
 
 - (void)dealloc {
-	[itemViewsArray release];
+	[imageOutlineView release];
+	[imageView release];
+	[tapButton release];
+	[activityIndicator release];
+	[deleteButton release];
+	[unshowedBackImageView release];
+	[unshowedLabel release];
+	[nameLabel release];
 	[super dealloc];
 }
 
-- (void)setRow:(int)_row {
-	row = _row;
-	
-	int colCount = PORT_COL_COUNT;
-	if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
-		colCount = LAND_COL_COUNT;
-
-	for (int i = 0; i < colCount; i ++) {
-		MainViewCellItemPad *cellItem = [itemViewsArray objectAtIndex:i];
-		int index = colCount * row + i - 1;
-		if (index >= 0 && index > subRedditsArray.count - 1) {
-			cellItem.alpha = 0.0;
+- (void)setImage:(UIImage *)image {
+	if (image == nil) {
+		imageOutlineView.frame = CGRectMake(15, 15, 120, 120);
+		imageView.frame = CGRectMake(6, 6, 120, 120);
+		imageView.image = nil;
+	}
+	else {
+		int width = image.size.width;
+		int height = image.size.height;
+		if (width > height) {
+			width = 108;
+			height = height * width / image.size.width;
 		}
 		else {
-			cellItem.alpha = 1.0;
-			
-			if (index == -1) {
-				[cellItem setTotalCount:appDelegate.favoritesItem.photosArray.count];
-				cellItem.nameLabel.text = appDelegate.favoritesItem.nameString;
-			}
-			else {
-				SubRedditItem *subReddit = [subRedditsArray objectAtIndex:index];
-				[cellItem setUnshowedCount:subReddit.unshowedCount totalCount:subReddit.photosArray.count loading:subReddit.loading];
-				cellItem.nameLabel.text = subReddit.nameString;
-			}
+			height = 108;
+			width = width * height / image.size.height;
 		}
+		CGRect rect = CGRectMake((int)(108 - width) / 2 + 21, (int)(108 - height) / 2 + 21, width, height);
+		rect.origin.x -= 6;
+		rect.origin.y -= 6;
+		rect.size.width += 12;
+		rect.size.height += 12;
+		imageOutlineView.frame = rect;
+		
+		rect.origin.x -= 15;
+		rect.origin.y -= 15;
+		rect.size.width = 29;
+		rect.size.height = 29;
+		deleteButton.frame = rect;
+		
+		rect = unshowedLabel.frame;
+		rect.size.width = ceil(rect.size.width);
+		rect.size.height = 20;
+		rect.origin.x = imageOutlineView.frame.origin.x + imageOutlineView.frame.size.width + 2 - rect.size.width;
+		rect.origin.y = imageOutlineView.frame.origin.y + imageOutlineView.frame.size.height - 11;
+		unshowedLabel.frame = rect;
+		
+		rect.origin.x -= 10;
+		rect.origin.y -= 3;
+		rect.size.width += 20;
+		rect.size.height += 9;
+		unshowedBackImageView.frame = rect;
+		
+		imageView.frame = CGRectMake(6, 6, width, height);
+		imageView.image = image;
 	}
+
+	tapButton.frame = imageOutlineView.frame;
 }
 
-- (void)setImage:(UIImage *)image index:(int)index {
-	MainViewCellItemPad *cellItem = [itemViewsArray objectAtIndex:index];
-	[cellItem setImage:image];
-}
-
-- (void)layoutSubviews {
-	[super layoutSubviews];
+- (void)setUnshowedCount:(int)_unshowedCount totalCount:(int)_totalCount loading:(BOOL)_loading {
+	unshowedCount = _unshowedCount;
+	totalCount = _totalCount;
+	loading = _loading;
+	bFavorites = NO;
 	
-	int colCount = PORT_COL_COUNT;
-	if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
-		colCount = LAND_COL_COUNT;
-	
-	if (colCount == PORT_COL_COUNT) {
-		for (int i = 0; i < LAND_COL_COUNT; i ++) {
-			MainViewCellItemPad *cellItem = [itemViewsArray objectAtIndex:i];
-			cellItem.frame = CGRectMake(14 + 148 * i, 0, 135, 200);
-			[cellItem setEditing:mainViewController.editing];
-
-			int index = colCount * row + i;
-			if (index > subRedditsArray.count) {
-				cellItem.alpha = 0.0;
-			}
-			else {
-				cellItem.alpha = 1.0;
-			}
-		}
-		for (int i = PORT_COL_COUNT; i < LAND_COL_COUNT; i ++) {
-			MainViewCellItemPad *cellItem = [itemViewsArray objectAtIndex:i];
-			cellItem.alpha = 0.0;
+	if (loading) {
+		if (![activityIndicator isAnimating]) {
+			activityIndicator.hidden = NO;
+			[activityIndicator startAnimating];
 		}
 	}
 	else {
-		for (int i = 0; i < LAND_COL_COUNT; i ++) {
-			MainViewCellItemPad *cellItem = [itemViewsArray objectAtIndex:i];
-			cellItem.frame = CGRectMake(8 + 143 * i, 0, 135, 220);
-			[cellItem setEditing:mainViewController.editing];
-			
-			int index = colCount * row + i;
-			if (index > subRedditsArray.count) {
-				cellItem.alpha = 0.0;
-			}
-			else {
-				cellItem.alpha = 1.0;
-			}
+		if ([activityIndicator isAnimating]) {
+			activityIndicator.hidden = YES;
+			[activityIndicator stopAnimating];
 		}
+	}
+	
+	if (unshowedCount == 0) {
+		unshowedBackImageView.hidden = YES;
+		unshowedLabel.hidden = YES;
+	}
+	else {
+		unshowedBackImageView.hidden = NO;
+		unshowedLabel.hidden = NO;
+		
+		unshowedLabel.frame = CGRectMake(0, 0, 200, 20);
+		unshowedLabel.text = [NSString stringWithFormat:@"%d", unshowedCount];
+		[unshowedLabel sizeToFit];
+		
+		CGRect rect = unshowedLabel.frame;
+		rect.size.width = ceil(rect.size.width);
+		rect.size.height = 20;
+		rect.origin.x = imageOutlineView.frame.origin.x + imageOutlineView.frame.size.width + 2 - rect.size.width;
+		rect.origin.y = imageOutlineView.frame.origin.y + imageOutlineView.frame.size.height - 11;
+		unshowedLabel.frame = rect;
+		
+		rect.origin.x -= 10;
+		rect.origin.y -= 3;
+		rect.size.width += 20;
+		rect.size.height += 9;
+		unshowedBackImageView.frame = rect;
 	}
 }
 
-- (void)onClick:(int)index {
-	int colCount = PORT_COL_COUNT;
-	if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
-		colCount = LAND_COL_COUNT;
-	[mainViewController showSubRedditAtIndex:row * colCount + index - 1];
+- (void)setTotalCount:(int)_totalCount {
+	totalCount = _totalCount;
+	bFavorites = YES;
+	
+	if ([activityIndicator isAnimating]) {
+		activityIndicator.hidden = YES;
+		[activityIndicator stopAnimating];
+	}
+	
+	unshowedBackImageView.hidden = YES;
+	unshowedLabel.hidden = YES;
 }
 
-- (void)onDeleteButton:(int)index {
-	int colCount = PORT_COL_COUNT;
-	if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
-		colCount = LAND_COL_COUNT;
-	[mainViewController removeSubRedditAtIndex:row * colCount + index - 1];
+- (void)applyLayoutAttributes:(MainViewLayoutAttributesPad *)layoutAttributes {
+	[self setEditing:layoutAttributes.editing];
+}
+
+- (void)setEditing:(BOOL)_editing {
+	editing = _editing;
+	if (bFavorites)
+		deleteButton.hidden = YES;
+	else
+		deleteButton.hidden = !editing;
+	
+	tapButton.hidden = editing;
+}
+
+- (void)onTap:(id)sender {
+	if (editing)
+		return;
+	
+	[mainViewController showSubReddit:subReddit];
+}
+
+- (void)onDeleteButton:(id)sender {
+	if (!editing)
+		return;
+	
+	[mainViewController removeSubReddit:subReddit];
 }
 
 @end

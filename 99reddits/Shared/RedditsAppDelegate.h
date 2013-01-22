@@ -15,9 +15,8 @@
 @interface RedditsAppDelegate : NSObject <UIApplicationDelegate> {
 	IBOutlet UINavigationController *mainNavigationController;
 
-	NSMutableArray *staticSubRedditsArray;
-	NSMutableArray *manualSubRedditsArray;
 	NSMutableArray *subRedditsArray;
+	NSMutableSet *nameStringsSet;
 	BOOL firstRun;
 	
 	NSMutableSet *showedSet;
@@ -31,12 +30,11 @@
 }
 
 @property (strong, nonatomic) IBOutlet UIWindow *window;
-@property (nonatomic, assign) NSMutableArray *staticSubRedditsArray;
-@property (nonatomic, assign) NSMutableArray *manualSubRedditsArray;
-@property (nonatomic, assign) NSMutableArray *subRedditsArray;
+@property (nonatomic, readonly) NSMutableArray *subRedditsArray;
+@property (nonatomic, readonly) NSMutableSet *nameStringsSet;
 @property (nonatomic) BOOL firstRun;
-@property (nonatomic, assign) NSMutableSet *showedSet;
-@property (nonatomic, retain) SubRedditItem *favoritesItem;
+@property (nonatomic, readonly) NSMutableSet *showedSet;
+@property (nonatomic, readonly) SubRedditItem *favoritesItem;
 @property (nonatomic) BOOL isPaid;
 
 + (NSString *)getImageURL:(NSString *)urlString;
@@ -52,9 +50,9 @@
 - (BOOL)removeFromFavorites:(PhotoItem *)photo;
 - (BOOL)isFavorite:(PhotoItem *)photo;
 
-- (void)refreshSubscribe;
-
 - (void)setNavAppearance;
 - (void)unsetNavAppearance;
+
+- (void)refreshNameStringsSet;
 
 @end

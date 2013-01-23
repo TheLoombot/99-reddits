@@ -148,6 +148,9 @@
 	
 	contentTableView.delaysContentTouches = NO;
 	contentTableView.canCancelContentTouches = YES;
+	
+	if (!bFavorites)
+		showTypeSegmentedControl.selectedSegmentIndex = 1;
 }
 
 - (void)viewDidUnload {

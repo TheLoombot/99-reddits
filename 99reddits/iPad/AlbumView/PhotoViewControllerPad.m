@@ -158,6 +158,12 @@
 	
 	[appDelegate setNavAppearance];
 	[self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NavBarBack.png"] forBarMetrics:UIBarMetricsDefault];
+
+	if (actionSheet) {
+		[actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:NO];
+		[actionSheet release];
+		actionSheet = nil;
+	}
 }
 
 - (void)viewDidDisappear:(BOOL)animated {

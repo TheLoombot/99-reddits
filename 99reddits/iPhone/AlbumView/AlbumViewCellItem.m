@@ -22,7 +22,7 @@
 		appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 		
 		overlayView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 75, 75)];
-		[self addSubview:overlayView];
+//		[self addSubview:overlayView];
 		
 		favoriteOverlayView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 50, 25, 25)];
 		[self addSubview:favoriteOverlayView];

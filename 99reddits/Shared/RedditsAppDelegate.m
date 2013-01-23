@@ -270,6 +270,8 @@ void uncaughtExceptionHandler(NSException *exception) {
 	if ([urlString hasPrefix:@"http://imgur.com/a/"])
 		return @"";
 	
+	urlString = [RedditsAppDelegate stringByRemoveHTML:urlString];
+	
 	if ([urlString hasSuffix:@"/"]) {
 		urlString = [urlString substringToIndex:urlString.length - 1];
 	}
@@ -298,7 +300,8 @@ void uncaughtExceptionHandler(NSException *exception) {
     if ([urlString hasPrefix:@"http://imgur.com/"]   ||
         [urlString hasPrefix:@"http://i.imgur.com/"] || 
         [urlString hasPrefix:@"http://www.imgur.com"]) {
-        if ([[[urlString lastPathComponent] stringByDeletingPathExtension] length] == 5) {
+        if ([[[urlString lastPathComponent] stringByDeletingPathExtension] length] == 5 ||
+			[[[urlString lastPathComponent] stringByDeletingPathExtension] length] == 7) {
             urlString = [[NSString stringWithFormat:@"http://i.imgur.com/%@h.", 
                           [[urlString lastPathComponent] stringByDeletingPathExtension]] 
                          stringByAppendingString:[urlString pathExtension]];

@@ -455,6 +455,8 @@
 		// If the thumbnail string is empty or a default value, AND the URL is an imgur link,
         // then we go to imgur to get the thumbnail
         // Thumb        [160px max]:  http://i.imgur.com/46dFat.jpg
+        // Big Square   [160x160px]:  http://i.imgur.com/46dFab.jpg
+        
         if ((thumbnailString.length == 0 || [thumbnailString isEqualToString:@"default"] || [thumbnailString isEqualToString:@"nsfw"]) &&
 			([photo.urlString hasPrefix:@"http://i.imgur.com/"] || [photo.urlString hasPrefix:@"http://imgur.com/"])
             ) {
@@ -462,7 +464,7 @@
 			NSRange range = [lastComp rangeOfString:@"."];
 			if (range.location != NSNotFound) {
 				lastComp = [lastComp substringToIndex:range.location-1];
-				photo.thumbnailString = [NSString stringWithFormat:@"http://i.imgur.com/%@t.png", lastComp];
+				photo.thumbnailString = [NSString stringWithFormat:@"http://i.imgur.com/%@b.png", lastComp];
 			}
 		}
 		else {
@@ -490,6 +492,9 @@
 			
             [photosArray addObject:photo];
 		}
+        
+        // photo.titleString = [photo.titleString stringByAppendingString:photo.thumbnailString];
+        
 		[photo release];
 	}
 	

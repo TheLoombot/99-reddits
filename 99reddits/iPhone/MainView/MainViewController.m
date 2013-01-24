@@ -298,6 +298,7 @@
 		}
 		
 		subReddit.subscribe = NO;
+		[appDelegate.nameStringsSet removeObject:[subReddit.nameString lowercaseString]];
 		[subRedditsArray removeObject:subReddit];
 		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
 		
@@ -494,7 +495,7 @@
 		else if ([permalinkString hasPrefix:@"http"])
 			photo.permalinkString = permalinkString;
 		else
-			photo.permalinkString = [NSString stringWithFormat:@"http://www.reddit.com%@.compact", permalinkString];
+			photo.permalinkString = [NSString stringWithFormat:@"http://www.reddit.com%@", permalinkString];
 		
 		photo.titleString = [RedditsAppDelegate stringByRemoveHTML:[itemData objectForKey:@"title"]];
 		photo.urlString = [RedditsAppDelegate getImageURL:[itemData objectForKey:@"url"]];
@@ -504,9 +505,7 @@
 		// If the thumbnail string is empty or a default value, AND the URL is an imgur link,
         // then we go to imgur to get the thumbnail
         // Small square [90x90px]:    http://i.imgur.com/46dFas.jpg
-        if ((thumbnailString.length == 0 || [thumbnailString isEqualToString:@"default"] || [thumbnailString isEqualToString:@"nsfw"]) &&
-			([photo.urlString hasPrefix:@"http://i.imgur.com/"] || [photo.urlString hasPrefix:@"http://imgur.com/"]) 
-            ) {
+        if ([photo.urlString hasPrefix:@"http://i.imgur.com/"] || [photo.urlString hasPrefix:@"http://imgur.com/"]) {
 			NSString *lastComp = [photo.urlString lastPathComponent];
 			NSRange range = [lastComp rangeOfString:@"."];
 			if (range.location != NSNotFound) {

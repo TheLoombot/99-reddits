@@ -21,10 +21,12 @@
 	NSMutableArray *categoryArray;
 	NSMutableArray *sectionArray;
 	NSMutableSet *nameStringsSet;
+
+	NSString *manualAddedNameString;
 }
 
 @property (nonatomic, assign) MainViewController *mainViewController;
 
-- (void)onManualAdded:(SubRedditItem *)subReddit;
+- (void)onManualAdded:(NSString *)nameString;
 
 @end

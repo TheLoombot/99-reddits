@@ -116,22 +116,11 @@
 	}
 	
 	if (correct) {
-		if (![appDelegate.nameStringsSet containsObject:[nameString lowercaseString]]) {
-			SubRedditItem *subReddit = [[[SubRedditItem alloc] init] autorelease];
-			subReddit.nameString = nameString;
-			subReddit.urlString = urlString;
-			subReddit.subscribe = YES;
-			[appDelegate.subRedditsArray addObject:subReddit];
-			
-			[appDelegate.nameStringsSet addObject:[nameString lowercaseString]];
-			
-			[redditsViewController onManualAdded:subReddit];
-			
-			return YES;
-		}
+		[redditsViewController onManualAdded:nameString];
 	}
-	
-	[redditsViewController onManualAdded:nil];
+	else {
+		[redditsViewController onManualAdded:nil];
+	}
 	
 	return YES;
 }

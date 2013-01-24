@@ -35,6 +35,7 @@
 	[categoryArray release];
 	[sectionArray release];
 	[nameStringsSet release];
+	[manualAddedNameString release];
 	
 	[contentTableView release];
 	[super dealloc];
@@ -96,7 +97,8 @@
 	for (SubRedditItem *subReddit in tempSubRedditsArray) {
 		BOOL bExist = NO;
 		for (NSString *nameString in nameStringsSet) {
-			if ([[subReddit.nameString lowercaseString] isEqualToString:[nameString lowercaseString]]) {
+			if ([[subReddit.nameString lowercaseString] isEqualToString:[nameString lowercaseString]] ||
+				(manualAddedNameString && [[subReddit.nameString lowercaseString] isEqualToString:[manualAddedNameString lowercaseString]])) {
 				bExist = YES;
 				break;
 			}
@@ -111,6 +113,19 @@
 	NSMutableArray *nameStringsArray = [NSMutableArray array];
 	for (NSArray *section in sectionArray) {
 		[nameStringsArray addObjectsFromArray:section];
+	}
+	
+	if (manualAddedNameString) {
+		BOOL bExist = NO;
+		for (NSString *nameString in nameStringsArray) {
+			if ([[nameString lowercaseString] isEqualToString:[manualAddedNameString lowercaseString]] && [nameStringsSet containsObject:[manualAddedNameString lowercaseString]])
+				bExist = YES;
+		}
+		
+		if (!bExist) {
+			[nameStringsArray addObject:manualAddedNameString];
+			[nameStringsSet addObject:[manualAddedNameString lowercaseString]];
+		}
 	}
 	
 	for (NSString *nameString in nameStringsArray) {
@@ -208,12 +223,13 @@
 	}
 }
 
-- (void)onManualAdded:(SubRedditItem *)subReddit {
-	if (subReddit) {
-		[mainViewController addSubReddit:subReddit];
-	}
+- (void)onManualAdded:(NSString *)nameString {
+	if (nameString)
+		manualAddedNameString = [nameString retain];
+	else
+		manualAddedNameString = nil;
 	[self dismissViewControllerAnimated:NO completion:nil];
-	[self dismissViewControllerAnimated:YES completion:nil];
+	[self onDoneButton:nil];
 }
 
 @end

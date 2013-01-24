@@ -102,8 +102,6 @@
 	
 	self.title = subReddit.nameString;
 	
-	self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:nil action:nil] autorelease];
-	
 	refreshQueue = [[NSOperationQueue alloc] init];
 	[queue setMaxConcurrentOperationCount:5];
 
@@ -243,9 +241,11 @@
 		if (bShowTypeControlEnabled) {
 			self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl] autorelease];
 			self.navigationItem.rightBarButtonItem.enabled = YES;
+			showTypeSegmentedControl.userInteractionEnabled = YES;
 		}
 		else {
 			self.navigationItem.rightBarButtonItem.enabled = NO;
+			showTypeSegmentedControl.userInteractionEnabled = NO;
 			
 			if (showTypeSegmentedControl.selectedSegmentIndex == 1) {
 				showTypeSegmentedControl.selectedSegmentIndex = 0;
@@ -617,7 +617,7 @@
 		else if ([permalinkString hasPrefix:@"http"])
 			photo.permalinkString = permalinkString;
 		else
-			photo.permalinkString = [NSString stringWithFormat:@"http://www.reddit.com%@.compact", permalinkString];
+			photo.permalinkString = [NSString stringWithFormat:@"http://www.reddit.com%@", permalinkString];
 		
 		photo.titleString = [RedditsAppDelegate stringByRemoveHTML:[itemData objectForKey:@"title"]];
 		photo.urlString = [RedditsAppDelegate getImageURL:[itemData objectForKey:@"url"]];
@@ -627,9 +627,7 @@
 		// If the thumbnail string is empty or a default value, AND the URL is an imgur link,
         // then we go to imgur to get the thumbnail
         // Small square [90x90px]:    http://i.imgur.com/46dFas.jpg
-        if ((thumbnailString.length == 0 || [thumbnailString isEqualToString:@"default"] || [thumbnailString isEqualToString:@"nsfw"]) &&
-			([photo.urlString hasPrefix:@"http://i.imgur.com/"] || [photo.urlString hasPrefix:@"http://imgur.com/"]) 
-            ) {
+        if ([photo.urlString hasPrefix:@"http://i.imgur.com/"] || [photo.urlString hasPrefix:@"http://imgur.com/"]) {
 			NSString *lastComp = [photo.urlString lastPathComponent];
 			NSRange range = [lastComp rangeOfString:@"."];
 			if (range.location != NSNotFound) {
@@ -673,6 +671,9 @@
 }
 
 - (IBAction)onShowType:(id)sender {
+	if (!self.navigationItem.rightBarButtonItem.enabled)
+		return;
+	
 	[self refreshSubReddit];
 }
 

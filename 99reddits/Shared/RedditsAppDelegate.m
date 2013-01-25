@@ -10,6 +10,7 @@
 #import "UserDef.h"
 #import "Reachability.h"
 #import "Flurry.h"
+#import <Crashlytics/Crashlytics.h>
 
 @implementation UINavigationController (iOS6OrientationFix)
 
@@ -38,6 +39,9 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+    [Crashlytics startWithAPIKey:@"7228ed62a7b305f3ee6ec449adbda49637b3168a"];
+    
 	[[UIApplication sharedApplication] setStatusBarHidden:NO];
 	
 	NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);

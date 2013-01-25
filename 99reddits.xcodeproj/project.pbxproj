@@ -172,6 +172,7 @@
 		8DF078B2164FE4D300B26B8F /* NextPhotoButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8DF078B0164FE4D300B26B8F /* NextPhotoButton@2x.png */; };
 		8DF078B5164FE4DB00B26B8F /* PrevPhotoButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 8DF078B3164FE4DB00B26B8F /* PrevPhotoButton.png */; };
 		8DF078B6164FE4DB00B26B8F /* PrevPhotoButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8DF078B4164FE4DB00B26B8F /* PrevPhotoButton@2x.png */; };
+		9C0334BB16B2391800A2F5D3 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C0334BA16B2391800A2F5D3 /* Crashlytics.framework */; };
 		9C16323614733A9400CF0443 /* PlayButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C16321B14733A9400CF0443 /* PlayButton@2x.png */; };
 		9C16323714733A9400CF0443 /* PlayButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C16321C14733A9400CF0443 /* PlayButton.png */; };
 		9C16323814733A9400CF0443 /* Overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C16321D14733A9400CF0443 /* Overlay@2x.png */; };
@@ -468,6 +469,7 @@
 		8DF078B0164FE4D300B26B8F /* NextPhotoButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NextPhotoButton@2x.png"; sourceTree = "<group>"; };
 		8DF078B3164FE4DB00B26B8F /* PrevPhotoButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PrevPhotoButton.png; sourceTree = "<group>"; };
 		8DF078B4164FE4DB00B26B8F /* PrevPhotoButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PrevPhotoButton@2x.png"; sourceTree = "<group>"; };
+		9C0334BA16B2391800A2F5D3 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		9C16321B14733A9400CF0443 /* PlayButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PlayButton@2x.png"; sourceTree = "<group>"; };
 		9C16321C14733A9400CF0443 /* PlayButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlayButton.png; sourceTree = "<group>"; };
 		9C16321D14733A9400CF0443 /* Overlay@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Overlay@2x.png"; sourceTree = "<group>"; };
@@ -518,6 +520,7 @@
 				8D5080BB1445944500788875 /* libz.dylib in Frameworks */,
 				8D4B1CA3145AEA7D005E9BFE /* libxml2.dylib in Frameworks */,
 				9C57D5931680201B00AB7126 /* libFlurry.a in Frameworks */,
+				9C0334BB16B2391800A2F5D3 /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -584,6 +587,7 @@
 		8D5080051445923700788875 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9C0334BA16B2391800A2F5D3 /* Crashlytics.framework */,
 				8D5080BA1445944500788875 /* libz.dylib */,
 				8D4B1CA2145AEA7D005E9BFE /* libxml2.dylib */,
 				8D060A8516AD29E700AED06E /* QuartzCore.framework */,
@@ -1035,6 +1039,7 @@
 				8D507FFE1445923700788875 /* Sources */,
 				8D507FFF1445923700788875 /* Frameworks */,
 				8D5080001445923700788875 /* Resources */,
+				9C0334B816B238BB00A2F5D3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1185,6 +1190,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9C0334B816B238BB00A2F5D3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run 7228ed62a7b305f3ee6ec449adbda49637b3168a";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8D507FFE1445923700788875 /* Sources */ = {
@@ -1340,6 +1361,10 @@
 		8D50801E1445923700788875 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "99reddits/99reddits-Prefix.pch";
 				INFOPLIST_FILE = "99reddits/99reddits-Info.plist";
@@ -1356,6 +1381,10 @@
 		8D50801F1445923700788875 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "99reddits/99reddits-Prefix.pch";
 				INFOPLIST_FILE = "99reddits/99reddits-Info.plist";

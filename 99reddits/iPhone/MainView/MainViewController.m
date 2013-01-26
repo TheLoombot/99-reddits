@@ -495,7 +495,7 @@
 		else if ([permalinkString hasPrefix:@"http"])
 			photo.permalinkString = permalinkString;
 		else
-			photo.permalinkString = [NSString stringWithFormat:@"http://www.reddit.com%@", permalinkString];
+			photo.permalinkString = [NSString stringWithFormat:@"http://www.reddit.com%@.compact", permalinkString];
 		
 		photo.titleString = [RedditsAppDelegate stringByRemoveHTML:[itemData objectForKey:@"title"]];
 		photo.urlString = [RedditsAppDelegate getImageURL:[itemData objectForKey:@"url"]];

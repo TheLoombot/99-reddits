@@ -101,7 +101,8 @@
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	
 	self.title = subReddit.nameString;
-	
+	self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:subReddit.nameString style:UIBarButtonItemStyleBordered target:nil action:nil] autorelease];
+
 	refreshQueue = [[NSOperationQueue alloc] init];
 	[queue setMaxConcurrentOperationCount:5];
 	
@@ -232,20 +233,27 @@
 		}
 	}
 	
-	if (!bFavorites) {
-		BOOL bShowTypeControlEnabled = NO;
+	if (self.bFavorites) {
+		self.title = subReddit.nameString;
+	}
+	else {
+		int unshowedCount = 0;
 		for (PhotoItem *photo in currentSubReddit.photosArray) {
 			if (![photo isShowed]) {
-				bShowTypeControlEnabled = YES;
+				unshowedCount ++;
 			}
 		}
 		
-		if (bShowTypeControlEnabled) {
+		if (unshowedCount > 0) {
+			self.title = [NSString stringWithFormat:@"%@ (%d)", subReddit.nameString, unshowedCount];
+			
 			self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl] autorelease];
 			self.navigationItem.rightBarButtonItem.enabled = YES;
 			showTypeSegmentedControl.userInteractionEnabled = YES;
 		}
 		else {
+			self.title = subReddit.nameString;
+			
 			self.navigationItem.rightBarButtonItem.enabled = NO;
 			showTypeSegmentedControl.userInteractionEnabled = NO;
 			

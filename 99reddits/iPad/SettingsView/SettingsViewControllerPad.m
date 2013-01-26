@@ -104,14 +104,14 @@
 	
 	imagesSeenString = [[formatter stringFromNumber:[NSNumber numberWithInteger:showedCount]] retain];
 	int imagesSeenLevel = showedCount / 1000;
-	if (imagesSeenLevel > 53)
-		imagesSeenLevel = 53;
+	if (imagesSeenLevel > 80)
+		imagesSeenLevel = 80;
 	NSString *key = [NSString stringWithFormat:@"%d", imagesSeenLevel * 1000 - 1];
 	
 	NSDictionary *titleDictionary = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Titles" ofType:@"plist"]];
 	titleString = [[titleDictionary objectForKey:key] retain];
 
-	if (showedCount < 53000)
+	if (showedCount < 80000)
     {
         imagesToNextTitleString = [[formatter stringFromNumber:[NSNumber numberWithInt:(imagesSeenLevel + 1) * 1000 - showedCount]] retain];
     } else {

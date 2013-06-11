@@ -637,11 +637,7 @@
         // Small square [90x90px]:    http://i.imgur.com/46dFas.jpg
         if ([photo.urlString hasPrefix:@"http://i.imgur.com/"] || [photo.urlString hasPrefix:@"http://imgur.com/"]) {
 			NSString *lastComp = [photo.urlString lastPathComponent];
-			NSRange range = [lastComp rangeOfString:@"."];
-			if (range.location != NSNotFound) {
-				lastComp = [lastComp substringToIndex:range.location-1];
-				photo.thumbnailString = [NSString stringWithFormat:@"http://i.imgur.com/%@s.png", lastComp];
-			}
+			photo.thumbnailString = [NSString stringWithFormat:@"http://i.imgur.com/%@s.png", [lastComp stringByDeletingPathExtension]];
 		}
 		else {
 			photo.thumbnailString = [RedditsAppDelegate getImageURL:thumbnailString];

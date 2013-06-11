@@ -306,7 +306,7 @@ void uncaughtExceptionHandler(NSException *exception) {
         [urlString hasPrefix:@"http://www.imgur.com"]) {
         if ([[[urlString lastPathComponent] stringByDeletingPathExtension] length] == 5 ||
 			[[[urlString lastPathComponent] stringByDeletingPathExtension] length] == 7) {
-            urlString = [[NSString stringWithFormat:@"http://i.imgur.com/%@h.", 
+            urlString = [[NSString stringWithFormat:@"http://i.imgur.com/%@.", 
                           [[urlString lastPathComponent] stringByDeletingPathExtension]] 
                          stringByAppendingString:[urlString pathExtension]];
         }

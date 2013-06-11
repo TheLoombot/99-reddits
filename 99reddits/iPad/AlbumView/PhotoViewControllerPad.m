@@ -346,7 +346,7 @@
 			PhotoItem *photo = [subReddit.photosArray objectAtIndex:photoIndex];
 			
 			if (![photo isShowed]) {
-				//				photo.showed = YES;
+//				photo.showed = YES;
 				[appDelegate.showedSet addObject:photo.idString];
 				subReddit.unshowedCount --;
 			}

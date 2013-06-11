@@ -548,7 +548,7 @@
 - (void)addSubReddit:(SubRedditItem *)subReddit {
 	if (![appDelegate checkNetworkReachable:YES])
 		return;
-	
+
 	self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Refreshing..."] autorelease];
 	[self.refreshControl beginRefreshing];
 	

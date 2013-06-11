@@ -28,6 +28,7 @@
 	
 	IBOutlet UIButton *emailButton;
 	IBOutlet UIButton *tweetButton;
+	IBOutlet UIButton *rateAppButton;
 	
 	NSString *imagesSeenString;
 	NSString *titleString;

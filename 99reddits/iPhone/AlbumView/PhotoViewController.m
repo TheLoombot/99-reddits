@@ -15,6 +15,7 @@
 #import <ImageIO/CGImageSource.h>
 #import "PhotoView.h"
 #import <Social/Social.h>
+#import "CommentViewController.h"
 
 @interface PhotoViewController ()
 
@@ -99,13 +100,12 @@
 	[appDelegate checkNetworkReachable:YES];
 	
 	UIBarButtonItem *actionButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(onActionButton)] autorelease];
-	UIBarButtonItem *spaceButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil] autorelease];
-	spaceButtonItem.width = 32;
-	
+	UIBarButtonItem *commentButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"CommentIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onCommentButtonItem:)] autorelease];
+
 	NSMutableArray *items = [[[NSMutableArray alloc] initWithArray:self.toolbar.items] autorelease];
 	[items insertObject:actionButtonItem atIndex:0];
-	[items addObject:spaceButtonItem];
-	
+	[items addObject:commentButtonItem];
+
 	self.toolbar.items = items;
 	
 	disappearForSubview = NO;
@@ -169,7 +169,7 @@
 															 delegate:self 
 													cancelButtonTitle:@"Cancel" 
 											   destructiveButtonTitle:nil 
-													otherButtonTitles:@"Save Photo", @"Email Photo", @"Tweet", @"Share on Facebook", @"See Comments on reddit", nil];
+													otherButtonTitles:@"Save Photo", @"Email Photo", @"Tweet", @"Share on Facebook", nil];
 	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
 	actionSheet.tag = 100;
 	[actionSheet showInView:self.view];
@@ -182,12 +182,6 @@
 		if (buttonIndex == actionSheet.cancelButtonIndex)
 			return;
 		
-		if (buttonIndex == 4) {
-			PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
-			[[UIApplication sharedApplication] openURL:[NSURL URLWithString:photo.permalinkString]];
-			return;
-		}
-
 		if (sharing)
 			return;
 
@@ -563,6 +557,15 @@
 - (void)setSubReddit:(SubRedditItem *)_subReddit {
 	[subReddit release];
 	subReddit = [_subReddit retain];
+}
+
+- (void)onCommentButtonItem:(id)sender {
+	disappearForSubview = YES;
+	PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
+	CommentViewController *commentViewController = [[CommentViewController alloc] initWithNibName:@"CommentViewController" bundle:nil];
+	commentViewController.urlString = photo.permalinkString;
+	[self presentViewController:commentViewController animated:YES completion:nil];
+	[commentViewController release];
 }
 
 @end

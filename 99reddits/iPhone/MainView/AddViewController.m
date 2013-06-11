@@ -100,7 +100,6 @@
 						correct = YES;
 						
 						nameString = [array objectAtIndex:0];
-						urlString = [NSString stringWithFormat:SUBREDDIT_FORMAT2, urlString];
 					}
 				}
 			}
@@ -109,7 +108,6 @@
 					correct = YES;
 					
 					nameString = [array objectAtIndex:0];
-					urlString = [NSString stringWithFormat:SUBREDDIT_FORMAT1, nameString];
 				}
 			}
 		}

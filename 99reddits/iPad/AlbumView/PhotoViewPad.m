@@ -94,6 +94,10 @@
 - (void)popoverControllerDidDismissed:(PopoverController *)controller {
 	[popoverController release];
 	popoverController = nil;
+
+	BOOL hidden = [UIApplication sharedApplication].statusBarHidden;
+	if (hidden)
+		[photoViewController toggleChromeVisibility];
 }
 
 @end

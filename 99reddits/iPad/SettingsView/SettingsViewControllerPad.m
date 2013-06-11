@@ -13,6 +13,7 @@
 #import "ASIDownloadCache.h"
 #import "MainViewControllerPad.h"
 #import <Social/Social.h>
+#import "Appirater.h"
 
 @interface SettingsViewControllerPad ()
 
@@ -22,6 +23,7 @@
 - (IBAction)onClearButton:(id)sender;
 - (IBAction)onEmailButton:(id)sender;
 - (IBAction)onTweetButton:(id)sender;
+- (IBAction)onRateAppButton:(id)sender;
 
 - (void)refreshViews;
 
@@ -65,6 +67,7 @@
 	[aboutWebView release];
 	[emailButton release];
 	[tweetButton release];
+	[rateAppButton release];
 	[super dealloc];
 }
 
@@ -125,6 +128,8 @@
 	[emailButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateHighlighted];
 	[tweetButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
 	[tweetButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateHighlighted];
+	[rateAppButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
+	[rateAppButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateHighlighted];
 
 	contentTableView.backgroundColor = [UIColor clearColor];
 	contentTableView.backgroundView = nil;
@@ -210,7 +215,10 @@
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
 	if (navigationType == UIWebViewNavigationTypeLinkClicked) {
-		[[UIApplication sharedApplication] openURL:[request URL]];
+		if ([[request URL].absoluteString isEqualToString:@"itms-apps://itunes.com/apps/lensie/99reddits"])
+			[Appirater rateApp];
+		else
+			[[UIApplication sharedApplication] openURL:[request URL]];
 		return NO;
 	}
 	
@@ -330,23 +338,24 @@
 	
 	emailButton.frame = CGRectMake((width - 480) / 2, height + 354, 480, 45);
 	tweetButton.frame = CGRectMake((width - 480) / 2, height + 409, 480, 45);
+	rateAppButton.frame = CGRectMake((width - 480) / 2, height + 464, 480, 45);
 	
 	if (appDelegate.isPaid) {
 		[buttonsView removeFromSuperview];
 		CGRect frame = aboutView.frame;
 		frame.origin.y = 20;
-		frame.size.height = height + 474;
+		frame.size.height = height + 529;
 		aboutView.frame = frame;
 		
-		contentScrollView.contentSize = CGSizeMake(width, tweetButton.frame.origin.y + tweetButton.frame.size.height + 50);
+		contentScrollView.contentSize = CGSizeMake(width, rateAppButton.frame.origin.y + rateAppButton.frame.size.height + 50);
 	}
 	else {
 		CGRect frame = aboutView.frame;
 		frame.origin.y = 191;
-		frame.size.height = height + 474;
+		frame.size.height = height + 529;
 		aboutView.frame = frame;
 		
-		contentScrollView.contentSize = CGSizeMake(width, tweetButton.frame.origin.y + tweetButton.frame.size.height + 221);
+		contentScrollView.contentSize = CGSizeMake(width, rateAppButton.frame.origin.y + rateAppButton.frame.size.height + 221);
 	}
 	
 	[contentTableView reloadData];
@@ -374,6 +383,10 @@
 	};
 	
 	[self presentViewController:tweetComposeViewController animated:YES completion:nil];
+}
+
+- (IBAction)onRateAppButton:(id)sender {
+	[Appirater rateApp];
 }
 
 // MFMailComposeViewControllerDelegate

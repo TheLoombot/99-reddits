@@ -39,12 +39,11 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+	[[UIApplication sharedApplication] setStatusBarHidden:NO];
 
     [Crashlytics startWithAPIKey:@"7228ed62a7b305f3ee6ec449adbda49637b3168a"];
-    
-	[[UIApplication sharedApplication] setStatusBarHidden:NO];
-	
 	NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+
 	[Flurry startSession:@"29Y8B1XXMBQVLEPC3ZPU"];
 
 	subRedditsArray = [[NSMutableArray alloc] init];
@@ -55,7 +54,15 @@ void uncaughtExceptionHandler(NSException *exception) {
 	
 	self.window.rootViewController = mainNavigationController;
 	[self.window makeKeyAndVisible];
-	
+
+	[Appirater setAppId:@"474846610"];
+	[Appirater setDaysUntilPrompt:2];
+	[Appirater setUsesUntilPrompt:5];
+	[Appirater setSignificantEventsUntilPrompt:3];
+	[Appirater setTimeBeforeReminding:7];
+	[Appirater setDebug:NO];
+	[Appirater appLaunched:NO];
+
     return YES;
 }
 
@@ -67,6 +74,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
+	[Appirater appEnteredForeground:NO];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

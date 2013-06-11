@@ -37,6 +37,7 @@
 	NSData *sharingData;
 	
 	IBOutlet UIView *loadingView;
+	IBOutlet UIBarButtonItem *commentItem;
 	IBOutlet UIBarButtonItem *actionItem;
 	UIBarButtonItem *favoriteWhiteItem;
 	UIBarButtonItem *favoriteRedItem;
@@ -51,6 +52,7 @@
 @property (nonatomic) BOOL disappearForSubview;
 @property (nonatomic) BOOL bFavorites;
 
+- (IBAction)onCommentButton:(id)sender;
 - (IBAction)onActionButton:(id)sender;
 - (IBAction)onFavoriteButton:(id)sender;
 

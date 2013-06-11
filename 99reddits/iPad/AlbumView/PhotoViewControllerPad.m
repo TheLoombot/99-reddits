@@ -15,6 +15,7 @@
 #import <ImageIO/CGImageSource.h>
 #import "PhotoViewPad.h"
 #import <Social/Social.h>
+#import "CommentViewControllerPad.h"
 
 @interface PhotoViewControllerPad ()
 
@@ -57,6 +58,7 @@
 	[subReddit release];
 	
 	[loadingView release];
+	[commentItem release];
 	[actionItem release];
 	[favoriteWhiteItem release];
 	[favoriteRedItem release];
@@ -83,7 +85,7 @@
 	favoriteRedItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"FavoritesRedIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onFavoriteButton:)];
 	favoriteWhiteItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"FavoritesWhiteIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onFavoriteButton:)];
 
-	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:favoriteRedItem, actionItem, nil];
+	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:favoriteRedItem, actionItem, commentItem, nil];
 
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 
@@ -196,7 +198,7 @@
 															 delegate:self
 													cancelButtonTitle:@"Cancel"
 											   destructiveButtonTitle:nil
-													otherButtonTitles:@"Save Photo", @"Email Photo", @"Tweet", @"Share on Facebook", @"See Comments on reddit", nil];
+													otherButtonTitles:@"Save Photo", @"Email Photo", @"Tweet", @"Share on Facebook", nil];
 	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
 	actionSheet.tag = 100;
 	[actionSheet showFromBarButtonItem:actionItem animated:YES];
@@ -207,12 +209,6 @@
 	if (actionSheet.tag == 100) {
 		if (buttonIndex == actionSheet.cancelButtonIndex)
 			return;
-		
-		if (buttonIndex == 4) {
-			PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
-			[[UIApplication sharedApplication] openURL:[NSURL URLWithString:photo.permalinkString]];
-			return;
-		}
 		
 		if (sharing)
 			return;
@@ -482,9 +478,9 @@
 	
 	if (!bFavorites) {
 		if ([appDelegate isFavorite:photo])
-			self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:favoriteRedItem, actionItem, nil];
+			self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:favoriteRedItem, actionItem, commentItem, nil];
 		else
-			self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:favoriteWhiteItem, actionItem, nil];
+			self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:favoriteWhiteItem, actionItem, commentItem, nil];
 	}
 }
 
@@ -564,6 +560,12 @@
 }
 
 - (IBAction)onFavoriteButton:(id)sender {
+	if (actionSheet) {
+		[actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:YES];
+		[actionSheet release];
+		actionSheet = nil;
+	}
+
 	if (bFavorites) {
 		if (actionSheet) {
 			[actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:NO];
@@ -591,11 +593,11 @@
 		PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
 		if ([appDelegate isFavorite:photo]) {
 			if ([appDelegate removeFromFavorites:photo])
-				self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:favoriteWhiteItem, actionItem, nil];
+				self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:favoriteWhiteItem, actionItem, commentItem, nil];
 		}
 		else {
 			if ([appDelegate addToFavorites:photo])
-				self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:favoriteRedItem, actionItem, nil];
+				self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:favoriteRedItem, actionItem, commentItem, nil];
 		}
 	}
 }
@@ -611,6 +613,21 @@
 
 - (IBAction)onNextPhotoButton:(id)sender {
 	[self.photoAlbumView moveToNextAnimated:self.animateMovingToNextAndPreviousPhotos];
+}
+
+- (IBAction)onCommentButton:(id)sender {
+	if (actionSheet) {
+		[actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:YES];
+		[actionSheet release];
+		actionSheet = nil;
+	}
+
+	disappearForSubview = YES;
+	PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
+	CommentViewControllerPad *commentViewController = [[CommentViewControllerPad alloc] initWithNibName:@"CommentViewControllerPad" bundle:nil];
+	commentViewController.urlString = photo.permalinkString;
+	[self presentViewController:commentViewController animated:YES completion:nil];
+	[commentViewController release];
 }
 
 @end

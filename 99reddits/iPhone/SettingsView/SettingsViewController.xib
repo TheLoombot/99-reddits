@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="8.00">
 	<data>
 		<int key="IBDocument.SystemTarget">1552</int>
-		<string key="IBDocument.SystemVersion">12D78</string>
+		<string key="IBDocument.SystemVersion">12E55</string>
 		<string key="IBDocument.InterfaceBuilderVersion">3084</string>
-		<string key="IBDocument.AppKitVersion">1187.37</string>
+		<string key="IBDocument.AppKitVersion">1187.39</string>
 		<string key="IBDocument.HIToolboxVersion">626.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -322,6 +322,7 @@
 										<string key="NSFrame">{{10, 425}, {300, 45}}</string>
 										<reference key="NSSuperview" ref="701958624"/>
 										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView" ref="786895275"/>
 										<bool key="IBUIOpaque">NO</bool>
 										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 										<int key="IBUIContentHorizontalAlignment">0</int>
@@ -340,8 +341,33 @@
 										<reference key="IBUIFontDescription" ref="918874870"/>
 										<reference key="IBUIFont" ref="678903680"/>
 									</object>
+									<object class="IBUIButton" id="786895275">
+										<reference key="NSNextResponder" ref="701958624"/>
+										<int key="NSvFlags">292</int>
+										<string key="NSFrame">{{10, 478}, {300, 45}}</string>
+										<reference key="NSSuperview" ref="701958624"/>
+										<reference key="NSWindow"/>
+										<reference key="NSNextKeyView"/>
+										<bool key="IBUIOpaque">NO</bool>
+										<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
+										<int key="IBUIContentHorizontalAlignment">0</int>
+										<int key="IBUIContentVerticalAlignment">0</int>
+										<string key="IBUINormalTitle">Rate 99 reddits!</string>
+										<reference key="IBUIHighlightedTitleColor" ref="78565098"/>
+										<object class="NSColor" key="IBUIDisabledTitleColor">
+											<int key="NSColorSpace">1</int>
+											<bytes key="NSRGB">MC40MzkyMTU2ODYzIDAuNDYyNzQ1MDk4IDAuNjExNzY0NzA1OSAwLjU3AA</bytes>
+										</object>
+										<object class="NSColor" key="IBUINormalTitleColor">
+											<int key="NSColorSpace">1</int>
+											<bytes key="NSRGB">MC40MzkyMTU2ODYzIDAuNDYyNzQ1MDk4IDAuNjExNzY0NzA1OQA</bytes>
+										</object>
+										<reference key="IBUINormalTitleShadowColor" ref="695719921"/>
+										<reference key="IBUIFontDescription" ref="918874870"/>
+										<reference key="IBUIFont" ref="678903680"/>
+									</object>
 								</array>
-								<string key="NSFrame">{{0, 171}, {320, 506}}</string>
+								<string key="NSFrame">{{0, 171}, {320, 561}}</string>
 								<reference key="NSSuperview" ref="503752337"/>
 								<reference key="NSWindow"/>
 								<reference key="NSNextKeyView" ref="665681163"/>
@@ -349,7 +375,7 @@
 								<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 							</object>
 						</array>
-						<string key="NSFrame">{{0, 44}, {320, 677}}</string>
+						<string key="NSFrame">{{0, 44}, {320, 732}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSWindow"/>
 						<reference key="NSNextKeyView" ref="846747469"/>
@@ -359,7 +385,7 @@
 						<bool key="IBUIDelaysContentTouches">NO</bool>
 					</object>
 				</array>
-				<string key="NSFrameSize">{320, 721}</string>
+				<string key="NSFrameSize">{320, 776}</string>
 				<reference key="NSSuperview"/>
 				<reference key="NSWindow"/>
 				<reference key="NSNextKeyView" ref="852296915"/>
@@ -466,6 +492,14 @@
 					<int key="connectionID">40</int>
 				</object>
 				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">rateAppButton</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="786895275"/>
+					</object>
+					<int key="connectionID">45</int>
+				</object>
+				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchEventConnection" key="connection">
 						<string key="label">onDoneButton:</string>
 						<reference key="source" ref="1047392730"/>
@@ -541,6 +575,15 @@
 						<int key="IBEventType">7</int>
 					</object>
 					<int key="connectionID">41</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchEventConnection" key="connection">
+						<string key="label">onRateAppButton:</string>
+						<reference key="source" ref="786895275"/>
+						<reference key="destination" ref="372490531"/>
+						<int key="IBEventType">7</int>
+					</object>
+					<int key="connectionID">46</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -637,6 +680,7 @@
 							<reference ref="338069451"/>
 							<reference ref="844882764"/>
 							<reference ref="665681163"/>
+							<reference ref="786895275"/>
 						</array>
 						<reference key="parent" ref="503752337"/>
 					</object>
@@ -675,6 +719,11 @@
 						<reference key="object" ref="844882764"/>
 						<reference key="parent" ref="701958624"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">43</int>
+						<reference key="object" ref="786895275"/>
+						<reference key="parent" ref="701958624"/>
+					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
@@ -699,6 +748,8 @@
 				<real value="0.0" key="37.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="38.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="4.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<string key="43.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+				<real value="0.0" key="43.IBUIButtonInspectorSelectedStateConfigurationMetadataKey"/>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -709,7 +760,7 @@
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">42</int>
+			<int key="maxID">46</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -720,6 +771,7 @@
 						<string key="onClearButton:">id</string>
 						<string key="onDoneButton:">id</string>
 						<string key="onEmailButton:">id</string>
+						<string key="onRateAppButton:">id</string>
 						<string key="onRestoreUpgradeButton:">id</string>
 						<string key="onTweetButton:">id</string>
 						<string key="onUpgradeForMOARButton:">id</string>
@@ -735,6 +787,10 @@
 						</object>
 						<object class="IBActionInfo" key="onEmailButton:">
 							<string key="name">onEmailButton:</string>
+							<string key="candidateClassName">id</string>
+						</object>
+						<object class="IBActionInfo" key="onRateAppButton:">
+							<string key="name">onRateAppButton:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 						<object class="IBActionInfo" key="onRestoreUpgradeButton:">
@@ -759,6 +815,7 @@
 						<string key="contentScrollView">UIScrollView</string>
 						<string key="contentTableView">UITableView</string>
 						<string key="emailButton">UIButton</string>
+						<string key="rateAppButton">UIButton</string>
 						<string key="restoreUpdateButton">UIButton</string>
 						<string key="tweetButton">UIButton</string>
 						<string key="upgradeForMOARButton">UIButton</string>
@@ -794,6 +851,10 @@
 						</object>
 						<object class="IBToOneOutletInfo" key="emailButton">
 							<string key="name">emailButton</string>
+							<string key="candidateClassName">UIButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="rateAppButton">
+							<string key="name">rateAppButton</string>
 							<string key="candidateClassName">UIButton</string>
 						</object>
 						<object class="IBToOneOutletInfo" key="restoreUpdateButton">

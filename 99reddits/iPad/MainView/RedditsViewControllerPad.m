@@ -88,6 +88,8 @@
 }
 
 - (IBAction)onDoneButton:(id)sender {
+	BOOL bChanged = NO;
+	
 	NSArray *tempSubRedditsArray = [NSArray arrayWithArray:appDelegate.subRedditsArray];
 	for (SubRedditItem *subReddit in tempSubRedditsArray) {
 		BOOL bExist = NO;
@@ -102,6 +104,8 @@
 		if (!bExist) {
 			[mainViewController removeSubRedditOperations:subReddit];
 			[appDelegate.subRedditsArray removeObject:subReddit];
+
+			bChanged = YES;
 		}
 	}
 	
@@ -140,8 +144,14 @@
 				subReddit.subscribe = YES;
 				[appDelegate.subRedditsArray addObject:subReddit];
 				[mainViewController addSubReddit:subReddit];
+
+				bChanged = YES;
 			}
 		}
+	}
+
+	if (bChanged) {
+		[Appirater userDidSignificantEvent:YES];
 	}
 	
 	[appDelegate refreshNameStringsSet];

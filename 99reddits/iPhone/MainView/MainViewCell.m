@@ -42,6 +42,7 @@
 	[activityIndicator release];
 	[unshowedBackImageView release];
 	[unshowedLabel release];
+	[animateImageView release];
 	[super dealloc];
 }
 
@@ -140,6 +141,40 @@
 							 unshowedLabel.alpha = 1.0;
 						 }
 					 }];
+}
+
+- (void)setThumbImage:(UIImage *)thumbImage animated:(BOOL)animated {
+	[animateImageView.layer removeAllAnimations];
+	[animateImageView removeFromSuperview];
+	[animateImageView release];
+	animateImageView = nil;
+
+	if (thumbImage == nil) {
+		self.imageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
+	}
+	else {
+		if (animated) {
+			self.imageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
+			animateImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 54, 54)];
+			animateImageView.image = thumbImage;
+			[self.contentView addSubview:animateImageView];
+
+			animateImageView.alpha = 0.0;
+			[UIView animateWithDuration:0.2
+							 animations:^(void) {
+								 animateImageView.alpha = 1.0;
+							 }
+							 completion:^(BOOL finished) {
+								 [animateImageView removeFromSuperview];
+								 [animateImageView release];
+								 animateImageView = nil;
+								 self.imageView.image = thumbImage;
+							 }];
+		}
+		else {
+			self.imageView.image = thumbImage;
+		}
+	}
 }
 
 @end

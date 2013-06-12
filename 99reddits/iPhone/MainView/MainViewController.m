@@ -28,6 +28,8 @@
 
 @implementation MainViewController
 
+@synthesize lastAddedIndex;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -118,6 +120,8 @@
 //		if (currentTime - appDelegate.updatedTime > 300)
 //			[self reloadData];
 	}
+
+	lastAddedIndex = -1;
 }
 
 - (void)viewDidUnload {
@@ -143,7 +147,15 @@
 	for (SubRedditItem *subReddit in subRedditsArray) {
 		[subReddit calUnshowedCount];
 	}
-	[self.tableView reloadData];
+//	[self.tableView reloadData];
+	[self.tableView reloadRowsAtIndexPaths:[self.tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	if (lastAddedIndex >= 0) {
+		[self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:lastAddedIndex + 1 inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:YES];
+		lastAddedIndex = -1;
+	}
 }
 
 - (IBAction)onEditButton:(id)sender {
@@ -191,7 +203,7 @@
 		if (appDelegate.favoritesItem.photosArray.count == 0) {
 			cell.accessoryType = UITableViewCellAccessoryNone;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-			cell.imageView.image = [UIImage imageNamed:@"FavoritesIcon.png"];
+			[cell setThumbImage:[UIImage imageNamed:@"FavoritesIcon.png"] animated:NO];
 		}
 		else {
 			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -201,10 +213,10 @@
 			UIImage *image = [thumbnailImageCache objectWithName:urlString];
 			if (image == nil) {
 				[self requestImageFromSource:urlString photoIndex:indexPath.row - 1];
-				cell.imageView.image = [UIImage imageNamed:@"FavoritesIcon.png"];
+				[cell setThumbImage:[UIImage imageNamed:@"FavoritesIcon.png"] animated:NO];
 			}
 			else {
-				cell.imageView.image = image;
+				[cell setThumbImage:image animated:YES];
 			}
 		}
 		
@@ -217,7 +229,7 @@
 		if (subReddit.photosArray.count == 0 || subReddit.loading) {
 			cell.accessoryType = UITableViewCellAccessoryNone;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-			cell.imageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
+			[cell setThumbImage:nil animated:NO];
 		}
 		else {
 			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -227,10 +239,10 @@
 			UIImage *image = [thumbnailImageCache objectWithName:urlString];
 			if (image == nil) {
 				[self requestImageFromSource:urlString photoIndex:indexPath.row - 1];
-				cell.imageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
+				[cell setThumbImage:nil animated:NO];
 			}
 			else {
-				cell.imageView.image = image;
+				[cell setThumbImage:image animated:YES];
 			}
 		}
 		
@@ -383,13 +395,16 @@
 	NSString *urlString = [[request originalURL] absoluteString];
 
 	SubRedditItem *subReddit = nil;
-	for (SubRedditItem *tempSubReddit in subRedditsArray) {
+	int index = 0;
+	for (int i = 0; i < subRedditsArray.count; i ++) {
+		SubRedditItem *tempSubReddit = [subRedditsArray objectAtIndex:i];
 		if ([tempSubReddit.urlString isEqualToString:urlString]) {
 			subReddit = tempSubReddit;
+			index = i;
 			break;
 		}
 	}
-	
+
 	if (subReddit == nil) {
 		refreshCount --;
 		if (refreshCount == 0) {
@@ -415,8 +430,9 @@
 
 	[subReddit calUnshowedCount];
 	
-	[self.tableView reloadData];
-	
+//	[self.tableView reloadData];
+	[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index + 1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+
 	[tempPhotosArray removeAllObjects];
 	[tempPhotosArray release];
 	
@@ -434,9 +450,12 @@
 	NSString *urlString = [[request originalURL] absoluteString];
 	
 	SubRedditItem *subReddit = nil;
-	for (SubRedditItem *tempSubReddit in subRedditsArray) {
+	int index = 0;
+	for (int i = 0; i < subRedditsArray.count; i ++) {
+		SubRedditItem *tempSubReddit = [subRedditsArray objectAtIndex:i];
 		if ([tempSubReddit.urlString isEqualToString:urlString]) {
 			subReddit = tempSubReddit;
+			index = i;
 			break;
 		}
 	}
@@ -455,9 +474,10 @@
 	subReddit.loading = NO;
 	subReddit.unshowedCount = 0;
 	[subReddit.photosArray removeAllObjects];
-	
-	[self.tableView reloadData];
-	
+
+//	[self.tableView reloadData];
+	[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index + 1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+
 	refreshCount --;
 	if (refreshCount == 0) {
 		self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
@@ -659,7 +679,7 @@
 				
 				[thumbnailImageCache storeObject:thumbImage withName:photoIndexKey];
 				MainViewCell *cell = (MainViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index + 1 inSection:0]];
-				cell.imageView.image = thumbImage;
+				[cell setThumbImage:thumbImage animated:YES];
 			}
 		}
 		

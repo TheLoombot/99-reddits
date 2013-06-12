@@ -76,6 +76,7 @@
 	[controversialItem release];
 	[topItem release];
 	[showTypeSegmentedControl release];
+	[actionSheet release];
 	[super dealloc];
 }
 
@@ -130,7 +131,7 @@
 	
 	[showTypeSegmentedControl setBackgroundImage:[[UIImage imageNamed:@"BarButtonBack.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
 	[showTypeSegmentedControl setBackgroundImage:[[UIImage imageNamed:@"BarButtonBackHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)] forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
-	
+
 	[appDelegate checkNetworkReachable:YES];
 	
 	tabBar.selectedItem = hotItem;
@@ -139,6 +140,8 @@
 	currentPhotosArray = [[NSMutableArray alloc] init];
 	if (bFavorites) {
 		currentSubReddit = [subReddit retain];
+
+		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(onActionButton:)] autorelease];
 	}
 	else {
 		currentSubReddit = [[SubRedditItem alloc] init];
@@ -696,6 +699,45 @@
 	[activeRequests removeAllObjects];
 	
 	[contentTableView reloadData];
+}
+
+- (void)onActionButton:(id)sender {
+	if (actionSheet) {
+		[actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:NO];
+		[actionSheet release];
+		actionSheet = nil;
+	}
+	
+	actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+															 delegate:self
+													cancelButtonTitle:@"Cancel"
+											   destructiveButtonTitle:nil
+													otherButtonTitles:@"Email Favorites", nil];
+	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+	[actionSheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
+}
+
+// UIActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)sheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
+	if (buttonIndex != actionSheet.cancelButtonIndex) {
+		if ([MFMailComposeViewController canSendMail]) {
+			MFMailComposeViewController *mailComposeViewController = [[[MFMailComposeViewController alloc] init] autorelease];
+			mailComposeViewController.mailComposeDelegate = self;
+			[mailComposeViewController setSubject:@"99 reddits Favorites Export"];
+			[mailComposeViewController setMessageBody:[appDelegate getFavoritesEmailString] isHTML:YES];
+
+			bFromSubview = YES;
+			[self presentViewController:mailComposeViewController animated:YES completion:nil];
+		}
+	}
+
+	[actionSheet release];
+	actionSheet = nil;
+}
+
+// MFMailComposeViewControllerDelegate
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+	[controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

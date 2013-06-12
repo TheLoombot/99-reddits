@@ -134,6 +134,8 @@
 	currentPhotosArray = [[NSMutableArray alloc] init];
 	if (bFavorites) {
 		currentSubReddit = [subReddit retain];
+
+		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(onActionButton:)] autorelease];
 	}
 	else {
 		currentSubReddit = [[SubRedditItem alloc] init];
@@ -691,8 +693,41 @@
 	}
 	
 	[activeRequests removeAllObjects];
-	
+
 	[contentTableView reloadData];
+}
+
+- (void)onActionButton:(id)sender {
+	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
+															 delegate:self
+													cancelButtonTitle:@"Cancel"
+											   destructiveButtonTitle:nil
+													otherButtonTitles:@"Email Favorites", nil];
+	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+	[actionSheet showInView:self.view];
+	[actionSheet release];
+}
+
+// UIActionSheetDelegate
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
+	if (buttonIndex == actionSheet.cancelButtonIndex)
+		return;
+
+	if ([MFMailComposeViewController canSendMail]) {
+		MFMailComposeViewController *mailComposeViewController = [[[MFMailComposeViewController alloc] init] autorelease];
+		mailComposeViewController.mailComposeDelegate = self;
+
+		[mailComposeViewController setSubject:@"99 reddits Favorites Export"];
+		[mailComposeViewController setMessageBody:[appDelegate getFavoritesEmailString] isHTML:YES];
+
+		bFromSubview = YES;
+		[self presentViewController:mailComposeViewController animated:YES completion:nil];
+	}
+}
+
+// MFMailComposeViewControllerDelegate
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
+	[controller dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

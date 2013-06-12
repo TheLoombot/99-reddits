@@ -12,11 +12,12 @@
 #import "ASIHTTPRequestDelegate.h"
 #import "NIProcessorHTTPRequest.h"
 #import "CustomTableView.h"
+#import <MessageUI/MessageUI.h>
 
 @class RedditsAppDelegate;
 @class MainViewController;
 
-@interface AlbumViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITabBarDelegate, UIAlertViewDelegate, ASIHTTPRequestDelegate> {
+@interface AlbumViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UITabBarDelegate, UIAlertViewDelegate, ASIHTTPRequestDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate> {
 	RedditsAppDelegate *appDelegate;
 	MainViewController *mainViewController;
 	

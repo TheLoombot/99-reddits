@@ -31,7 +31,11 @@
 	NIImageMemoryCache* thumbnailImageCache;
 	
 	int refreshCount;
+
+	int lastAddedIndex;
 }
+
+@property (nonatomic, assign) int lastAddedIndex;
 
 - (IBAction)onSettingsButton:(id)sender;
 - (IBAction)onEditButton:(id)sender;

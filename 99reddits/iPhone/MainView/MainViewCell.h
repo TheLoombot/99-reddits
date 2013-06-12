@@ -12,7 +12,8 @@
 	UIActivityIndicatorView *activityIndicator;
 	UIImageView *unshowedBackImageView;
 	UILabel *unshowedLabel;
-	
+	UIImageView *animateImageView;
+
 	int unshowedCount;
 	int totalCount;
 	BOOL loading;
@@ -24,5 +25,6 @@
 
 - (void)setUnshowedCount:(int)_unshowedCount totalCount:(int)_totalCount loading:(BOOL)_loading;
 - (void)setTotalCount:(int)_totalCount;
+- (void)setThumbImage:(UIImage *)thumbImage animated:(BOOL)animated;
 
 @end

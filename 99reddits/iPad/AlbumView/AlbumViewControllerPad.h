@@ -12,11 +12,12 @@
 #import "ASIHTTPRequestDelegate.h"
 #import "NIProcessorHTTPRequest.h"
 #import "CustomTableView.h"
+#import <MessageUI/MessageUI.h>
 
 @class RedditsAppDelegate;
 @class MainViewControllerPad;
 
-@interface AlbumViewControllerPad : UIViewController <UITableViewDelegate, UITableViewDataSource, UITabBarDelegate, UIAlertViewDelegate, ASIHTTPRequestDelegate> {
+@interface AlbumViewControllerPad : UIViewController <UITableViewDelegate, UITableViewDataSource, UITabBarDelegate, UIAlertViewDelegate, ASIHTTPRequestDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate> {
 	RedditsAppDelegate *appDelegate;
 	MainViewControllerPad *mainViewController;
 	
@@ -31,7 +32,8 @@
 	IBOutlet UITabBarItem *topItem;
 	UITabBarItem *currentItem;
 	IBOutlet UISegmentedControl *showTypeSegmentedControl;
-	
+	UIActionSheet *actionSheet;
+
 	SubRedditItem *currentSubReddit;
 	SubRedditItem *subReddit;
 	

@@ -152,6 +152,12 @@
 	self.titleLabel.hidden = NO;
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+	if (!disappearForSubview) {
+		[super viewWillDisappear:animated];
+	}
+}
+
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
 	
@@ -169,7 +175,7 @@
 															 delegate:self 
 													cancelButtonTitle:@"Cancel" 
 											   destructiveButtonTitle:nil 
-													otherButtonTitles:@"Save Photo", @"Email Photo", @"Tweet", @"Share on Facebook", nil];
+													otherButtonTitles:@"Save Photo", @"Email Photo", @"Tweet", @"Share on Facebook", @"Copy Image", nil];
 	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
 	actionSheet.tag = 100;
 	[actionSheet showInView:self.view];
@@ -522,6 +528,11 @@
 		};
 		
 		[self presentViewController:facebookComposeViewController animated:YES completion:nil];
+	}
+	else if (sharingType == 4) {
+		NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+		UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+		[pasteboard setData:imageData forPasteboardType:@"public.jpeg"];
 	}
 
 	sharing = NO;

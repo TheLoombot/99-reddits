@@ -156,10 +156,11 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-	
-	[appDelegate setNavAppearance];
-	[self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NavBarBack.png"] forBarMetrics:UIBarMetricsDefault];
+	if (!disappearForSubview) {
+		[super viewWillDisappear:animated];
+		[appDelegate setNavAppearance];
+		[self.navigationController.navigationBar setBackgroundImage:[UIImage imageNamed:@"NavBarBack.png"] forBarMetrics:UIBarMetricsDefault];
+	}
 
 	if (actionSheet) {
 		[actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:NO];
@@ -198,7 +199,7 @@
 															 delegate:self
 													cancelButtonTitle:@"Cancel"
 											   destructiveButtonTitle:nil
-													otherButtonTitles:@"Save Photo", @"Email Photo", @"Tweet", @"Share on Facebook", nil];
+													otherButtonTitles:@"Save Photo", @"Email Photo", @"Tweet", @"Share on Facebook", @"Copy Image", nil];
 	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
 	actionSheet.tag = 100;
 	[actionSheet showFromBarButtonItem:actionItem animated:YES];
@@ -555,7 +556,12 @@
 		
 		[self presentViewController:facebookComposeViewController animated:YES completion:nil];
 	}
-	
+	else if (sharingType == 4) {
+		NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+		UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+		[pasteboard setData:imageData forPasteboardType:@"public.jpeg"];
+	}
+
 	sharing = NO;
 }
 

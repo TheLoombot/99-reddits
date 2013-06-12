@@ -10,11 +10,12 @@
 #import "SubRedditItem.h"
 #import "PhotoItem.h"
 #import "Appirater.h"
+#import "CustomNavigationController.h"
 
 @class MainViewController;
 
 @interface RedditsAppDelegate : NSObject <UIApplicationDelegate, AppiraterDelegate> {
-	IBOutlet UINavigationController *mainNavigationController;
+	IBOutlet CustomNavigationController *mainNavigationController;
 
 	NSMutableArray *subRedditsArray;
 	NSMutableSet *nameStringsSet;
@@ -55,5 +56,7 @@
 - (void)unsetNavAppearance;
 
 - (void)refreshNameStringsSet;
+
+- (NSString *)getFavoritesEmailString;
 
 @end

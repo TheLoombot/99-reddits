@@ -28,6 +28,8 @@
 
 @implementation MainViewControllerPad
 
+@synthesize lastAddedIndex;
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
@@ -128,6 +130,8 @@
 	[self.collectionView registerClass:[MainViewCellPad class] forCellWithReuseIdentifier:@"MAINVIEWCELLPAD"];
 	[self.collectionView setCollectionViewLayout:mainViewLayout];
 	[mainViewLayout setUpGestureRecognizersOnCollectionView];
+
+	lastAddedIndex = -1;
 }
 
 - (void)viewDidUnload {
@@ -149,6 +153,13 @@
 		[subReddit calUnshowedCount];
 	}
 	[self.collectionView reloadData];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	if (lastAddedIndex >= 0) {
+		[self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:lastAddedIndex + 1 inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+		lastAddedIndex = -1;
+	}
 }
 
 - (IBAction)onEditButton:(id)sender {
@@ -176,7 +187,7 @@
 - (IBAction)onAddButton:(id)sender {
 	RedditsViewControllerPad *redditsViewController = [[RedditsViewControllerPad alloc] initWithNibName:@"RedditsViewControllerPad" bundle:nil];
 	redditsViewController.mainViewController = self;
-	UINavigationController *redditsNavigationController = [[UINavigationController alloc] initWithRootViewController:redditsViewController];
+	UINavigationController *redditsNavigationController = [[CustomNavigationController alloc] initWithRootViewController:redditsViewController];
 	redditsNavigationController.navigationBarHidden = YES;
 	popoverController = [[PopoverController alloc] initWithContentViewController:redditsNavigationController];
 	popoverController.popoverContentSize = CGSizeMake(540, 620);

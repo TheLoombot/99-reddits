@@ -168,6 +168,7 @@
 		8DAECE43145A3E55004D194A /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DAECE42145A3E55004D194A /* MessageUI.framework */; };
 		8DC0823414C7DCFC00E092A2 /* ClearButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 8DC0823214C7DCFC00E092A2 /* ClearButton.png */; };
 		8DC0823514C7DCFC00E092A2 /* ClearButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8DC0823314C7DCFC00E092A2 /* ClearButton@2x.png */; };
+		8DD1EEE01768B4E900BF3E3B /* CustomNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD1EEDF1768B4E900BF3E3B /* CustomNavigationController.m */; };
 		8DD6A288167E2025009DD0F8 /* CustomTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DD6A287167E2025009DD0F8 /* CustomTableView.m */; };
 		8DF07896164F6EDE00B26B8F /* AlbumViewCellPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF07895164F6EDE00B26B8F /* AlbumViewCellPad.m */; };
 		8DF0789A164F6EF700B26B8F /* AlbumViewCellItemPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF07899164F6EF700B26B8F /* AlbumViewCellItemPad.m */; };
@@ -498,6 +499,8 @@
 		8DAECE42145A3E55004D194A /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		8DC0823214C7DCFC00E092A2 /* ClearButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ClearButton.png; sourceTree = "<group>"; };
 		8DC0823314C7DCFC00E092A2 /* ClearButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ClearButton@2x.png"; sourceTree = "<group>"; };
+		8DD1EEDE1768B4E900BF3E3B /* CustomNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomNavigationController.h; sourceTree = "<group>"; };
+		8DD1EEDF1768B4E900BF3E3B /* CustomNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomNavigationController.m; sourceTree = "<group>"; };
 		8DD6A286167E2025009DD0F8 /* CustomTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomTableView.h; sourceTree = "<group>"; };
 		8DD6A287167E2025009DD0F8 /* CustomTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomTableView.m; sourceTree = "<group>"; };
 		8DF07894164F6EDE00B26B8F /* AlbumViewCellPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumViewCellPad.h; sourceTree = "<group>"; };
@@ -1058,6 +1061,8 @@
 			children = (
 				8D66C1AC164BA38300EAC2C0 /* RedditsAppDelegate.h */,
 				8D66C1AD164BA38300EAC2C0 /* RedditsAppDelegate.m */,
+				8DD1EEDE1768B4E900BF3E3B /* CustomNavigationController.h */,
+				8DD1EEDF1768B4E900BF3E3B /* CustomNavigationController.m */,
 				8D6C5D2A164ACCCC008A98A7 /* UserDef.h */,
 				8D6C5D2B164ACCCC008A98A7 /* UserDef.m */,
 				8D6C5D24164ACCCC008A98A7 /* PhotoItem.h */,
@@ -1393,6 +1398,7 @@
 				8D2242341766CA480053868F /* Appirater.m in Sources */,
 				8D22423F176714570053868F /* CommentViewController.m in Sources */,
 				8D22424417671A4D0053868F /* CommentViewControllerPad.m in Sources */,
+				8DD1EEE01768B4E900BF3E3B /* CustomNavigationController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

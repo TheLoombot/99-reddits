@@ -95,6 +95,8 @@
 - (IBAction)onDoneButton:(id)sender {
 	BOOL bChanged = NO;
 
+	int lastAddedIndex = -1;
+
 	NSArray *tempSubRedditsArray = [NSArray arrayWithArray:appDelegate.subRedditsArray];
 	for (SubRedditItem *subReddit in tempSubRedditsArray) {
 		BOOL bExist = NO;
@@ -150,6 +152,8 @@
 				[appDelegate.subRedditsArray addObject:subReddit];
 				[mainViewController addSubReddit:subReddit];
 
+				lastAddedIndex = appDelegate.subRedditsArray.count - 1;
+
 				bChanged = YES;
 			}
 		}
@@ -160,6 +164,8 @@
 	}
 	
 	[appDelegate refreshNameStringsSet];
+
+	mainViewController.lastAddedIndex = lastAddedIndex;
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 

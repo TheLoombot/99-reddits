@@ -77,8 +77,8 @@
 		return;
 
 	if (buttonIndex == 0) {
-		UIPasteboard *pasteBoard = [UIPasteboard generalPasteboard];
-		pasteBoard.string = urlString;
+		UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
+		pasteboard.string = urlString;
 	}
 	else {
 		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];

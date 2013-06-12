@@ -11,6 +11,8 @@
 #import "Reachability.h"
 #import "Flurry.h"
 #import <Crashlytics/Crashlytics.h>
+#import "MainViewControllerPad.h"
+#import "RedditsViewControllerPad.h"
 
 @implementation UINavigationController (iOS6OrientationFix)
 
@@ -395,19 +397,19 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 
 - (void)setNavAppearance {
-	[[UINavigationBar appearance] setBackgroundImage:[UIImage imageNamed:@"NavBarBack.png"] forBarMetrics:UIBarMetricsDefault];
-	[[UIBarButtonItem appearance] setBackgroundImage:[[UIImage imageNamed:@"BarButtonBack.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-	[[UIBarButtonItem appearance] setBackgroundImage:[[UIImage imageNamed:@"BarButtonBackHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
-	[[UIBarButtonItem appearance] setBackButtonBackgroundImage:[[UIImage imageNamed:@"BarBackButtonBack.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 14, 0, 5)] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-	[[UIBarButtonItem appearance] setBackButtonBackgroundImage:[[UIImage imageNamed:@"BarBackButtonBackHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 14, 0, 5)] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+	[[UINavigationBar appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:[UIImage imageNamed:@"NavBarBack.png"] forBarMetrics:UIBarMetricsDefault];
+	[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:[[UIImage imageNamed:@"BarButtonBack.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+	[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:[[UIImage imageNamed:@"BarButtonBackHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+	[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackButtonBackgroundImage:[[UIImage imageNamed:@"BarBackButtonBack.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 14, 0, 5)] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+	[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackButtonBackgroundImage:[[UIImage imageNamed:@"BarBackButtonBackHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 14, 0, 5)] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
 }
 
 - (void)unsetNavAppearance {
-	[[UINavigationBar appearance] setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
-	[[UIBarButtonItem appearance] setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-	[[UIBarButtonItem appearance] setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
-	[[UIBarButtonItem appearance] setBackButtonBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-	[[UIBarButtonItem appearance] setBackButtonBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+	[[UINavigationBar appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+	[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+	[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+	[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackButtonBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+	[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackButtonBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
 }
 
 - (void)refreshNameStringsSet {
@@ -415,6 +417,18 @@ void uncaughtExceptionHandler(NSException *exception) {
 	for (SubRedditItem *subReddit in subRedditsArray) {
 		[nameStringsSet addObject:[subReddit.nameString lowercaseString]];
 	}
+}
+
+- (NSString *)getFavoritesEmailString {
+	NSString *htmlString = @"<html>\n<head>\n</head>\n<body>";
+
+	for (PhotoItem *photo in favoritesItem.photosArray) {
+		htmlString = [htmlString stringByAppendingFormat:@"\n<p><a href=\"http://redd.it/%@\">%@</a><br /><a href=\"%@\"><img src=\"%@\" /></a></p>", photo.idString, photo.titleString, photo.urlString, photo.urlString];
+	}
+
+	htmlString = [htmlString stringByAppendingString:@"\n</body>\n</html>"];
+
+	return htmlString;
 }
 
 @end

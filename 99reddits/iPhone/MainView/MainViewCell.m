@@ -151,9 +151,10 @@
 
 	if (thumbImage == nil) {
 		self.imageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
+		imageEmpty = YES;
 	}
 	else {
-		if (animated) {
+		if (animated || imageEmpty) {
 			self.imageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
 			animateImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 54, 54)];
 			animateImageView.image = thumbImage;
@@ -174,6 +175,7 @@
 		else {
 			self.imageView.image = thumbImage;
 		}
+		imageEmpty = NO;
 	}
 }
 

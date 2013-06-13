@@ -7,6 +7,7 @@
 //
 
 #import "CommentViewController.h"
+#import "NINetworkActivity.h"
 
 @interface CommentViewController ()
 
@@ -27,15 +28,38 @@
 - (void)dealloc {
 	[urlString release];
 	[navItem release];
+	[leftItem release];
+	[rightItem release];
+	if (loading) {
+		[webView stopLoading];
+		NINetworkActivityTaskDidFinish();
+	}
 	[webView release];
+	[titleView release];
+	[titleLabel release];
+	[urlLabel release];
 	[super dealloc];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-	navItem.title = urlString;
+	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
+	[leftItem setBackgroundImage:[UIImage imageNamed:@"Transparent.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+	[rightItem setBackgroundImage:[UIImage imageNamed:@"Transparent.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+	navItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:leftItem] autorelease];
+	navItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:rightItem] autorelease];
+
+	navItem.titleView = titleView;
+	titleLabel.text = @"Loading...";
+	urlLabel.text = urlString;
 	[webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
+
+	NSArray *subviews = webView.subviews;
+	for (UIView *subview in subviews) {
+		subview.clipsToBounds = NO;
+	}
+	[[[UIApplication sharedApplication].windows objectAtIndex:0] setBackgroundColor:[UIColor scrollViewTexturedBackgroundColor]];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -44,6 +68,11 @@
 }
 
 - (IBAction)onCloseButton:(id)sender {
+	NSArray *subviews = webView.subviews;
+	for (UIView *subview in subviews) {
+		subview.clipsToBounds = YES;
+	}
+	[[[UIApplication sharedApplication].windows objectAtIndex:0] setBackgroundColor:[UIColor blackColor]];
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -70,6 +99,18 @@
 	else {
 		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
 	}
+}
+
+// UIWebViewDelegate
+- (void)webViewDidStartLoad:(UIWebView *)wv {
+	loading = YES;
+	NINetworkActivityTaskDidStart();
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)wv {
+	loading = NO;
+	NINetworkActivityTaskDidFinish();
+	titleLabel.text = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
 }
 
 @end

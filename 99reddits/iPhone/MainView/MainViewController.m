@@ -147,8 +147,7 @@
 	for (SubRedditItem *subReddit in subRedditsArray) {
 		[subReddit calUnshowedCount];
 	}
-//	[self.tableView reloadData];
-	[self.tableView reloadRowsAtIndexPaths:[self.tableView indexPathsForVisibleRows] withRowAnimation:UITableViewRowAnimationNone];
+	[self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -216,7 +215,7 @@
 				[cell setThumbImage:[UIImage imageNamed:@"FavoritesIcon.png"] animated:NO];
 			}
 			else {
-				[cell setThumbImage:image animated:YES];
+				[cell setThumbImage:image animated:NO];
 			}
 		}
 		
@@ -242,7 +241,7 @@
 				[cell setThumbImage:nil animated:NO];
 			}
 			else {
-				[cell setThumbImage:image animated:YES];
+				[cell setThumbImage:image animated:NO];
 			}
 		}
 		

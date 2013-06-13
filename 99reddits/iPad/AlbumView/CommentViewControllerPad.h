@@ -12,8 +12,14 @@
 	NSString *urlString;
 
 	IBOutlet UINavigationItem *navItem;
-	IBOutlet UIBarButtonItem *shareItem;
+	IBOutlet UIToolbar *leftItem;
+	IBOutlet UIToolbar *rightItem;
 	IBOutlet UIWebView *webView;
+	IBOutlet UIView *titleView;
+	IBOutlet UILabel *titleLabel;
+	IBOutlet UILabel *urlLabel;
+
+	BOOL loading;
 
 	UIActionSheet *actionSheet;
 }

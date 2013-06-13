@@ -56,8 +56,6 @@
 }
 
 - (void)onPlay:(UITapGestureRecognizer *)gesture {
-	photoViewController.disappearForSubview = YES;
-	
 	BOOL hidden = [UIApplication sharedApplication].statusBarHidden;
 	if (!hidden)
 		[photoViewController toggleChromeVisibility];

@@ -21,6 +21,8 @@
 	BOOL first;
 	
 	BOOL bFavorites;
+
+	BOOL imageEmpty;
 }
 
 - (void)setUnshowedCount:(int)_unshowedCount totalCount:(int)_totalCount loading:(BOOL)_loading;

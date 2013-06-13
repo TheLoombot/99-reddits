@@ -138,7 +138,9 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:YES];
+	if (!disappearForSubview) {
+		[super viewWillAppear:YES];
+	}
 	
 	disappearForSubview = NO;
 	[self.photoAlbumView moveToPageAtIndex:index animated:NO];

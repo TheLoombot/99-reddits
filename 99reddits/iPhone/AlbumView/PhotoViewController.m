@@ -75,9 +75,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	
-	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"FavoritesRedIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onFavoriteButton:)] autorelease];
-	
+
+	UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+	rightButton.frame = CGRectMake(0, 0, 25, 25);
+	rightButton.showsTouchWhenHighlighted = YES;
+	[rightButton setBackgroundImage:[UIImage imageNamed:@"FavoritesRedIcon.png"] forState:UIControlStateNormal];
+	[rightButton addTarget:self action:@selector(onFavoriteButton:) forControlEvents:UIControlEventTouchUpInside];
+	self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:rightButton] autorelease];
+
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	
 	activeRequests = [[NSMutableSet alloc] init];
@@ -140,7 +145,9 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	[super viewWillAppear:YES];
+	if (!disappearForSubview) {
+		[super viewWillAppear:YES];
+	}
 	
 	disappearForSubview = NO;
 	[self.photoAlbumView moveToPageAtIndex:self.photoAlbumView.centerPageIndex animated:NO];
@@ -451,10 +458,22 @@
 		[self requestImageFromSource:photo.urlString photoSize:NIPhotoScrollViewPhotoSizeOriginal photoIndex:self.photoAlbumView.centerPageIndex];
 
 	if (!bFavorites) {
-		if ([appDelegate isFavorite:photo])
-			self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"FavoritesRedIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onFavoriteButton:)] autorelease];
-		else
-			self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"FavoritesWhiteIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onFavoriteButton:)] autorelease];
+		if ([appDelegate isFavorite:photo]) {
+			UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+			rightButton.frame = CGRectMake(0, 0, 25, 25);
+			rightButton.showsTouchWhenHighlighted = YES;
+			[rightButton setBackgroundImage:[UIImage imageNamed:@"FavoritesRedIcon.png"] forState:UIControlStateNormal];
+			[rightButton addTarget:self action:@selector(onFavoriteButton:) forControlEvents:UIControlEventTouchUpInside];
+			self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:rightButton] autorelease];
+		}
+		else {
+			UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+			rightButton.frame = CGRectMake(0, 0, 25, 25);
+			rightButton.showsTouchWhenHighlighted = YES;
+			[rightButton setBackgroundImage:[UIImage imageNamed:@"FavoritesWhiteIcon.png"] forState:UIControlStateNormal];
+			[rightButton addTarget:self action:@selector(onFavoriteButton:) forControlEvents:UIControlEventTouchUpInside];
+			self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:rightButton] autorelease];
+		}
 	}
 }
 
@@ -554,12 +573,22 @@
 		PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
 		if ([appDelegate isFavorite:photo]) {
 			if ([appDelegate removeFromFavorites:photo]) {
-				self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"FavoritesWhiteIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onFavoriteButton:)] autorelease];
+				UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+				rightButton.frame = CGRectMake(0, 0, 25, 25);
+				rightButton.showsTouchWhenHighlighted = YES;
+				[rightButton setBackgroundImage:[UIImage imageNamed:@"FavoritesWhiteIcon.png"] forState:UIControlStateNormal];
+				[rightButton addTarget:self action:@selector(onFavoriteButton:) forControlEvents:UIControlEventTouchUpInside];
+				self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:rightButton] autorelease];
 			}
 		}
 		else {
 			if ([appDelegate addToFavorites:photo]) {
-				self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"FavoritesRedIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onFavoriteButton:)] autorelease];
+				UIButton *rightButton = [UIButton buttonWithType:UIButtonTypeCustom];
+				rightButton.frame = CGRectMake(0, 0, 25, 25);
+				rightButton.showsTouchWhenHighlighted = YES;
+				[rightButton setBackgroundImage:[UIImage imageNamed:@"FavoritesRedIcon.png"] forState:UIControlStateNormal];
+				[rightButton addTarget:self action:@selector(onFavoriteButton:) forControlEvents:UIControlEventTouchUpInside];
+				self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:rightButton] autorelease];
 			}
 		}
 	}

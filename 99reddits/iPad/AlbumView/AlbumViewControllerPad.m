@@ -719,6 +719,9 @@
 
 // UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)sheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
+	if (actionSheet == nil)
+		return;
+	
 	if (buttonIndex != actionSheet.cancelButtonIndex) {
 		if ([MFMailComposeViewController canSendMail]) {
 			MFMailComposeViewController *mailComposeViewController = [[[MFMailComposeViewController alloc] init] autorelease];

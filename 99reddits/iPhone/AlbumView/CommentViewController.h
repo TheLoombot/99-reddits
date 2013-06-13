@@ -12,7 +12,14 @@
 	NSString *urlString;
 
 	IBOutlet UINavigationItem *navItem;
+	IBOutlet UIToolbar *leftItem;
+	IBOutlet UIToolbar *rightItem;
 	IBOutlet UIWebView *webView;
+	IBOutlet UIView *titleView;
+	IBOutlet UILabel *titleLabel;
+	IBOutlet UILabel *urlLabel;
+
+	BOOL loading;
 }
 
 @property (nonatomic, retain) NSString *urlString;

@@ -220,8 +220,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 	favoritesItem.nameString = @"Favorites";
 	
-//	isPaid = [defaults boolForKey:@"IS_PAID"];
-	isPaid = YES;
+	isPaid = [defaults boolForKey:@"IS_PAID"];
 }
 
 - (void)saveToDefaults {

@@ -7,120 +7,106 @@
 //
 
 #import "AlbumViewCell.h"
-#import "AlbumViewCellItem.h"
+#import "RedditsAppDelegate.h"
 #import "AlbumViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation AlbumViewCell
 
 @synthesize albumViewController;
-@synthesize photosArray;
-@synthesize row;
+@synthesize photo;
 @synthesize bFavorites;
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-		self.selectionStyle = UITableViewCellSelectionStyleNone;
-		
-		item1 = [[AlbumViewCellItem alloc] initWithFrame:CGRectMake(4, 4, 75, 75)];
-		[item1 addTarget:self action:@selector(onItemClick:) forControlEvents:UIControlEventTouchUpInside];
-		[self addSubview:item1];
-		
-		item2 = [[AlbumViewCellItem alloc] initWithFrame:CGRectMake(83, 4, 75, 75)];
-		[item2 addTarget:self action:@selector(onItemClick:) forControlEvents:UIControlEventTouchUpInside];
-		[self addSubview:item2];
-		
-		item3 = [[AlbumViewCellItem alloc] initWithFrame:CGRectMake(162, 4, 75, 75)];
-		[item3 addTarget:self action:@selector(onItemClick:) forControlEvents:UIControlEventTouchUpInside];
-		[self addSubview:item3];
-		
-		item4 = [[AlbumViewCellItem alloc] initWithFrame:CGRectMake(241, 4, 75, 75)];
-		[item4 addTarget:self action:@selector(onItemClick:) forControlEvents:UIControlEventTouchUpInside];
-		[self addSubview:item4];
-	}
-    return self;
-}
+- (id)initWithFrame:(CGRect)frame {
+	self = [super initWithFrame:frame];
+	if (self) {
+		self.backgroundColor = [UIColor clearColor];
+		self.contentView.backgroundColor = [UIColor clearColor];
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-	
-    // Configure the view for the selected state
-}
+		appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 
-- (void)setRow:(int)_row {
-	item1.bFavorites = bFavorites;
-	item2.bFavorites = bFavorites;
-	item3.bFavorites = bFavorites;
-	item4.bFavorites = bFavorites;
-	
-	row = _row;
-	
-	int maxIndex = photosArray.count;
-	
-	int index = row * 4;
-	if (index < maxIndex) {
-		item1.photo = [photosArray objectAtIndex:index];
+		imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 75, 75)];
+		[self.contentView addSubview:imageView];
+
+		favoriteOverlayView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 50, 25, 25)];
+		[self.contentView addSubview:favoriteOverlayView];
+
+		tapButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+		tapButton.frame = imageView.frame;
+		[tapButton setImage:[UIImage imageNamed:@"ButtonOverlay.png"] forState:UIControlStateHighlighted];
+		[tapButton addTarget:self action:@selector(onTap:) forControlEvents:UIControlEventTouchUpInside];
+		[self.contentView addSubview:tapButton];
 	}
-	else {
-		item1.photo = nil;
-	}
-	
-	index ++;
-	if (index < maxIndex) {
-		item2.photo = [photosArray objectAtIndex:index];
-	}
-	else {
-		item2.photo = nil;
-	}
-	
-	index ++;
-	if (index < maxIndex) {
-		item3.photo = [photosArray objectAtIndex:index];
-	}
-	else {
-		item3.photo = nil;
-	}
-	
-	index ++;
-	if (index < maxIndex) {
-		item4.photo = [photosArray objectAtIndex:index];
-	}
-	else {
-		item4.photo = nil;
-	}
+	return self;
 }
 
 - (void)dealloc {
-	[item1 release];
-	[item2 release];
-	[item3 release];
-	[item4 release];
-	[photosArray release];
-	[albumViewController release];
+	[photo release];
+	[favoriteOverlayView release];
+	[animateImageView release];
+	[imageView release];
+	[tapButton release];
 	[super dealloc];
 }
 
-- (void)setImage:(UIImage *)image index:(int)index {
-	switch (index) {
-		case 0:
-			[item1 setBackgroundImage:image forState:UIControlStateNormal];
-			break;
-		case 1:
-			[item2 setBackgroundImage:image forState:UIControlStateNormal];
-			break;
-		case 2:
-			[item3 setBackgroundImage:image forState:UIControlStateNormal];
-			break;
-		case 3:
-			[item4 setBackgroundImage:image forState:UIControlStateNormal];
-			break;
-		default:
-			break;
+- (void)onTap:(id)sender {
+	[albumViewController onSelectPhoto:photo];
+}
+
+- (void)setPhoto:(PhotoItem *)_photo {
+	[photo release];
+	photo = nil;
+
+	photo = [_photo retain];
+
+	if (bFavorites) {
+		favoriteOverlayView.hidden = YES;
+		favoriteOverlayView.image = nil;
+	}
+	else {
+		if ([appDelegate isFavorite:photo]) {
+			favoriteOverlayView.image = [UIImage imageNamed:@"FavoritesMask.png"];
+		}
+		else {
+			favoriteOverlayView.image = nil;
+		}
 	}
 }
 
-- (void)onItemClick:(AlbumViewCellItem *)sender {
-	[albumViewController onSelectPhoto:sender.photo];
+- (void)setThumbImage:(UIImage *)thumbImage animated:(BOOL)animated {
+	[animateImageView.layer removeAllAnimations];
+	[animateImageView removeFromSuperview];
+	[animateImageView release];
+	animateImageView = nil;
+
+	if (thumbImage == nil) {
+		imageView.image = [UIImage imageNamed:@"DefaultPhoto.png"];
+		imageEmpty = YES;
+	}
+	else {
+		if (animated || imageEmpty) {
+			imageView.image = [UIImage imageNamed:@"DefaultPhoto.png"];
+			animateImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 75, 75)];
+			animateImageView.image = thumbImage;
+			[self.contentView addSubview:animateImageView];
+
+			animateImageView.alpha = 0.0;
+			[UIView animateWithDuration:0.2
+							 animations:^(void) {
+								 animateImageView.alpha = 1.0;
+							 }
+							 completion:^(BOOL finished) {
+								 [animateImageView removeFromSuperview];
+								 [animateImageView release];
+								 animateImageView = nil;
+								 imageView.image = thumbImage;
+							 }];
+		}
+		else {
+			imageView.image = thumbImage;
+		}
+		imageEmpty = NO;
+	}
 }
 
 @end

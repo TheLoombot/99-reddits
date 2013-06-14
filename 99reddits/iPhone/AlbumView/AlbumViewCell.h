@@ -7,29 +7,30 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PhotoItem.h"
 
+@class RedditsAppDelegate;
 @class AlbumViewController;
-@class AlbumViewCellItem;
 
-@interface AlbumViewCell : UITableViewCell {
+@interface AlbumViewCell : UICollectionViewCell {
+	RedditsAppDelegate *appDelegate;
 	AlbumViewController *albumViewController;
 	
-	NSMutableArray *photosArray;
-	int row;
-	
-	AlbumViewCellItem *item1;
-	AlbumViewCellItem *item2;
-	AlbumViewCellItem *item3;
-	AlbumViewCellItem *item4;
-	
+	PhotoItem *photo;
 	BOOL bFavorites;
+
+	UIImageView *favoriteOverlayView;
+	UIImageView *animateImageView;
+	UIImageView *imageView;
+	UIButton *tapButton;
+
+	BOOL imageEmpty;
 }
 
-@property (nonatomic, retain) AlbumViewController *albumViewController;
-@property (nonatomic, retain) NSMutableArray *photosArray;
-@property (nonatomic) int row;
+@property (nonatomic, assign) AlbumViewController *albumViewController;
+@property (nonatomic, retain) PhotoItem *photo;
 @property (nonatomic) BOOL bFavorites;
 
-- (void)setImage:(UIImage *)image index:(int)index;
+- (void)setThumbImage:(UIImage *)thumbImage animated:(BOOL)animated;
 
 @end

@@ -14,6 +14,7 @@
 		8D0BF512164B9581000EF3A8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0BF511164B9581000EF3A8 /* Default-568h@2x.png */; };
 		8D0BF517164B9EAE000EF3A8 /* MainViewControllerPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D0BF515164B9EAE000EF3A8 /* MainViewControllerPad.m */; };
 		8D0BF518164B9EAE000EF3A8 /* MainViewControllerPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D0BF516164B9EAE000EF3A8 /* MainViewControllerPad.xib */; };
+		8D0DE761176AD92B00E9F76A /* AlbumViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D0DE760176AD92A00E9F76A /* AlbumViewLayout.m */; };
 		8D0F1179176A209C00786F36 /* Transparent.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D0F1178176A209C00786F36 /* Transparent.png */; };
 		8D1A1C1414BC238500B41F5E /* SubRedditsList.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8D1A1C1314BC238500B41F5E /* SubRedditsList.plist */; };
 		8D21115614B54ADA00E08AF2 /* CheckCellBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D21115414B54ADA00E08AF2 /* CheckCellBack.png */; };
@@ -137,7 +138,6 @@
 		8D68FDE614F8909000CDCF66 /* NIJSONKitProcessorHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D68FDC414F8909000CDCF66 /* NIJSONKitProcessorHTTPRequest.m */; };
 		8D68FDE714F8909000CDCF66 /* NIProcessorHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D68FDC814F8909000CDCF66 /* NIProcessorHTTPRequest.m */; };
 		8D6C5D2C164ACCCC008A98A7 /* AlbumViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D00164ACCCC008A98A7 /* AlbumViewCell.m */; };
-		8D6C5D2D164ACCCC008A98A7 /* AlbumViewCellItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D02164ACCCC008A98A7 /* AlbumViewCellItem.m */; };
 		8D6C5D2E164ACCCC008A98A7 /* AlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D04164ACCCC008A98A7 /* AlbumViewController.m */; };
 		8D6C5D2F164ACCCC008A98A7 /* AlbumViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D6C5D05164ACCCC008A98A7 /* AlbumViewController.xib */; };
 		8D6C5D30164ACCCC008A98A7 /* GifViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D07164ACCCC008A98A7 /* GifViewController.m */; };
@@ -227,6 +227,8 @@
 		8D0BF514164B9EAE000EF3A8 /* MainViewControllerPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewControllerPad.h; sourceTree = "<group>"; };
 		8D0BF515164B9EAE000EF3A8 /* MainViewControllerPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewControllerPad.m; sourceTree = "<group>"; };
 		8D0BF516164B9EAE000EF3A8 /* MainViewControllerPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewControllerPad.xib; sourceTree = "<group>"; };
+		8D0DE75F176AD92A00E9F76A /* AlbumViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumViewLayout.h; sourceTree = "<group>"; };
+		8D0DE760176AD92A00E9F76A /* AlbumViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumViewLayout.m; sourceTree = "<group>"; };
 		8D0F1178176A209C00786F36 /* Transparent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Transparent.png; sourceTree = "<group>"; };
 		8D1A1C1314BC238500B41F5E /* SubRedditsList.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = SubRedditsList.plist; sourceTree = "<group>"; };
 		8D21115414B54ADA00E08AF2 /* CheckCellBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CheckCellBack.png; sourceTree = "<group>"; };
@@ -453,8 +455,6 @@
 		8D68FDC814F8909000CDCF66 /* NIProcessorHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NIProcessorHTTPRequest.m; sourceTree = "<group>"; };
 		8D6C5CFF164ACCCC008A98A7 /* AlbumViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumViewCell.h; sourceTree = "<group>"; };
 		8D6C5D00164ACCCC008A98A7 /* AlbumViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumViewCell.m; sourceTree = "<group>"; };
-		8D6C5D01164ACCCC008A98A7 /* AlbumViewCellItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumViewCellItem.h; sourceTree = "<group>"; };
-		8D6C5D02164ACCCC008A98A7 /* AlbumViewCellItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumViewCellItem.m; sourceTree = "<group>"; };
 		8D6C5D03164ACCCC008A98A7 /* AlbumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumViewController.h; sourceTree = "<group>"; };
 		8D6C5D04164ACCCC008A98A7 /* AlbumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumViewController.m; sourceTree = "<group>"; };
 		8D6C5D05164ACCCC008A98A7 /* AlbumViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlbumViewController.xib; sourceTree = "<group>"; };
@@ -1014,8 +1014,8 @@
 				8D6C5D05164ACCCC008A98A7 /* AlbumViewController.xib */,
 				8D6C5CFF164ACCCC008A98A7 /* AlbumViewCell.h */,
 				8D6C5D00164ACCCC008A98A7 /* AlbumViewCell.m */,
-				8D6C5D01164ACCCC008A98A7 /* AlbumViewCellItem.h */,
-				8D6C5D02164ACCCC008A98A7 /* AlbumViewCellItem.m */,
+				8D0DE75F176AD92A00E9F76A /* AlbumViewLayout.h */,
+				8D0DE760176AD92A00E9F76A /* AlbumViewLayout.m */,
 				8D6C5D0B164ACCCC008A98A7 /* PhotoViewController.h */,
 				8D6C5D0C164ACCCC008A98A7 /* PhotoViewController.m */,
 				8D6C5D0D164ACCCC008A98A7 /* PhotoViewController.xib */,
@@ -1367,7 +1367,6 @@
 				8D68FDE614F8909000CDCF66 /* NIJSONKitProcessorHTTPRequest.m in Sources */,
 				8D68FDE714F8909000CDCF66 /* NIProcessorHTTPRequest.m in Sources */,
 				8D6C5D2C164ACCCC008A98A7 /* AlbumViewCell.m in Sources */,
-				8D6C5D2D164ACCCC008A98A7 /* AlbumViewCellItem.m in Sources */,
 				8D6C5D2E164ACCCC008A98A7 /* AlbumViewController.m in Sources */,
 				8D6C5D30164ACCCC008A98A7 /* GifViewController.m in Sources */,
 				8D6C5D32164ACCCC008A98A7 /* PhotoView.m in Sources */,
@@ -1403,6 +1402,7 @@
 				8D22423F176714570053868F /* CommentViewController.m in Sources */,
 				8D22424417671A4D0053868F /* CommentViewControllerPad.m in Sources */,
 				8DD1EEE01768B4E900BF3E3B /* CustomNavigationController.m in Sources */,
+				8D0DE761176AD92B00E9F76A /* AlbumViewLayout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,7 +10,6 @@
 #import "ASIHTTPRequestDelegate.h"
 #import "NIProcessorHTTPRequest.h"
 #import "PopoverController.h"
-#import "CustomTableView.h"
 #import "MainViewLayoutPad.h"
 
 @class RedditsAppDelegate;

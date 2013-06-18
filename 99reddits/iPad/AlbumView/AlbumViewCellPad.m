@@ -7,121 +7,140 @@
 //
 
 #import "AlbumViewCellPad.h"
-#import "AlbumViewCellItemPad.h"
+#import "RedditsAppDelegate.h"
 #import "AlbumViewControllerPad.h"
-#import "UserDef.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation AlbumViewCellPad
 
 @synthesize albumViewController;
-@synthesize photosArray;
-@synthesize row;
+@synthesize photo;
 @synthesize bFavorites;
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-		self.selectionStyle = UITableViewCellSelectionStyleNone;
-		
-		itemViewsArray = [[NSMutableArray alloc] init];
-		for (int i = 0; i < LAND_COL_COUNT; i ++) {
-			for (int i = 0; i < LAND_COL_COUNT; i ++) {
-				AlbumViewCellItemPad *cellItem = [[AlbumViewCellItemPad alloc] initWithFrame:CGRectMake(0, 0, 120, 120)];
-				[cellItem addTarget:self action:@selector(onItemClick:) forControlEvents:UIControlEventTouchUpInside];
-				cellItem.tag = i;
-				[self addSubview:cellItem];
-				[itemViewsArray addObject:cellItem];
-				[cellItem release];
-			}
-		}
-	}
-    return self;
-}
+- (id)initWithFrame:(CGRect)frame {
+	self = [super initWithFrame:frame];
+	if (self) {
+		self.backgroundColor = [UIColor clearColor];
+		self.contentView.backgroundColor = [UIColor clearColor];
 
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
-    [super setSelected:selected animated:animated];
-	
-    // Configure the view for the selected state
-}
+		appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 
-- (void)setRow:(int)_row {
-	for (AlbumViewCellItemPad *cellItem in itemViewsArray)
-		cellItem.bFavorites = bFavorites;
-	
-	row = _row;
-	
-	int maxIndex = photosArray.count;
-	
-	int colCount = PORT_COL_COUNT;
-	if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
-		colCount = LAND_COL_COUNT;
-	
-	for (int i = 0; i < colCount; i ++) {
-		AlbumViewCellItemPad *cellItem = [itemViewsArray objectAtIndex:i];
-		int index = row * colCount + i;
-		if (index < maxIndex) {
-			cellItem.photo = [photosArray objectAtIndex:index];
-		}
-		else {
-			cellItem.photo = nil;
-		}
+		imageOutlineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 120, 120)];
+		imageOutlineView.backgroundColor = [UIColor whiteColor];
+		[self.contentView addSubview:imageOutlineView];
+
+		imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 6, 108, 108)];
+		[imageOutlineView addSubview:imageView];
+
+		favoriteOverlayView = [[UIImageView alloc] initWithFrame:CGRectMake(89, 89, 25, 25)];
+		[self.contentView addSubview:favoriteOverlayView];
+
+		tapButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+		tapButton.frame = imageOutlineView.frame;
+		[tapButton setImage:[UIImage imageNamed:@"ButtonOverlay.png"] forState:UIControlStateHighlighted];
+		[tapButton addTarget:self action:@selector(onTap:) forControlEvents:UIControlEventTouchUpInside];
+		[self.contentView addSubview:tapButton];
 	}
+	return self;
 }
 
 - (void)dealloc {
-	[itemViewsArray release];
-	[photosArray release];
-	[albumViewController release];
+	[photo release];
+	[favoriteOverlayView release];
+	[animateImageView release];
+	[imageView release];
+	[tapButton release];
 	[super dealloc];
 }
 
-- (void)setImage:(UIImage *)image index:(int)index {
-	AlbumViewCellItemPad *cellItem = [itemViewsArray objectAtIndex:index];
-	[cellItem setItemImage:image];
+- (void)onTap:(id)sender {
+	[albumViewController onSelectPhoto:photo];
 }
 
-- (void)onItemClick:(AlbumViewCellItemPad *)sender {
-	[albumViewController onSelectPhoto:sender.photo];
-}
+- (void)setPhoto:(PhotoItem *)_photo {
+	[photo release];
+	photo = nil;
 
-- (void)layoutSubviews {
-	[super layoutSubviews];
-	
-	int colCount = PORT_COL_COUNT;
-	if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
-		colCount = LAND_COL_COUNT;
-	
-	if (colCount == PORT_COL_COUNT) {
-		for (int i = 0; i < LAND_COL_COUNT; i ++) {
-			AlbumViewCellItemPad *cellItem = [itemViewsArray objectAtIndex:i];
-			cellItem.frame = CGRectMake(28 + 148 * i, 15, 120, 120);
-			
-			int index = colCount * row + i;
-			if (index >= photosArray.count) {
-				cellItem.alpha = 0.0;
-			}
-			else {
-				cellItem.alpha = 1.0;
-			}
-		}
-		for (int i = PORT_COL_COUNT; i < LAND_COL_COUNT; i ++) {
-			AlbumViewCellItemPad *cellItem = [itemViewsArray objectAtIndex:i];
-			cellItem.alpha = 0.0;
-		}
+	photo = [_photo retain];
+
+	if (bFavorites) {
+		favoriteOverlayView.hidden = YES;
+		favoriteOverlayView.image = nil;
 	}
 	else {
-		for (int i = 0; i < LAND_COL_COUNT; i ++) {
-			AlbumViewCellItemPad *cellItem = [itemViewsArray objectAtIndex:i];
-			cellItem.frame = CGRectMake(23 + 143 * i, 15, 120, 120);
-			
-			int index = colCount * row + i;
-			if (index >= photosArray.count) {
-				cellItem.alpha = 0.0;
-			}
-			else {
-				cellItem.alpha = 1.0;
-			}
+		if ([appDelegate isFavorite:photo]) {
+			favoriteOverlayView.hidden = NO;
+			favoriteOverlayView.image = [UIImage imageNamed:@"FavoritesMask.png"];
 		}
+		else {
+			favoriteOverlayView.hidden = YES;
+			favoriteOverlayView.image = nil;
+		}
+	}
+}
+
+- (void)setThumbImage:(UIImage *)thumbImage animated:(BOOL)animated {
+	[animateImageView.layer removeAllAnimations];
+	[animateImageView removeFromSuperview];
+	[animateImageView release];
+	animateImageView = nil;
+
+	if (thumbImage == nil) {
+		imageOutlineView.frame = CGRectMake(0, 0, 120, 120);
+		imageView.frame = CGRectMake(6, 6, 108, 108);
+		imageView.image = [UIImage imageNamed:@"DefaultPhoto.png"];
+		imageEmpty = YES;
+	}
+	else {
+		int width = thumbImage.size.width;
+		int height = thumbImage.size.height;
+		if (width > height) {
+			width = 108;
+			height = height * width / thumbImage.size.width;
+		}
+		else {
+			height = 108;
+			width = width * height / thumbImage.size.height;
+		}
+		CGRect rect = CGRectMake((int)(108 - width) / 2 + 6, (int)(108 - height) / 2 + 6, width, height);
+
+		rect.origin.x -= 6;
+		rect.origin.y -= 6;
+		rect.size.width += 12;
+		rect.size.height += 12;
+		imageOutlineView.frame = rect;
+
+		rect = imageOutlineView.frame;
+		rect.origin.x += (rect.size.width - 12);
+		rect.origin.y += (rect.size.height - 12);
+		rect.size.width = 25;
+		rect.size.height = 25;
+		favoriteOverlayView.frame = rect;
+
+		imageView.frame = CGRectMake(6, 6, width, height);
+
+		if (animated || imageEmpty) {
+			imageView.image = [UIImage imageNamed:@"DefaultPhoto.png"];
+			animateImageView = [[UIImageView alloc] initWithFrame:imageView.frame];
+			animateImageView.image = thumbImage;
+			[imageOutlineView addSubview:animateImageView];
+
+			animateImageView.alpha = 0.0;
+			[UIView animateWithDuration:0.2
+							 animations:^(void) {
+								 animateImageView.alpha = 1.0;
+							 }
+							 completion:^(BOOL finished) {
+								 [animateImageView removeFromSuperview];
+								 [animateImageView release];
+								 animateImageView = nil;
+								 imageView.image = thumbImage;
+							 }];
+		}
+		else {
+			imageView.image = thumbImage;
+		}
+		imageEmpty = NO;
 	}
 }
 

@@ -15,17 +15,17 @@
 #import "RedditsAppDelegate.h"
 #import "MainViewControllerPad.h"
 #import "UserDef.h"
+#import "AlbumViewLayoutPad.h"
 
 #define THUMB_WIDTH			108
 #define THUMB_HEIGHT		108
-
 
 @interface AlbumViewControllerPad ()
 
 - (void)loadThumbnails;
 - (NSString *)cacheKeyForPhotoIndex:(NSInteger)photoIndex;
 - (void)requestImageFromSource:(NSString *)source photoIndex:(NSInteger)photoIndex;
-- (void)refreshSubReddit;
+- (void)refreshSubReddit:(BOOL)reload;
 
 @end
 
@@ -66,7 +66,7 @@
 	[mainViewController release];
 	[currentPhotosArray release];
 	
-	[contentTableView release];
+	[contentCollectionView release];
 	[footerView release];
 	[moarButton release];
 	[moarWaitingView release];
@@ -118,10 +118,7 @@
 	
 	if (bFavorites) {
 		[tabBar removeFromSuperview];
-		contentTableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-	}
-	else {
-		contentTableView.tableFooterView = footerView;
+		contentCollectionView.frame = CGRectMake(0, -150, self.view.frame.size.width, self.view.frame.size.height + 300);
 	}
 	
 	[moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
@@ -153,11 +150,27 @@
 		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl] autorelease];
 	}
 	
-	contentTableView.delaysContentTouches = NO;
-	contentTableView.canCancelContentTouches = YES;
-	
+	contentCollectionView.delaysContentTouches = NO;
+	contentCollectionView.canCancelContentTouches = YES;
+
+	AlbumViewLayoutPad *albumViewLayout = [[[AlbumViewLayoutPad alloc] init] autorelease];
+	if (!bFavorites) {
+		albumViewLayout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, 60);
+	}
+
+	contentCollectionView.allowsSelection = YES;
+	contentCollectionView.allowsMultipleSelection = NO;
+	contentCollectionView.delaysContentTouches = NO;
+	contentCollectionView.canCancelContentTouches = YES;
+	[contentCollectionView registerClass:[AlbumViewCellPad class] forCellWithReuseIdentifier:@"ALBUM_VIEW_CELL_PAD"];
+	if (!bFavorites)
+		[contentCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"ALBUM_FOOTER_VIEW_PAD"];
+	[contentCollectionView setCollectionViewLayout:albumViewLayout];
+
 	if (!bFavorites)
 		showTypeSegmentedControl.selectedSegmentIndex = 1;
+
+	initialized = NO;
 }
 
 - (void)viewDidUnload {
@@ -167,29 +180,22 @@
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	[contentTableView reloadData];
 	return YES;
 }
 
 - (BOOL)shouldAutorotate {
-	[contentTableView reloadData];
 	return YES;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	if (showTypeSegmentedControl.selectedSegmentIndex == 1) {
-		[self refreshSubReddit];
-	}
-	else {
-		[contentTableView reloadData];
-	}
-	
+	[self refreshSubReddit:YES];
+
 	bFromSubview = NO;
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
-	
+
 	if (!bFromSubview) {
 		[self releaseObjects];
 	}
@@ -222,99 +228,43 @@
 	}
 }
 
-// UITableViewDelegate, UITableViewDatasource
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-	[currentPhotosArray removeAllObjects];
-	if (showTypeSegmentedControl.selectedSegmentIndex == 0) {
-		[currentPhotosArray addObjectsFromArray:currentSubReddit.photosArray];
-	}
-	else {
-		for (PhotoItem *photo in currentSubReddit.photosArray) {
-			if (![photo isShowed]) {
-				[currentPhotosArray addObject:photo];
-			}
-		}
-	}
-	
-	if (self.bFavorites) {
-		self.title = subReddit.nameString;
-	}
-	else {
-		int unshowedCount = 0;
-		for (PhotoItem *photo in currentSubReddit.photosArray) {
-			if (![photo isShowed]) {
-				unshowedCount ++;
-			}
-		}
-		
-		if (unshowedCount > 0) {
-			self.title = [NSString stringWithFormat:@"%@ (%d)", subReddit.nameString, unshowedCount];
-			
-			self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl] autorelease];
-			self.navigationItem.rightBarButtonItem.enabled = YES;
-			showTypeSegmentedControl.userInteractionEnabled = YES;
-		}
-		else {
-			self.title = subReddit.nameString;
-			
-			self.navigationItem.rightBarButtonItem.enabled = NO;
-			showTypeSegmentedControl.userInteractionEnabled = NO;
-			
-			if (showTypeSegmentedControl.selectedSegmentIndex == 1) {
-				showTypeSegmentedControl.selectedSegmentIndex = 0;
-				[self performSelector:@selector(refreshSubReddit) withObject:nil afterDelay:0.1];
-				
-				return 0;
-			}
-		}
-	}
-
-	int count = currentPhotosArray.count;
-	int colCount = PORT_COL_COUNT;
-	if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
-		colCount = LAND_COL_COUNT;
-	int rowCount = count / colCount + (count % colCount ? 1 : 0);
-	
-	[self loadThumbnails];
-
-	return rowCount;
+// UICollectionViewDelegate, UICollectionViewDataSource
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+	return 1;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	static NSString *identifier = @"ALBUM_VIEW_CELL";
-	AlbumViewCellPad *cell = (AlbumViewCellPad *)[contentTableView dequeueReusableCellWithIdentifier:identifier];
-	if (cell == nil) {
-		cell = [[[AlbumViewCellPad alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier] autorelease];
-	}
-	
-	cell.albumViewController = self;
-	cell.photosArray = currentPhotosArray;
-	cell.bFavorites = bFavorites;
-	cell.row = indexPath.row;
-	
-	int colCount = PORT_COL_COUNT;
-	if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
-		colCount = LAND_COL_COUNT;
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+	return currentPhotosArray.count;
+}
 
-	for (int i = 0; i < colCount; i ++) {
-		int index = indexPath.row * colCount + i;
-		if (index < currentPhotosArray.count) {
-			NSString *urlString = [self cacheKeyForPhotoIndex:index];
-			UIImage *image = [thumbnailImageCache objectWithName:urlString];
-			if (image == nil) {
-				[self requestImageFromSource:urlString photoIndex:index];
-				[cell setImage:[UIImage imageNamed:@"DefaultPhotoPad.png"] index:index % colCount];
-			}
-			else {
-				[cell setImage:image index:index % colCount];
-			}
-		}
-		else {
-			break;
-		}
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+	AlbumViewCellPad *cell = (AlbumViewCellPad *)[contentCollectionView dequeueReusableCellWithReuseIdentifier:@"ALBUM_VIEW_CELL_PAD" forIndexPath:indexPath];
+	cell.albumViewController = self;
+	cell.bFavorites = bFavorites;
+	cell.photo = [currentPhotosArray objectAtIndex:indexPath.item];
+
+	NSString *urlString = [self cacheKeyForPhotoIndex:indexPath.item];
+	UIImage *image = [thumbnailImageCache objectWithName:urlString];
+	if (image == nil) {
+		[self requestImageFromSource:urlString photoIndex:indexPath.item];
+		[cell setThumbImage:nil animated:NO];
 	}
-	
+	else {
+		[cell setThumbImage:image animated:NO];
+	}
+
 	return cell;
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+	UICollectionReusableView *collectionFooterView = [contentCollectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"ALBUM_FOOTER_VIEW_PAD" forIndexPath:indexPath];
+	if (footerView.superview != collectionFooterView) {
+		[footerView removeFromSuperview];
+		footerView.center = CGPointMake(collectionFooterView.frame.size.width / 2, collectionFooterView.frame.size.height / 2);
+		[collectionFooterView addSubview:footerView];
+	}
+
+	return collectionFooterView;
 }
 
 - (void)loadThumbnails {
@@ -382,13 +332,9 @@
 			UIImage *thumbImage = UIGraphicsGetImageFromCurrentImageContext();
 			UIGraphicsEndImageContext();
 			
-			int colCount = PORT_COL_COUNT;
-			if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
-				colCount = LAND_COL_COUNT;
-
 			[thumbnailImageCache storeObject:thumbImage withName:photoIndexKey];
-			AlbumViewCellPad *cell = (AlbumViewCellPad *)[contentTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:photoIndex / colCount inSection:0]];
-			[cell setImage:thumbImage index:photoIndex % colCount];
+			AlbumViewCellPad *cell = (AlbumViewCellPad *)[contentCollectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:photoIndex inSection:0]];
+			[cell setThumbImage:thumbImage animated:YES];
 		}
 		
 		[activeRequests removeObject:identifierKey];
@@ -491,7 +437,7 @@
 			albumRequest.processorDelegate = (id)[self class];
 			[refreshQueue addOperation:albumRequest];
 			
-			[contentTableView reloadData];
+			[self refreshSubReddit:YES];
 		}
 		else {
 			moarButton.enabled = YES;
@@ -499,7 +445,8 @@
 			moarWaitingView.hidden = YES;
 			
 			[currentSubReddit.photosArray addObjectsFromArray:subReddit.photosArray];
-			[contentTableView reloadData];
+
+			[self refreshSubReddit:YES];
 		}
 	}
 	else if (currentItem == newItem) {
@@ -514,8 +461,8 @@
 		albumRequest.delegate = self;
 		albumRequest.processorDelegate = (id)[self class];
 		[refreshQueue addOperation:albumRequest];
-		
-		[contentTableView reloadData];
+
+		[self refreshSubReddit:YES];
 	}
 	else if (currentItem == controversialItem) {
 		currentSubReddit = [[SubRedditItem alloc] init];
@@ -530,7 +477,7 @@
 		albumRequest.processorDelegate = (id)[self class];
 		[refreshQueue addOperation:albumRequest];
 		
-		[contentTableView reloadData];
+		[self refreshSubReddit:YES];
 	}
 	else {
 		currentSubReddit = [[SubRedditItem alloc] init];
@@ -545,7 +492,7 @@
 		albumRequest.processorDelegate = (id)[self class];
 		[refreshQueue addOperation:albumRequest];
 		
-		[contentTableView reloadData];
+		[self refreshSubReddit:YES];
 	}
 }
 
@@ -590,8 +537,8 @@
 		currentSubReddit.afterString = [dictionary objectForKey:@"after"];
 	}
 	
-	[contentTableView reloadData];
-	
+	[self refreshSubReddit:NO];
+
 	bMOARLoading = NO;
 }
 
@@ -684,21 +631,101 @@
 	if (!self.navigationItem.rightBarButtonItem.enabled)
 		return;
 	
-	[self refreshSubReddit];
+	[self refreshSubReddit:NO];
 }
 
-- (void)refreshSubReddit {
-	for (ASIHTTPRequest *request in refreshQueue.operations) {
-		[request clearDelegatesAndCancel];
+- (void)refreshSubReddit:(BOOL)reload {
+	NSMutableArray *newPhotosArray = [NSMutableArray array];
+
+	if (showTypeSegmentedControl.selectedSegmentIndex == 0) {
+		[newPhotosArray addObjectsFromArray:currentSubReddit.photosArray];
 	}
-	
-	for (ASIHTTPRequest *request in queue.operations) {
-		[request clearDelegatesAndCancel];
+	else {
+		for (PhotoItem *photo in currentSubReddit.photosArray) {
+			if (![photo isShowed]) {
+				[newPhotosArray addObject:photo];
+			}
+		}
 	}
-	
-	[activeRequests removeAllObjects];
-	
-	[contentTableView reloadData];
+
+	if (self.bFavorites) {
+		self.title = subReddit.nameString;
+	}
+	else {
+		int unshowedCount = 0;
+		for (PhotoItem *photo in currentSubReddit.photosArray) {
+			if (![photo isShowed]) {
+				unshowedCount ++;
+			}
+		}
+
+		if (unshowedCount > 0) {
+			self.title = [NSString stringWithFormat:@"%@ (%d)", subReddit.nameString, unshowedCount];
+
+			self.navigationItem.rightBarButtonItem.enabled = YES;
+			showTypeSegmentedControl.userInteractionEnabled = YES;
+		}
+		else {
+			self.title = subReddit.nameString;
+
+			self.navigationItem.rightBarButtonItem.enabled = NO;
+			showTypeSegmentedControl.userInteractionEnabled = NO;
+
+			if (showTypeSegmentedControl.selectedSegmentIndex == 1) {
+				showTypeSegmentedControl.selectedSegmentIndex = 0;
+
+				[newPhotosArray addObjectsFromArray:currentSubReddit.photosArray];
+			}
+		}
+	}
+
+	if (!initialized || reload) {
+		initialized = YES;
+		[currentPhotosArray removeAllObjects];
+		[currentPhotosArray addObjectsFromArray:newPhotosArray];
+		[self loadThumbnails];
+		[contentCollectionView reloadData];
+	}
+	else {
+		NSMutableArray *deleteItemsArray = [NSMutableArray array];
+		for (int i = 0; i < currentPhotosArray.count; i ++) {
+			PhotoItem *photo = [currentPhotosArray objectAtIndex:i];
+			if (![newPhotosArray containsObject:photo]) {
+				[deleteItemsArray addObject:[NSIndexPath indexPathForItem:i inSection:0]];
+			}
+		}
+
+		NSMutableArray *insertItemsArray = [NSMutableArray array];
+		for (int i = 0; i < newPhotosArray.count; i ++) {
+			PhotoItem *photo = [newPhotosArray objectAtIndex:i];
+			if (![currentPhotosArray containsObject:photo]) {
+				[insertItemsArray addObject:[NSIndexPath indexPathForItem:i inSection:0]];
+			}
+		}
+
+		if (deleteItemsArray.count == 0 && insertItemsArray.count == 0)
+			return;
+
+		[currentPhotosArray removeAllObjects];
+		[currentPhotosArray addObjectsFromArray:newPhotosArray];
+		[self loadThumbnails];
+
+		self.view.userInteractionEnabled = NO;
+		footerView.alpha = 0.0;
+		[contentCollectionView
+		 performBatchUpdates:^(void) {
+			 if (deleteItemsArray.count > 0) {
+				 [contentCollectionView deleteItemsAtIndexPaths:deleteItemsArray];
+			 }
+			 if (insertItemsArray.count > 0) {
+				 [contentCollectionView insertItemsAtIndexPaths:insertItemsArray];
+			 }
+		 }
+		 completion:^(BOOL finished) {
+			 self.view.userInteractionEnabled = YES;
+			 footerView.alpha = 1.0;
+		 }];
+	}
 }
 
 - (void)onActionButton:(id)sender {

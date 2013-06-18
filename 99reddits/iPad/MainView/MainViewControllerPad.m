@@ -216,17 +216,17 @@
 		cell.nameLabel.text = appDelegate.favoritesItem.nameString;
 		
 		if (appDelegate.favoritesItem.photosArray.count == 0) {
-			[cell setImage:[UIImage imageNamed:@"FavoritesIconPad.png"]];
+			[cell setThumbImage:[UIImage imageNamed:@"FavoritesIconPad.png"] animated:NO];
 		}
 		else {
 			NSString *urlString = [self cacheKeyForPhotoIndex:indexPath.row - 1];
 			UIImage *image = [thumbnailImageCache objectWithName:urlString];
 			if (image == nil) {
 				[self requestImageFromSource:urlString photoIndex:indexPath.row - 1];
-				[cell setImage:[UIImage imageNamed:@"FavoritesIconPad.png"]];
+				[cell setThumbImage:[UIImage imageNamed:@"FavoritesIconPad.png"] animated:NO];
 			}
 			else {
-				[cell setImage:image];
+				[cell setThumbImage:image animated:NO];
 			}
 		}
 		
@@ -238,17 +238,17 @@
 		cell.nameLabel.text = subReddit.nameString;
 		
 		if (subReddit.photosArray.count == 0 || subReddit.loading) {
-			[cell setImage:[UIImage imageNamed:@"DefaultPhotoPad.png"]];
+			[cell setThumbImage:nil animated:NO];
 		}
 		else {
 			NSString *urlString = [self cacheKeyForPhotoIndex:indexPath.row - 1];
 			UIImage *image = [thumbnailImageCache objectWithName:urlString];
 			if (image == nil) {
 				[self requestImageFromSource:urlString photoIndex:indexPath.row - 1];
-				[cell setImage:[UIImage imageNamed:@"DefaultPhotoPad.png"]];
+				[cell setThumbImage:nil animated:NO];
 			}
 			else {
-				[cell setImage:image];
+				[cell setThumbImage:image animated:NO];
 			}
 		}
 		
@@ -344,13 +344,16 @@
 	NSString *urlString = [[request originalURL] absoluteString];
 	
 	SubRedditItem *subReddit = nil;
-	for (SubRedditItem *tempSubReddit in subRedditsArray) {
+	int index = 0;
+	for (int i = 0; i < subRedditsArray.count; i ++) {
+		SubRedditItem *tempSubReddit = [subRedditsArray objectAtIndex:i];
 		if ([tempSubReddit.urlString isEqualToString:urlString]) {
 			subReddit = tempSubReddit;
+			index = i;
 			break;
 		}
 	}
-	
+
 	if (subReddit == nil) {
 		refreshCount --;
 		if (refreshCount == 0) {
@@ -376,8 +379,9 @@
 	
 	[subReddit calUnshowedCount];
 	
-	[self.collectionView reloadData];
-	
+//	[self.collectionView reloadData];
+	[self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForItem:index + 1 inSection:0]]];
+
 	[tempPhotosArray removeAllObjects];
 	[tempPhotosArray release];
 	
@@ -395,13 +399,16 @@
 	NSString *urlString = [[request originalURL] absoluteString];
 	
 	SubRedditItem *subReddit = nil;
-	for (SubRedditItem *tempSubReddit in subRedditsArray) {
+	int index = 0;
+	for (int i = 0; i < subRedditsArray.count; i ++) {
+		SubRedditItem *tempSubReddit = [subRedditsArray objectAtIndex:i];
 		if ([tempSubReddit.urlString isEqualToString:urlString]) {
 			subReddit = tempSubReddit;
+			index = i;
 			break;
 		}
 	}
-	
+
 	if (subReddit == nil) {
 		refreshCount --;
 		if (refreshCount == 0) {
@@ -417,8 +424,9 @@
 	subReddit.unshowedCount = 0;
 	[subReddit.photosArray removeAllObjects];
 	
-	[self.collectionView reloadData];
-	
+//	[self.collectionView reloadData];
+	[self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForItem:index + 1 inSection:0]]];
+
 	refreshCount --;
 	if (refreshCount == 0) {
 		refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];

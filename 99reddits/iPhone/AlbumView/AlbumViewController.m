@@ -20,7 +20,6 @@
 #define THUMB_WIDTH			75
 #define THUMB_HEIGHT		75
 
-
 @interface AlbumViewController ()
 
 - (void)loadThumbnails;
@@ -188,7 +187,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	[self refreshSubReddit:NO];
+	[self refreshSubReddit:YES];
 
 	bFromSubview = NO;
 }
@@ -240,8 +239,8 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
 	AlbumViewCell *cell = (AlbumViewCell *)[contentCollectionView dequeueReusableCellWithReuseIdentifier:@"ALBUM_VIEW_CELL" forIndexPath:indexPath];
 	cell.albumViewController = self;
-	cell.photo = [currentPhotosArray objectAtIndex:indexPath.item];
 	cell.bFavorites = bFavorites;
+	cell.photo = [currentPhotosArray objectAtIndex:indexPath.item];
 
 	NSString *urlString = [self cacheKeyForPhotoIndex:indexPath.item];
 	UIImage *image = [thumbnailImageCache objectWithName:urlString];
@@ -671,7 +670,6 @@
 		if (unshowedCount > 0) {
 			self.title = [NSString stringWithFormat:@"%@ (%d)", subReddit.nameString, unshowedCount];
 
-			self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl] autorelease];
 			self.navigationItem.rightBarButtonItem.enabled = YES;
 			showTypeSegmentedControl.userInteractionEnabled = YES;
 		}

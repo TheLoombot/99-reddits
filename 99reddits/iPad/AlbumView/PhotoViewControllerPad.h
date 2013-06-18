@@ -35,8 +35,8 @@
 	int sharingIndex;
 	
 	NSData *sharingData;
-	
-	IBOutlet UIView *loadingView;
+
+	IBOutlet UIToolbar *rightItem;
 	IBOutlet UIBarButtonItem *commentItem;
 	IBOutlet UIBarButtonItem *actionItem;
 	UIBarButtonItem *favoriteWhiteItem;

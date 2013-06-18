@@ -11,17 +11,17 @@
 #import "PhotoItem.h"
 #import "ASIHTTPRequestDelegate.h"
 #import "NIProcessorHTTPRequest.h"
-#import "CustomTableView.h"
+#import "CustomCollectionView.h"
 #import <MessageUI/MessageUI.h>
 
 @class RedditsAppDelegate;
 @class MainViewControllerPad;
 
-@interface AlbumViewControllerPad : UIViewController <UITableViewDelegate, UITableViewDataSource, UITabBarDelegate, UIAlertViewDelegate, ASIHTTPRequestDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate> {
+@interface AlbumViewControllerPad : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITabBarDelegate, UIAlertViewDelegate, ASIHTTPRequestDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate> {
 	RedditsAppDelegate *appDelegate;
 	MainViewControllerPad *mainViewController;
 	
-	IBOutlet CustomTableView *contentTableView;
+	IBOutlet CustomCollectionView *contentCollectionView;
 	IBOutlet UIView *footerView;
 	IBOutlet UIButton *moarButton;
 	IBOutlet UIActivityIndicatorView *moarWaitingView;
@@ -52,6 +52,8 @@
 	float scale;
 	
 	NSMutableArray *currentPhotosArray;
+
+	BOOL initialized;
 }
 
 @property (nonatomic, retain) MainViewControllerPad *mainViewController;

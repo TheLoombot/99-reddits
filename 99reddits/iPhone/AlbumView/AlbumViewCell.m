@@ -65,9 +65,11 @@
 	}
 	else {
 		if ([appDelegate isFavorite:photo]) {
+			favoriteOverlayView.hidden = NO;
 			favoriteOverlayView.image = [UIImage imageNamed:@"FavoritesMask.png"];
 		}
 		else {
+			favoriteOverlayView.hidden = YES;
 			favoriteOverlayView.image = nil;
 		}
 	}

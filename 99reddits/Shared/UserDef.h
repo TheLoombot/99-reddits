@@ -20,7 +20,4 @@ extern NSString *normalStrings[];
 
 #define PRODUCT_ID						@"PAID_USER"
 
-#define PORT_COL_COUNT					5
-#define LAND_COL_COUNT					7
-
 #define DATA_VERSION					@"1.0"

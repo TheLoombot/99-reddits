@@ -25,21 +25,24 @@
 	UIImageView *unshowedBackImageView;
 	UILabel *unshowedLabel;
 	UILabel *nameLabel;
-	
+	UIImageView *animateImageView;
+
 	int unshowedCount;
 	int totalCount;
 	BOOL loading;
 	
 	BOOL bFavorites;
 	BOOL editing;
+
+	BOOL imageEmpty;
 }
 
 @property (nonatomic, assign) MainViewControllerPad *mainViewController;
 @property (nonatomic, assign) SubRedditItem *subReddit;
 @property (nonatomic, readonly) UILabel *nameLabel;
 
-- (void)setImage:(UIImage *)image;
 - (void)setUnshowedCount:(int)_unshowedCount totalCount:(int)_totalCount loading:(BOOL)_loading;
 - (void)setTotalCount:(int)_totalCount;
+- (void)setThumbImage:(UIImage *)thumbImage animated:(BOOL)animated;
 
 @end

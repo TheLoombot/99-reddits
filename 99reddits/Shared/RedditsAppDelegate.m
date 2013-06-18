@@ -13,6 +13,7 @@
 #import <Crashlytics/Crashlytics.h>
 #import "MainViewControllerPad.h"
 #import "RedditsViewControllerPad.h"
+#import <FacebookSDK/FacebookSDK.h>
 
 @implementation UINavigationController (iOS6OrientationFix)
 
@@ -80,6 +81,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
+	[FBSettings publishInstall:@"253475838035936"];
 	[self checkNetworkReachable:YES];
 }
 
@@ -423,7 +425,14 @@ void uncaughtExceptionHandler(NSException *exception) {
 	NSString *htmlString = @"<html>\n<head>\n</head>\n<body>";
 
 	for (PhotoItem *photo in favoritesItem.photosArray) {
-		htmlString = [htmlString stringByAppendingFormat:@"\n<p><a href=\"http://redd.it/%@\">%@</a><br /><a href=\"%@\"><img src=\"%@\" /></a></p>", photo.idString, photo.titleString, photo.urlString, photo.urlString];
+		NSString *thumbnailString = photo.thumbnailString;
+
+        if ([photo.urlString hasPrefix:@"http://i.imgur.com/"] || [photo.urlString hasPrefix:@"http://imgur.com/"]) {
+			NSString *lastComp = [photo.urlString lastPathComponent];
+			thumbnailString = [NSString stringWithFormat:@"http://i.imgur.com/%@t.png", [lastComp stringByDeletingPathExtension]];
+		}
+
+		htmlString = [htmlString stringByAppendingFormat:@"\n<p><a href=\"http://redd.it/%@\">%@</a><br /><a href=\"%@\"><img src=\"%@\" /></a></p>", photo.idString, photo.titleString, photo.urlString, thumbnailString];
 	}
 
 	htmlString = [htmlString stringByAppendingString:@"\n</body>\n</html>"];

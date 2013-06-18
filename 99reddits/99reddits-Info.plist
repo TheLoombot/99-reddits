@@ -75,5 +75,18 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
+	<key>FacebookAppID</key>
+	<string>253475838035936</string>
+	<key>FacebookDisplayName</key>
+	<string>99 reddits</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb253475838035936</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

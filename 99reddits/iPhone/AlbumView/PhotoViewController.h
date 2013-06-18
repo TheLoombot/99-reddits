@@ -35,8 +35,9 @@
 	int sharingIndex;
 	
 	NSData *sharingData;
-	
-	IBOutlet UIView *loadingView;
+
+	UIBarButtonItem *favoriteWhiteItem;
+	UIBarButtonItem *favoriteRedItem;
 	
 	BOOL bFavorites;
 }

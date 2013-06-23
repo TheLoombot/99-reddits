@@ -170,10 +170,9 @@
 		8DB620571770583700D744A4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DB620561770583700D744A4 /* Security.framework */; };
 		8DB620581770584200D744A4 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DA00401145AB959000F6E07 /* Accounts.framework */; };
 		8DB6205A1770584A00D744A4 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DB620591770584A00D744A4 /* AdSupport.framework */; };
-		8DB6205C1770587E00D744A4 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DB6205B1770587E00D744A4 /* FacebookSDK.framework */; };
+		8DB6205C1770587E00D744A4 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DB6205B1770587E00D744A4 /* FacebookSDK.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		8DB620611770588E00D744A4 /* FacebookSDKResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8DB6205E1770588E00D744A4 /* FacebookSDKResources.bundle */; };
 		8DB620621770588E00D744A4 /* FBUserSettingsViewResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 8DB6205F1770588E00D744A4 /* FBUserSettingsViewResources.bundle */; };
-		8DB620631770588E00D744A4 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8DB620601770588E00D744A4 /* Info.plist */; };
 		8DB62065177059E300D744A4 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DB62064177059E300D744A4 /* libsqlite3.0.dylib */; };
 		8DC0823414C7DCFC00E092A2 /* ClearButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 8DC0823214C7DCFC00E092A2 /* ClearButton.png */; };
 		8DC0823514C7DCFC00E092A2 /* ClearButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8DC0823314C7DCFC00E092A2 /* ClearButton@2x.png */; };
@@ -509,7 +508,6 @@
 		8DB6205B1770587E00D744A4 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = 99reddits/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		8DB6205E1770588E00D744A4 /* FacebookSDKResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FacebookSDKResources.bundle; sourceTree = "<group>"; };
 		8DB6205F1770588E00D744A4 /* FBUserSettingsViewResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FBUserSettingsViewResources.bundle; sourceTree = "<group>"; };
-		8DB620601770588E00D744A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8DB62064177059E300D744A4 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		8DC0823214C7DCFC00E092A2 /* ClearButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ClearButton.png; sourceTree = "<group>"; };
 		8DC0823314C7DCFC00E092A2 /* ClearButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ClearButton@2x.png"; sourceTree = "<group>"; };
@@ -1118,7 +1116,6 @@
 			children = (
 				8DB6205E1770588E00D744A4 /* FacebookSDKResources.bundle */,
 				8DB6205F1770588E00D744A4 /* FBUserSettingsViewResources.bundle */,
-				8DB620601770588E00D744A4 /* Info.plist */,
 			);
 			name = Resources;
 			path = 99reddits/FacebookSDK/FacebookSDK.framework/Resources;
@@ -1324,7 +1321,6 @@
 				8D0F1179176A209C00786F36 /* Transparent.png in Resources */,
 				8DB620611770588E00D744A4 /* FacebookSDKResources.bundle in Resources */,
 				8DB620621770588E00D744A4 /* FBUserSettingsViewResources.bundle in Resources */,
-				8DB620631770588E00D744A4 /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

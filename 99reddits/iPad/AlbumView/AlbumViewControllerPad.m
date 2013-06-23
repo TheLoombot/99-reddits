@@ -193,6 +193,14 @@
 	bFromSubview = NO;
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+	if (actionSheet) {
+		[actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:NO];
+		[actionSheet release];
+		actionSheet = nil;
+	}
+}
+
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
 
@@ -662,8 +670,8 @@
 		if (unshowedCount > 0) {
 			self.title = [NSString stringWithFormat:@"%@ (%d)", subReddit.nameString, unshowedCount];
 
-			self.navigationItem.rightBarButtonItem.enabled = YES;
 			showTypeSegmentedControl.userInteractionEnabled = YES;
+			self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl] autorelease];
 		}
 		else {
 			self.title = subReddit.nameString;
@@ -748,6 +756,14 @@
 - (void)actionSheet:(UIActionSheet *)sheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
 	if (actionSheet == nil)
 		return;
+
+	if (!appDelegate.isPaid) {
+		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"This is a paid feature. It's cheap." message:nil delegate:self cancelButtonTitle:@"No thanks" otherButtonTitles:@"Buy", nil];
+		[alertView show];
+		[alertView release];
+
+		return;
+	}
 	
 	if (buttonIndex != actionSheet.cancelButtonIndex) {
 		if ([MFMailComposeViewController canSendMail]) {

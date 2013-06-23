@@ -670,8 +670,8 @@
 		if (unshowedCount > 0) {
 			self.title = [NSString stringWithFormat:@"%@ (%d)", subReddit.nameString, unshowedCount];
 
-			self.navigationItem.rightBarButtonItem.enabled = YES;
 			showTypeSegmentedControl.userInteractionEnabled = YES;
+			self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl] autorelease];
 		}
 		else {
 			self.title = subReddit.nameString;
@@ -751,6 +751,14 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
 	if (buttonIndex == actionSheet.cancelButtonIndex)
 		return;
+
+	if (!appDelegate.isPaid) {
+		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"This is a paid feature. It's cheap." message:nil delegate:self cancelButtonTitle:@"No thanks" otherButtonTitles:@"Buy", nil];
+		[alertView show];
+		[alertView release];
+
+		return;
+	}
 
 	if ([MFMailComposeViewController canSendMail]) {
 		MFMailComposeViewController *mailComposeViewController = [[[MFMailComposeViewController alloc] init] autorelease];

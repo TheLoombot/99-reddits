@@ -537,7 +537,6 @@
 			
 			[mailComposeViewController addAttachmentData:data mimeType:mimeType fileName:[photo.urlString lastPathComponent]];
 			
-			disappearForSubview = YES;
 			[self presentViewController:mailComposeViewController animated:YES completion:nil];
 		}
 	}

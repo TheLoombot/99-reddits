@@ -169,7 +169,9 @@
 								 [animateImageView removeFromSuperview];
 								 [animateImageView release];
 								 animateImageView = nil;
-								 self.imageView.image = thumbImage;
+								 if (finished) {
+									 self.imageView.image = thumbImage;
+								 }
 							 }];
 		}
 		else {

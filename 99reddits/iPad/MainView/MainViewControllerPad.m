@@ -618,7 +618,8 @@
 				UIGraphicsEndImageContext();
 				
 				[thumbnailImageCache storeObject:thumbImage withName:photoIndexKey];
-				[self performSelectorOnMainThread:@selector(reloadCell:) withObject:[NSIndexPath indexPathForRow:index + 1 inSection:0] waitUntilDone:NO];
+				MainViewCellPad *cell = (MainViewCellPad *)[self.collectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:index + 1 inSection:0]];
+				[cell setThumbImage:thumbImage animated:YES];
 			}
 		}
 		
@@ -634,10 +635,6 @@
 	
 	[activeRequests addObject:source];
 	[queue addOperation:readOp];
-}
-
-- (void)reloadCell:(NSIndexPath *)indexPath {
-	[self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:indexPath]];
 }
 
 - (IBAction)onSettingsButton:(id)sender {

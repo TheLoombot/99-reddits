@@ -21,7 +21,7 @@
 	RedditsAppDelegate *appDelegate;
 	MainViewController *mainViewController;
 
-	IBOutlet CustomCollectionView *contentCollectionView;
+	CustomCollectionView *contentCollectionView;
 	IBOutlet UIView *footerView;
 	IBOutlet UIButton *moarButton;
 	IBOutlet UIActivityIndicatorView *moarWaitingView;

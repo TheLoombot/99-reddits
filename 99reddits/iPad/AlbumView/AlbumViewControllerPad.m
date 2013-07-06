@@ -77,6 +77,7 @@
 	[topItem release];
 	[showTypeSegmentedControl release];
 	[actionSheet release];
+	[actionSheetTapGesture release];
 	[super dealloc];
 }
 
@@ -118,7 +119,7 @@
 	
 	if (bFavorites) {
 		[tabBar removeFromSuperview];
-		contentCollectionView.frame = CGRectMake(0, -150, self.view.frame.size.width, self.view.frame.size.height + 300);
+		contentCollectionView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
 	}
 	
 	[moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
@@ -150,9 +151,6 @@
 		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl] autorelease];
 	}
 	
-	contentCollectionView.delaysContentTouches = NO;
-	contentCollectionView.canCancelContentTouches = YES;
-
 	AlbumViewLayoutPad *albumViewLayout = [[[AlbumViewLayoutPad alloc] init] autorelease];
 	if (!bFavorites) {
 		albumViewLayout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, 60);
@@ -171,6 +169,8 @@
 		showTypeSegmentedControl.selectedSegmentIndex = 1;
 
 	initialized = NO;
+
+	actionSheetTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onActionSheetTapGesture:)];
 }
 
 - (void)viewDidUnload {
@@ -191,14 +191,6 @@
 	[self refreshSubReddit:YES];
 
 	bFromSubview = NO;
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-	if (actionSheet) {
-		[actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:NO];
-		[actionSheet release];
-		actionSheet = nil;
-	}
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -367,6 +359,7 @@
 - (IBAction)onMOARButton:(id)sender {
 	if (!appDelegate.isPaid) {
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"This is a paid feature. It's cheap." message:nil delegate:self cancelButtonTitle:@"No thanks" otherButtonTitles:@"Buy", nil];
+		alertView.tag = 100;
 		[alertView show];
 		[alertView release];
 		
@@ -506,9 +499,17 @@
 
 // UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (buttonIndex != alertView.cancelButtonIndex) {
-		[self.navigationController popViewControllerAnimated:NO];
-		[mainViewController onSettingsButton:nil];
+	if (alertView.tag == 100) {
+		if (buttonIndex != alertView.cancelButtonIndex) {
+			[self.navigationController popViewControllerAnimated:NO];
+			[mainViewController onSettingsButton:nil];
+		}
+	}
+	else if (alertView.tag == 101) {
+		if (buttonIndex != alertView.cancelButtonIndex) {
+			[appDelegate clearFavorites];
+			[self.navigationController popViewControllerAnimated:YES];
+		}
 	}
 }
 
@@ -742,39 +743,52 @@
 		[actionSheet release];
 		actionSheet = nil;
 	}
-	
+
+	[self.navigationController.navigationBar addGestureRecognizer:actionSheetTapGesture];
+
 	actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-															 delegate:self
-													cancelButtonTitle:@"Cancel"
-											   destructiveButtonTitle:nil
-													otherButtonTitles:@"Email Favorites", nil];
+											  delegate:self
+									 cancelButtonTitle:@"Cancel"
+								destructiveButtonTitle:@"Email Favorites"
+									 otherButtonTitles:@"Clear Favorites", nil];
+	actionSheet.destructiveButtonIndex = 1;
 	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
 	[actionSheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
 }
 
 // UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)sheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
+	[self.navigationController.navigationBar removeGestureRecognizer:actionSheetTapGesture];
+
 	if (actionSheet == nil)
 		return;
 
-	if (!appDelegate.isPaid) {
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"This is a paid feature. It's cheap." message:nil delegate:self cancelButtonTitle:@"No thanks" otherButtonTitles:@"Buy", nil];
+	if (buttonIndex == actionSheet.cancelButtonIndex)
+		return;
+
+	if (buttonIndex == 0) {
+		if (!appDelegate.isPaid) {
+			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"This is a paid feature. It's cheap." message:nil delegate:self cancelButtonTitle:@"No thanks" otherButtonTitles:@"Buy", nil];
+			[alertView show];
+			[alertView release];
+		}
+		else {
+			if ([MFMailComposeViewController canSendMail]) {
+				MFMailComposeViewController *mailComposeViewController = [[[MFMailComposeViewController alloc] init] autorelease];
+				mailComposeViewController.mailComposeDelegate = self;
+				[mailComposeViewController setSubject:@"99 reddits Favorites Export"];
+				[mailComposeViewController setMessageBody:[appDelegate getFavoritesEmailString] isHTML:YES];
+
+				bFromSubview = YES;
+				[self presentViewController:mailComposeViewController animated:YES completion:nil];
+			}
+		}
+	}
+	else {
+		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Clear ALL your favorites?" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+		alertView.tag = 101;
 		[alertView show];
 		[alertView release];
-
-		return;
-	}
-	
-	if (buttonIndex != actionSheet.cancelButtonIndex) {
-		if ([MFMailComposeViewController canSendMail]) {
-			MFMailComposeViewController *mailComposeViewController = [[[MFMailComposeViewController alloc] init] autorelease];
-			mailComposeViewController.mailComposeDelegate = self;
-			[mailComposeViewController setSubject:@"99 reddits Favorites Export"];
-			[mailComposeViewController setMessageBody:[appDelegate getFavoritesEmailString] isHTML:YES];
-
-			bFromSubview = YES;
-			[self presentViewController:mailComposeViewController animated:YES completion:nil];
-		}
 	}
 
 	[actionSheet release];
@@ -784,6 +798,10 @@
 // MFMailComposeViewControllerDelegate
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
 	[controller dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)onActionSheetTapGesture:(UITapGestureRecognizer *)gesture {
+	[actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:YES];
 }
 
 @end

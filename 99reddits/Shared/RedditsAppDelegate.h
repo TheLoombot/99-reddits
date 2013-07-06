@@ -51,6 +51,7 @@
 - (BOOL)addToFavorites:(PhotoItem *)photo;
 - (BOOL)removeFromFavorites:(PhotoItem *)photo;
 - (BOOL)isFavorite:(PhotoItem *)photo;
+- (void)clearFavorites;
 
 - (void)setNavAppearance;
 - (void)unsetNavAppearance;

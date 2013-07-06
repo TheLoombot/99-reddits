@@ -398,6 +398,13 @@ void uncaughtExceptionHandler(NSException *exception) {
 	return NO;
 }
 
+- (void)clearFavorites {
+	[favoritesItem.photosArray removeAllObjects];
+	[favoritesSet removeAllObjects];
+
+	[self saveFavoritesData];
+}
+
 - (void)setNavAppearance {
 	[[UINavigationBar appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:[UIImage imageNamed:@"NavBarBack.png"] forBarMetrics:UIBarMetricsDefault];
 	[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:[[UIImage imageNamed:@"BarButtonBack.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];

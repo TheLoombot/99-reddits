@@ -22,6 +22,7 @@
 	BOOL loading;
 
 	UIActionSheet *actionSheet;
+	UITapGestureRecognizer *actionSheetTapGesture;
 }
 
 @property (nonatomic, retain) NSString *urlString;

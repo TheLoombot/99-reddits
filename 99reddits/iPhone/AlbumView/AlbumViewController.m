@@ -115,7 +115,7 @@
 	
 	if (bFavorites) {
 		[tabBar removeFromSuperview];
-		contentCollectionView.frame = CGRectMake(0, -79, self.view.frame.size.width, self.view.frame.size.height + 158);
+		contentCollectionView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
 	}
 
 	[moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
@@ -144,9 +144,6 @@
 		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl] autorelease];
 	}
 	
-	contentCollectionView.delaysContentTouches = NO;
-	contentCollectionView.canCancelContentTouches = YES;
-
 	AlbumViewLayout *albumViewLayout = [[[AlbumViewLayout alloc] init] autorelease];
 	if (!bFavorites) {
 		albumViewLayout.footerReferenceSize = CGSizeMake(320, 60);
@@ -367,6 +364,7 @@
 - (IBAction)onMOARButton:(id)sender {
 	if (!appDelegate.isPaid) {
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"This is a paid feature. It's cheap." message:nil delegate:self cancelButtonTitle:@"No thanks" otherButtonTitles:@"Buy", nil];
+		alertView.tag = 100;
 		[alertView show];
 		[alertView release];
 		
@@ -506,9 +504,17 @@
 
 // UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (buttonIndex != alertView.cancelButtonIndex) {
-		[self.navigationController popViewControllerAnimated:NO];
-		[mainViewController onSettingsButton:nil];
+	if (alertView.tag == 100) {
+		if (buttonIndex != alertView.cancelButtonIndex) {
+			[self.navigationController popViewControllerAnimated:NO];
+			[mainViewController onSettingsButton:nil];
+		}
+	}
+	else if (alertView.tag == 101) {
+		if (buttonIndex != alertView.cancelButtonIndex) {
+			[appDelegate clearFavorites];
+			[self.navigationController popViewControllerAnimated:YES];
+		}
 	}
 }
 
@@ -738,10 +744,11 @@
 
 - (void)onActionButton:(id)sender {
 	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-															 delegate:self
-													cancelButtonTitle:@"Cancel"
-											   destructiveButtonTitle:nil
-													otherButtonTitles:@"Email Favorites", nil];
+											  delegate:self
+									 cancelButtonTitle:@"Cancel"
+								destructiveButtonTitle:@"Email Favorites"
+									 otherButtonTitles:@"Clear Favorites", nil];
+	actionSheet.destructiveButtonIndex = 1;
 	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
 	[actionSheet showInView:self.view];
 	[actionSheet release];
@@ -752,23 +759,33 @@
 	if (buttonIndex == actionSheet.cancelButtonIndex)
 		return;
 
-	if (!appDelegate.isPaid) {
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"This is a paid feature. It's cheap." message:nil delegate:self cancelButtonTitle:@"No thanks" otherButtonTitles:@"Buy", nil];
+	if (buttonIndex == actionSheet.cancelButtonIndex)
+		return;
+
+	if (buttonIndex == 0) {
+		if (!appDelegate.isPaid) {
+			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"This is a paid feature. It's cheap." message:nil delegate:self cancelButtonTitle:@"No thanks" otherButtonTitles:@"Buy", nil];
+			[alertView show];
+			[alertView release];
+		}
+		else {
+			if ([MFMailComposeViewController canSendMail]) {
+				MFMailComposeViewController *mailComposeViewController = [[[MFMailComposeViewController alloc] init] autorelease];
+				mailComposeViewController.mailComposeDelegate = self;
+
+				[mailComposeViewController setSubject:@"99 reddits Favorites Export"];
+				[mailComposeViewController setMessageBody:[appDelegate getFavoritesEmailString] isHTML:YES];
+
+				bFromSubview = YES;
+				[self presentViewController:mailComposeViewController animated:YES completion:nil];
+			}
+		}
+	}
+	else {
+		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Clear ALL your favorites?" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+		alertView.tag = 101;
 		[alertView show];
 		[alertView release];
-
-		return;
-	}
-
-	if ([MFMailComposeViewController canSendMail]) {
-		MFMailComposeViewController *mailComposeViewController = [[[MFMailComposeViewController alloc] init] autorelease];
-		mailComposeViewController.mailComposeDelegate = self;
-
-		[mailComposeViewController setSubject:@"99 reddits Favorites Export"];
-		[mailComposeViewController setMessageBody:[appDelegate getFavoritesEmailString] isHTML:YES];
-
-		bFromSubview = YES;
-		[self presentViewController:mailComposeViewController animated:YES completion:nil];
 	}
 }
 

@@ -39,6 +39,7 @@
 	[titleLabel release];
 	[urlLabel release];
 	[actionSheet release];
+	[actionSheetTapGesture release];
 	[super dealloc];
 }
 
@@ -60,6 +61,8 @@
 		subview.clipsToBounds = NO;
 	}
 	[[[UIApplication sharedApplication].windows objectAtIndex:0] setBackgroundColor:[UIColor scrollViewTexturedBackgroundColor]];
+
+	actionSheetTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onActionSheetTapGesture:)];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -68,12 +71,6 @@
 }
 
 - (IBAction)onCloseButton:(id)sender {
-	if (actionSheet) {
-		[actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:YES];
-		[actionSheet release];
-		actionSheet = nil;
-	}
-
 	NSArray *subviews = webView.subviews;
 	for (UIView *subview in subviews) {
 		subview.clipsToBounds = YES;
@@ -84,10 +81,12 @@
 
 - (IBAction)onShareButton:(id)sender {
 	if (actionSheet) {
-		[actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:YES];
+		[actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:NO];
 		[actionSheet release];
 		actionSheet = nil;
 	}
+
+	[self.view addGestureRecognizer:actionSheetTapGesture];
 	
 	actionSheet = [[UIActionSheet alloc] initWithTitle:nil
 															 delegate:self
@@ -100,11 +99,16 @@
 
 // UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)sheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
+	[self.view removeGestureRecognizer:actionSheetTapGesture];
+
 	if (actionSheet == nil)
 		return;
 
-	if (buttonIndex == actionSheet.cancelButtonIndex)
+	if (buttonIndex == actionSheet.cancelButtonIndex) {
+		[actionSheet release];
+		actionSheet = nil;
 		return;
+	}
 
 	if (buttonIndex == 0) {
 		UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
@@ -128,6 +132,10 @@
 	loading = NO;
 	NINetworkActivityTaskDidFinish();
 	titleLabel.text = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+}
+
+- (void)onActionSheetTapGesture:(UITapGestureRecognizer *)gesture {
+	[actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:YES];
 }
 
 @end

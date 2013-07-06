@@ -33,6 +33,7 @@
 	UITabBarItem *currentItem;
 	IBOutlet UISegmentedControl *showTypeSegmentedControl;
 	UIActionSheet *actionSheet;
+	UITapGestureRecognizer *actionSheetTapGesture;
 
 	SubRedditItem *currentSubReddit;
 	SubRedditItem *subReddit;

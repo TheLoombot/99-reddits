@@ -37,6 +37,6 @@
 	MBProgressHUD *hud;
 }
 
-@property (retain) MBProgressHUD *hud;
+@property (strong) MBProgressHUD *hud;
 
 @end

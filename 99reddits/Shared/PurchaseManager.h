@@ -20,12 +20,12 @@
 	NSSet *productIdentifiers;
 	NSArray *products;
 	SKProductsRequest *productsRequest;
-	id delegate;
+	id __weak delegate;
 }
 
-@property (nonatomic, assign) id delegate;
-@property (retain) NSSet *productIdentifiers;
-@property (retain) NSArray *products;
+@property (nonatomic, weak) id delegate;
+@property (strong) NSSet *productIdentifiers;
+@property (strong) NSArray *products;
 
 + (PurchaseManager *)sharedManager;
 - (void)requestProducts;

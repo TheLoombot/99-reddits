@@ -28,11 +28,14 @@
 		
 		imageOutlineView = [[UIView alloc] initWithFrame:CGRectMake(15, 15, 120, 120)];
 		imageOutlineView.backgroundColor = [UIColor whiteColor];
-		imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 6, 108, 108)];
+		if (isIOS7Below)
+			imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 6, 108, 108)];
+		else
+			imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 120)];
 		[imageOutlineView addSubview:imageView];
 		[self.contentView addSubview:imageOutlineView];
 		
-		tapButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+		tapButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		tapButton.frame = imageOutlineView.frame;
 		[tapButton setImage:[UIImage imageNamed:@"ButtonOverlay.png"] forState:UIControlStateHighlighted];
 		[tapButton addTarget:self action:@selector(onTap:) forControlEvents:UIControlEventTouchUpInside];
@@ -49,16 +52,22 @@
 		nameLabel.backgroundColor = [UIColor clearColor];
 		nameLabel.textAlignment = NSTextAlignmentCenter;
 		[self.contentView addSubview:nameLabel];
-		deleteButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+		deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		deleteButton.frame = CGRectMake(0, 0, 29, 29);
 		[deleteButton setBackgroundImage:[UIImage imageNamed:@"DeleteButton.png"] forState:UIControlStateNormal];
 		[deleteButton addTarget:self action:@selector(onDeleteButton:) forControlEvents:UIControlEventTouchUpInside];
 		[self.contentView addSubview:deleteButton];
 		unshowedBackImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 29, 29)];
-		unshowedBackImageView.image = [[UIImage imageNamed:@"BadgeBack.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0];
+		if (isIOS7Below)
+			unshowedBackImageView.image = [[UIImage imageNamed:@"BadgeBack.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0];
+		else
+			unshowedBackImageView.image = [[UIImage imageNamed:@"BadgeRedBack.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0];
 		[self.contentView addSubview:unshowedBackImageView];
 		unshowedLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-		unshowedLabel.font = [UIFont boldSystemFontOfSize:14];
+		if (isIOS7Below)
+			unshowedLabel.font = [UIFont boldSystemFontOfSize:14];
+		else
+			unshowedLabel.font = [UIFont boldSystemFontOfSize:17];
 		unshowedLabel.backgroundColor = [UIColor clearColor];
 		unshowedLabel.textColor = [UIColor whiteColor];
 		[self.contentView addSubview:unshowedLabel];
@@ -66,18 +75,6 @@
 	return self;
 }
 
-- (void)dealloc {
-	[imageOutlineView release];
-	[imageView release];
-	[tapButton release];
-	[activityIndicator release];
-	[deleteButton release];
-	[unshowedBackImageView release];
-	[unshowedLabel release];
-	[nameLabel release];
-	[animateImageView release];
-	[super dealloc];
-}
 
 - (void)setUnshowedCount:(int)_unshowedCount totalCount:(int)_totalCount loading:(BOOL)_loading {
 	unshowedCount = _unshowedCount;
@@ -169,12 +166,14 @@
 - (void)setThumbImage:(UIImage *)thumbImage animated:(BOOL)animated {
 	[animateImageView.layer removeAllAnimations];
 	[animateImageView removeFromSuperview];
-	[animateImageView release];
 	animateImageView = nil;
 
 	if (thumbImage == nil) {
 		imageOutlineView.frame = CGRectMake(15, 15, 120, 120);
-		imageView.frame = CGRectMake(6, 6, 108, 108);
+		if (isIOS7Below)
+			imageView.frame = CGRectMake(6, 6, 108, 108);
+		else
+			imageView.frame = CGRectMake(0, 0, 120, 120);
 		imageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
 		imageEmpty = YES;
 	}
@@ -215,7 +214,10 @@
 		rect.size.height += 9;
 		unshowedBackImageView.frame = rect;
 
-		imageView.frame = CGRectMake(6, 6, width, height);
+		if (isIOS7Below)
+			imageView.frame = CGRectMake(6, 6, width, height);
+		else
+			imageView.frame = CGRectMake(0, 0, width + 12, height + 12);
 
 		if (animated || imageEmpty) {
 			imageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
@@ -230,7 +232,6 @@
 							 }
 							 completion:^(BOOL finished) {
 								 [animateImageView removeFromSuperview];
-								 [animateImageView release];
 								 animateImageView = nil;
 								 if (finished) {
 									 imageView.image = thumbImage;

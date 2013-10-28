@@ -46,21 +46,17 @@
 		[request clearDelegatesAndCancel];
 	}
 	
-	NI_RELEASE_SAFELY(activeRequests);
-	NI_RELEASE_SAFELY(highQualityImageCache);
-	NI_RELEASE_SAFELY(queue);
-	NI_RELEASE_SAFELY(sharingData);
+	activeRequests = nil;
+	highQualityImageCache = nil;
+	queue = nil;
+	sharingData = nil;
 }
 
 - (void)dealloc {
 	[self releaseObjects];
 	
-	[subReddit release];
 
-	[favoriteWhiteItem release];
-	[favoriteRedItem release];
 
-	[super dealloc];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -114,10 +110,10 @@
 	
 	[appDelegate checkNetworkReachable:YES];
 	
-	UIBarButtonItem *actionButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(onActionButton)] autorelease];
-	UIBarButtonItem *commentButtonItem = [[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"CommentIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onCommentButtonItem:)] autorelease];
+	UIBarButtonItem *actionButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(onActionButton)];
+	UIBarButtonItem *commentButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"CommentIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onCommentButtonItem:)];
 
-	NSMutableArray *items = [[[NSMutableArray alloc] initWithArray:self.toolbar.items] autorelease];
+	NSMutableArray *items = [[NSMutableArray alloc] initWithArray:self.toolbar.items];
 	[items insertObject:actionButtonItem atIndex:0];
 	[items addObject:commentButtonItem];
 
@@ -196,7 +192,6 @@
 	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
 	actionSheet.tag = 100;
 	[actionSheet showInView:self.view];
-	[actionSheet release];
 }
 
 // UIActionSheetDelegate
@@ -262,7 +257,7 @@
 	
 	NSURL *url = [NSURL URLWithString:source];
 	
-	__block NIHTTPRequest *readOp = [NIHTTPRequest requestWithURL:url usingCache:[ASIDownloadCache sharedCache]];
+	__block NIHTTPRequest __weak *readOp = [NIHTTPRequest requestWithURL:url usingCache:[ASIDownloadCache sharedCache]];
 	readOp.cacheStoragePolicy = ASICachePermanentlyCacheStoragePolicy;
 	readOp.timeOutSeconds = 30;
 	readOp.tag = photoIndex;
@@ -301,7 +296,7 @@
 				}
 				
 				if (photoIndex == self.photoAlbumView.centerPageIndex) {
-					CGImageSourceRef imageSource = CGImageSourceCreateWithData((CFDataRef)data, NULL);
+					CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)data, NULL);
 					if (imageSource) {
 						imageCount = CGImageSourceGetCount(imageSource);
 						if (imageCount > 1) {
@@ -389,7 +384,7 @@
 	NSString *reuseIdentifier = @"PHOTO_VIEW";
 	photoView = (PhotoView *)[pagingScrollView dequeueReusablePageWithIdentifier:reuseIdentifier];
 	if (nil == photoView) {
-		photoView = [[[PhotoView alloc] init] autorelease];
+		photoView = [[PhotoView alloc] init];
 		photoView.reuseIdentifier = reuseIdentifier;
 		photoView.zoomingAboveOriginalSizeIsEnabled = YES;
 	}
@@ -489,7 +484,7 @@
 	}
 	else if (sharingType == 1) {
 		if ([MFMailComposeViewController canSendMail]) {
-			MFMailComposeViewController *mailComposeViewController = [[[MFMailComposeViewController alloc] init] autorelease];
+			MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
 			mailComposeViewController.mailComposeDelegate = self;
 			
 			PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
@@ -524,7 +519,7 @@
 	else if (sharingType == 2) {
 		PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
 		
-		SLComposeViewController *tweetComposeViewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+		SLComposeViewController __weak *tweetComposeViewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
 		[tweetComposeViewController setInitialText:photo.titleString];
 		[tweetComposeViewController addImage:image];
 		[tweetComposeViewController addURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://redd.it/%@", photo.idString]]];
@@ -538,7 +533,7 @@
 	else if (sharingType == 3) {
 		PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
 		
-		SLComposeViewController *facebookComposeViewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+		SLComposeViewController __weak *facebookComposeViewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
 		[facebookComposeViewController setInitialText:photo.titleString];
 		[facebookComposeViewController addImage:image];
 		[facebookComposeViewController addURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://redd.it/%@", photo.idString]]];
@@ -568,7 +563,6 @@
 		actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
 		actionSheet.tag = 101;
 		[actionSheet showInView:self.view];
-		[actionSheet release];
 	}
 	else {
 		PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
@@ -586,8 +580,7 @@
 }
 
 - (void)setSubReddit:(SubRedditItem *)_subReddit {
-	[subReddit release];
-	subReddit = [_subReddit retain];
+	subReddit = _subReddit;
 }
 
 - (void)onCommentButtonItem:(id)sender {
@@ -596,7 +589,6 @@
 	CommentViewController *commentViewController = [[CommentViewController alloc] initWithNibName:@"CommentViewController" bundle:nil];
 	commentViewController.urlString = photo.permalinkString;
 	[self presentViewController:commentViewController animated:YES completion:nil];
-	[commentViewController release];
 }
 
 @end

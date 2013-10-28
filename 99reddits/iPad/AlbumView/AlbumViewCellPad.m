@@ -29,13 +29,16 @@
 		imageOutlineView.backgroundColor = [UIColor whiteColor];
 		[self.contentView addSubview:imageOutlineView];
 
-		imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 6, 108, 108)];
+		if (isIOS7Below)
+			imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 6, 108, 108)];
+		else
+			imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 120)];
 		[imageOutlineView addSubview:imageView];
 
 		favoriteOverlayView = [[UIImageView alloc] initWithFrame:CGRectMake(89, 89, 25, 25)];
 		[self.contentView addSubview:favoriteOverlayView];
 
-		tapButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+		tapButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		tapButton.frame = imageOutlineView.frame;
 		[tapButton setImage:[UIImage imageNamed:@"ButtonOverlay.png"] forState:UIControlStateHighlighted];
 		[tapButton addTarget:self action:@selector(onTap:) forControlEvents:UIControlEventTouchUpInside];
@@ -44,24 +47,15 @@
 	return self;
 }
 
-- (void)dealloc {
-	[photo release];
-	[favoriteOverlayView release];
-	[animateImageView release];
-	[imageView release];
-	[tapButton release];
-	[super dealloc];
-}
 
 - (void)onTap:(id)sender {
 	[albumViewController onSelectPhoto:photo];
 }
 
 - (void)setPhoto:(PhotoItem *)_photo {
-	[photo release];
 	photo = nil;
 
-	photo = [_photo retain];
+	photo = _photo;
 
 	if (bFavorites) {
 		favoriteOverlayView.hidden = YES;
@@ -82,12 +76,14 @@
 - (void)setThumbImage:(UIImage *)thumbImage animated:(BOOL)animated {
 	[animateImageView.layer removeAllAnimations];
 	[animateImageView removeFromSuperview];
-	[animateImageView release];
 	animateImageView = nil;
 
 	if (thumbImage == nil) {
 		imageOutlineView.frame = CGRectMake(0, 0, 120, 120);
-		imageView.frame = CGRectMake(6, 6, 108, 108);
+		if (isIOS7Below)
+			imageView.frame = CGRectMake(6, 6, 108, 108);
+		else
+			imageView.frame = CGRectMake(0, 0, 120, 120);
 		imageView.image = [UIImage imageNamed:@"DefaultPhoto.png"];
 		imageEmpty = YES;
 	}
@@ -117,7 +113,10 @@
 		rect.size.height = 25;
 		favoriteOverlayView.frame = rect;
 
-		imageView.frame = CGRectMake(6, 6, width, height);
+		if (isIOS7Below)
+			imageView.frame = CGRectMake(6, 6, width, height);
+		else
+			imageView.frame = CGRectMake(0, 0, width + 12, height + 12);
 
 		if (animated || imageEmpty) {
 			imageView.image = [UIImage imageNamed:@"DefaultPhoto.png"];
@@ -132,7 +131,6 @@
 							 }
 							 completion:^(BOOL finished) {
 								 [animateImageView removeFromSuperview];
-								 [animateImageView release];
 								 animateImageView = nil;
 								 if (finished) {
 									 imageView.image = thumbImage;

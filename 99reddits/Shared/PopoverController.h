@@ -12,14 +12,14 @@
 @class PopoverWindow;
 
 @interface PopoverController : NSObject {
-	id<PopoverControllerDelegate> delegate;
+	id<PopoverControllerDelegate> __weak delegate;
 	UIViewController *contentViewController;
 	PopoverWindow *window;
 	CGSize popoverContentSize;
 	BOOL fullscreen;
 }
 
-@property (nonatomic, assign) id<PopoverControllerDelegate> delegate;
+@property (nonatomic, weak) id<PopoverControllerDelegate> delegate;
 @property (nonatomic, assign) CGSize popoverContentSize;
 @property (nonatomic, assign) BOOL fullscreen;
 

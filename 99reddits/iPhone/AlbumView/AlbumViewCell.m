@@ -31,7 +31,7 @@
 		favoriteOverlayView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 50, 25, 25)];
 		[self.contentView addSubview:favoriteOverlayView];
 
-		tapButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+		tapButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		tapButton.frame = imageView.frame;
 		[tapButton setImage:[UIImage imageNamed:@"ButtonOverlay.png"] forState:UIControlStateHighlighted];
 		[tapButton addTarget:self action:@selector(onTap:) forControlEvents:UIControlEventTouchUpInside];
@@ -40,24 +40,15 @@
 	return self;
 }
 
-- (void)dealloc {
-	[photo release];
-	[favoriteOverlayView release];
-	[animateImageView release];
-	[imageView release];
-	[tapButton release];
-	[super dealloc];
-}
 
 - (void)onTap:(id)sender {
 	[albumViewController onSelectPhoto:photo];
 }
 
 - (void)setPhoto:(PhotoItem *)_photo {
-	[photo release];
 	photo = nil;
 
-	photo = [_photo retain];
+	photo = _photo;
 
 	if (bFavorites) {
 		favoriteOverlayView.hidden = YES;
@@ -78,7 +69,6 @@
 - (void)setThumbImage:(UIImage *)thumbImage animated:(BOOL)animated {
 	[animateImageView.layer removeAllAnimations];
 	[animateImageView removeFromSuperview];
-	[animateImageView release];
 	animateImageView = nil;
 
 	if (thumbImage == nil) {
@@ -99,7 +89,6 @@
 							 }
 							 completion:^(BOOL finished) {
 								 [animateImageView removeFromSuperview];
-								 [animateImageView release];
 								 animateImageView = nil;
 								 if (finished) {
 									 imageView.image = thumbImage;

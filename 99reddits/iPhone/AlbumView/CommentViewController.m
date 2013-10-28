@@ -26,19 +26,10 @@
 }
 
 - (void)dealloc {
-	[urlString release];
-	[navItem release];
-	[leftItem release];
-	[rightItem release];
 	if (loading) {
 		[webView stopLoading];
 		NINetworkActivityTaskDidFinish();
 	}
-	[webView release];
-	[titleView release];
-	[titleLabel release];
-	[urlLabel release];
-	[super dealloc];
 }
 
 - (void)viewDidLoad {
@@ -47,8 +38,8 @@
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
 	[leftItem setBackgroundImage:[UIImage imageNamed:@"Transparent.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
 	[rightItem setBackgroundImage:[UIImage imageNamed:@"Transparent.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
-	navItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:leftItem] autorelease];
-	navItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:rightItem] autorelease];
+	navItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftItem];
+	navItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightItem];
 
 	navItem.titleView = titleView;
 	titleLabel.text = @"Loading...";
@@ -72,7 +63,10 @@
 	for (UIView *subview in subviews) {
 		subview.clipsToBounds = YES;
 	}
-	[[[UIApplication sharedApplication].windows objectAtIndex:0] setBackgroundColor:[UIColor blackColor]];
+	if (isIOS7Below)
+		[[[UIApplication sharedApplication].windows objectAtIndex:0] setBackgroundColor:[UIColor blackColor]];
+	else
+		[[[UIApplication sharedApplication].windows objectAtIndex:0] setBackgroundColor:[UIColor whiteColor]];
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -84,7 +78,6 @@
 													otherButtonTitles:@"Copy link", @"Open in Safari", nil];
 	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
 	[actionSheet showInView:self.view];
-	[actionSheet release];
 }
 
 // UIActionSheetDelegate

@@ -47,22 +47,15 @@
 		[request clearDelegatesAndCancel];
 	}
 	
-	NI_RELEASE_SAFELY(activeRequests);
-	NI_RELEASE_SAFELY(thumbnailImageCache);
-	NI_RELEASE_SAFELY(refreshQueue);
-	NI_RELEASE_SAFELY(queue);
+	activeRequests = nil;
+	thumbnailImageCache = nil;
+	refreshQueue = nil;
+	queue = nil;
 }
 
 - (void)dealloc {
 	[self releaseObjects];
 	
-	[settingsItem release];
-	[editItem release];
-	[doneItem release];
-	[addItem release];
-	[refreshControl release];
-	[popoverController release];
-	[super dealloc];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -82,12 +75,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	
+
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	subRedditsArray = appDelegate.subRedditsArray;
 	
-	refreshControl = [[UIRefreshControl alloc] init];
-	refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
+	refreshControl = [[CustomRefreshControl alloc] init];
+	refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 	[refreshControl addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
 	[self.collectionView addSubview:refreshControl];
 
@@ -122,13 +115,27 @@
 //			[self reloadData];
 	}
 
-	MainViewLayoutPad *mainViewLayout = [[[MainViewLayoutPad alloc] init] autorelease];
+	if (!isIOS7Below) {
+		self.view.backgroundColor = [UIColor whiteColor];
+		self.edgesForExtendedLayout = UIRectEdgeNone;
+		self.automaticallyAdjustsScrollViewInsets = NO;
+		self.extendedLayoutIncludesOpaqueBars = NO;
+
+		CGRect frame = self.collectionView.frame;
+		frame.origin.y -= 64;
+		frame.size.height += 64;
+		self.collectionView.frame = frame;
+		self.collectionView.backgroundColor = [UIColor whiteColor];
+		self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 0, 0);
+	}
+
+	MainViewLayoutPad *mainViewLayout = [[MainViewLayoutPad alloc] init];
 	self.collectionView.allowsSelection = YES;
 	self.collectionView.allowsMultipleSelection = NO;
 	self.collectionView.delaysContentTouches = NO;
 	self.collectionView.canCancelContentTouches = YES;
 	[self.collectionView registerClass:[MainViewCellPad class] forCellWithReuseIdentifier:@"MAINVIEWCELLPAD"];
-	[self.collectionView setCollectionViewLayout:mainViewLayout];
+	[self.collectionView setCollectionViewLayout:mainViewLayout];	
 	[mainViewLayout setUpGestureRecognizersOnCollectionView];
 
 	lastAddedIndex = -1;
@@ -169,7 +176,7 @@
 
 		settingsItem.enabled = NO;
 		addItem.enabled = NO;
-		
+
 		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:doneItem, addItem, nil];
 	}
 	else {
@@ -181,25 +188,23 @@
 		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:editItem, addItem, nil];
 	}
 	
-	[self.collectionView.collectionViewLayout invalidateLayout];
+	[self.collectionView reloadData];
 }
 
 - (IBAction)onAddButton:(id)sender {
 	RedditsViewControllerPad *redditsViewController = [[RedditsViewControllerPad alloc] initWithNibName:@"RedditsViewControllerPad" bundle:nil];
 	redditsViewController.mainViewController = self;
 	UINavigationController *redditsNavigationController = [[CustomNavigationController alloc] initWithRootViewController:redditsViewController];
-	redditsNavigationController.navigationBarHidden = YES;
 	popoverController = [[PopoverController alloc] initWithContentViewController:redditsNavigationController];
 	popoverController.popoverContentSize = CGSizeMake(540, 620);
 	popoverController.delegate = self;
-	[redditsNavigationController release];
-	[redditsViewController release];
 
 	[popoverController showPopover:YES];
 }
 
 // UICollectionViewDataSource, UICollectionViewDelegate
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+	[collectionView.collectionViewLayout invalidateLayout];
 	return 1;
 }
 
@@ -264,10 +269,9 @@
 }
 
 - (void)collectionView:(UICollectionView *)theCollectionView layout:(UICollectionViewLayout *)theLayout itemAtIndexPath:(NSIndexPath *)theFromIndexPath willMoveToIndexPath:(NSIndexPath *)theToIndexPath {
-	SubRedditItem *subReddit = [[subRedditsArray objectAtIndex:theFromIndexPath.row - 1] retain];
+	SubRedditItem *subReddit = [subRedditsArray objectAtIndex:theFromIndexPath.row - 1];
 	[subRedditsArray removeObjectAtIndex:theFromIndexPath.row - 1];
 	[subRedditsArray insertObject:subReddit atIndex:theToIndexPath.row - 1];
-	[subReddit release];
 	
 	[appDelegate saveToDefaults];
 }
@@ -305,7 +309,7 @@
 	if (refreshCount != 0)
 		return;
 	
-	refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Refreshing..."] autorelease];
+	refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing..."];
 	[refreshControl beginRefreshing];
 	
 	editItem.enabled = NO;
@@ -357,7 +361,7 @@
 	if (subReddit == nil) {
 		refreshCount --;
 		if (refreshCount == 0) {
-			refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
+			refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 			[refreshControl endRefreshing];
 
 			editItem.enabled = YES;
@@ -383,11 +387,10 @@
 	[self.collectionView reloadItemsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForItem:index + 1 inSection:0]]];
 
 	[tempPhotosArray removeAllObjects];
-	[tempPhotosArray release];
 	
 	refreshCount --;
 	if (refreshCount == 0) {
-		refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
+		refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 		[refreshControl endRefreshing];
 	
 		editItem.enabled = YES;
@@ -412,7 +415,7 @@
 	if (subReddit == nil) {
 		refreshCount --;
 		if (refreshCount == 0) {
-			refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
+			refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 			[refreshControl endRefreshing];
 
 			editItem.enabled = YES;
@@ -429,7 +432,7 @@
 
 	refreshCount --;
 	if (refreshCount == 0) {
-		refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
+		refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 		[refreshControl endRefreshing];
 
 		editItem.enabled = YES;
@@ -503,7 +506,6 @@
 			
             [photosArray addObject:photo];
 		}
-		[photo release];
 	}
 	
 	NSString *afterString = [data objectForKey:@"after"];
@@ -517,7 +519,7 @@
 	if (![appDelegate checkNetworkReachable:YES])
 		return;
 	
-	refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Refreshing..."] autorelease];
+	refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing..."];
 	[refreshControl beginRefreshing];
 
 	editItem.enabled = NO;
@@ -564,7 +566,7 @@
 	
 	NSURL *url = [NSURL URLWithString:source];
 	
-	__block NIHTTPRequest *readOp = [NIHTTPRequest requestWithURL:url usingCache:[ASIDownloadCache sharedCache]];
+	__block NIHTTPRequest __weak *readOp = [NIHTTPRequest requestWithURL:url usingCache:[ASIDownloadCache sharedCache]];
 	readOp.shouldAttemptPersistentConnection = NO;
 	readOp.cacheStoragePolicy = ASICachePermanentlyCacheStoragePolicy;
 	readOp.timeOutSeconds = 30;
@@ -640,10 +642,10 @@
 - (IBAction)onSettingsButton:(id)sender {
 	SettingsViewControllerPad *settingsViewController = [[SettingsViewControllerPad alloc] initWithNibName:@"SettingsViewControllerPad" bundle:nil];
 	settingsViewController.mainViewController = self;
-	popoverController = [[PopoverController alloc] initWithContentViewController:settingsViewController];
+	UINavigationController *settingsNavigationController = [[CustomNavigationController alloc] initWithRootViewController:settingsViewController];
+	popoverController = [[PopoverController alloc] initWithContentViewController:settingsNavigationController];
 	popoverController.popoverContentSize = CGSizeMake(540, 620);
 	popoverController.delegate = self;
-	[settingsViewController release];
 	
 	[popoverController showPopover:YES];
 }
@@ -669,7 +671,6 @@
 			albumViewController.subReddit = appDelegate.favoritesItem;
 			albumViewController.bFavorites = YES;
 			[self.navigationController pushViewController:albumViewController animated:YES];
-			[albumViewController release];
 		}
 	}
 	else {
@@ -679,7 +680,6 @@
 			albumViewController.subReddit = subReddit;
 			albumViewController.bFavorites = NO;
 			[self.navigationController pushViewController:albumViewController animated:YES];
-			[albumViewController release];
 		}
 	}
 }
@@ -713,7 +713,6 @@
 
 // PopoverControllerDelegate
 - (void)popoverControllerDidDismissed:(PopoverController *)controller {
-	[popoverController release];
 	popoverController = nil;
 }
 

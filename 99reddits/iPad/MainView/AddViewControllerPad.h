@@ -13,12 +13,12 @@
 
 @interface AddViewControllerPad : UIViewController <UITextFieldDelegate> {
 	RedditsAppDelegate *appDelegate;
-	RedditsViewControllerPad *redditsViewController;
+	RedditsViewControllerPad *__weak redditsViewController;
 	
 	IBOutlet UITextField *urlTextField;
 	IBOutlet UIButton *tipButton;
 }
 
-@property (nonatomic, assign) RedditsViewControllerPad *redditsViewController;
+@property (nonatomic, weak) RedditsViewControllerPad *redditsViewController;
 
 @end

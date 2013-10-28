@@ -14,7 +14,7 @@
 
 @interface RedditsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
 	RedditsAppDelegate *appDelegate;
-	MainViewController *mainViewController;
+	MainViewController *__weak mainViewController;
 	
 	IBOutlet UITableView *contentTableView;
 	
@@ -25,7 +25,7 @@
 	NSString *manualAddedNameString;
 }
 
-@property (nonatomic, assign) MainViewController *mainViewController;
+@property (nonatomic, weak) MainViewController *mainViewController;
 
 - (void)onManualAdded:(NSString *)nameString;
 

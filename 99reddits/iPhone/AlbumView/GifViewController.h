@@ -22,12 +22,12 @@
 	
 	BOOL hidden;
 	
-	PhotoView *photoView;
+	PhotoView *__weak photoView;
 }
 
-@property (nonatomic, retain) NSData *gifData;
+@property (nonatomic, strong) NSData *gifData;
 @property (nonatomic) int width;
 @property (nonatomic) int height;
-@property (nonatomic, assign) PhotoView *photoView;
+@property (nonatomic, weak) PhotoView *photoView;
 
 @end

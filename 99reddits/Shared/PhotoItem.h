@@ -22,12 +22,12 @@
 //	BOOL showed;
 }
 
-@property (nonatomic, retain) NSString *idString;
-@property (nonatomic, retain) NSString *nameString;
-@property (nonatomic, retain) NSString *permalinkString;
-@property (nonatomic, retain) NSString *thumbnailString;
-@property (nonatomic, retain) NSString *titleString;
-@property (nonatomic, retain) NSString *urlString;
+@property (nonatomic, strong) NSString *idString;
+@property (nonatomic, strong) NSString *nameString;
+@property (nonatomic, strong) NSString *permalinkString;
+@property (nonatomic, strong) NSString *thumbnailString;
+@property (nonatomic, strong) NSString *titleString;
+@property (nonatomic, strong) NSString *urlString;
 //@property (nonatomic) BOOL showed;
 
 - (BOOL)isShowed;

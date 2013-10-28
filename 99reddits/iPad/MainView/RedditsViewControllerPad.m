@@ -14,9 +14,6 @@
 
 @interface RedditsViewControllerPad ()
 
-- (IBAction)onDoneButton:(id)sender;
-- (IBAction)onAddButton:(id)sender;
-
 @end
 
 @implementation RedditsViewControllerPad
@@ -31,15 +28,6 @@
     return self;
 }
 
-- (void)dealloc {
-	[categoryArray release];
-	[sectionArray release];
-	[nameStringsSet release];
-	[manualAddedNameString release];
-	
-	[contentTableView release];
-	[super dealloc];
-}
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
@@ -52,7 +40,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	
+
+	self.navigationItem.title = @"Add Sub-reddits";
+	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(onAddButton:)];
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onDoneButton:)];
+	if (isIOS7Below) {
+		self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+	}
+	else {
+		[self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+
+		contentTableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
+	}
+
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	
 	categoryArray = [[NSMutableArray alloc] init];
@@ -140,7 +140,7 @@
 			}
 			
 			if (!bExist) {
-				SubRedditItem *subReddit = [[[SubRedditItem alloc] init] autorelease];
+				SubRedditItem *subReddit = [[SubRedditItem alloc] init];
 				subReddit.nameString = nameString;
 				subReddit.urlString = [NSString stringWithFormat:SUBREDDIT_FORMAT1, subReddit.nameString];
 				subReddit.subscribe = YES;
@@ -170,7 +170,6 @@
 	AddViewControllerPad *addViewController = [[AddViewControllerPad alloc] initWithNibName:@"AddViewControllerPad" bundle:nil];
 	addViewController.redditsViewController = self;
 	[self.navigationController pushViewController:addViewController animated:YES];
-	[addViewController release];
 }
 
 // UITableViewDatasource, UITableViewDelegate
@@ -179,7 +178,10 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	return [categoryArray objectAtIndex:section];
+	if (isIOS7Below)
+		return [categoryArray objectAtIndex:section];
+	else
+		return [NSString stringWithFormat:@"   %@", [categoryArray objectAtIndex:section]];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -191,7 +193,7 @@
 	
 	UITableViewCell *cell = [contentTableView dequeueReusableCellWithIdentifier:identifier];
 	if (cell == nil) {
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier] autorelease];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
 		cell.accessoryType = UITableViewCellAccessoryNone;
 		cell.textLabel.font = [UIFont boldSystemFontOfSize:20];
 		cell.textLabel.textColor = [UIColor blackColor];
@@ -202,11 +204,14 @@
 	NSString *nameString = [section objectAtIndex:indexPath.row];
 	cell.textLabel.text = nameString;
 	if ([nameStringsSet containsObject:[nameString lowercaseString]]) {
-		cell.backgroundView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"CheckCellBack.png"]] autorelease];
-		cell.imageView.image = [UIImage imageNamed:@"CheckIcon.png"];
+		cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"CheckCellBack.png"]];
+		if (isIOS7Below)
+			cell.imageView.image = [UIImage imageNamed:@"CheckIcon.png"];
+		else
+			cell.imageView.image = [UIImage imageNamed:@"CheckBlueIcon.png"];
 	}
 	else {
-		cell.backgroundView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"UncheckCellBack.png"]] autorelease];
+		cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"UncheckCellBack.png"]];
 		cell.imageView.image = [UIImage imageNamed:@"UncheckIcon.png"];
 	}
 	
@@ -227,18 +232,21 @@
 	
 	UITableViewCell *cell = [contentTableView cellForRowAtIndexPath:indexPath];
 	if ([nameStringsSet containsObject:[nameString lowercaseString]]) {
-		cell.backgroundView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"CheckCellBack.png"]] autorelease];
-		cell.imageView.image = [UIImage imageNamed:@"CheckIcon.png"];
+		cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"CheckCellBack.png"]];
+		if (isIOS7Below)
+			cell.imageView.image = [UIImage imageNamed:@"CheckIcon.png"];
+		else
+			cell.imageView.image = [UIImage imageNamed:@"CheckBlueIcon.png"];
 	}
 	else {
-		cell.backgroundView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"UncheckCellBack.png"]] autorelease];
+		cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"UncheckCellBack.png"]];
 		cell.imageView.image = [UIImage imageNamed:@"UncheckIcon.png"];
 	}
 }
 
 - (void)onManualAdded:(NSString *)nameString {
 	if (nameString)
-		manualAddedNameString = [nameString retain];
+		manualAddedNameString = nameString;
 	else
 		manualAddedNameString = nil;
 	[self onDoneButton:nil];

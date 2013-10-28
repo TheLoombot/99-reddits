@@ -49,3 +49,5 @@ NSString *normalStrings[] = {
 	@"û",	@"Û",	@"Û",	@"ü",	@"ü",	@"Ü",	@"Ü",	@"ÿ",	@"ÿ",	@"´",
 	@"`"
 };
+
+BOOL isIOS7Below;

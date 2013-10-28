@@ -47,21 +47,15 @@
 		[request clearDelegatesAndCancel];
 	}
 	
-	NI_RELEASE_SAFELY(activeRequests);
-	NI_RELEASE_SAFELY(thumbnailImageCache);
-	NI_RELEASE_SAFELY(refreshQueue);
-	NI_RELEASE_SAFELY(queue);
+	activeRequests = nil;
+	thumbnailImageCache = nil;
+	refreshQueue = nil;
+	queue = nil;
 }
 
 - (void)dealloc {
 	[self releaseObjects];
 	
-	[settingsItem release];
-	[editItem release];
-	[doneItem release];
-	[addItem release];
-	[refreshControl release];
-	[super dealloc];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -88,7 +82,7 @@
 	subRedditsArray = appDelegate.subRedditsArray;
 	
 	refreshControl = [[UIRefreshControl alloc] init];
-	refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
+	refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 	[refreshControl addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
 	self.refreshControl = refreshControl;
 
@@ -181,7 +175,6 @@
 	RedditsViewController *redditsViewController = [[RedditsViewController alloc] initWithNibName:@"RedditsViewController" bundle:nil];
 	redditsViewController.mainViewController = self;
 	[self presentViewController:redditsViewController animated:YES completion:nil];
-	[redditsViewController release];
 }
 
 // UITableViewDatasource, UITableViewDelegate
@@ -193,7 +186,7 @@
 	static NSString *identifer = @"MAINVIEWCELL";
 	MainViewCell *cell = (MainViewCell *)[tableView dequeueReusableCellWithIdentifier:identifer];
 	if (cell == nil) {
-		cell = [[[MainViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifer] autorelease];
+		cell = [[MainViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifer];
 	}
 	
 	if (indexPath.row == 0) {
@@ -264,7 +257,6 @@
 			albumViewController.subReddit = appDelegate.favoritesItem;
 			albumViewController.bFavorites = YES;
 			[self.navigationController pushViewController:albumViewController animated:YES];
-			[albumViewController release];
 		}
 	}
 	else {
@@ -276,7 +268,6 @@
 			albumViewController.subReddit = subReddit;
 			albumViewController.bFavorites = NO;
 			[self.navigationController pushViewController:albumViewController animated:YES];
-			[albumViewController release];
 		}
 	}
 }
@@ -331,10 +322,9 @@
 }
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-	SubRedditItem *subReddit = [[subRedditsArray objectAtIndex:fromIndexPath.row - 1] retain];
+	SubRedditItem *subReddit = [subRedditsArray objectAtIndex:fromIndexPath.row - 1];
 	[subRedditsArray removeObjectAtIndex:fromIndexPath.row - 1];
 	[subRedditsArray insertObject:subReddit atIndex:toIndexPath.row - 1];
-	[subReddit release];
 	
 	[appDelegate saveToDefaults];
 }
@@ -356,7 +346,7 @@
 	if (refreshCount != 0)
 		return;
 	
-	self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Refreshing..."] autorelease];
+	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing..."];
 	[self.refreshControl beginRefreshing];
 	
 	editItem.enabled = NO;
@@ -407,7 +397,7 @@
 	if (subReddit == nil) {
 		refreshCount --;
 		if (refreshCount == 0) {
-			self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
+			self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 			[self.refreshControl endRefreshing];
 
 			editItem.enabled = YES;
@@ -433,11 +423,10 @@
 	[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index + 1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 
 	[tempPhotosArray removeAllObjects];
-	[tempPhotosArray release];
 	
 	refreshCount --;
 	if (refreshCount == 0) {
-		self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
+		self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 		[self.refreshControl endRefreshing];
 		
 		editItem.enabled = YES;
@@ -462,7 +451,7 @@
 	if (subReddit == nil) {
 		refreshCount --;
 		if (refreshCount == 0) {
-			self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
+			self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 			[self.refreshControl endRefreshing];
 
 			editItem.enabled = YES;
@@ -479,7 +468,7 @@
 
 	refreshCount --;
 	if (refreshCount == 0) {
-		self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Pull to Refresh"] autorelease];
+		self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 		[self.refreshControl endRefreshing];
 		
 		editItem.enabled = YES;
@@ -554,7 +543,6 @@
             [photosArray addObject:photo];
 		}
 		
-		[photo release];
 	}
 	
 	NSString *afterString = [data objectForKey:@"after"];
@@ -568,7 +556,7 @@
 	if (![appDelegate checkNetworkReachable:YES])
 		return;
 
-	self.refreshControl.attributedTitle = [[[NSAttributedString alloc] initWithString:@"Refreshing..."] autorelease];
+	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing..."];
 	[self.refreshControl beginRefreshing];
 	
 	editItem.enabled = NO;
@@ -614,7 +602,7 @@
 	
 	NSURL *url = [NSURL URLWithString:source];
 	
-	__block NIHTTPRequest *readOp = [NIHTTPRequest requestWithURL:url usingCache:[ASIDownloadCache sharedCache]];
+	__block NIHTTPRequest __weak *readOp = [NIHTTPRequest requestWithURL:url usingCache:[ASIDownloadCache sharedCache]];
 	readOp.cacheStoragePolicy = ASICachePermanentlyCacheStoragePolicy;
 	readOp.timeOutSeconds = 30;
 	
@@ -699,7 +687,6 @@
 - (IBAction)onSettingsButton:(id)sender {
 	SettingsViewController *settingsViewController = [[SettingsViewController alloc] initWithNibName:@"SettingsViewController" bundle:nil];
 	[self presentViewController:settingsViewController animated:YES completion:nil];
-	[settingsViewController release];
 }
 
 - (void)removeSubRedditOperations:(SubRedditItem *)subReddit {

@@ -30,14 +30,6 @@
     return self;
 }
 
-- (void)dealloc {
-	[_gifData release];
-	[_tapGesture release];
-	
-	[webView release];
-	[overlayView release];
-	[super dealloc];
-}
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
@@ -155,8 +147,7 @@
 }
 
 - (void)setGifData:(NSData *)gifData {
-	[_gifData release];
-	_gifData = [gifData retain];
+	_gifData = gifData;
 }
 
 - (void)didTap {

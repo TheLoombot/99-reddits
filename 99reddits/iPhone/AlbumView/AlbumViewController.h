@@ -53,8 +53,8 @@
 	BOOL initialized;
 }
 
-@property (nonatomic, retain) MainViewController *mainViewController;
-@property (nonatomic, retain) SubRedditItem *subReddit;
+@property (nonatomic, strong) MainViewController *mainViewController;
+@property (nonatomic, strong) SubRedditItem *subReddit;
 @property (nonatomic) BOOL bFavorites;
 
 - (IBAction)onMOARButton:(id)sender;

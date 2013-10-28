@@ -37,8 +37,8 @@
 	NSData *sharingData;
 
 	IBOutlet UIToolbar *rightItem;
-	IBOutlet UIBarButtonItem *commentItem;
 	IBOutlet UIBarButtonItem *actionItem;
+	UIBarButtonItem *commentItem;
 	UIBarButtonItem *favoriteWhiteItem;
 	UIBarButtonItem *favoriteRedItem;
 	
@@ -47,7 +47,7 @@
 	UIActionSheet *actionSheet;
 }
 
-@property (nonatomic, retain) SubRedditItem *subReddit;
+@property (nonatomic, strong) SubRedditItem *subReddit;
 @property (nonatomic) int index;
 @property (nonatomic) BOOL disappearForSubview;
 @property (nonatomic) BOOL bFavorites;

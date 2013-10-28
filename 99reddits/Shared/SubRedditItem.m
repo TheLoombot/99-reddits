@@ -47,7 +47,6 @@
 			NSArray *array = [unarchiver decodeObjectForKey:@"data"];
 			[unarchiver finishDecoding];
 			[photosArray addObjectsFromArray:array];
-			[unarchiver release];
 		}
 		
 		self.afterString = [decoder decodeObjectForKey:@"after"];
@@ -69,22 +68,12 @@
 	[archiver encodeObject:photosArray forKey:@"data"];
 	[archiver finishEncoding];
 	[encoder encodeObject:data forKey:@"photos"];
-	[archiver release];
-	[data release];
 	
 	[encoder encodeObject:self.afterString forKey:@"after"];
 	[encoder encodeObject:self.category forKey:@"category"];
 	[encoder encodeBool:self.subscribe forKey:@"subscribe"];
 }
 
-- (void)dealloc {
-	[nameString release];
-	[urlString release];
-	[photosArray release];
-	[afterString release];
-	[category release];
-	[super dealloc];
-}
 
 - (void)removeAllCaches {
 	for (PhotoItem *photo in photosArray) {
@@ -115,29 +104,25 @@
 }
 
 - (void)setNameString:(NSString *)_nameString {
-	[nameString release];
-	nameString = [_nameString retain];
+	nameString = _nameString;
 }
 
 - (void)setUrlString:(NSString *)_urlString {
-	[urlString release];
-	urlString = [_urlString retain];
+	urlString = _urlString;
 }
 
 - (void)setAfterString:(NSString *)_afterString {
-	[afterString release];
 	if (_afterString)
-		afterString = [_afterString retain];
+		afterString = _afterString;
 	else
-		afterString = [[NSString alloc] initWithString:@""];
+		afterString = @"";
 }
 
 - (void)setCategory:(NSString *)_category {
-	[category release];
 	if (_category)
-		category = [_category retain];
+		category = _category;
 	else
-		category = [[NSString alloc] initWithString:@""];
+		category = @"";
 }
 
 @end

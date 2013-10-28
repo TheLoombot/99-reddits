@@ -14,8 +14,8 @@
 
 @interface MainViewCellPad : UICollectionViewCell {
 	RedditsAppDelegate *appDelegate;
-	MainViewControllerPad *mainViewController;
-	SubRedditItem *subReddit;
+	MainViewControllerPad *__weak mainViewController;
+	SubRedditItem *__weak subReddit;
 
 	UIView *imageOutlineView;
 	UIImageView *imageView;
@@ -37,8 +37,8 @@
 	BOOL imageEmpty;
 }
 
-@property (nonatomic, assign) MainViewControllerPad *mainViewController;
-@property (nonatomic, assign) SubRedditItem *subReddit;
+@property (nonatomic, weak) MainViewControllerPad *mainViewController;
+@property (nonatomic, weak) SubRedditItem *subReddit;
 @property (nonatomic, readonly) UILabel *nameLabel;
 
 - (void)setUnshowedCount:(int)_unshowedCount totalCount:(int)_totalCount loading:(BOOL)_loading;

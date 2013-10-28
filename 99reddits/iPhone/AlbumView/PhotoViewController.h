@@ -42,7 +42,7 @@
 	BOOL bFavorites;
 }
 
-@property (nonatomic, retain) SubRedditItem *subReddit;
+@property (nonatomic, strong) SubRedditItem *subReddit;
 @property (nonatomic) int index;
 @property (nonatomic) BOOL disappearForSubview;
 @property (nonatomic) BOOL bFavorites;

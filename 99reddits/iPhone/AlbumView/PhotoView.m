@@ -17,13 +17,13 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-		activityIndicator = [[[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge] autorelease];
+		activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
 		activityIndicator.center = self.center;
 		activityIndicator.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
 		[activityIndicator startAnimating];
 		[self addSubview:activityIndicator];
 		
-		playButton = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+		playButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		playButton.frame = CGRectMake(0, 0, 73, 73);
 		playButton.center = self.center;
 		playButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleRightMargin;
@@ -32,19 +32,10 @@
 		
 		UITapGestureRecognizer *gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onPlay:)];
 		[playButton addGestureRecognizer:gesture];
-		[gesture release];
     }
     return self;
 }
 
-- (void)dealloc {
-	[activityIndicator release];
-	[playButton release];
-	[gifData release];
-	[photoViewController release];
-	[popoverController release];
-	[super dealloc];
-}
 
 - (void)setImage:(UIImage *)image photoSize:(NIPhotoScrollViewPhotoSize)photoSize {
 	[super setImage:image photoSize:photoSize];
@@ -68,17 +59,15 @@
 	popoverController = [[PopoverController alloc] initWithContentViewController:gifViewController];
 	popoverController.delegate = self;
 	popoverController.fullscreen = YES;
-	[gifViewController release];
 	
 	[popoverController showPopover:NO];
 }
 
 - (void)setGifData:(NSData *)data {
-	[gifData release];
 	gifData = nil;
 	
 	if (data) {
-		gifData = [data retain];
+		gifData = data;
 		playButton.hidden = NO;
 	}
 	else {
@@ -92,7 +81,6 @@
 
 // PopoverControllerDelegate
 - (void)popoverControllerDidDismissed:(PopoverController *)controller {
-	[popoverController release];
 	popoverController = nil;
 
 	BOOL hidden = [UIApplication sharedApplication].statusBarHidden;

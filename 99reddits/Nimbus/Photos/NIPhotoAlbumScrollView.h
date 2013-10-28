@@ -40,10 +40,10 @@
  */
 @interface NIPhotoAlbumScrollView : NIPagingScrollView <NIPhotoScrollViewDelegate> {
 @private
-  // Configurable Properties
-  UIImage* _loadingImage;
-  BOOL _zoomingIsEnabled;
-  BOOL _zoomingAboveOriginalSizeIsEnabled;
+	// Configurable Properties
+	UIImage* _loadingImage;
+	BOOL _zoomingIsEnabled;
+	BOOL _zoomingAboveOriginalSizeIsEnabled;
 }
 
 #pragma mark Data Source
@@ -93,11 +93,11 @@
  *
  * Example:
  *
-@code
-- (id<NIPagingScrollViewPage>)pagingScrollView:(NIPagingScrollView *)pagingScrollView pageForIndex:(NSInteger)pageIndex {
-  return [self.photoAlbumView pagingScrollView:pagingScrollView pageForIndex:pageIndex];
-}
-@endcode
+ @code
+ - (id<NIPagingScrollViewPage>)pagingScrollView:(NIPagingScrollView *)pagingScrollView pageForIndex:(NSInteger)pageIndex {
+ return [self.photoAlbumView pagingScrollView:pagingScrollView pageForIndex:pageIndex];
+ }
+ @endcode
  *
  * Automatically uses the paging scroll view's page recycling methods and creates
  * NIPhotoScrollViews as needed.

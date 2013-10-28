@@ -14,7 +14,7 @@
 
 @interface AlbumViewCellPad : UICollectionViewCell {
 	RedditsAppDelegate *appDelegate;
-	AlbumViewControllerPad *albumViewController;
+	AlbumViewControllerPad *__weak albumViewController;
 
 	PhotoItem *photo;
 	BOOL bFavorites;
@@ -28,8 +28,8 @@
 	BOOL imageEmpty;
 }
 
-@property (nonatomic, assign) AlbumViewControllerPad *albumViewController;
-@property (nonatomic, retain) PhotoItem *photo;
+@property (nonatomic, weak) AlbumViewControllerPad *albumViewController;
+@property (nonatomic, strong) PhotoItem *photo;
 @property (nonatomic) BOOL bFavorites;
 
 - (void)setThumbImage:(UIImage *)thumbImage animated:(BOOL)animated;

@@ -11,7 +11,7 @@
 
 @interface PopoverWindow : UIWindow
 
-@property (nonatomic, retain) UIWindow *oldKeyWindow;
+@property (nonatomic, strong) UIWindow *oldKeyWindow;
 
 @end
 
@@ -29,16 +29,12 @@
 	[self.oldKeyWindow makeKeyWindow];
 }
 
-- (void)dealloc {
-	self.oldKeyWindow = nil;
-	[super dealloc];
-}
 
 @end
 
 @interface PopoverViewController : UIViewController
 
-@property (nonatomic, assign) UIViewController *contentViewController;
+@property (nonatomic, weak) UIViewController *contentViewController;
 @property (nonatomic, assign) BOOL fullscreen;
 
 @end
@@ -96,17 +92,12 @@
 - (id)initWithContentViewController:(UIViewController *)viewController {
 	self = [super init];
 	if (self) {
-		contentViewController = [viewController retain];
+		contentViewController = viewController;
 	}
 	
 	return self;
 }
 
-- (void)dealloc {
-	[contentViewController release];
-	[window release];
-	[super dealloc];
-}
 
 - (void)showPopover:(BOOL)animated {
 	[[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate date]];
@@ -116,7 +107,7 @@
 	contentViewController.view.clipsToBounds = YES;
 	contentViewController.view.layer.cornerRadius = 5;
 
-	PopoverViewController *popoverViewController = [[[PopoverViewController alloc] init] autorelease];
+	PopoverViewController *popoverViewController = [[PopoverViewController alloc] init];
 	popoverViewController.view.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.5];
 	popoverViewController.contentViewController = contentViewController;
 	popoverViewController.fullscreen = fullscreen;

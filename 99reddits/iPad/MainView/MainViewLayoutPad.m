@@ -36,24 +36,26 @@ static NSString * const kMainViewLayoutPadScrollingDirectionKey = @"LXScrollingD
 		self.minimumInteritemSpacing = 0;
 		self.minimumLineSpacing = 0;
 		self.scrollDirection = UICollectionViewScrollDirectionVertical;
-		if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
-			self.sectionInset = UIEdgeInsetsMake(10, 2, 15, 7);
+		if (isIOS7Below) {
+			if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
+				self.sectionInset = UIEdgeInsetsMake(10, 2, 15, 7);
+			}
+			else {
+				self.sectionInset = UIEdgeInsetsMake(10, 15, 15, 20);
+			}
 		}
 		else {
-			self.sectionInset = UIEdgeInsetsMake(10, 15, 15, 20);
+			if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
+				self.sectionInset = UIEdgeInsetsMake(74, 2, 15, 7);
+			}
+			else {
+				self.sectionInset = UIEdgeInsetsMake(74, 15, 15, 20);
+			}
 		}
 	}
 	return self;
 }
 
-- (void)dealloc {
-	self.scrollingTimer = nil;
-	self.longPressGestureRecognizer = nil;
-	self.panGestureRecognizer = nil;
-	self.selectedItemIndexPath = nil;
-	self.currentView = nil;
-	[super dealloc];
-}
 
 - (BOOL)isEditing {
 	if ([[self.collectionView.delegate class] conformsToProtocol:@protocol(MainViewLayoutPadDelegate)]) {
@@ -110,7 +112,7 @@ static NSString * const kMainViewLayoutPadScrollingDirectionKey = @"LXScrollingD
 }
 
 - (void)setUpGestureRecognizersOnCollectionView {
-	UILongPressGestureRecognizer *theLongPressGestureRecognizer = [[[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)] autorelease];
+	UILongPressGestureRecognizer *theLongPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(handleLongPressGesture:)];
 	// Links the default long press gesture recognizer to the custom long press gesture recognizer we are creating now
 	// by enforcing failure dependency so that they doesn't clash.
 	for (UIGestureRecognizer *theGestureRecognizer in self.collectionView.gestureRecognizers) {
@@ -122,7 +124,7 @@ static NSString * const kMainViewLayoutPadScrollingDirectionKey = @"LXScrollingD
 	[self.collectionView addGestureRecognizer:theLongPressGestureRecognizer];
 	self.longPressGestureRecognizer = theLongPressGestureRecognizer;
 	
-	UIPanGestureRecognizer *thePanGestureRecognizer = [[[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)] autorelease];
+	UIPanGestureRecognizer *thePanGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handlePanGesture:)];
 	thePanGestureRecognizer.delegate = self;
 	[self.collectionView addGestureRecognizer:thePanGestureRecognizer];
 	self.panGestureRecognizer = thePanGestureRecognizer;
@@ -143,9 +145,9 @@ static NSString * const kMainViewLayoutPadScrollingDirectionKey = @"LXScrollingD
 }
 
 - (void)invalidateLayoutIfNecessary {
-	NSIndexPath *theIndexPathOfSelectedItem = [[[self.collectionView indexPathForItemAtPoint:self.currentView.center] retain] autorelease];
+	NSIndexPath *theIndexPathOfSelectedItem = [self.collectionView indexPathForItemAtPoint:self.currentView.center];
 	if ((![theIndexPathOfSelectedItem isEqual:self.selectedItemIndexPath]) &&(theIndexPathOfSelectedItem)) {
-		NSIndexPath *thePreviousSelectedIndexPath = [[self.selectedItemIndexPath retain] autorelease];
+		NSIndexPath *thePreviousSelectedIndexPath = self.selectedItemIndexPath;
 		self.selectedItemIndexPath = theIndexPathOfSelectedItem;
 		
 		id<MainViewLayoutPadDelegate> theDelegate = (id<MainViewLayoutPadDelegate>) self.collectionView.delegate;
@@ -240,7 +242,7 @@ static NSString * const kMainViewLayoutPadScrollingDirectionKey = @"LXScrollingD
 	switch (theLongPressGestureRecognizer.state) {
 		case UIGestureRecognizerStateBegan: {
 			CGPoint theLocationInCollectionView = [theLongPressGestureRecognizer locationInView:self.collectionView];
-			NSIndexPath *theIndexPathOfSelectedItem = [[[self.collectionView indexPathForItemAtPoint:theLocationInCollectionView] retain] autorelease];
+			NSIndexPath *theIndexPathOfSelectedItem = [self.collectionView indexPathForItemAtPoint:theLocationInCollectionView];
 			
 			if ([self.collectionView.delegate conformsToProtocol:@protocol(MainViewLayoutPadDelegate)]) {
 				id<MainViewLayoutPadDelegate> theDelegate = (id<MainViewLayoutPadDelegate>)self.collectionView.delegate;
@@ -263,10 +265,10 @@ static NSString * const kMainViewLayoutPadScrollingDirectionKey = @"LXScrollingD
 			UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
 			UIGraphicsEndImageContext();
 			
-			UIImageView *theImageView = [[[UIImageView alloc] initWithImage:theImage] autorelease];
+			UIImageView *theImageView = [[UIImageView alloc] initWithImage:theImage];
 			theImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 
-			UIView *theView = [[[UIView alloc] initWithFrame:CGRectMake(CGRectGetMinX(theCollectionViewCell.frame), CGRectGetMinY(theCollectionViewCell.frame), CGRectGetWidth(theImageView.frame), CGRectGetHeight(theImageView.frame))] autorelease];
+			UIView *theView = [[UIView alloc] initWithFrame:CGRectMake(CGRectGetMinX(theCollectionViewCell.frame), CGRectGetMinY(theCollectionViewCell.frame), CGRectGetWidth(theImageView.frame), CGRectGetHeight(theImageView.frame))];
 			
 			[theView addSubview:theImageView];
 			
@@ -293,7 +295,7 @@ static NSString * const kMainViewLayoutPadScrollingDirectionKey = @"LXScrollingD
 			[self invalidateLayout];
 		} break;
 		case UIGestureRecognizerStateEnded: {
-			NSIndexPath *theIndexPathOfSelectedItem = [[self.selectedItemIndexPath retain] autorelease];
+			NSIndexPath *theIndexPathOfSelectedItem = self.selectedItemIndexPath;
 			
 			if ([self.collectionView.delegate conformsToProtocol:@protocol(MainViewLayoutPadDelegate)]) {
 				id<MainViewLayoutPadDelegate> theDelegate = (id<MainViewLayoutPadDelegate>)self.collectionView.delegate;
@@ -506,11 +508,21 @@ static NSString * const kMainViewLayoutPadScrollingDirectionKey = @"LXScrollingD
 }
 
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds {
-	if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
-		self.sectionInset = UIEdgeInsetsMake(10, 2, 15, 7);
+	if (isIOS7Below) {
+		if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
+			self.sectionInset = UIEdgeInsetsMake(10, 2, 15, 7);
+		}
+		else {
+			self.sectionInset = UIEdgeInsetsMake(10, 15, 15, 20);
+		}
 	}
 	else {
-		self.sectionInset = UIEdgeInsetsMake(10, 15, 15, 20);
+		if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
+			self.sectionInset = UIEdgeInsetsMake(74, 2, 15, 7);
+		}
+		else {
+			self.sectionInset = UIEdgeInsetsMake(74, 15, 15, 20);
+		}
 	}
 	return YES;
 }

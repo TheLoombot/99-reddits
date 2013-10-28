@@ -29,11 +29,6 @@
     return self;
 }
 
-- (void)dealloc {
-	[urlTextField release];
-	[tipButton release];
-	[super dealloc];
-}
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.

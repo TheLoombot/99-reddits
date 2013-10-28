@@ -17,7 +17,6 @@
 
 @interface SettingsViewControllerPad ()
 
-- (IBAction)onDoneButton:(id)sender;
 - (IBAction)onUpgradeForMOARButton:(id)sender;
 - (IBAction)onRestoreUpgradeButton:(id)sender;
 - (IBAction)onClearButton:(id)sender;
@@ -50,25 +49,7 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:kProductPurchaseFailedNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:kProductPurchaseRestoreFinishedNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:kProductPurchaseRestoreFailedNotification object:nil];
-	[hud release];
-	hud = nil;
-	[imagesSeenString release];
-	[titleString release];
-	[imagesToNextTitleString release];
 	
-	[contentScrollView release];
-	[buttonsView release];
-	[upgradeForMOARButton release];
-	[restoreUpdateButton release];
-	[aboutView release];
-	[clearButton release];
-	[contentTableView release];
-	[aboutOutlineButton release];
-	[aboutWebView release];
-	[emailButton release];
-	[tweetButton release];
-	[rateAppButton release];
-	[super dealloc];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -82,7 +63,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	
+
+	self.title = @"Settings";
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onDoneButton:)];
+	if (isIOS7Below) {
+		self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+	}
+	else {
+		[self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+	}
+
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	
 	for (id subview in aboutWebView.subviews)
@@ -90,8 +80,6 @@
 			((UIScrollView *)subview).bounces = NO;
 	
 	self.view.backgroundColor = [self groupTableViewBackgroundColor];
-	
-	contentScrollView.frame = CGRectMake(0, 44, self.view.bounds.size.width, self.view.bounds.size.height - 44);
 	
 	[upgradeForMOARButton setBackgroundImage:[[UIImage imageNamed:@"UpgradeButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
 	[restoreUpdateButton setBackgroundImage:[[UIImage imageNamed:@"UpgradeButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
@@ -105,23 +93,21 @@
 	NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
 	[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
 	
-	imagesSeenString = [[formatter stringFromNumber:[NSNumber numberWithInteger:showedCount]] retain];
+	imagesSeenString = [formatter stringFromNumber:[NSNumber numberWithInteger:showedCount]];
 	int imagesSeenLevel = showedCount / 1000;
 	if (imagesSeenLevel > 80)
 		imagesSeenLevel = 80;
 	NSString *key = [NSString stringWithFormat:@"%d", imagesSeenLevel * 1000 - 1];
 	
 	NSDictionary *titleDictionary = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Titles" ofType:@"plist"]];
-	titleString = [[titleDictionary objectForKey:key] retain];
+	titleString = [titleDictionary objectForKey:key];
 
-	if (showedCount < 80000)
-    {
-        imagesToNextTitleString = [[formatter stringFromNumber:[NSNumber numberWithInt:(imagesSeenLevel + 1) * 1000 - showedCount]] retain];
-    } else {
+	if (showedCount < 80000) {
+        imagesToNextTitleString = [formatter stringFromNumber:[NSNumber numberWithInt:(imagesSeenLevel + 1) * 1000 - showedCount]];
+    }
+	else {
         imagesToNextTitleString = @"You win!";
     }
-	
-	[formatter release];
 	
 	[aboutOutlineButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:10] forState:UIControlStateNormal];
 	[emailButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
@@ -131,9 +117,19 @@
 	[rateAppButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
 	[rateAppButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateHighlighted];
 
+	if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7) {
+		self.edgesForExtendedLayout = UIRectEdgeNone;
+		self.extendedLayoutIncludesOpaqueBars = NO;
+		self.automaticallyAdjustsScrollViewInsets = NO;
+	}
+
+	UIImageView *infoBackView = [[UIImageView alloc] initWithFrame:contentTableView.frame];
+	infoBackView.image = [[UIImage imageNamed:@"SettingsInfoBack.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
+	[aboutView insertSubview:infoBackView belowSubview:contentTableView];
+
 	contentTableView.backgroundColor = [UIColor clearColor];
 	contentTableView.backgroundView = nil;
-	
+
 	[self refreshViews];
 	
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(productsLoaded:) name:kProductsLoadedNotification object:nil];
@@ -159,7 +155,7 @@
 	return YES;
 }
 
-- (IBAction)onDoneButton:(id)sender {
+- (void)onDoneButton:(id)sender {
 	[mainViewController dismissPopover];
 }
 
@@ -172,7 +168,8 @@
 	static NSString *identifier = @"SETTINGS_VIEW_CELL";
 	UITableViewCell *cell = [contentTableView dequeueReusableCellWithIdentifier:identifier];
 	if (cell == nil) {
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier] autorelease];
+		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+		cell.backgroundColor = [UIColor clearColor];
 		cell.accessoryType = UITableViewCellAccessoryNone;
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		cell.textLabel.font = [UIFont boldSystemFontOfSize:16];
@@ -252,7 +249,6 @@
 - (void)timeout:(id)arg {
 	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Timeout" message:@"Please try again later" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 	[alertView show];
-	[alertView release];
 	
 	[PurchaseManager sharedManager].delegate = nil;
 	
@@ -298,7 +294,6 @@
     if (transaction.error.code != SKErrorPaymentCancelled) {
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:transaction.error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 		[alertView show];
-		[alertView release];
     }
 }
 
@@ -321,7 +316,6 @@
 	if (error.code != SKErrorPaymentCancelled) {
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[(NSError *)notification.object localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
 		[alertView show];
-		[alertView release];
 	}
 }
 
@@ -370,12 +364,11 @@
 		[mailComposeViewController setToRecipients:[NSArray arrayWithObject:@"99reddits@lensie.com"]];
 		
 		[self presentViewController:mailComposeViewController animated:YES completion:nil];
-		[mailComposeViewController release];
 	}
 }
 
 - (IBAction)onTweetButton:(id)sender {
-	SLComposeViewController *tweetComposeViewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+	SLComposeViewController __weak *tweetComposeViewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
 	[tweetComposeViewController setInitialText:@"@99reddits "];
 	
 	tweetComposeViewController.completionHandler = ^(SLComposeViewControllerResult result) {
@@ -398,7 +391,6 @@
 	UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Clear the Cache" otherButtonTitles:nil];
 	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
 	[actionSheet showFromRect:clearButton.frame inView:aboutView animated:YES];
-	[actionSheet release];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {

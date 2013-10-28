@@ -13,7 +13,6 @@
 #import <Crashlytics/Crashlytics.h>
 #import "MainViewControllerPad.h"
 #import "RedditsViewControllerPad.h"
-#import <FacebookSDK/FacebookSDK.h>
 
 @implementation UINavigationController (iOS6OrientationFix)
 
@@ -42,7 +41,14 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-	[[UIApplication sharedApplication] setStatusBarHidden:NO];
+	[application setStatusBarHidden:NO];
+
+	isIOS7Below = ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0);
+	if (!isIOS7Below) {
+		self.window.backgroundColor = [UIColor whiteColor];
+		mainNavigationController.navigationBar.barStyle = UIBarStyleDefault;
+		mainNavigationController.navigationBar.translucent = YES;
+	}
 
     [Crashlytics startWithAPIKey:@"7228ed62a7b305f3ee6ec449adbda49637b3168a"];
 	NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
@@ -54,7 +60,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 	showedSet = [[NSMutableSet alloc] init];
 	
 	[self loadFromDefaults];
-	
+
 	self.window.rootViewController = mainNavigationController;
 	[self.window makeKeyAndVisible];
 
@@ -81,27 +87,13 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-	[FBSettings publishInstall:@"253475838035936"];
 	[self checkNetworkReachable:YES];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
 	[self saveToDefaults];
 }
-
-- (void)dealloc {
-	[favoritesItem release];
-	[favoritesSet release];
-	[subRedditsArray release];
-	[nameStringsSet release];
-	[showedSet release];
-	[connectionAlertView release];
-	
-	[mainNavigationController release];
-	[_window release];
-    [super dealloc];
-}
-
+\
 - (void)loadFromDefaults {
 	firstRun = NO;
 	
@@ -114,7 +106,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 			NSArray *array = [unarchiver decodeObjectForKey:@"data"];
 			[unarchiver finishDecoding];
 			[subRedditsArray addObjectsFromArray:array];
-			[unarchiver release];
 		}
 
 		float version = [[defaults objectForKey:@"DATA_VERSION"] floatValue];
@@ -135,7 +126,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 					subReddit.urlString = [NSString stringWithFormat:SUBREDDIT_FORMAT1, subReddit.nameString];
 					subReddit.subscribe = YES;
 					[subRedditsArray addObject:subReddit];
-					[subReddit release];
 				}
 			}
 		}
@@ -150,7 +140,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 				if (subReddit.subscribe)
 					[subRedditsArray addObject:subReddit];
 			}
-			[unarchiver release];
 			
 			[defaults removeObjectForKey:@"STATIC_SUBREDDITS"];
 			
@@ -163,7 +152,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 					if (subReddit.subscribe)
 						[subRedditsArray addObject:subReddit];
 				}
-				[unarchiver release];
 			}
 			
 			[defaults removeObjectForKey:@"MANUAL_SUBREDDITS"];
@@ -185,7 +173,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 					subReddit.urlString = [NSString stringWithFormat:SUBREDDIT_FORMAT1, subReddit.nameString];
 					subReddit.subscribe = YES;
 					[subRedditsArray addObject:subReddit];
-					[subReddit release];
 				}
 			}
 			
@@ -209,9 +196,8 @@ void uncaughtExceptionHandler(NSException *exception) {
 	NSData *favoritesData = [defaults objectForKey:@"FAVORITES_ITEM"];
 	if (favoritesData) {
 		NSKeyedUnarchiver *favoritesUnarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:favoritesData];
-		favoritesItem = [[favoritesUnarchiver decodeObjectForKey:@"data"] retain];
+		favoritesItem = [favoritesUnarchiver decodeObjectForKey:@"data"];
 		[favoritesUnarchiver finishDecoding];
-		[favoritesUnarchiver release];
 		favoritesSet = [[NSMutableSet alloc] initWithArray:[defaults objectForKey:@"FAVORITES_SET"]];
 	}
 	
@@ -233,8 +219,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 	[archiver encodeObject:subRedditsArray forKey:@"data"];
 	[archiver finishEncoding];
 	[defaults setObject:data forKey:@"SUBREDDITS"];
-	[archiver release];
-	[data release];
 	
 	[defaults setObject:[showedSet allObjects] forKey:@"SHOWEDSET"];
 	
@@ -253,8 +237,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 	[favoritesArchiver encodeObject:favoritesItem forKey:@"data"];
 	[favoritesArchiver finishEncoding];
 	[defaults setObject:favoritesData forKey:@"FAVORITES_ITEM"];
-	[favoritesArchiver release];
-	[favoritesData release];
 	
 	[defaults setObject:[favoritesSet allObjects] forKey:@"FAVORITES_SET"];
 	
@@ -406,19 +388,23 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 
 - (void)setNavAppearance {
-	[[UINavigationBar appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:[UIImage imageNamed:@"NavBarBack.png"] forBarMetrics:UIBarMetricsDefault];
-	[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:[[UIImage imageNamed:@"BarButtonBack.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-	[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:[[UIImage imageNamed:@"BarButtonBackHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
-	[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackButtonBackgroundImage:[[UIImage imageNamed:@"BarBackButtonBack.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 14, 0, 5)] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-	[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackButtonBackgroundImage:[[UIImage imageNamed:@"BarBackButtonBackHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 14, 0, 5)] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+	if (isIOS7Below) {
+		[[UINavigationBar appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:[UIImage imageNamed:@"NavBarBack.png"] forBarMetrics:UIBarMetricsDefault];
+		[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:[[UIImage imageNamed:@"BarButtonBack.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+		[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:[[UIImage imageNamed:@"BarButtonBackHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+		[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackButtonBackgroundImage:[[UIImage imageNamed:@"BarBackButtonBack.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 14, 0, 5)] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+		[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackButtonBackgroundImage:[[UIImage imageNamed:@"BarBackButtonBackHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 14, 0, 5)] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+	}
 }
 
 - (void)unsetNavAppearance {
-	[[UINavigationBar appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
-	[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-	[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
-	[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackButtonBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-	[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackButtonBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+	if (isIOS7Below) {
+		[[UINavigationBar appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
+		[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+		[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+		[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackButtonBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+		[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackButtonBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+	}
 }
 
 - (void)refreshNameStringsSet {

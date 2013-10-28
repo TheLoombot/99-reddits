@@ -13,8 +13,6 @@
 
 @interface AddViewControllerPad ()
 
-- (IBAction)onCancelButton;
-
 @end
 
 @implementation AddViewControllerPad
@@ -29,11 +27,6 @@
     return self;
 }
 
-- (void)dealloc {
-	[urlTextField release];
-	[tipButton release];
-	[super dealloc];
-}
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
@@ -46,7 +39,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	
+
+	self.navigationItem.title = @"Type a Sub-reddit";
+	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(onCancelButton:)];
+
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	
 	urlTextField.text = @"/r/";
@@ -72,7 +68,7 @@
 	return YES;
 }
 
-- (IBAction)onCancelButton {
+- (IBAction)onCancelButton:(id)sender {
 	[self.navigationController popViewControllerAnimated:YES];
 }
 

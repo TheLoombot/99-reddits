@@ -17,6 +17,7 @@
 
 extern NSString *htmlStrings[];
 extern NSString *normalStrings[];
+extern BOOL isIOS7Below;
 
 #define PRODUCT_ID						@"PAID_USER"
 

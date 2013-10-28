@@ -11,12 +11,11 @@
 @interface CommentViewControllerPad : UIViewController <UIWebViewDelegate, UIActionSheetDelegate> {
 	NSString *urlString;
 
-	IBOutlet UINavigationItem *navItem;
 	IBOutlet UIToolbar *leftItem;
 	IBOutlet UIToolbar *rightItem;
+	IBOutlet UIBarButtonItem *closeItem;
+	IBOutlet UIBarButtonItem *shareItem;
 	IBOutlet UIWebView *webView;
-	IBOutlet UIView *titleView;
-	IBOutlet UILabel *titleLabel;
 	IBOutlet UILabel *urlLabel;
 
 	BOOL loading;
@@ -25,7 +24,7 @@
 	UITapGestureRecognizer *actionSheetTapGesture;
 }
 
-@property (nonatomic, retain) NSString *urlString;
+@property (nonatomic, strong) NSString *urlString;
 
 - (IBAction)onCloseButton:(id)sender;
 - (IBAction)onShareButton:(id)sender;

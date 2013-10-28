@@ -23,11 +23,6 @@
 	return self;
 }
 
-- (void)dealloc {
-	[deleteIndexPaths release];
-	[insertIndexPaths release];
-	[super dealloc];
-}
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewLayoutAttributes *attributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
@@ -62,9 +57,7 @@
 - (void)finalizeCollectionViewUpdates {
 	[super finalizeCollectionViewUpdates];
 
-	[deleteIndexPaths release];
 	deleteIndexPaths = nil;
-	[insertIndexPaths release];
 	insertIndexPaths = nil;
 }
 

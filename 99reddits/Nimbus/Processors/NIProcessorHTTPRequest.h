@@ -35,12 +35,12 @@
  */
 @interface NIProcessorHTTPRequest : NIHTTPRequest {
 @private
-  id _processedObject;
+	id _processedObject;
 
-  id<NIProcessorDelegate> _processorDelegate;
+	id<NIProcessorDelegate> _processorDelegate;
 
 #if NS_BLOCKS_AVAILABLE
-  NIProcessorBlock _processDataBlock;
+	NIProcessorBlock _processDataBlock;
 #endif
 }
 

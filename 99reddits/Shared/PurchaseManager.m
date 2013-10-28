@@ -42,7 +42,6 @@ static PurchaseManager *_sharedManager;
 
 - (void)productsRequest:(SKProductsRequest *)request didReceiveResponse:(SKProductsResponse *)response {
 	self.products = response.products;
-	[productsRequest release];
 	productsRequest = nil;
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:kProductsLoadedNotification object:products];    
@@ -104,10 +103,6 @@ static PurchaseManager *_sharedManager;
 
 - (void)dealloc {
 	[[SKPaymentQueue defaultQueue] removeTransactionObserver:self];
-	[productIdentifiers release];
-	[products release];
-	[productsRequest release];
-	[super dealloc];
 }
 
 @end

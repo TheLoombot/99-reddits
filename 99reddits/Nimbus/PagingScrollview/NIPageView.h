@@ -27,8 +27,8 @@
  */
 @interface NIPageView : UIView <NIPagingScrollViewPage> {
 @private
-  NSInteger _pageIndex;
-  NSString* _reuseIdentifier;
+	NSInteger _pageIndex;
+	NSString* _reuseIdentifier;
 }
 
 @property (nonatomic, readwrite, assign) NSInteger pageIndex;

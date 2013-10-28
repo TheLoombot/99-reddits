@@ -16,8 +16,8 @@
 
 @interface SettingsViewControllerPad : UIViewController <UITableViewDelegate, UITableViewDataSource, UIWebViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate> {
 	RedditsAppDelegate *appDelegate;
-	MainViewControllerPad *mainViewController;
-	
+	MainViewControllerPad *__weak mainViewController;
+
 	IBOutlet UIScrollView *contentScrollView;
 	IBOutlet UIView *buttonsView;
 	IBOutlet UIButton *upgradeForMOARButton;
@@ -39,7 +39,7 @@
 	MBProgressHUD *hud;
 }
 
-@property (retain) MBProgressHUD *hud;
-@property (nonatomic, assign) MainViewControllerPad *mainViewController;
+@property (strong) MBProgressHUD *hud;
+@property (nonatomic, weak) MainViewControllerPad *mainViewController;
 
 @end

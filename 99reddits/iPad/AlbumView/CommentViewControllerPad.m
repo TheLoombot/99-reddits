@@ -26,33 +26,32 @@
 }
 
 - (void)dealloc {
-	[urlString release];
-	[navItem release];
-	[leftItem release];
-	[rightItem release];
 	if (loading) {
 		[webView stopLoading];
 		NINetworkActivityTaskDidFinish();
 	}
-	[webView release];
-	[titleView release];
-	[titleLabel release];
-	[urlLabel release];
-	[actionSheet release];
-	[actionSheetTapGesture release];
-	[super dealloc];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-	[leftItem setBackgroundImage:[UIImage imageNamed:@"Transparent.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
-	[rightItem setBackgroundImage:[UIImage imageNamed:@"Transparent.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
-	navItem.leftBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:leftItem] autorelease];
-	navItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:rightItem] autorelease];
+	if (isIOS7Below) {
+		self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
+		[leftItem setBackgroundImage:[UIImage imageNamed:@"Transparent.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+		[rightItem setBackgroundImage:[UIImage imageNamed:@"Transparent.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+		self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftItem];
+		self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightItem];
+		webView.scrollView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+		webView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(44, 0, 0, 0);
+	}
+	else {
+		self.navigationItem.leftBarButtonItem = closeItem;
+		self.navigationItem.rightBarButtonItem = shareItem;
+		webView.scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
+		webView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 0, 0);
+	}
 
-	navItem.titleView = titleView;
-	titleLabel.text = @"Loading...";
+	self.title = @"Loading...";
 	urlLabel.text = urlString;
 	[webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
 
@@ -71,18 +70,25 @@
 }
 
 - (IBAction)onCloseButton:(id)sender {
+	if (actionSheet) {
+		[actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:NO];
+		actionSheet = nil;
+	}
+
 	NSArray *subviews = webView.subviews;
 	for (UIView *subview in subviews) {
 		subview.clipsToBounds = YES;
 	}
-	[[[UIApplication sharedApplication].windows objectAtIndex:0] setBackgroundColor:[UIColor blackColor]];
-	[self dismissViewControllerAnimated:YES completion:nil];
+	if (isIOS7Below)
+		[[[UIApplication sharedApplication].windows objectAtIndex:0] setBackgroundColor:[UIColor blackColor]];
+	else
+		[[[UIApplication sharedApplication].windows objectAtIndex:0] setBackgroundColor:[UIColor whiteColor]];
+	[self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)onShareButton:(id)sender {
 	if (actionSheet) {
 		[actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:NO];
-		[actionSheet release];
 		actionSheet = nil;
 	}
 
@@ -94,7 +100,7 @@
 											   destructiveButtonTitle:nil
 													otherButtonTitles:@"Copy link", @"Open in Safari", nil];
 	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-	[actionSheet showFromBarButtonItem:navItem.rightBarButtonItem animated:YES];
+	[actionSheet showFromBarButtonItem:self.navigationItem.rightBarButtonItem animated:YES];
 }
 
 // UIActionSheetDelegate
@@ -105,7 +111,6 @@
 		return;
 
 	if (buttonIndex == actionSheet.cancelButtonIndex) {
-		[actionSheet release];
 		actionSheet = nil;
 		return;
 	}
@@ -118,7 +123,6 @@
 		[[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlString]];
 	}
 
-	[actionSheet release];
 	actionSheet = nil;
 }
 
@@ -131,7 +135,7 @@
 - (void)webViewDidFinishLoad:(UIWebView *)wv {
 	loading = NO;
 	NINetworkActivityTaskDidFinish();
-	titleLabel.text = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+	self.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
 }
 
 - (void)onActionSheetTapGesture:(UITapGestureRecognizer *)gesture {

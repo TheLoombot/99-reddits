@@ -38,13 +38,6 @@
     return self;
 }
 
-- (void)dealloc {
-	[activityIndicator release];
-	[unshowedBackImageView release];
-	[unshowedLabel release];
-	[animateImageView release];
-	[super dealloc];
-}
 
 - (void)layoutSubviews {
 	[super layoutSubviews];
@@ -146,7 +139,6 @@
 - (void)setThumbImage:(UIImage *)thumbImage animated:(BOOL)animated {
 	[animateImageView.layer removeAllAnimations];
 	[animateImageView removeFromSuperview];
-	[animateImageView release];
 	animateImageView = nil;
 
 	if (thumbImage == nil) {
@@ -167,7 +159,6 @@
 							 }
 							 completion:^(BOOL finished) {
 								 [animateImageView removeFromSuperview];
-								 [animateImageView release];
 								 animateImageView = nil;
 								 if (finished) {
 									 self.imageView.image = thumbImage;

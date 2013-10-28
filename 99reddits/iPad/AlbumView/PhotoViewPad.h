@@ -21,7 +21,7 @@
 	PopoverController *popoverController;
 }
 
-@property (nonatomic, retain) PhotoViewControllerPad *photoViewController;
+@property (nonatomic, strong) PhotoViewControllerPad *photoViewController;
 
 - (void)setGifData:(NSData *)data;
 - (void)dismissPopover;

@@ -52,33 +52,15 @@
 		[request clearDelegatesAndCancel];
 	}
 	
-	NI_RELEASE_SAFELY(activeRequests);
-	NI_RELEASE_SAFELY(thumbnailImageCache);
-	NI_RELEASE_SAFELY(refreshQueue);
-	NI_RELEASE_SAFELY(queue);
-	NI_RELEASE_SAFELY(currentSubReddit);
+	activeRequests = nil;
+	thumbnailImageCache = nil;
+	refreshQueue = nil;
+	queue = nil;
+	currentSubReddit = nil;
 }
 
 - (void)dealloc {
 	[self releaseObjects];
-	
-	[subReddit release];
-	[mainViewController release];
-	[currentPhotosArray release];
-	
-	[contentCollectionView release];
-	[footerView release];
-	[moarButton release];
-	[moarWaitingView release];
-	[tabBar release];
-	[hotItem release];
-	[newItem release];
-	[controversialItem release];
-	[topItem release];
-	[showTypeSegmentedControl release];
-	[actionSheet release];
-	[actionSheetTapGesture release];
-	[super dealloc];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -103,7 +85,7 @@
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	
 	self.title = subReddit.nameString;
-	self.navigationItem.backBarButtonItem = [[[UIBarButtonItem alloc] initWithTitle:subReddit.nameString style:UIBarButtonItemStyleBordered target:nil action:nil] autorelease];
+	self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:subReddit.nameString style:UIBarButtonItemStyleBordered target:nil action:nil];
 
 	refreshQueue = [[NSOperationQueue alloc] init];
 	[queue setMaxConcurrentOperationCount:5];
@@ -126,9 +108,11 @@
 	[moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateHighlighted];
 	[moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateDisabled];
 	moarWaitingView.hidden = YES;
-	
-	[showTypeSegmentedControl setBackgroundImage:[[UIImage imageNamed:@"BarButtonBack.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-	[showTypeSegmentedControl setBackgroundImage:[[UIImage imageNamed:@"BarButtonBackHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)] forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+
+	if (isIOS7Below) {
+		[showTypeSegmentedControl setBackgroundImage:[[UIImage imageNamed:@"BarButtonBack.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+		[showTypeSegmentedControl setBackgroundImage:[[UIImage imageNamed:@"BarButtonBackHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)] forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
+	}
 
 	[appDelegate checkNetworkReachable:YES];
 	
@@ -137,9 +121,9 @@
 	
 	currentPhotosArray = [[NSMutableArray alloc] init];
 	if (bFavorites) {
-		currentSubReddit = [subReddit retain];
+		currentSubReddit = subReddit;
 
-		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(onActionButton:)] autorelease];
+		self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(onActionButton:)];
 	}
 	else {
 		currentSubReddit = [[SubRedditItem alloc] init];
@@ -148,14 +132,35 @@
 		[currentSubReddit.photosArray addObjectsFromArray:subReddit.photosArray];
 		currentSubReddit.afterString = subReddit.afterString;
 		
-		self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl] autorelease];
+		self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl];
 	}
-	
-	AlbumViewLayoutPad *albumViewLayout = [[[AlbumViewLayoutPad alloc] init] autorelease];
+
+	if (!isIOS7Below) {
+		self.view.backgroundColor = [UIColor whiteColor];
+		self.edgesForExtendedLayout = UIRectEdgeNone;
+		self.automaticallyAdjustsScrollViewInsets = NO;
+		self.extendedLayoutIncludesOpaqueBars = NO;
+
+		CGRect frame = contentCollectionView.frame;
+		frame.origin.y -= 64;
+		frame.size.height += 64;
+		if (!bFavorites)
+			frame.size.height += 49;
+		contentCollectionView.frame = frame;
+		contentCollectionView.backgroundColor = [UIColor whiteColor];
+		if (!bFavorites) {
+			contentCollectionView.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 49, 0);
+			contentCollectionView.contentInset = UIEdgeInsetsMake(0, 0, 49, 0);
+		}
+		else {
+			contentCollectionView.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 0, 0);
+		}
+	}
+
+	AlbumViewLayoutPad *albumViewLayout = [[AlbumViewLayoutPad alloc] init];
 	if (!bFavorites) {
 		albumViewLayout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, 60);
 	}
-
 	contentCollectionView.allowsSelection = YES;
 	contentCollectionView.allowsMultipleSelection = NO;
 	contentCollectionView.delaysContentTouches = NO;
@@ -210,10 +215,9 @@
 		photoViewController.subReddit = currentSubReddit;
 		photoViewController.index = [currentSubReddit.photosArray indexOfObject:photo];
 		[self.navigationController pushViewController:photoViewController animated:YES];
-		[photoViewController release];
 	}
 	else {
-		SubRedditItem *photoSubReddit = [[[SubRedditItem alloc] init] autorelease];
+		SubRedditItem *photoSubReddit = [[SubRedditItem alloc] init];
 		photoSubReddit.nameString = currentSubReddit.nameString;
 		photoSubReddit.urlString = currentSubReddit.urlString;
 		[photoSubReddit.photosArray addObjectsFromArray:currentPhotosArray];
@@ -224,12 +228,12 @@
 		photoViewController.subReddit = photoSubReddit;
 		photoViewController.index = [currentPhotosArray indexOfObject:photo];
 		[self.navigationController pushViewController:photoViewController animated:YES];
-		[photoViewController release];
 	}
 }
 
 // UICollectionViewDelegate, UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+	[collectionView.collectionViewLayout invalidateLayout];
 	return 1;
 }
 
@@ -281,8 +285,8 @@
 }
 
 - (void)requestImageFromSource:(NSString *)source photoIndex:(NSInteger)photoIndex {
-	//	if (![appDelegate checkNetworkReachable:NO])
-	//		return;
+//	if (![appDelegate checkNetworkReachable:NO])
+//		return;
 	
 	if (source.length == 0)
 		return;
@@ -294,7 +298,7 @@
 	
 	NSURL *url = [NSURL URLWithString:source];
 	
-	__block NIHTTPRequest *readOp = [NIHTTPRequest requestWithURL:url usingCache:[ASIDownloadCache sharedCache]];
+	__block NIHTTPRequest __weak *readOp = [NIHTTPRequest requestWithURL:url usingCache:[ASIDownloadCache sharedCache]];
 	readOp.cacheStoragePolicy = ASICachePermanentlyCacheStoragePolicy;
 	readOp.timeOutSeconds = 30;
 	readOp.tag = photoIndex;
@@ -352,8 +356,7 @@
 }
 
 - (void)setSubReddit:(SubRedditItem *)_subReddit {
-	[subReddit release];
-	subReddit = [_subReddit retain];
+	subReddit = _subReddit;
 }
 
 - (IBAction)onMOARButton:(id)sender {
@@ -361,7 +364,6 @@
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"This is a paid feature. It's cheap." message:nil delegate:self cancelButtonTitle:@"No thanks" otherButtonTitles:@"Buy", nil];
 		alertView.tag = 100;
 		[alertView show];
-		[alertView release];
 		
 		return;
 	}
@@ -398,7 +400,6 @@
 	if (!appDelegate.isPaid) {
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"This is a paid feature. It's cheap." message:nil delegate:self cancelButtonTitle:@"No thanks" otherButtonTitles:@"Buy", nil];
 		[alertView show];
-		[alertView release];
 		
 		tabBar.selectedItem = hotItem;
 		
@@ -417,7 +418,6 @@
 	
 	[activeRequests removeAllObjects];
 	
-	[currentSubReddit release];
 	
 	moarButton.enabled = NO;
 	[moarButton setTitle:@"" forState:UIControlStateNormal];
@@ -626,7 +626,6 @@
 			
             [photosArray addObject:photo];
 		}
-		[photo release];
 	}
 	
 	NSString *afterString = [data objectForKey:@"after"];
@@ -672,7 +671,7 @@
 			self.title = [NSString stringWithFormat:@"%@ (%d)", subReddit.nameString, unshowedCount];
 
 			showTypeSegmentedControl.userInteractionEnabled = YES;
-			self.navigationItem.rightBarButtonItem = [[[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl] autorelease];
+			self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl];
 		}
 		else {
 			self.title = subReddit.nameString;
@@ -740,7 +739,6 @@
 - (void)onActionButton:(id)sender {
 	if (actionSheet) {
 		[actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:NO];
-		[actionSheet release];
 		actionSheet = nil;
 	}
 
@@ -770,11 +768,10 @@
 		if (!appDelegate.isPaid) {
 			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"This is a paid feature. It's cheap." message:nil delegate:self cancelButtonTitle:@"No thanks" otherButtonTitles:@"Buy", nil];
 			[alertView show];
-			[alertView release];
 		}
 		else {
 			if ([MFMailComposeViewController canSendMail]) {
-				MFMailComposeViewController *mailComposeViewController = [[[MFMailComposeViewController alloc] init] autorelease];
+				MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
 				mailComposeViewController.mailComposeDelegate = self;
 				[mailComposeViewController setSubject:@"99 reddits Favorites Export"];
 				[mailComposeViewController setMessageBody:[appDelegate getFavoritesEmailString] isHTML:YES];
@@ -788,10 +785,8 @@
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Clear ALL your favorites?" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
 		alertView.tag = 101;
 		[alertView show];
-		[alertView release];
 	}
 
-	[actionSheet release];
 	actionSheet = nil;
 }
 

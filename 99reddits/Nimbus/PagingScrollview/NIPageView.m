@@ -30,9 +30,9 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)dealloc {
-  NI_RELEASE_SAFELY(_reuseIdentifier);
+	NI_RELEASE_SAFELY(_reuseIdentifier);
 
-  [super dealloc];
+	[super dealloc];
 }
 
 

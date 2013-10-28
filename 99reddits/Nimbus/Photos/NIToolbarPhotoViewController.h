@@ -70,39 +70,42 @@
  * @endcode
  */
 @interface NIToolbarPhotoViewController : UIViewController <
-  NIPhotoAlbumScrollViewDelegate,
-  NIPhotoScrubberViewDelegate > {
+NIPhotoAlbumScrollViewDelegate,
+NIPhotoScrubberViewDelegate > {
 @private
-  // Views
-  UIToolbar*              _toolbar;
-  UILabel *				  _titleLabel;
-  NIPhotoAlbumScrollView* _photoAlbumView;
+	// Views
+	UIToolbar *             _toolbar;
+	UILabel *				_titleLabel;
+	UIToolbar *				_titleLabelBar;
+	NIPhotoAlbumScrollView* _photoAlbumView;
 
-  // Scrubber View
-  NIPhotoScrubberView* _photoScrubberView;
+	// Scrubber View
+	NIPhotoScrubberView* _photoScrubberView;
 
-  // Toolbar Buttons
-  UIBarButtonItem* _nextButton;
-  UIBarButtonItem* _previousButton;
+	// Toolbar Buttons
+	UIBarButtonItem* _nextButton;
+	UIBarButtonItem* _previousButton;
 
-  // Gestures
-  UITapGestureRecognizer* _tapGesture;
+	// Gestures
+	UITapGestureRecognizer* _tapGesture;
 
-  // State
-  BOOL _isAnimatingChrome;
-  BOOL _isChromeHidden;
+	// State
+	BOOL _isAnimatingChrome;
+	BOOL _isChromeHidden;
 
-  // Configuration
-  BOOL _toolbarIsTranslucent;
-  BOOL _hidesChromeWhenScrolling;
-  BOOL _chromeCanBeHidden;
-  BOOL _animateMovingToNextAndPreviousPhotos;
-  BOOL _scrubberIsEnabled;
+	// Configuration
+	BOOL _toolbarIsTranslucent;
+	BOOL _hidesChromeWhenScrolling;
+	BOOL _chromeCanBeHidden;
+	BOOL _animateMovingToNextAndPreviousPhotos;
+	BOOL _scrubberIsEnabled;
+
+	UIImageView *navImageView;
 
 @public
-  int toolbarOffset;
-  IBOutlet UIButton *prevPhotoButton;
-  IBOutlet UIButton *nextPhotoButton;
+	int toolbarOffset;
+	IBOutlet UIButton *prevPhotoButton;
+	IBOutlet UIButton *nextPhotoButton;
 }
 
 #pragma mark Configuring Functionality
@@ -118,6 +121,7 @@
 
 @property (nonatomic, readonly, retain) UIToolbar* toolbar;
 @property (nonatomic, readonly, retain) UILabel *titleLabel;
+@property (nonatomic, readonly, retain) UIToolbar *titleLabelBar;
 @property (nonatomic, readonly, retain) NIPhotoAlbumScrollView* photoAlbumView;
 @property (nonatomic, readonly, retain) NIPhotoScrubberView* photoScrubberView;
 

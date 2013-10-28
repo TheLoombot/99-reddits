@@ -32,13 +32,13 @@
 
 @property (assign, nonatomic) UIEdgeInsets triggerScrollingEdgeInsets;
 @property (assign, nonatomic) CGFloat scrollingSpeed;
-@property (retain, nonatomic) NSTimer *scrollingTimer;
+@property (strong, nonatomic) NSTimer *scrollingTimer;
 
-@property (retain, nonatomic) UILongPressGestureRecognizer *longPressGestureRecognizer;
-@property (retain, nonatomic) UIPanGestureRecognizer *panGestureRecognizer;
+@property (strong, nonatomic) UILongPressGestureRecognizer *longPressGestureRecognizer;
+@property (strong, nonatomic) UIPanGestureRecognizer *panGestureRecognizer;
 
-@property (retain, nonatomic) NSIndexPath *selectedItemIndexPath;
-@property (retain, nonatomic) UIView *currentView;
+@property (strong, nonatomic) NSIndexPath *selectedItemIndexPath;
+@property (strong, nonatomic) UIView *currentView;
 @property (assign, nonatomic) CGPoint currentViewCenter;
 @property (assign, nonatomic) CGPoint panTranslationInCollectionView;
 

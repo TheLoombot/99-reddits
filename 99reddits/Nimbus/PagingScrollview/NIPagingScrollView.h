@@ -43,28 +43,28 @@ extern const CGFloat NIPagingScrollViewDefaultPageHorizontalMargin;
  */
 @interface NIPagingScrollView : UIView <UIScrollViewDelegate> {
 @private
-  // Views
-  UIScrollView* _pagingScrollView;
+	// Views
+	UIScrollView* _pagingScrollView;
 
-  // Pages
-  NSMutableSet* _visiblePages;
-  NIViewRecycler* _viewRecycler;
+	// Pages
+	NSMutableSet* _visiblePages;
+	NIViewRecycler* _viewRecycler;
 
-  // Configurable Properties
-  CGFloat _pageHorizontalMargin;
+	// Configurable Properties
+	CGFloat _pageHorizontalMargin;
 
-  // State Information
-  NSInteger _firstVisiblePageIndexBeforeRotation;
-  CGFloat _percentScrolledIntoFirstVisiblePage;
-  BOOL _isModifyingContentOffset;
-  BOOL _isAnimatingToPage;
-  NSInteger _centerPageIndex;
+	// State Information
+	NSInteger _firstVisiblePageIndexBeforeRotation;
+	CGFloat _percentScrolledIntoFirstVisiblePage;
+	BOOL _isModifyingContentOffset;
+	BOOL _isAnimatingToPage;
+	NSInteger _centerPageIndex;
 
-  // Cached Data Source Information
-  NSInteger _numberOfPages;
+	// Cached Data Source Information
+	NSInteger _numberOfPages;
 
-  id<NIPagingScrollViewDataSource> _dataSource;
-  id<NIPagingScrollViewDelegate> _delegate;
+	id<NIPagingScrollViewDataSource> _dataSource;
+	id<NIPagingScrollViewDelegate> _delegate;
 }
 
 #pragma mark Data Source

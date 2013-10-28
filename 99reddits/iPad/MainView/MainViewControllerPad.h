@@ -11,6 +11,7 @@
 #import "NIProcessorHTTPRequest.h"
 #import "PopoverController.h"
 #import "MainViewLayoutPad.h"
+#import "CustomRefreshControl.h"
 
 @class RedditsAppDelegate;
 @class SubRedditItem;
@@ -22,7 +23,7 @@
 	IBOutlet UIBarButtonItem *editItem;
 	IBOutlet UIBarButtonItem *doneItem;
 	IBOutlet UIBarButtonItem *addItem;
-	UIRefreshControl *refreshControl;
+	CustomRefreshControl *refreshControl;
 
 	NSMutableArray *subRedditsArray;
 	

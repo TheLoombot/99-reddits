@@ -385,6 +385,7 @@
 	
 	if (!appDelegate.isPaid) {
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"This is a paid feature. It's cheap." message:nil delegate:self cancelButtonTitle:@"No thanks" otherButtonTitles:@"Buy", nil];
+		alertView.tag = 100;
 		[alertView show];
 		
 		tabBar.selectedItem = hotItem;
@@ -744,6 +745,7 @@
 	if (buttonIndex == 0) {
 		if (!appDelegate.isPaid) {
 			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"This is a paid feature. It's cheap." message:nil delegate:self cancelButtonTitle:@"No thanks" otherButtonTitles:@"Buy", nil];
+			alertView.tag = 100;
 			[alertView show];
 		}
 		else {

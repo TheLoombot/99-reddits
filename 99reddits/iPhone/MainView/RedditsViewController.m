@@ -43,6 +43,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+	self.title = @"Add Sub-reddits";
+	self.navigationItem.leftBarButtonItem = addButton;
+	self.navigationItem.rightBarButtonItem = doneButton;
 	
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 
@@ -157,13 +161,14 @@
 	[appDelegate refreshNameStringsSet];
 
 	mainViewController.lastAddedIndex = lastAddedIndex;
-	[self dismissViewControllerAnimated:YES completion:nil];
+	[self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)onAddButton:(id)sender {
 	AddViewController *addViewController = [[AddViewController alloc] initWithNibName:@"AddViewController" bundle:nil];
 	addViewController.redditsViewController = self;
-	[self presentViewController:addViewController animated:YES completion:nil];
+	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:addViewController];
+	[self presentViewController:navigationController animated:YES completion:nil];
 }
 
 // UITableViewDatasource, UITableViewDelegate
@@ -196,7 +201,10 @@
 	cell.textLabel.text = nameString;
 	if ([nameStringsSet containsObject:[nameString lowercaseString]]) {
 		cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"CheckCellBack.png"]];
-		cell.imageView.image = [UIImage imageNamed:@"CheckIcon.png"];
+		if (isIOS7Below)
+			cell.imageView.image = [UIImage imageNamed:@"CheckIcon.png"];
+		else
+			cell.imageView.image = [UIImage imageNamed:@"CheckBlueIcon.png"];
 	}
 	else {
 		cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"UncheckCellBack.png"]];
@@ -221,7 +229,10 @@
 	UITableViewCell *cell = [contentTableView cellForRowAtIndexPath:indexPath];
 	if ([nameStringsSet containsObject:[nameString lowercaseString]]) {
 		cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"CheckCellBack.png"]];
-		cell.imageView.image = [UIImage imageNamed:@"CheckIcon.png"];
+		if (isIOS7Below)
+			cell.imageView.image = [UIImage imageNamed:@"CheckIcon.png"];
+		else
+			cell.imageView.image = [UIImage imageNamed:@"CheckBlueIcon.png"];
 	}
 	else {
 		cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"UncheckCellBack.png"]];
@@ -234,7 +245,7 @@
 		manualAddedNameString = nameString;
 	else
 		manualAddedNameString = nil;
-	[self dismissViewControllerAnimated:NO completion:nil];
+	[self.navigationController dismissViewControllerAnimated:NO completion:nil];
 	[self onDoneButton:nil];
 }
 

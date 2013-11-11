@@ -207,14 +207,8 @@
 	CGRect titleLabelFrame = CGRectMake(0, 0, toolbarFrame.size.width, 30);
 	_titleLabel = [[[UILabel alloc] initWithFrame:titleLabelFrame] autorelease];
 	_titleLabel.backgroundColor = [UIColor clearColor];
-	if (isIOS7Below) {
-		_titleLabel.textColor = [UIColor whiteColor];
-		_titleLabel.shadowColor = [UIColor blackColor];
-	}
-	else {
-		_titleLabel.textColor = [UIColor blackColor];
-		_titleLabel.shadowColor = [UIColor whiteColor];
-	}
+	_titleLabel.textColor = [UIColor whiteColor];
+	_titleLabel.shadowColor = [UIColor blackColor];
 	_titleLabel.shadowOffset = CGSizeMake(0, -1);
 	_titleLabel.font = [UIFont boldSystemFontOfSize:16];
 	_titleLabel.textAlignment = NSTextAlignmentCenter;
@@ -232,7 +226,7 @@
 		[_titleLabelBar setBackgroundImage:image forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
 	}
 	else {
-		_titleLabelBar.barStyle = UIBarStyleDefault;
+		_titleLabelBar.barStyle = UIBarStyleBlackTranslucent;
 		_titleLabelBar.translucent = YES;
 		_titleLabelBar.tintColor = nil;
 		_titleLabelBar.barTintColor = nil;
@@ -254,7 +248,6 @@
 	[self.view addSubview:_toolbar];
 	[_titleLabelBar addSubview:_titleLabel];
 	[self.view addSubview:_titleLabelBar];
-
 
 	if (self.hidesChromeWhenScrolling) {
 		[self addTapGestureToView];
@@ -278,18 +271,16 @@
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 
-	if (isIOS7Below) {
-		[NINavigationAppearance pushAppearanceForNavigationController:self.navigationController];
+	[NINavigationAppearance pushAppearanceForNavigationController:self.navigationController];
 
-		[[UIApplication sharedApplication] setStatusBarStyle: (NIIsPad()
-															   ? UIStatusBarStyleBlackOpaque
-															   : UIStatusBarStyleBlackTranslucent)
-													animated: animated];
+	[[UIApplication sharedApplication] setStatusBarStyle: (NIIsPad()
+														   ? UIStatusBarStyleBlackOpaque
+														   : UIStatusBarStyleBlackTranslucent)
+												animated: animated];
 
-		UINavigationBar* navBar = self.navigationController.navigationBar;
-		navBar.barStyle = UIBarStyleBlack;
-		navBar.translucent = YES;
-	}
+	UINavigationBar* navBar = self.navigationController.navigationBar;
+	navBar.barStyle = UIBarStyleBlack;
+	navBar.translucent = YES;
 
 	_previousButton.enabled = [self.photoAlbumView hasPrevious];
 	_nextButton.enabled = [self.photoAlbumView hasNext];
@@ -309,9 +300,7 @@
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 
-	if (isIOS7Below) {
-		[NINavigationAppearance popAppearanceForNavigationController:self.navigationController animated:YES];
-	}
+	[NINavigationAppearance popAppearanceForNavigationController:self.navigationController animated:YES];
 }
 
 

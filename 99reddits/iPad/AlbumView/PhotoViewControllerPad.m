@@ -129,15 +129,9 @@
 
 	self.photoAlbumView.loadingImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"DefaultPhotoLarge" ofType:@"png"]];
 	self.photoAlbumView.dataSource = self;
-	if (isIOS7Below) {
-		self.photoAlbumView.backgroundColor = [UIColor blackColor];
-		self.photoAlbumView.photoViewBackgroundColor = [UIColor blackColor];
-	}
-	else {
-		self.photoAlbumView.backgroundColor = [UIColor whiteColor];
-		self.photoAlbumView.photoViewBackgroundColor = [UIColor whiteColor];
-	}
-	
+	self.photoAlbumView.backgroundColor = [UIColor blackColor];
+	self.photoAlbumView.photoViewBackgroundColor = [UIColor blackColor];
+
 	[self.photoAlbumView reloadData];
 	[self.photoAlbumView moveToPageAtIndex:index animated:NO];
 	
@@ -153,10 +147,6 @@
 	
 	[self.view bringSubviewToFront:prevPhotoButton];
 	[self.view bringSubviewToFront:nextPhotoButton];
-
-	if (!isIOS7Below) {
-		self.view.backgroundColor = [UIColor whiteColor];
-	}
 }
 
 - (void)viewDidUnload {

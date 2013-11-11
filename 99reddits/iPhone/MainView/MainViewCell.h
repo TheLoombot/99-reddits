@@ -10,6 +10,8 @@
 
 @interface MainViewCell : UITableViewCell {
 	UIActivityIndicatorView *activityIndicator;
+	UIImageView *contentImageView;
+	UILabel *contentTextLabel;
 	UIImageView *unshowedBackImageView;
 	UILabel *unshowedLabel;
 	UIImageView *animateImageView;
@@ -24,6 +26,8 @@
 
 	BOOL imageEmpty;
 }
+
+@property (nonatomic, readonly) UILabel *contentTextLabel;
 
 - (void)setUnshowedCount:(int)_unshowedCount totalCount:(int)_totalCount loading:(BOOL)_loading;
 - (void)setTotalCount:(int)_totalCount;

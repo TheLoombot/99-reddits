@@ -77,7 +77,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-	
+
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	subRedditsArray = appDelegate.subRedditsArray;
 	
@@ -114,6 +114,18 @@
 //		if (currentTime - appDelegate.updatedTime > 300)
 //			[self reloadData];
 	}
+
+	self.tableView.tableFooterView = footerView;
+
+	if (!isIOS7Below) {
+		self.view.backgroundColor = [UIColor whiteColor];
+		self.edgesForExtendedLayout = UIRectEdgeAll;
+		self.tableView.separatorInset = UIEdgeInsetsZero;
+	}
+
+	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
+	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateHighlighted];
+	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateDisabled];
 
 	lastAddedIndex = -1;
 }
@@ -174,7 +186,8 @@
 - (IBAction)onAddButton:(id)sender {
 	RedditsViewController *redditsViewController = [[RedditsViewController alloc] initWithNibName:@"RedditsViewController" bundle:nil];
 	redditsViewController.mainViewController = self;
-	[self presentViewController:redditsViewController animated:YES completion:nil];
+	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:redditsViewController];
+	[self presentViewController:navigationController animated:YES completion:nil];
 }
 
 // UITableViewDatasource, UITableViewDelegate
@@ -190,8 +203,9 @@
 	}
 	
 	if (indexPath.row == 0) {
-		cell.textLabel.text = appDelegate.favoritesItem.nameString;
-		
+//		cell.textLabel.text = appDelegate.favoritesItem.nameString;
+		cell.contentTextLabel.text = appDelegate.favoritesItem.nameString;
+
 		if (appDelegate.favoritesItem.photosArray.count == 0) {
 			cell.accessoryType = UITableViewCellAccessoryNone;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -216,8 +230,9 @@
 	}
 	else {
 		SubRedditItem *subReddit = [subRedditsArray objectAtIndex:indexPath.row - 1];
-		cell.textLabel.text = subReddit.nameString;
-		
+//		cell.textLabel.text = subReddit.nameString;
+		cell.contentTextLabel.text = subReddit.nameString;
+
 		if (subReddit.photosArray.count == 0 || subReddit.loading) {
 			cell.accessoryType = UITableViewCellAccessoryNone;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -273,9 +288,9 @@
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-	if (!self.editing)
-		return NO;
-	
+//	if (!self.editing)
+//		return NO;
+
 	if (indexPath.row == 0)
 		return NO;
 	
@@ -686,7 +701,8 @@
 
 - (IBAction)onSettingsButton:(id)sender {
 	SettingsViewController *settingsViewController = [[SettingsViewController alloc] initWithNibName:@"SettingsViewController" bundle:nil];
-	[self presentViewController:settingsViewController animated:YES completion:nil];
+	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
+	[self presentViewController:navigationController animated:YES completion:nil];
 }
 
 - (void)removeSubRedditOperations:(SubRedditItem *)subReddit {

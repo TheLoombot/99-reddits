@@ -17,13 +17,8 @@
 - (id)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-		if (isIOS7Below)
-			self.backgroundColor = [UIColor blackColor];
-		else
-			self.backgroundColor = [UIColor whiteColor];
+		self.backgroundColor = [UIColor blackColor];
 		activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-		if (!isIOS7Below)
-			activityIndicator.color = [UIColor blackColor];
 		activityIndicator.center = self.center;
 		activityIndicator.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
 		[activityIndicator startAnimating];

@@ -35,8 +35,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+	self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+	self.navigationController.navigationBar.translucent = YES;
+
 	if (isIOS7Below) {
-		self.navigationController.navigationBar.barStyle = UIBarStyleBlackTranslucent;
 		[leftItem setBackgroundImage:[UIImage imageNamed:@"Transparent.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
 		[rightItem setBackgroundImage:[UIImage imageNamed:@"Transparent.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
 		self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftItem];
@@ -52,7 +54,6 @@
 	}
 
 	self.title = @"Loading...";
-	urlLabel.text = urlString;
 	[webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
 
 	NSArray *subviews = webView.subviews;
@@ -79,10 +80,7 @@
 	for (UIView *subview in subviews) {
 		subview.clipsToBounds = YES;
 	}
-	if (isIOS7Below)
-		[[[UIApplication sharedApplication].windows objectAtIndex:0] setBackgroundColor:[UIColor blackColor]];
-	else
-		[[[UIApplication sharedApplication].windows objectAtIndex:0] setBackgroundColor:[UIColor whiteColor]];
+	[[[UIApplication sharedApplication].windows objectAtIndex:0] setBackgroundColor:[UIColor blackColor]];
 	[self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 

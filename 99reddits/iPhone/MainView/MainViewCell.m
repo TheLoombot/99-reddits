@@ -11,17 +11,29 @@
 
 @implementation MainViewCell
 
+@synthesize contentTextLabel;
+
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:reuseIdentifier];
     if (self) {
 		activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-		
+
+		contentImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 55, 55)];
+		contentImageView.contentMode = UIViewContentModeScaleAspectFill;
+		[self.contentView addSubview:contentImageView];
+
+		contentTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 0, 180, 55)];
+		contentTextLabel.font = [UIFont boldSystemFontOfSize:16];
+		contentTextLabel.textColor = [UIColor blackColor];
+		contentTextLabel.backgroundColor = [UIColor clearColor];
+		[self.contentView addSubview:contentTextLabel];
+
 		self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		self.selectionStyle = UITableViewCellSelectionStyleBlue;
-		self.textLabel.font = [UIFont boldSystemFontOfSize:16];
-		self.textLabel.textColor = [UIColor blackColor];
-		self.textLabel.backgroundColor = [UIColor clearColor];
-		
+//		self.textLabel.font = [UIFont boldSystemFontOfSize:16];
+//		self.textLabel.textColor = [UIColor blackColor];
+//		self.textLabel.backgroundColor = [UIColor clearColor];
+
 		unshowedBackImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 29, 29)];
 		unshowedBackImageView.image = [[UIImage imageNamed:@"BadgeBack.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0];
 		[self addSubview:unshowedBackImageView];
@@ -31,8 +43,8 @@
 		unshowedLabel.textColor = [UIColor whiteColor];
 		[self addSubview:unshowedLabel];
 
-		self.imageView.contentMode = UIViewContentModeScaleAspectFill;
-		
+//		self.imageView.contentMode = UIViewContentModeScaleAspectFill;
+
 		first = YES;
     }
     return self;
@@ -115,9 +127,9 @@
 	unshowedBackImageView.hidden = YES;
 	unshowedLabel.hidden = YES;
 	
-	CGRect frame = self.textLabel.frame;
-	frame.size.width = 180;
-	self.textLabel.frame = frame;
+//	CGRect frame = self.textLabel.frame;
+//	frame.size.width = 180;
+//	self.textLabel.frame = frame;
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
@@ -142,12 +154,14 @@
 	animateImageView = nil;
 
 	if (thumbImage == nil) {
-		self.imageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
+//		self.imageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
+		contentImageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
 		imageEmpty = YES;
 	}
 	else {
 		if (animated || imageEmpty) {
-			self.imageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
+//			self.imageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
+			contentImageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
 			animateImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 54, 54)];
 			animateImageView.image = thumbImage;
 			[self.contentView addSubview:animateImageView];
@@ -161,12 +175,14 @@
 								 [animateImageView removeFromSuperview];
 								 animateImageView = nil;
 								 if (finished) {
-									 self.imageView.image = thumbImage;
+//									 self.imageView.image = thumbImage;
+									 contentImageView.image = thumbImage;
 								 }
 							 }];
 		}
 		else {
-			self.imageView.image = thumbImage;
+//			self.imageView.image = thumbImage;
+			contentImageView.image = thumbImage;
 		}
 		imageEmpty = NO;
 	}

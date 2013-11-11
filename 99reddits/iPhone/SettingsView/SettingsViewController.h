@@ -15,7 +15,8 @@
 
 @interface SettingsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIWebViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate> {
 	RedditsAppDelegate *appDelegate;
-	
+
+	IBOutlet UIBarButtonItem *doneButton;
 	IBOutlet UIScrollView *contentScrollView;
 	IBOutlet UIView *buttonsView;
 	IBOutlet UIButton *upgradeForMOARButton;

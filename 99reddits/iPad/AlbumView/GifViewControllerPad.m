@@ -43,10 +43,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-	if (isIOS7Below)
-		self.view.backgroundColor = [UIColor blackColor];
-	else
-		self.view.backgroundColor = [UIColor whiteColor];
+	self.view.backgroundColor = [UIColor blackColor];
 	
 	_tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTap)];
 	_tapGesture.cancelsTouchesInView = NO;

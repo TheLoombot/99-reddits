@@ -129,13 +129,20 @@
 		self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 0, 0);
 	}
 
+	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
+	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateHighlighted];
+	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateDisabled];
+
 	MainViewLayoutPad *mainViewLayout = [[MainViewLayoutPad alloc] init];
+	mainViewLayout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, 60);
 	self.collectionView.allowsSelection = YES;
 	self.collectionView.allowsMultipleSelection = NO;
 	self.collectionView.delaysContentTouches = NO;
 	self.collectionView.canCancelContentTouches = YES;
 	[self.collectionView registerClass:[MainViewCellPad class] forCellWithReuseIdentifier:@"MAINVIEWCELLPAD"];
-	[self.collectionView setCollectionViewLayout:mainViewLayout];	
+	[self.collectionView registerClass:[MainViewCellPad class] forCellWithReuseIdentifier:@"MAINVIEWCELLPAD_FAVORITE"];
+	[self.collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"MAIN_FOOTER_VIEW_PAD"];
+	[self.collectionView setCollectionViewLayout:mainViewLayout];
 	[mainViewLayout setUpGestureRecognizersOnCollectionView];
 
 	lastAddedIndex = -1;
@@ -213,7 +220,11 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-	MainViewCellPad *cell = (MainViewCellPad *)[collectionView dequeueReusableCellWithReuseIdentifier:@"MAINVIEWCELLPAD" forIndexPath:indexPath];
+	MainViewCellPad *cell;
+	if (indexPath.row == 0)
+		cell = (MainViewCellPad *)[collectionView dequeueReusableCellWithReuseIdentifier:@"MAINVIEWCELLPAD_FAVORITE" forIndexPath:indexPath];
+	else
+		cell = (MainViewCellPad *)[collectionView dequeueReusableCellWithReuseIdentifier:@"MAINVIEWCELLPAD" forIndexPath:indexPath];
 	cell.mainViewController = self;
 	
 	if (indexPath.row == 0) {
@@ -295,6 +306,18 @@
 	
 	return YES;
 }
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+	UICollectionReusableView *collectionFooterView = [self.collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"MAIN_FOOTER_VIEW_PAD" forIndexPath:indexPath];
+	if (footerView.superview != collectionFooterView) {
+		[footerView removeFromSuperview];
+		footerView.center = CGPointMake(collectionFooterView.frame.size.width / 2, collectionFooterView.frame.size.height / 2);
+		[collectionFooterView addSubview:footerView];
+	}
+
+	return collectionFooterView;
+}
+
 
 - (void)reloadData {
 	if (self.editing)

@@ -20,6 +20,8 @@
 	IBOutlet UIBarButtonItem *editItem;
 	IBOutlet UIBarButtonItem *doneItem;
 	IBOutlet UIBarButtonItem *addItem;
+	IBOutlet UIView *footerView;
+	IBOutlet UIButton *addButton;
 	UIRefreshControl *refreshControl;
 
 	NSMutableArray *subRedditsArray;

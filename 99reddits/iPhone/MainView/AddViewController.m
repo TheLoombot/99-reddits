@@ -41,6 +41,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+	self.title = @"Type a Sub-reddit";
+	self.navigationItem.leftBarButtonItem = cancelButton;
 	
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	
@@ -73,7 +76,7 @@
 }
 
 - (IBAction)onCancelButton {
-	[self dismissViewControllerAnimated:YES completion:nil];
+	[self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {

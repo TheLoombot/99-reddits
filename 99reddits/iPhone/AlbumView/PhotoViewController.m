@@ -76,14 +76,20 @@
 
 	UIButton *redButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	redButton.frame = CGRectMake(0, 0, 25, 25);
-	redButton.showsTouchWhenHighlighted = YES;
+	if (isIOS7Below)
+		redButton.showsTouchWhenHighlighted = YES;
 	[redButton setBackgroundImage:[UIImage imageNamed:@"FavoritesRedIcon.png"] forState:UIControlStateNormal];
 	[redButton addTarget:self action:@selector(onFavoriteButton:) forControlEvents:UIControlEventTouchUpInside];
 	favoriteRedItem = [[UIBarButtonItem alloc] initWithCustomView:redButton];
 	UIButton *whiteButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	whiteButton.frame = CGRectMake(0, 0, 25, 25);
-	whiteButton.showsTouchWhenHighlighted = YES;
-	[whiteButton setBackgroundImage:[UIImage imageNamed:@"FavoritesWhiteIcon.png"] forState:UIControlStateNormal];
+	if (isIOS7Below) {
+		whiteButton.showsTouchWhenHighlighted = YES;
+		[whiteButton setBackgroundImage:[UIImage imageNamed:@"FavoritesWhiteIcon.png"] forState:UIControlStateNormal];
+	}
+	else {
+		[whiteButton setBackgroundImage:[UIImage imageNamed:@"FavoritesBlueIcon.png"] forState:UIControlStateNormal];
+	}
 	[whiteButton addTarget:self action:@selector(onFavoriteButton:) forControlEvents:UIControlEventTouchUpInside];
 	favoriteWhiteItem = [[UIBarButtonItem alloc] initWithCustomView:whiteButton];
 
@@ -111,7 +117,12 @@
 	[appDelegate checkNetworkReachable:YES];
 	
 	UIBarButtonItem *actionButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(onActionButton)];
-	UIBarButtonItem *commentButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"CommentIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onCommentButtonItem:)];
+
+	UIBarButtonItem *commentButtonItem;
+	if (isIOS7Below)
+		commentButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"CommentIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onCommentButtonItem:)];
+	else
+		commentButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"CommentBlueIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onCommentButtonItem:)];
 
 	NSMutableArray *items = [[NSMutableArray alloc] initWithArray:self.toolbar.items];
 	[items insertObject:actionButtonItem atIndex:0];
@@ -588,7 +599,8 @@
 	PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
 	CommentViewController *commentViewController = [[CommentViewController alloc] initWithNibName:@"CommentViewController" bundle:nil];
 	commentViewController.urlString = photo.permalinkString;
-	[self presentViewController:commentViewController animated:YES completion:nil];
+	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:commentViewController];
+	[self presentViewController:navigationController animated:YES completion:nil];
 }
 
 @end

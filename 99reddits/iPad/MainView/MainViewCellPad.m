@@ -81,6 +81,7 @@
 	totalCount = _totalCount;
 	loading = _loading;
 	bFavorites = NO;
+	deleteButton.alpha = 1.0;
 	
 	if (loading) {
 		if (![activityIndicator isAnimating]) {
@@ -125,6 +126,7 @@
 - (void)setTotalCount:(int)_totalCount {
 	totalCount = _totalCount;
 	bFavorites = YES;
+	deleteButton.alpha = 0.0;
 	
 	if ([activityIndicator isAnimating]) {
 		activityIndicator.hidden = YES;
@@ -141,11 +143,7 @@
 
 - (void)setEditing:(BOOL)_editing {
 	editing = _editing;
-	if (bFavorites)
-		deleteButton.hidden = YES;
-	else
-		deleteButton.hidden = !editing;
-	
+	deleteButton.hidden = !editing;
 	tapButton.hidden = editing;
 }
 

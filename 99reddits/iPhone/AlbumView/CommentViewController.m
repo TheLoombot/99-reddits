@@ -35,15 +35,25 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleBlackTranslucent];
-	[leftItem setBackgroundImage:[UIImage imageNamed:@"Transparent.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
-	[rightItem setBackgroundImage:[UIImage imageNamed:@"Transparent.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
-	navItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftItem];
-	navItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightItem];
+	self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+	self.navigationController.navigationBar.translucent = YES;
 
-	navItem.titleView = titleView;
-	titleLabel.text = @"Loading...";
-	urlLabel.text = urlString;
+	if (isIOS7Below) {
+		[leftItem setBackgroundImage:[UIImage imageNamed:@"Transparent.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+		[rightItem setBackgroundImage:[UIImage imageNamed:@"Transparent.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
+		self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftItem];
+		self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightItem];
+		webView.scrollView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+		webView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(44, 0, 0, 0);
+	}
+	else {
+		self.navigationItem.leftBarButtonItem = closeItem;
+		self.navigationItem.rightBarButtonItem = shareItem;
+		webView.scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
+		webView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 0, 0);
+	}
+
+	self.title = @"Loading...";
 	[webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
 
 	NSArray *subviews = webView.subviews;
@@ -63,10 +73,7 @@
 	for (UIView *subview in subviews) {
 		subview.clipsToBounds = YES;
 	}
-	if (isIOS7Below)
-		[[[UIApplication sharedApplication].windows objectAtIndex:0] setBackgroundColor:[UIColor blackColor]];
-	else
-		[[[UIApplication sharedApplication].windows objectAtIndex:0] setBackgroundColor:[UIColor whiteColor]];
+	[[[UIApplication sharedApplication].windows objectAtIndex:0] setBackgroundColor:[UIColor blackColor]];
 	[self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -103,7 +110,7 @@
 - (void)webViewDidFinishLoad:(UIWebView *)wv {
 	loading = NO;
 	NINetworkActivityTaskDidFinish();
-	titleLabel.text = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+	self.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
 }
 
 @end

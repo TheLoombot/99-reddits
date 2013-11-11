@@ -16,7 +16,6 @@
 	IBOutlet UIBarButtonItem *closeItem;
 	IBOutlet UIBarButtonItem *shareItem;
 	IBOutlet UIWebView *webView;
-	IBOutlet UILabel *urlLabel;
 
 	BOOL loading;
 

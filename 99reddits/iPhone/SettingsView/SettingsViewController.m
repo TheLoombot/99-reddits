@@ -62,14 +62,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+	self.title = @"Settings";
+	self.navigationItem.leftBarButtonItem = doneButton;
 	
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	
-	self.view.backgroundColor = [self groupTableViewBackgroundColor];
-	
-	CGSize screenSize = [[UIScreen mainScreen] bounds].size;
-	contentScrollView.frame = CGRectMake(0, 44, 320, screenSize.height - 64);
-	
+	if (isIOS7Below)
+		self.view.backgroundColor = [self groupTableViewBackgroundColor];
+	else
+		self.view.backgroundColor = [UIColor colorWithRed:239 / 255.0 green:239 / 255.0 blue:244 / 255.0 alpha:1.0];
+
 	[upgradeForMOARButton setBackgroundImage:[[UIImage imageNamed:@"UpgradeButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
 	[restoreUpdateButton setBackgroundImage:[[UIImage imageNamed:@"UpgradeButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
 	[clearButton setBackgroundImage:[[UIImage imageNamed:@"ClearButton.png"] stretchableImageWithLeftCapWidth:12 topCapHeight:0] forState:UIControlStateNormal];
@@ -90,13 +93,12 @@
 	NSDictionary *titleDictionary = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Titles" ofType:@"plist"]];
 	titleString = [titleDictionary objectForKey:key];
     
-	if (showedCount < 80000)
-    {
+	if (showedCount < 80000) {
         imagesToNextTitleString = [formatter stringFromNumber:[NSNumber numberWithInt:(imagesSeenLevel + 1) * 1000 - showedCount]];
-    } else {
+    }
+	else {
         imagesToNextTitleString = @"You win!";
     }
-
 
 	[aboutOutlineButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:10] forState:UIControlStateNormal];
 	[emailButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
@@ -106,7 +108,12 @@
 	[rateAppButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
 	[rateAppButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateHighlighted];
 
+	UIImageView *infoBackView = [[UIImageView alloc] initWithFrame:contentTableView.frame];
+	infoBackView.image = [[UIImage imageNamed:@"SettingsInfoBack.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
+	[aboutView insertSubview:infoBackView belowSubview:contentTableView];
+
 	contentTableView.backgroundColor = [UIColor clearColor];
+	contentTableView.backgroundView = nil;
 	
 	[self refreshViews];
 
@@ -137,7 +144,7 @@
 }
 
 - (IBAction)onDoneButton:(id)sender {
-	[self dismissViewControllerAnimated:YES completion:nil];
+	[self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 // UITableViewDatasource
@@ -150,6 +157,7 @@
 	UITableViewCell *cell = [contentTableView dequeueReusableCellWithIdentifier:identifier];
 	if (cell == nil) {
 		cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:identifier];
+		cell.backgroundColor = [UIColor clearColor];
 		cell.accessoryType = UITableViewCellAccessoryNone;
 		cell.selectionStyle = UITableViewCellSelectionStyleNone;
 		cell.textLabel.font = [UIFont boldSystemFontOfSize:16];

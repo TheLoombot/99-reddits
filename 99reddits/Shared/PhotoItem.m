@@ -48,7 +48,6 @@
 //	[encoder encodeBool:self.showed forKey:@"showed"];
 }
 
-
 - (void)removeCaches {
 	if (self.thumbnailString.length) {
 		NSURL *thumbnailURL = [NSURL URLWithString:self.thumbnailString];

@@ -147,6 +147,7 @@
 	
 	[self.view bringSubviewToFront:prevPhotoButton];
 	[self.view bringSubviewToFront:nextPhotoButton];
+	[self.view bringSubviewToFront:fullPhotoButton];
 }
 
 - (void)viewDidUnload {
@@ -289,6 +290,9 @@
 	if ([activeRequests containsObject:identifierKey]) {
 		return;
 	}
+
+	if (![appDelegate isFullImage:source])
+		source = [appDelegate getHugeImage:source];
 	
 	NSURL *url = [NSURL URLWithString:source];
 	
@@ -512,6 +516,8 @@
 				self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:favoriteWhiteItem, actionItem, commentItem, nil];
 		}
 	}
+
+	fullPhotoButton.enabled = ![appDelegate isFullImage:photo.urlString];
 }
 
 // MFMailComposeViewControllerDelegate
@@ -654,6 +660,19 @@
 	commentViewController.urlString = photo.permalinkString;
 	UINavigationController *commentNavigationController = [[UINavigationController alloc] initWithRootViewController:commentViewController];
 	[self presentViewController:commentNavigationController animated:YES completion:nil];
+}
+
+- (IBAction)onFullPhotoButton:(id)sender {
+	NSInteger identifier = self.photoAlbumView.centerPageIndex;
+	NSNumber *identifierKey = [NSNumber numberWithInt:identifier];
+	NSString *photoIndexKey = [self cacheKeyForPhotoIndex:identifier];
+	[activeRequests removeObject:identifierKey];
+	[highQualityImageCache removeObjectWithName:photoIndexKey];
+
+	PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
+	[appDelegate addToFullImagesSet:photo.urlString];
+	fullPhotoButton.enabled = NO;
+	[self.photoAlbumView reloadData];
 }
 
 @end

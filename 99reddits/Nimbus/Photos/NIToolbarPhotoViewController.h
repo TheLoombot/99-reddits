@@ -106,6 +106,7 @@ NIPhotoScrubberViewDelegate > {
 	int toolbarOffset;
 	IBOutlet UIButton *prevPhotoButton;
 	IBOutlet UIButton *nextPhotoButton;
+	IBOutlet UIButton *fullPhotoButton;
 }
 
 #pragma mark Configuring Functionality

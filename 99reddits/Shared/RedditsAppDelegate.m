@@ -58,6 +58,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 	subRedditsArray = [[NSMutableArray alloc] init];
 	nameStringsSet = [[NSMutableSet alloc] init];
 	showedSet = [[NSMutableSet alloc] init];
+	fullImagesSet = [[NSMutableSet alloc] init];
 	
 	[self loadFromDefaults];
 
@@ -192,7 +193,11 @@ void uncaughtExceptionHandler(NSException *exception) {
 	for (SubRedditItem *subReddit in subRedditsArray) {
 		[subReddit calUnshowedCount];
 	}
-	
+
+	array = [defaults objectForKey:@"FULL_IMAGES"];
+	if (array)
+		[fullImagesSet addObjectsFromArray:array];
+
 	NSData *favoritesData = [defaults objectForKey:@"FAVORITES_ITEM"];
 	if (favoritesData) {
 		NSKeyedUnarchiver *favoritesUnarchiver = [[NSKeyedUnarchiver alloc] initForReadingWithData:favoritesData];
@@ -221,6 +226,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 	[defaults setObject:data forKey:@"SUBREDDITS"];
 	
 	[defaults setObject:[showedSet allObjects] forKey:@"SHOWEDSET"];
+	[defaults setObject:[fullImagesSet allObjects] forKey:@"FULL_IMAGES"];
 	
 	[defaults setBool:isPaid forKey:@"IS_PAID"];
 	
@@ -431,6 +437,35 @@ void uncaughtExceptionHandler(NSException *exception) {
 	htmlString = [htmlString stringByAppendingString:@"\n</body>\n</html>"];
 
 	return htmlString;
+}
+
+- (BOOL)isFullImage:(NSString *)urlString {
+	if ([urlString hasPrefix:@"http://imgur.com/"]   ||
+		[urlString hasPrefix:@"http://i.imgur.com/"] ||
+		[urlString hasPrefix:@"http://www.imgur.com"]) {
+		return [fullImagesSet containsObject:urlString];
+	}
+
+	return YES;
+}
+
+- (void)addToFullImagesSet:(NSString *)urlString {
+	[fullImagesSet addObject:urlString];
+}
+
+- (NSString *)getHugeImage:(NSString *)urlString {
+    if ([urlString hasPrefix:@"http://imgur.com/"]   ||
+        [urlString hasPrefix:@"http://i.imgur.com/"] ||
+        [urlString hasPrefix:@"http://www.imgur.com"]) {
+        if ([[[urlString lastPathComponent] stringByDeletingPathExtension] length] == 5 ||
+			[[[urlString lastPathComponent] stringByDeletingPathExtension] length] == 7) {
+            urlString = [[NSString stringWithFormat:@"http://i.imgur.com/%@h.",
+                          [[urlString lastPathComponent] stringByDeletingPathExtension]]
+                         stringByAppendingString:[urlString pathExtension]];
+        }
+    }
+
+	return urlString;
 }
 
 @end

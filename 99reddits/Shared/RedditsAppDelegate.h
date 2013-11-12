@@ -29,6 +29,8 @@
 	NSMutableSet *favoritesSet;
 	
 	BOOL isPaid;
+
+	NSMutableSet *fullImagesSet;
 }
 
 @property (strong, nonatomic) IBOutlet UIWindow *window;
@@ -59,5 +61,9 @@
 - (void)refreshNameStringsSet;
 
 - (NSString *)getFavoritesEmailString;
+
+- (BOOL)isFullImage:(NSString *)urlString;
+- (void)addToFullImagesSet:(NSString *)urlString;
+- (NSString *)getHugeImage:(NSString *)urlString;
 
 @end

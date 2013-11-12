@@ -135,6 +135,12 @@
 	sharing = NO;
 	
 	self.titleLabel.hidden = YES;
+
+	if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
+		fullPhotoButton.frame = CGRectMake([[UIScreen mainScreen] bounds].size.height - 50, 63, 40, 40);
+	else
+		fullPhotoButton.frame = CGRectMake([[UIScreen mainScreen] bounds].size.width - 50, 74, 40, 40);
+	[self.view bringSubviewToFront:fullPhotoButton];
 }
 
 - (void)viewDidUnload {
@@ -159,6 +165,17 @@
 
 - (NSUInteger)supportedInterfaceOrientations {
 	return UIInterfaceOrientationMaskAllButUpsideDown;
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
+	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+	[UIView animateWithDuration:duration
+					 animations:^(void) {
+						 if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation))
+							 fullPhotoButton.frame = CGRectMake([[UIScreen mainScreen] bounds].size.height - 50, 63, 40, 40);
+						 else
+							 fullPhotoButton.frame = CGRectMake([[UIScreen mainScreen] bounds].size.width - 50, 74, 40, 40);
+					 }];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -265,6 +282,9 @@
 	if ([activeRequests containsObject:identifierKey]) {
 		return;
 	}
+
+	if (![appDelegate isFullImage:source])
+		source = [appDelegate getHugeImage:source];
 	
 	NSURL *url = [NSURL URLWithString:source];
 	
@@ -482,6 +502,8 @@
 			self.navigationItem.rightBarButtonItem = favoriteWhiteItem;
 		}
 	}
+
+	fullPhotoButton.enabled = ![appDelegate isFullImage:photo.urlString];
 }
 
 // MFMailComposeViewControllerDelegate
@@ -601,6 +623,19 @@
 	commentViewController.urlString = photo.permalinkString;
 	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:commentViewController];
 	[self presentViewController:navigationController animated:YES completion:nil];
+}
+
+- (IBAction)onFullPhotoButton:(id)sender {
+	NSInteger identifier = self.photoAlbumView.centerPageIndex;
+	NSNumber *identifierKey = [NSNumber numberWithInt:identifier];
+	NSString *photoIndexKey = [self cacheKeyForPhotoIndex:identifier];
+	[activeRequests removeObject:identifierKey];
+	[highQualityImageCache removeObjectWithName:photoIndexKey];
+
+	PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
+	[appDelegate addToFullImagesSet:photo.urlString];
+	fullPhotoButton.enabled = NO;
+	[self.photoAlbumView reloadData];
 }
 
 @end

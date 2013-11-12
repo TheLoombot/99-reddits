@@ -58,5 +58,6 @@
 
 - (IBAction)onPrevPhotoButton:(id)sender;
 - (IBAction)onNextPhotoButton:(id)sender;
+- (IBAction)onFullPhotoButton:(id)sender;
 
 @end

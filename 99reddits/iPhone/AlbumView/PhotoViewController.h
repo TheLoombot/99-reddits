@@ -47,4 +47,6 @@
 @property (nonatomic) BOOL disappearForSubview;
 @property (nonatomic) BOOL bFavorites;
 
+- (IBAction)onFullPhotoButton:(id)sender;
+
 @end

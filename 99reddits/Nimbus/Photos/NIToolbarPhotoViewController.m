@@ -248,7 +248,6 @@
 	[self.view addSubview:_photoAlbumView];
 	[self.view addSubview:_toolbar];
 	[_titleLabelBar addSubview:_titleLabel];
-	[self.view addSubview:_titleLabelBar];
 
 	if (self.hidesChromeWhenScrolling) {
 		[self addTapGestureToView];
@@ -297,6 +296,9 @@
 	fullPhotoButton.alpha = 1.0;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+	[self.view addSubview:_titleLabelBar];
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)viewWillDisappear:(BOOL)animated {

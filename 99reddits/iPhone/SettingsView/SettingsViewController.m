@@ -64,7 +64,7 @@
     [super viewDidLoad];
 
 	self.title = @"Settings";
-	self.navigationItem.leftBarButtonItem = doneButton;
+	self.navigationItem.rightBarButtonItem = doneButton;
 	
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	

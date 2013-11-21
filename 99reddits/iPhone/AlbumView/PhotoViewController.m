@@ -99,9 +99,8 @@
 	
 	activeRequests = [[NSMutableSet alloc] init];
 	
-	highQualityImageCache = [[NIImageMemoryCache alloc] init];
-	
-	[highQualityImageCache setMaxNumberOfPixelsUnderStress:1024 * 1024 * 2];
+//	highQualityImageCache = [[NIImageMemoryCache alloc] init];
+//	[highQualityImageCache setMaxNumberOfPixelsUnderStress:1024 * 1024 * 2];
 	
 	queue = [[NSOperationQueue alloc] init];
 	[queue setMaxConcurrentOperationCount:3];
@@ -188,6 +187,8 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+
 	PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
 	[self setTitleLabelText:photo.titleString];
 	self.titleLabel.hidden = NO;
@@ -301,23 +302,23 @@
 		
 		size_t imageCount = 1;
 		if (image && subReddit.photosArray.count > photoIndex) {
-			if (image.size.width > 1024 || image.size.height > 1024) {
-				float w, h;
-				if (image.size.width > image.size.height) {
-					w = 1024;
-					h = image.size.height * w / image.size.width;
-				}
-				else {
-					h = 1024;
-					w = image.size.width * h / image.size.height;
-				}
-				
-				UIGraphicsBeginImageContext(CGSizeMake(w, h));
-				[image drawInRect:CGRectMake(0, 0, w, h)];
-				image = UIGraphicsGetImageFromCurrentImageContext();
-				UIGraphicsEndImageContext();
-			}
-			
+//			if (image.size.width > 1024 || image.size.height > 1024) {
+//				float w, h;
+//				if (image.size.width > image.size.height) {
+//					w = 1024;
+//					h = image.size.height * w / image.size.width;
+//				}
+//				else {
+//					h = 1024;
+//					w = image.size.width * h / image.size.height;
+//				}
+//				
+//				UIGraphicsBeginImageContext(CGSizeMake(w, h));
+//				[image drawInRect:CGRectMake(0, 0, w, h)];
+//				image = UIGraphicsGetImageFromCurrentImageContext();
+//				UIGraphicsEndImageContext();
+//			}
+
 			BOOL shouldRefresh = NO;
 //			PhotoItem *photo = [subReddit.photosArray objectAtIndex:photoIndex];
 //			if ([[[photo.urlString pathExtension] lowercaseString] isEqualToString:@"gif"]) {

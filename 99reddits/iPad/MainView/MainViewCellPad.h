@@ -44,5 +44,6 @@
 - (void)setUnshowedCount:(int)_unshowedCount totalCount:(int)_totalCount loading:(BOOL)_loading;
 - (void)setTotalCount:(int)_totalCount;
 - (void)setThumbImage:(UIImage *)thumbImage animated:(BOOL)animated;
+- (void)setEditing:(BOOL)_editing;
 
 @end

@@ -84,12 +84,17 @@
 	[refreshControl addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
 	[self.collectionView addSubview:refreshControl];
 
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[refreshControl beginRefreshing];
+		[refreshControl endRefreshing];
+	});
+
 	[appDelegate setNavAppearance];
 
 	self.title = @"99 reddits";
 	
 	self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:settingsItem, nil];
-	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:editItem, addItem, nil];
+	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:editItem, nil];
 
 	[[ASIDownloadCache sharedCache] setShouldRespectCacheControlHeaders:NO];
 	
@@ -140,7 +145,6 @@
 	self.collectionView.delaysContentTouches = NO;
 	self.collectionView.canCancelContentTouches = YES;
 	[self.collectionView registerClass:[MainViewCellPad class] forCellWithReuseIdentifier:@"MAINVIEWCELLPAD"];
-	[self.collectionView registerClass:[MainViewCellPad class] forCellWithReuseIdentifier:@"MAINVIEWCELLPAD_FAVORITE"];
 	[self.collectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"MAIN_FOOTER_VIEW_PAD"];
 	[self.collectionView setCollectionViewLayout:mainViewLayout];
 	[mainViewLayout setUpGestureRecognizersOnCollectionView];
@@ -182,17 +186,15 @@
 		[refreshControl removeFromSuperview];
 
 		settingsItem.enabled = NO;
-		addItem.enabled = NO;
 
-		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:doneItem, addItem, nil];
+		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:doneItem, nil];
 	}
 	else {
 		[self.collectionView addSubview:refreshControl];
 
 		settingsItem.enabled = YES;
-		addItem.enabled = YES;
 
-		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:editItem, addItem, nil];
+		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:editItem, nil];
 	}
 	
 	[self.collectionView reloadData];
@@ -220,11 +222,7 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-	MainViewCellPad *cell;
-	if (indexPath.row == 0)
-		cell = (MainViewCellPad *)[collectionView dequeueReusableCellWithReuseIdentifier:@"MAINVIEWCELLPAD_FAVORITE" forIndexPath:indexPath];
-	else
-		cell = (MainViewCellPad *)[collectionView dequeueReusableCellWithReuseIdentifier:@"MAINVIEWCELLPAD" forIndexPath:indexPath];
+	MainViewCellPad *cell = (MainViewCellPad *)[collectionView dequeueReusableCellWithReuseIdentifier:@"MAINVIEWCELLPAD" forIndexPath:indexPath];
 	cell.mainViewController = self;
 	
 	if (indexPath.row == 0) {
@@ -270,6 +268,8 @@
 		
 		[cell setUnshowedCount:subReddit.unshowedCount totalCount:subReddit.photosArray.count loading:subReddit.loading];
 	}
+
+	[cell setEditing:self.editing];
 
 	return cell;
 }

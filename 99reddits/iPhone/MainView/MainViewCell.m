@@ -162,7 +162,7 @@
 		if (animated || imageEmpty) {
 //			self.imageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
 			contentImageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
-			animateImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 54, 54)];
+			animateImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 55, 55)];
 			animateImageView.image = thumbImage;
 			[self.contentView addSubview:animateImageView];
 

@@ -86,10 +86,15 @@
 	[refreshControl addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
 	self.refreshControl = refreshControl;
 
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self.refreshControl beginRefreshing];
+		[self.refreshControl endRefreshing];
+	});
+
 	self.title = @"99 reddits";
 	
 	self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:settingsItem, nil];
-	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:editItem, addItem, nil];
+	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:editItem, nil];
 	
 	[[ASIDownloadCache sharedCache] setShouldRespectCacheControlHeaders:NO];
 
@@ -169,17 +174,15 @@
 		self.refreshControl = nil;
 		
 		settingsItem.enabled = NO;
-		addItem.enabled = NO;
-		
-		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:doneItem, addItem, nil];
+
+		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:doneItem, nil];
 	}
 	else {
 		self.refreshControl = refreshControl;
 		
 		settingsItem.enabled = YES;
-		addItem.enabled = YES;
-		
-		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:editItem, addItem, nil];
+
+		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:editItem, nil];
 	}
 }
 

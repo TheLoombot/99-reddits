@@ -2,13 +2,12 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1536" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3746"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainViewController">
             <connections>
                 <outlet property="addButton" destination="70c-dg-C7a" id="5nx-gB-cdM"/>
-                <outlet property="addItem" destination="28" id="30"/>
                 <outlet property="doneItem" destination="26" id="31"/>
                 <outlet property="editItem" destination="27" id="32"/>
                 <outlet property="footerView" destination="j8D-Fp-Faa" id="3ic-Ph-ltt"/>
@@ -37,11 +36,6 @@
                 <action selector="onEditButton:" destination="-1" id="35"/>
             </connections>
         </barButtonItem>
-        <barButtonItem systemItem="add" id="28">
-            <connections>
-                <action selector="onAddButton:" destination="-1" id="34"/>
-            </connections>
-        </barButtonItem>
         <barButtonItem image="SettingsIcon.png" id="29">
             <connections>
                 <action selector="onSettingsButton:" destination="-1" id="36"/>
@@ -56,7 +50,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                     <state key="normal" title="Add sub-reddits">
-                        <color key="titleColor" red="0.43921568630000002" green="0.46274509800000002" blue="0.61176470589999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <state key="disabled">

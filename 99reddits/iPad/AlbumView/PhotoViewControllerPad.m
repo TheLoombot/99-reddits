@@ -41,7 +41,7 @@
     return self;
 }
 
-- (void)releaseObjects {
+- (void)dealloc {
 	for (ASIHTTPRequest *request in queue.operations) {
 		[request clearDelegatesAndCancel];
 	}
@@ -50,10 +50,6 @@
 	highQualityImageCache = nil;
 	queue = nil;
 	sharingData = nil;
-}
-
-- (void)dealloc {
-	[self releaseObjects];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -208,11 +204,7 @@
 	[super viewDidDisappear:animated];
 	
 	if (!disappearForSubview) {
-		[self releaseObjects];
-		
 		sharing = NO;
-		
-//		[appDelegate saveToDefaults];
 	}
 }
 

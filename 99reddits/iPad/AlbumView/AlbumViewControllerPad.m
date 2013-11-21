@@ -43,24 +43,20 @@
     return self;
 }
 
-- (void)releaseObjects {
+- (void)dealloc {
 	for (ASIHTTPRequest *request in refreshQueue.operations) {
 		[request clearDelegatesAndCancel];
 	}
-	
+
 	for (ASIHTTPRequest *request in queue.operations) {
 		[request clearDelegatesAndCancel];
 	}
-	
+
 	activeRequests = nil;
 	thumbnailImageCache = nil;
 	refreshQueue = nil;
 	queue = nil;
 	currentSubReddit = nil;
-}
-
-- (void)dealloc {
-	[self releaseObjects];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -196,14 +192,6 @@
 	[self refreshSubReddit:YES];
 
 	bFromSubview = NO;
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-	[super viewDidDisappear:animated];
-
-	if (!bFromSubview) {
-		[self releaseObjects];
-	}
 }
 
 - (void)onSelectPhoto:(PhotoItem *)photo {

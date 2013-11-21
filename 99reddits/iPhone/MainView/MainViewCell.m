@@ -35,10 +35,16 @@
 //		self.textLabel.backgroundColor = [UIColor clearColor];
 
 		unshowedBackImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 29, 29)];
-		unshowedBackImageView.image = [[UIImage imageNamed:@"BadgeBack.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0];
+		if (isIOS7Below)
+			unshowedBackImageView.image = [[UIImage imageNamed:@"BadgeBack.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0];
+		else
+			unshowedBackImageView.image = [[UIImage imageNamed:@"BadgeRedBack.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0];
 		[self addSubview:unshowedBackImageView];
 		unshowedLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-		unshowedLabel.font = [UIFont boldSystemFontOfSize:14];
+		if (isIOS7Below)
+			unshowedLabel.font = [UIFont boldSystemFontOfSize:14];
+		else
+			unshowedLabel.font = [UIFont boldSystemFontOfSize:17];
 		unshowedLabel.backgroundColor = [UIColor clearColor];
 		unshowedLabel.textColor = [UIColor whiteColor];
 		[self addSubview:unshowedLabel];

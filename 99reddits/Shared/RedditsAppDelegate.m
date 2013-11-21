@@ -72,7 +72,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 	[Appirater setTimeBeforeReminding:7];
 	[Appirater setDebug:NO];
 	[Appirater appLaunched:NO];
-    [Appirater setOpenInAppStore:NO];
+    [Appirater setOpenInAppStore:YES];
 
     return YES;
 }

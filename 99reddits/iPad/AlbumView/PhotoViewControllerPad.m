@@ -22,7 +22,7 @@
 - (NSString *)cacheKeyForPhotoIndex:(NSInteger)photoIndex;
 - (void)requestImageFromSource:(NSString *)source photoSize:(NIPhotoScrollViewPhotoSize)photoSize photoIndex:(NSInteger)photoIndex;
 
-- (void)shareImage:(UIImage *)image data:(NSData *)data;
+- (void)shareImage:(UIImage *)image;
 
 @end
 
@@ -49,7 +49,6 @@
 	activeRequests = nil;
 	highQualityImageCache = nil;
 	queue = nil;
-	sharingData = nil;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -194,9 +193,14 @@
 		}
 	}
 
-	if (actionSheet) {
-		[actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:NO];
-		actionSheet = nil;
+	if (favoriteActionSheet) {
+		[favoriteActionSheet dismissWithClickedButtonIndex:favoriteActionSheet.cancelButtonIndex animated:NO];
+		favoriteActionSheet = nil;
+	}
+	
+	if (sharePopoverController) {
+		[sharePopoverController dismissPopoverAnimated:YES];
+		sharePopoverController = nil;
 	}
 }
 
@@ -209,39 +213,33 @@
 }
 
 - (IBAction)onActionButton:(id)sender {
-	if (actionSheet) {
-		[actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:YES];
-		actionSheet = nil;
+	if (favoriteActionSheet) {
+		[favoriteActionSheet dismissWithClickedButtonIndex:favoriteActionSheet.cancelButtonIndex animated:YES];
+		favoriteActionSheet = nil;
+	}
+	
+	if (sharePopoverController) {
+		[sharePopoverController dismissPopoverAnimated:YES];
+		sharePopoverController = nil;
 	}
 
-	actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-											  delegate:self
-									 cancelButtonTitle:@"Cancel"
-								destructiveButtonTitle:nil
-									 otherButtonTitles:@"Save Photo", @"Email Photo", @"Tweet", @"Share on Facebook", @"Copy Image", nil];
-	actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-	actionSheet.tag = 100;
-	[actionSheet showFromBarButtonItem:actionItem animated:YES];
+	if (sharing)
+		return;
+	
+	sharing = YES;
+	sharingIndex = self.photoAlbumView.centerPageIndex;
+	
+	PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
+	
+	[self requestImageFromSource:photo.urlString photoSize:NIPhotoScrollViewPhotoSizeOriginal photoIndex:sharingIndex];
 }
 
 // UIActionSheetDelegate
-- (void)actionSheet:(UIActionSheet *)as didDismissWithButtonIndex:(NSInteger)buttonIndex {
-	if (buttonIndex == as.cancelButtonIndex)
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
+	if (buttonIndex == actionSheet.cancelButtonIndex)
 		return;
 
-	if (actionSheet.tag == 100) {
-		if (sharing)
-			return;
-		
-		sharing = YES;
-		sharingType = buttonIndex;
-		sharingIndex = self.photoAlbumView.centerPageIndex;
-		
-		PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
-		
-		[self requestImageFromSource:photo.urlString photoSize:NIPhotoScrollViewPhotoSizeOriginal photoIndex:sharingIndex];
-	}
-	else if (actionSheet.tag == 101) {
+	if (actionSheet.tag == 101) {
 		NSInteger currentIndex = self.photoAlbumView.centerPageIndex;
 		PhotoItem *photo = [subReddit.photosArray objectAtIndex:currentIndex];
 		if ([appDelegate removeFromFavorites:photo]) {
@@ -263,7 +261,7 @@
 		}
 	}
 	
-	actionSheet = nil;
+	favoriteActionSheet = nil;
 }
 
 - (NSString *)cacheKeyForPhotoIndex:(NSInteger)photoIndex {
@@ -271,8 +269,8 @@
 }
 
 - (void)requestImageFromSource:(NSString *)source photoSize:(NIPhotoScrollViewPhotoSize)photoSize photoIndex:(NSInteger)photoIndex {
-	//	if (![appDelegate checkNetworkReachable:NO])
-	//		return;
+//	if (![appDelegate checkNetworkReachable:NO])
+//		return;
 	
 	if (photoIndex >= subReddit.photosArray.count)
 		return;
@@ -367,7 +365,7 @@
 			}
 			
 			if (sharing && photoIndex == sharingIndex && image) {
-				[self shareImage:image data:data];
+				[self shareImage:image];
 			}
 			else {
 				sharing = NO;
@@ -513,100 +511,50 @@
 	fullPhotoButton.enabled = ![appDelegate isFullImage:photo.urlString];
 }
 
-// MFMailComposeViewControllerDelegate
-- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
-	[controller dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)shareImage:(UIImage *)image data:(NSData *)data {
-	if (sharingType == 0) {
-		UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil);
-	}
-	else if (sharingType == 1) {
-		if ([MFMailComposeViewController canSendMail]) {
-			MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
-			mailComposeViewController.mailComposeDelegate = self;
-			
-			PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
-			[mailComposeViewController setTitle:photo.titleString];
-			[mailComposeViewController setSubject:photo.titleString];
-			[mailComposeViewController setMessageBody:[NSString stringWithFormat:@"\n\nFound this on reddit:\nhttp://redd.it/%@\n\nDownload 99 reddits for your iPhone:\nhttp://itunes.apple.com/us/app/99-reddits/id474846610?mt=8", photo.idString] isHTML:NO];
-			
-			NSString *extension = [[photo.urlString pathExtension] lowercaseString];
-			NSString *mimeType;
-			if ([extension isEqualToString:@"gif"]) {
-				mimeType = @"image/gif";
-			}
-			else if ([extension isEqualToString:@"png"]) {
-				mimeType = @"image/png";
-			}
-			else if ([extension isEqualToString:@"tiff"] || [extension isEqualToString:@"tif"]) {
-				mimeType = @"image/tiff";
-			}
-			else if ([extension isEqualToString:@"bmp"]) {
-				mimeType = @"image/bmp";
-			}
-			else {
-				mimeType = @"image/jpeg";
-			}
-			
-			[mailComposeViewController addAttachmentData:data mimeType:mimeType fileName:[photo.urlString lastPathComponent]];
-			
-			[self presentViewController:mailComposeViewController animated:YES completion:nil];
-		}
-	}
-	else if (sharingType == 2) {
-		PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
-		
-		SLComposeViewController __weak *tweetComposeViewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
-		[tweetComposeViewController setInitialText:photo.titleString];
-		[tweetComposeViewController addImage:image];
-		[tweetComposeViewController addURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://redd.it/%@", photo.idString]]];
-		
-		tweetComposeViewController.completionHandler = ^(SLComposeViewControllerResult result) {
-			[tweetComposeViewController dismissViewControllerAnimated:YES completion:nil];
-		};
-		
-		[self presentViewController:tweetComposeViewController animated:YES completion:nil];
-	}
-	else if (sharingType == 3) {
-		PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
-		
-		SLComposeViewController __weak *facebookComposeViewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
-		[facebookComposeViewController setInitialText:photo.titleString];
-		[facebookComposeViewController addImage:image];
-		[facebookComposeViewController addURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://redd.it/%@", photo.idString]]];
-		
-		facebookComposeViewController.completionHandler = ^(SLComposeViewControllerResult result) {
-			[facebookComposeViewController dismissViewControllerAnimated:YES completion:nil];
-		};
-		
-		[self presentViewController:facebookComposeViewController animated:YES completion:nil];
-	}
-	else if (sharingType == 4) {
-		NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
-		UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-		[pasteboard setData:imageData forPasteboardType:@"public.jpeg"];
-	}
+- (void)shareImage:(UIImage *)image {
+	PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
+	
+	NSArray *activityItems = @[image, [NSURL URLWithString:[NSString stringWithFormat:@"http://redd.it/%@", photo.idString]], photo.titleString];
+	NSArray *applicationActivities = nil;
+	NSArray *excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList];
+	
+	UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:applicationActivities];
+	activityViewController.excludedActivityTypes = excludedActivityTypes;
+	
+	sharePopoverController = [[UIPopoverController alloc] initWithContentViewController:activityViewController];
+	sharePopoverController.delegate = self;
+	[sharePopoverController presentPopoverFromBarButtonItem:actionItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 
 	sharing = NO;
 }
 
+// UIPopoverControllerDelegate
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+	if (popoverController == sharePopoverController) {
+		sharePopoverController = nil;
+	}
+}
+
 - (IBAction)onFavoriteButton:(id)sender {
-	if (actionSheet) {
-		[actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:YES];
-		actionSheet = nil;
+	if (favoriteActionSheet) {
+		[favoriteActionSheet dismissWithClickedButtonIndex:favoriteActionSheet.cancelButtonIndex animated:YES];
+		favoriteActionSheet = nil;
+	}
+	
+	if (sharePopoverController) {
+		[sharePopoverController dismissPopoverAnimated:YES];
+		sharePopoverController = nil;
 	}
 
 	if (bFavorites) {
-		actionSheet = [[UIActionSheet alloc] initWithTitle:nil
-												  delegate:self
-										 cancelButtonTitle:@"Cancel"
-									destructiveButtonTitle:@"Remove from Favorites"
-										 otherButtonTitles:nil];
-		actionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
-		actionSheet.tag = 101;
-		[actionSheet showFromBarButtonItem:favoriteRedItem animated:YES];
+		favoriteActionSheet = [[UIActionSheet alloc] initWithTitle:nil
+														  delegate:self
+												 cancelButtonTitle:@"Cancel"
+											destructiveButtonTitle:@"Remove from Favorites"
+												 otherButtonTitles:nil];
+		favoriteActionSheet.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
+		favoriteActionSheet.tag = 101;
+		[favoriteActionSheet showFromBarButtonItem:favoriteRedItem animated:YES];
 	}
 	else {
 		PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
@@ -642,9 +590,14 @@
 }
 
 - (IBAction)onCommentButton:(id)sender {
-	if (actionSheet) {
-		[actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:YES];
-		actionSheet = nil;
+	if (favoriteActionSheet) {
+		[favoriteActionSheet dismissWithClickedButtonIndex:favoriteActionSheet.cancelButtonIndex animated:YES];
+		favoriteActionSheet = nil;
+	}
+	
+	if (sharePopoverController) {
+		[sharePopoverController dismissPopoverAnimated:YES];
+		sharePopoverController = nil;
 	}
 
 	disappearForSubview = YES;

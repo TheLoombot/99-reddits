@@ -10,11 +10,10 @@
 #import "SubRedditItem.h"
 #import "PhotoItem.h"
 #import "ASIHTTPRequestDelegate.h"
-#import <MessageUI/MFMailComposeViewController.h>
 
 @class RedditsAppDelegate;
 
-@interface PhotoViewControllerPad : NIToolbarPhotoViewController <NIPhotoAlbumScrollViewDataSource, UIActionSheetDelegate, UINavigationControllerDelegate, MFMailComposeViewControllerDelegate> {
+@interface PhotoViewControllerPad : NIToolbarPhotoViewController <NIPhotoAlbumScrollViewDataSource, UIActionSheetDelegate, UIPopoverControllerDelegate> {
 	RedditsAppDelegate *appDelegate;
 	
 	NSOperationQueue *queue;
@@ -31,10 +30,7 @@
 	BOOL disappearForSubview;
 	
 	BOOL sharing;
-	NSInteger sharingType;
 	NSInteger sharingIndex;
-	
-	NSData *sharingData;
 
 	IBOutlet UIToolbar *rightItem;
 	IBOutlet UIBarButtonItem *actionItem;
@@ -44,7 +40,8 @@
 	
 	BOOL bFavorites;
 	
-	UIActionSheet *actionSheet;
+	UIPopoverController *sharePopoverController;
+	UIActionSheet *favoriteActionSheet;
 }
 
 @property (nonatomic, strong) SubRedditItem *subReddit;

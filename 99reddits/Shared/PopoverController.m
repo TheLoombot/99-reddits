@@ -29,7 +29,6 @@
 	[self.oldKeyWindow makeKeyWindow];
 }
 
-
 @end
 
 @interface PopoverViewController : UIViewController
@@ -88,6 +87,7 @@
 @synthesize delegate;
 @synthesize popoverContentSize;
 @synthesize fullscreen;
+@synthesize ownerWindow;
 
 - (id)initWithContentViewController:(UIViewController *)viewController {
 	self = [super init];
@@ -118,6 +118,8 @@
 	window.backgroundColor = [UIColor clearColor];
 	window.rootViewController = popoverViewController;
 	[window makeKeyAndVisible];
+	
+	ownerWindow = window;
 
 	contentViewController.view.center = CGPointMake(CGRectGetMidX(popoverViewController.view.bounds), CGRectGetMidY(popoverViewController.view.bounds));
 	

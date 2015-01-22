@@ -34,6 +34,7 @@
 
 @synthesize mainViewController;
 @synthesize hud;
+@synthesize popoverController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -49,7 +50,6 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:kProductPurchaseFailedNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:kProductPurchaseRestoreFinishedNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:kProductPurchaseRestoreFailedNotification object:nil];
-	
 }
 
 - (void)didReceiveMemoryWarning {
@@ -185,9 +185,9 @@
 		cell.textLabel.text = @"Version";
 		cell.detailTextLabel.textColor = [UIColor colorWithRed:80 / 255.0 green:114 / 255.0 blue:160 / 255.0 alpha:1.0];
 		if (appDelegate.isPaid)
-			cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ MOAR",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+			cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ MOAR", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 		else
-			cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ FREE",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+			cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ FREE", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 	}
 	else if (row == 1) {
 		cell.textLabel.text = @"Images Seen";
@@ -360,13 +360,21 @@
 
 - (IBAction)onEmailButton:(id)sender {
 	if ([MFMailComposeViewController canSendMail]) {
+		UIDevice *currentDevice = [UIDevice currentDevice];
+		
+		NSString *contentString = [NSString stringWithFormat:@"\n\n\n---\n99 reddits v%@\n%@ / iOS %@",
+								   [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
+								   currentDevice.name,
+								   currentDevice.systemVersion];
+		
 		MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
 		mailComposeViewController.mailComposeDelegate = self;
 		
 		[mailComposeViewController setSubject:@"99 reddits feedback"];
 		[mailComposeViewController setToRecipients:[NSArray arrayWithObject:@"99reddits@lensie.com"]];
+		[mailComposeViewController setMessageBody:contentString isHTML:NO];
 		
-		[self presentViewController:mailComposeViewController animated:YES completion:nil];
+		[popoverController.ownerWindow.rootViewController presentViewController:mailComposeViewController animated:YES completion:nil];
 	}
 }
 
@@ -378,7 +386,7 @@
 		[tweetComposeViewController dismissViewControllerAnimated:YES completion:nil];
 	};
 	
-	[self presentViewController:tweetComposeViewController animated:YES completion:nil];
+	[popoverController.ownerWindow.rootViewController presentViewController:tweetComposeViewController animated:YES completion:nil];
 }
 
 - (IBAction)onRateAppButton:(id)sender {

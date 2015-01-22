@@ -17,11 +17,14 @@
 	PopoverWindow *window;
 	CGSize popoverContentSize;
 	BOOL fullscreen;
+	
+	UIWindow *ownerWindow;
 }
 
 @property (nonatomic, weak) id<PopoverControllerDelegate> delegate;
 @property (nonatomic, assign) CGSize popoverContentSize;
 @property (nonatomic, assign) BOOL fullscreen;
+@property (nonatomic, readonly) UIWindow *ownerWindow;
 
 - (id)initWithContentViewController:(UIViewController *)viewController;
 - (void)showPopover:(BOOL)animated;

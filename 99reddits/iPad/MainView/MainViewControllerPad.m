@@ -664,6 +664,7 @@
 	popoverController = [[PopoverController alloc] initWithContentViewController:settingsNavigationController];
 	popoverController.popoverContentSize = CGSizeMake(540, 620);
 	popoverController.delegate = self;
+	settingsViewController.popoverController = popoverController;
 	
 	[popoverController showPopover:YES];
 }

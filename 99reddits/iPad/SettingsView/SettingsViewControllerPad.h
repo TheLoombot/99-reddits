@@ -10,6 +10,7 @@
 #import "MBProgressHUD.h"
 #import "PurchaseManager.h"
 #import <MessageUI/MFMailComposeViewController.h>
+#import "PopoverController.h"
 
 @class RedditsAppDelegate;
 @class MainViewControllerPad;
@@ -17,6 +18,7 @@
 @interface SettingsViewControllerPad : UIViewController <UITableViewDelegate, UITableViewDataSource, UIWebViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate> {
 	RedditsAppDelegate *appDelegate;
 	MainViewControllerPad *__weak mainViewController;
+	PopoverController __weak *popoverController;
 
 	IBOutlet UIScrollView *contentScrollView;
 	IBOutlet UIView *buttonsView;
@@ -41,5 +43,6 @@
 
 @property (strong) MBProgressHUD *hud;
 @property (nonatomic, weak) MainViewControllerPad *mainViewController;
+@property (nonatomic, weak) PopoverController *popoverController;
 
 @end

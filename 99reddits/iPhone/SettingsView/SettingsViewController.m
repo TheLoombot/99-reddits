@@ -345,11 +345,19 @@
 
 - (IBAction)onEmailButton:(id)sender {
 	if ([MFMailComposeViewController canSendMail]) {
+		UIDevice *currentDevice = [UIDevice currentDevice];
+		
+		NSString *contentString = [NSString stringWithFormat:@"\n\n\n---\n99 reddits v%@\n%@ / iOS %@",
+								   [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
+								   currentDevice.name,
+								   currentDevice.systemVersion];
+		
 		MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
 		mailComposeViewController.mailComposeDelegate = self;
 		
 		[mailComposeViewController setSubject:@"99 reddits feedback"];
 		[mailComposeViewController setToRecipients:[NSArray arrayWithObject:@"99reddits@lensie.com"]];
+		[mailComposeViewController setMessageBody:contentString isHTML:NO];
 		
 		[self presentViewController:mailComposeViewController animated:YES completion:nil];
 	}

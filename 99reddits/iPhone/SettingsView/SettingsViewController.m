@@ -80,21 +80,21 @@
 	aboutWebView.frame = CGRectMake(20, 335, 280, 100);
 	[aboutWebView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"about" ofType:@"html"]]]];
 	
-	int showedCount = [[appDelegate showedSet] count];
+	NSInteger showedCount = [[appDelegate showedSet] count];
 	NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
 	[formatter setNumberStyle:NSNumberFormatterDecimalStyle];
 	   
     imagesSeenString = [formatter stringFromNumber:[NSNumber numberWithInteger:showedCount]];
-	int imagesSeenLevel = showedCount / 1000;
+	NSInteger imagesSeenLevel = showedCount / 1000;
 	if (imagesSeenLevel > 80)
 		imagesSeenLevel = 80;
-	NSString *key = [NSString stringWithFormat:@"%d", imagesSeenLevel * 1000 - 1];
+	NSString *key = [NSString stringWithFormat:@"%ld", (long)(imagesSeenLevel * 1000 - 1)];
 	
 	NSDictionary *titleDictionary = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Titles" ofType:@"plist"]];
 	titleString = [titleDictionary objectForKey:key];
     
 	if (showedCount < 80000) {
-        imagesToNextTitleString = [formatter stringFromNumber:[NSNumber numberWithInt:(imagesSeenLevel + 1) * 1000 - showedCount]];
+        imagesToNextTitleString = [formatter stringFromNumber:[NSNumber numberWithInteger:(imagesSeenLevel + 1) * 1000 - showedCount]];
     }
 	else {
         imagesToNextTitleString = @"You win!";
@@ -165,7 +165,7 @@
 		cell.detailTextLabel.font = [UIFont boldSystemFontOfSize:16];
 	}
 	
-	int row = indexPath.row;
+	NSInteger row = indexPath.row;
 	if (row == 0) {
 		cell.textLabel.text = @"Version";
 		cell.detailTextLabel.textColor = [UIColor colorWithRed:80 / 255.0 green:114 / 255.0 blue:160 / 255.0 alpha:1.0];
@@ -310,7 +310,7 @@
 }
 
 - (void)refreshViews {
-	int height = [[aboutWebView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] intValue];
+	NSInteger height = [[aboutWebView stringByEvaluatingJavaScriptFromString:@"document.body.offsetHeight;"] intValue];
 	height += 10;
 	CGRect frame = aboutWebView.frame;
 	frame.size.height = height;

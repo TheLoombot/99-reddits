@@ -343,7 +343,7 @@
 	
 	refreshCount = 0;
 	
-	for (int i = 0; i < subRedditsArray.count; i ++) {
+	for (NSInteger i = 0; i < subRedditsArray.count; i ++) {
 		SubRedditItem *subReddit = [subRedditsArray objectAtIndex:i];
 		subReddit.loading = YES;
 		
@@ -366,8 +366,8 @@
 	NSString *urlString = [[request originalURL] absoluteString];
 	
 	SubRedditItem *subReddit = nil;
-	int index = 0;
-	for (int i = 0; i < subRedditsArray.count; i ++) {
+	NSInteger index = 0;
+	for (NSInteger i = 0; i < subRedditsArray.count; i ++) {
 		SubRedditItem *tempSubReddit = [subRedditsArray objectAtIndex:i];
 		if ([tempSubReddit.urlString isEqualToString:urlString]) {
 			subReddit = tempSubReddit;
@@ -420,8 +420,8 @@
 	NSString *urlString = [[request originalURL] absoluteString];
 	
 	SubRedditItem *subReddit = nil;
-	int index = 0;
-	for (int i = 0; i < subRedditsArray.count; i ++) {
+	NSInteger index = 0;
+	for (NSInteger i = 0; i < subRedditsArray.count; i ++) {
 		SubRedditItem *tempSubReddit = [subRedditsArray objectAtIndex:i];
 		if ([tempSubReddit.urlString isEqualToString:urlString]) {
 			subReddit = tempSubReddit;
@@ -594,12 +594,12 @@
 	[readOp setCompletionBlock:^{
 		UIImage *image = [UIImage imageWithData:[readOp responseData]];
 		
-		int index = -2;
+		NSInteger index = -2;
 		if (photoIndex == -1) {
 			index = -1;
 		}
 		else {
-			for (int i = 0; i < subRedditsArray.count; i ++) {
+			for (NSInteger i = 0; i < subRedditsArray.count; i ++) {
 				NSString *keyString = [self cacheKeyForPhotoIndex:i];
 				if ([keyString isEqualToString:photoIndexKey]) {
 					index = i;
@@ -610,7 +610,7 @@
 		
 		if (index != -2) {
 			if (image && (subRedditsArray.count + 1 > photoIndex || photoIndex == -1)) {
-				int x, y, w, h;
+				NSInteger x, y, w, h;
 				float imgRatio = image.size.width / image.size.height;
 				if (imgRatio < 1) {
 					h = THUMB_HEIGHT;
@@ -709,7 +709,7 @@
 	if (![subRedditsArray containsObject:subReddit])
 		return;
 	
-	int index = [subRedditsArray indexOfObject:subReddit];
+	NSInteger index = [subRedditsArray indexOfObject:subReddit];
 	if (subReddit.photosArray.count > 0) {
 		NSString *thumbnailString = [[subReddit.photosArray objectAtIndex:0] thumbnailString];
 		for (ASIHTTPRequest *request in queue.operations) {

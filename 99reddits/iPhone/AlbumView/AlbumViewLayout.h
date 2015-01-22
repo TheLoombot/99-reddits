@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface AlbumViewLayout : UICollectionViewFlowLayout {
-	int cellCount;
+	NSInteger cellCount;
 	NSMutableArray *deleteIndexPaths;
 	NSMutableArray *insertIndexPaths;
 }

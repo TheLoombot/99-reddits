@@ -16,8 +16,8 @@
 	UILabel *unshowedLabel;
 	UIImageView *animateImageView;
 
-	int unshowedCount;
-	int totalCount;
+	NSInteger unshowedCount;
+	NSInteger totalCount;
 	BOOL loading;
 	
 	BOOL first;
@@ -29,8 +29,8 @@
 
 @property (nonatomic, readonly) UILabel *contentTextLabel;
 
-- (void)setUnshowedCount:(int)_unshowedCount totalCount:(int)_totalCount loading:(BOOL)_loading;
-- (void)setTotalCount:(int)_totalCount;
+- (void)setUnshowedCount:(NSInteger)_unshowedCount totalCount:(NSInteger)_totalCount loading:(BOOL)_loading;
+- (void)setTotalCount:(NSInteger)_totalCount;
 - (void)setThumbImage:(UIImage *)thumbImage animated:(BOOL)animated;
 
 @end

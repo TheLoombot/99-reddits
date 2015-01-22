@@ -133,7 +133,7 @@
 		8D68FD5E14F88DCB00CDCF66 /* ASIHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D68FD4E14F88DCB00CDCF66 /* ASIHTTPRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		8D68FD5F14F88DCB00CDCF66 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D68FD5214F88DCB00CDCF66 /* ASIInputStream.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		8D68FD6014F88DCB00CDCF66 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D68FD5414F88DCB00CDCF66 /* ASINetworkQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		8D68FD6114F88DCB00CDCF66 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D68FD5814F88DCB00CDCF66 /* Reachability.m */; };
+		8D68FD6114F88DCB00CDCF66 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D68FD5814F88DCB00CDCF66 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		8D68FD6414F88DF400CDCF66 /* NIHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D68FD6314F88DF400CDCF66 /* NIHTTPRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		8D68FDC914F8909000CDCF66 /* NICommonMetrics.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D68FD7614F8909000CDCF66 /* NICommonMetrics.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		8D68FDCA14F8909000CDCF66 /* NIDataStructures.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D68FD7814F8909000CDCF66 /* NIDataStructures.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };

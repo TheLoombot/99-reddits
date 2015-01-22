@@ -31,12 +31,12 @@
 	NSMutableSet* activeRequests;
 	NIImageMemoryCache* thumbnailImageCache;
 	
-	int refreshCount;
+	NSInteger refreshCount;
 
-	int lastAddedIndex;
+	NSInteger lastAddedIndex;
 }
 
-@property (nonatomic, assign) int lastAddedIndex;
+@property (nonatomic, assign) NSInteger lastAddedIndex;
 
 - (IBAction)onSettingsButton:(id)sender;
 - (IBAction)onEditButton:(id)sender;

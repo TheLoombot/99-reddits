@@ -90,7 +90,7 @@
 - (IBAction)onDoneButton:(id)sender {
 	BOOL bChanged = NO;
 
-	int lastAddedIndex = -1;
+	NSInteger lastAddedIndex = -1;
 	
 	NSArray *tempSubRedditsArray = [NSArray arrayWithArray:appDelegate.subRedditsArray];
 	for (SubRedditItem *subReddit in tempSubRedditsArray) {

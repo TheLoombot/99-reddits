@@ -207,8 +207,8 @@ const CGFloat NIPagingScrollViewDefaultPageHorizontalMargin = 10;
 
 	NSInteger currentVisiblePageIndex = [self currentVisiblePageIndex];
 
-	int firstVisiblePageIndex = boundi(currentVisiblePageIndex - 1, 0, _numberOfPages - 1);
-	int lastVisiblePageIndex  = boundi(currentVisiblePageIndex + 1, 0, _numberOfPages - 1);
+	NSInteger firstVisiblePageIndex = boundi(currentVisiblePageIndex - 1, 0, _numberOfPages - 1);
+	NSInteger lastVisiblePageIndex  = boundi(currentVisiblePageIndex + 1, 0, _numberOfPages - 1);
 
 	return NSMakeRange(firstVisiblePageIndex, lastVisiblePageIndex - firstVisiblePageIndex + 1);
 }
@@ -300,7 +300,7 @@ const CGFloat NIPagingScrollViewDefaultPageHorizontalMargin = 10;
 		}
 
 		// Add missing pages.
-		for (int pageIndex = visiblePageRange.location;
+		for (NSInteger pageIndex = visiblePageRange.location;
 			 pageIndex < NSMaxRange(visiblePageRange); ++pageIndex) {
 			if (![self isDisplayingPageForIndex:pageIndex]) {
 				[self displayPageAtIndex:pageIndex];
@@ -561,7 +561,7 @@ const CGFloat NIPagingScrollViewDefaultPageHorizontalMargin = 10;
 	_isModifyingContentOffset = YES;
 	[self.pagingScrollView setContentOffset:offset animated:animated];
 
-	NSNumber* pageIndexNumber = [NSNumber numberWithInt:pageIndex];
+	NSNumber* pageIndexNumber = [NSNumber numberWithInteger:pageIndex];
 	if (animated) {
 		_isAnimatingToPage = YES;
 		SEL selector = @selector(didAnimateToPage:);

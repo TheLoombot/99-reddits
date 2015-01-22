@@ -233,7 +233,7 @@
 		if (buttonIndex == actionSheet.cancelButtonIndex)
 			return;
 		
-		int currentIndex = self.photoAlbumView.centerPageIndex;
+		NSInteger currentIndex = self.photoAlbumView.centerPageIndex;
 		PhotoItem *photo = [subReddit.photosArray objectAtIndex:currentIndex];
 		if ([appDelegate removeFromFavorites:photo]) {
 			if (subReddit.photosArray.count == 0) {
@@ -256,7 +256,7 @@
 }
 
 - (NSString *)cacheKeyForPhotoIndex:(NSInteger)photoIndex {
-	return [NSString stringWithFormat:@"%d", photoIndex];
+	return [NSString stringWithFormat:@"%ld", (long)photoIndex];
 }
 
 - (void)requestImageFromSource:(NSString *)source photoSize:(NIPhotoScrollViewPhotoSize)photoSize photoIndex:(NSInteger)photoIndex {
@@ -267,7 +267,7 @@
 		return;
 
 	NSInteger identifier = photoIndex;
-	NSNumber *identifierKey = [NSNumber numberWithInt:identifier];
+	NSNumber *identifierKey = [NSNumber numberWithInteger:identifier];
 	
 	if ([activeRequests containsObject:identifierKey]) {
 		return;
@@ -453,7 +453,7 @@
 	for (ASIHTTPRequest *op in [queue operations]) {
 		if (op.tag == photoIndex) {
 			[op cancel];
-			NSNumber *identifierKey = [NSNumber numberWithInt:photoIndex];
+			NSNumber *identifierKey = [NSNumber numberWithInteger:photoIndex];
 			[activeRequests removeObject:identifierKey];
 		}
 	}
@@ -617,7 +617,7 @@
 
 - (IBAction)onFullPhotoButton:(id)sender {
 	NSInteger identifier = self.photoAlbumView.centerPageIndex;
-	NSNumber *identifierKey = [NSNumber numberWithInt:identifier];
+	NSNumber *identifierKey = [NSNumber numberWithInteger:identifier];
 	NSString *photoIndexKey = [self cacheKeyForPhotoIndex:identifier];
 	[activeRequests removeObject:identifierKey];
 	[highQualityImageCache removeObjectWithName:photoIndexKey];

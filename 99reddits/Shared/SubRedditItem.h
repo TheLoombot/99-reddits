@@ -19,7 +19,7 @@
 	
 	BOOL loading;
 	
-	int unshowedCount;
+	NSInteger unshowedCount;
 }
 
 @property (nonatomic, strong) NSString *nameString;
@@ -29,7 +29,7 @@
 @property (nonatomic, strong) NSString *category;
 @property (nonatomic) BOOL subscribe;
 @property (nonatomic) BOOL loading;
-@property (nonatomic) int unshowedCount;
+@property (nonatomic) NSInteger unshowedCount;
 
 - (void)removeAllCaches;
 - (void)calUnshowedCount;

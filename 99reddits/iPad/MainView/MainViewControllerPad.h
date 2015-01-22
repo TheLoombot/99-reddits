@@ -34,15 +34,15 @@
 	NSMutableSet* activeRequests;
 	NIImageMemoryCache* thumbnailImageCache;
 	
-	int refreshCount;
+	NSInteger refreshCount;
 	float scale;
 
-	int lastAddedIndex;
+	NSInteger lastAddedIndex;
 	
 	PopoverController *popoverController;
 }
 
-@property (nonatomic, assign) int lastAddedIndex;
+@property (nonatomic, assign) NSInteger lastAddedIndex;
 
 - (IBAction)onSettingsButton:(id)sender;
 - (IBAction)onEditButton:(id)sender;

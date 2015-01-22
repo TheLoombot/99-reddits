@@ -327,7 +327,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 + (NSString *)stringByRemoveHTML:(NSString *)string {
 	NSString *result = string;
 	
-	for (int i = 0; i < 171; i ++) {
+	for (NSInteger i = 0; i < 171; i ++) {
 		result = [result stringByReplacingOccurrencesOfString:htmlStrings[i] withString:normalStrings[i]];
 	}
 	
@@ -366,7 +366,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 	if (![self isFavorite:photo])
 		return NO;
 	
-	for (int i = 0; i < favoritesItem.photosArray.count; i ++) {
+	for (NSInteger i = 0; i < favoritesItem.photosArray.count; i ++) {
 		PhotoItem *item = [favoritesItem.photosArray objectAtIndex:i];
 		if ([item.idString isEqualToString:photo.idString]) {
 			[favoritesItem.photosArray removeObject:item];

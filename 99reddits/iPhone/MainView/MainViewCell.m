@@ -71,7 +71,7 @@
 		[self setUnshowedCount:unshowedCount totalCount:totalCount loading:loading];
 }
 
-- (void)setUnshowedCount:(int)_unshowedCount totalCount:(int)_totalCount loading:(BOOL)_loading {
+- (void)setUnshowedCount:(NSInteger)_unshowedCount totalCount:(NSInteger)_totalCount loading:(BOOL)_loading {
 	bFavorites = NO;
 	
 	unshowedCount = _unshowedCount;
@@ -98,7 +98,7 @@
 		self.textLabel.frame = frame;
 		
 		unshowedLabel.frame = CGRectMake(0, 0, 200, 20);
-		unshowedLabel.text = [NSString stringWithFormat:@"%d", unshowedCount];
+		unshowedLabel.text = [NSString stringWithFormat:@"%ld", (long)unshowedCount];
 		[unshowedLabel sizeToFit];
 		
 		CGRect rect = unshowedLabel.frame;
@@ -116,7 +116,7 @@
 	}
 }
 
-- (void)setTotalCount:(int)_totalCount {
+- (void)setTotalCount:(NSInteger)_totalCount {
 	bFavorites = YES;
 
 	unshowedCount = 0;

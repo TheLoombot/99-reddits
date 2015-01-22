@@ -15,8 +15,8 @@
 	IBOutlet UIView *overlayView;
 	
 	NSData *_gifData;
-	int width;
-	int height;
+	NSInteger width;
+	NSInteger height;
 	
 	UITapGestureRecognizer* _tapGesture;
 	
@@ -26,8 +26,8 @@
 }
 
 @property (nonatomic, strong) NSData *gifData;
-@property (nonatomic) int width;
-@property (nonatomic) int height;
+@property (nonatomic) NSInteger width;
+@property (nonatomic) NSInteger height;
 @property (nonatomic, weak) PhotoView *photoView;
 
 @end

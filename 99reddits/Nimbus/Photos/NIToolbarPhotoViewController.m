@@ -618,9 +618,9 @@
 	else
 		nextPhotoButton.alpha = 0.0;
 	fullPhotoButton.alpha = 1.0;
-	self.title = [NSString stringWithFormat:@"%d of %d",
-				  (self.photoAlbumView.centerPageIndex + 1),
-				  self.photoAlbumView.numberOfPages];
+	self.title = [NSString stringWithFormat:@"%ld of %ld",
+				  (long)(self.photoAlbumView.centerPageIndex + 1),
+				  (long)self.photoAlbumView.numberOfPages];
 }
 
 

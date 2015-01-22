@@ -88,7 +88,7 @@
 - (void)resizeWebview:(BOOL)portrait {
 	CGSize screenSize = [[UIScreen mainScreen] bounds].size;
 
-	int screenWidth, screenHeight;
+	NSInteger screenWidth, screenHeight;
 	if (portrait) {
 		screenWidth = screenSize.width;
 		screenHeight = screenSize.height;

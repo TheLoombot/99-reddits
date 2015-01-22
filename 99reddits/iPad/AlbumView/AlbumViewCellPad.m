@@ -88,8 +88,8 @@
 		imageEmpty = YES;
 	}
 	else {
-		int width = thumbImage.size.width;
-		int height = thumbImage.size.height;
+		NSInteger width = thumbImage.size.width;
+		NSInteger height = thumbImage.size.height;
 		if (width > height) {
 			width = 108;
 			height = height * width / thumbImage.size.width;
@@ -98,7 +98,7 @@
 			height = 108;
 			width = width * height / thumbImage.size.height;
 		}
-		CGRect rect = CGRectMake((int)(108 - width) / 2 + 6, (int)(108 - height) / 2 + 6, width, height);
+		CGRect rect = CGRectMake((NSInteger)(108 - width) / 2 + 6, (NSInteger)(108 - height) / 2 + 6, width, height);
 
 		rect.origin.x -= 6;
 		rect.origin.y -= 6;

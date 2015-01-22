@@ -24,15 +24,15 @@
 	NIImageMemoryCache *highQualityImageCache;
 	
 	SubRedditItem *subReddit;
-	int index;
+	NSInteger index;
 	
 	BOOL releasing;
 	
 	BOOL disappearForSubview;
 	
 	BOOL sharing;
-	int sharingType;
-	int sharingIndex;
+	NSInteger sharingType;
+	NSInteger sharingIndex;
 	
 	NSData *sharingData;
 
@@ -43,7 +43,7 @@
 }
 
 @property (nonatomic, strong) SubRedditItem *subReddit;
-@property (nonatomic) int index;
+@property (nonatomic) NSInteger index;
 @property (nonatomic) BOOL disappearForSubview;
 @property (nonatomic) BOOL bFavorites;
 

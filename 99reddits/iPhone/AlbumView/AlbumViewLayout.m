@@ -26,8 +26,8 @@
 
 - (UICollectionViewLayoutAttributes *)layoutAttributesForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewLayoutAttributes *attributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
-	int row = indexPath.item / 4;
-	int col = indexPath.item % 4;
+	NSInteger row = indexPath.item / 4;
+	NSInteger col = indexPath.item % 4;
 	attributes.frame = CGRectMake(4 + col * 79, 4 + row * 79, 75, 75);
     return attributes;
 }
@@ -67,7 +67,7 @@
 	if (attributes == nil)
 		attributes = [self layoutAttributesForItemAtIndexPath:itemIndexPath];
 
-	int count = 0;
+	NSInteger count = 0;
 	for (NSIndexPath *indexPath in insertIndexPaths) {
 		if (indexPath.row < itemIndexPath.row)
 			count --;
@@ -78,16 +78,16 @@
 	}
 
 	if ([insertIndexPaths containsObject:itemIndexPath]) {
-		int row = itemIndexPath.row / 4;
-		int col = itemIndexPath.row % 4;
+		NSInteger row = itemIndexPath.row / 4;
+		NSInteger col = itemIndexPath.row % 4;
 		attributes.frame = CGRectMake(4 + col * 79, 4 + row * 79, 75, 75);
 		attributes.alpha = 0.0;
 		attributes.transform3D = CATransform3DMakeScale(0.1, 0.1, 1.0);
 		attributes.zIndex = -1;
 	}
 	else {
-		int row = (itemIndexPath.row + count) / 4;
-		int col = (itemIndexPath.row + count) % 4;
+		NSInteger row = (itemIndexPath.row + count) / 4;
+		NSInteger col = (itemIndexPath.row + count) % 4;
 		attributes.frame = CGRectMake(4 + col * 79, 4 + row * 79, 75, 75);
 	}
 
@@ -100,8 +100,8 @@
 	if (attributes == nil)
 		attributes = [self layoutAttributesForItemAtIndexPath:itemIndexPath];
 
-	int row = itemIndexPath.row / 4;
-	int col = itemIndexPath.row % 4;
+	NSInteger row = itemIndexPath.row / 4;
+	NSInteger col = itemIndexPath.row % 4;
 	attributes.frame = CGRectMake(4 + col * 79, 4 + row * 79, 75, 75);
 
 	if ([deleteIndexPaths containsObject:itemIndexPath]) {

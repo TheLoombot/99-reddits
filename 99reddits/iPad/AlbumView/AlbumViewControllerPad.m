@@ -260,7 +260,7 @@
 }
 
 - (void)loadThumbnails {
-	for (int i = 0; i < currentPhotosArray.count; i ++) {
+	for (NSInteger i = 0; i < currentPhotosArray.count; i ++) {
 		NSString *photoIndexKey = [self cacheKeyForPhotoIndex:i];
 		if (![thumbnailImageCache containsObjectWithName:photoIndexKey]) {
 			[self requestImageFromSource:[[currentPhotosArray objectAtIndex:i] thumbnailString] photoIndex:i];
@@ -279,7 +279,7 @@
 	if (source.length == 0)
 		return;
 	
-	NSNumber *identifierKey = [NSNumber numberWithInt:photoIndex];
+	NSNumber *identifierKey = [NSNumber numberWithInteger:photoIndex];
 	if ([activeRequests containsObject:identifierKey]) {
 		return;
 	}
@@ -297,7 +297,7 @@
 		UIImage *image = [UIImage imageWithData:[readOp responseData]];
 		
 		if (image && currentPhotosArray.count > photoIndex) {
-			int x, y, w, h;
+			NSInteger x, y, w, h;
 			float imgRatio = image.size.width / image.size.height;
 			if (imgRatio < 1) {
 				h = THUMB_HEIGHT;
@@ -649,7 +649,7 @@
 		self.title = subReddit.nameString;
 	}
 	else {
-		int unshowedCount = 0;
+		NSInteger unshowedCount = 0;
 		for (PhotoItem *photo in currentSubReddit.photosArray) {
 			if (![photo isShowed]) {
 				unshowedCount ++;
@@ -657,7 +657,7 @@
 		}
 
 		if (unshowedCount > 0) {
-			self.title = [NSString stringWithFormat:@"%@ (%d)", subReddit.nameString, unshowedCount];
+			self.title = [NSString stringWithFormat:@"%@ (%ld)", subReddit.nameString, (long)unshowedCount];
 
 			showTypeSegmentedControl.userInteractionEnabled = YES;
 			self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl];
@@ -685,7 +685,7 @@
 	}
 	else {
 		NSMutableArray *deleteItemsArray = [NSMutableArray array];
-		for (int i = 0; i < currentPhotosArray.count; i ++) {
+		for (NSInteger i = 0; i < currentPhotosArray.count; i ++) {
 			PhotoItem *photo = [currentPhotosArray objectAtIndex:i];
 			if (![newPhotosArray containsObject:photo]) {
 				[deleteItemsArray addObject:[NSIndexPath indexPathForItem:i inSection:0]];
@@ -693,7 +693,7 @@
 		}
 
 		NSMutableArray *insertItemsArray = [NSMutableArray array];
-		for (int i = 0; i < newPhotosArray.count; i ++) {
+		for (NSInteger i = 0; i < newPhotosArray.count; i ++) {
 			PhotoItem *photo = [newPhotosArray objectAtIndex:i];
 			if (![currentPhotosArray containsObject:photo]) {
 				[insertItemsArray addObject:[NSIndexPath indexPathForItem:i inSection:0]];

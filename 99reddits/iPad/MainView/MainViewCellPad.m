@@ -76,7 +76,7 @@
 }
 
 
-- (void)setUnshowedCount:(int)_unshowedCount totalCount:(int)_totalCount loading:(BOOL)_loading {
+- (void)setUnshowedCount:(NSInteger)_unshowedCount totalCount:(NSInteger)_totalCount loading:(BOOL)_loading {
 	unshowedCount = _unshowedCount;
 	totalCount = _totalCount;
 	loading = _loading;
@@ -105,7 +105,7 @@
 		unshowedLabel.hidden = NO;
 		
 		unshowedLabel.frame = CGRectMake(0, 0, 200, 20);
-		unshowedLabel.text = [NSString stringWithFormat:@"%d", unshowedCount];
+		unshowedLabel.text = [NSString stringWithFormat:@"%ld", (long)unshowedCount];
 		[unshowedLabel sizeToFit];
 		
 		CGRect rect = unshowedLabel.frame;
@@ -123,7 +123,7 @@
 	}
 }
 
-- (void)setTotalCount:(int)_totalCount {
+- (void)setTotalCount:(NSInteger)_totalCount {
 	totalCount = _totalCount;
 	bFavorites = YES;
 	deleteButton.alpha = 0.0;
@@ -176,8 +176,8 @@
 		imageEmpty = YES;
 	}
 	else {
-		int width = thumbImage.size.width;
-		int height = thumbImage.size.height;
+		NSInteger width = thumbImage.size.width;
+		NSInteger height = thumbImage.size.height;
 		if (width > height) {
 			width = 108;
 			height = height * width / thumbImage.size.width;
@@ -186,7 +186,7 @@
 			height = 108;
 			width = width * height / thumbImage.size.height;
 		}
-		CGRect rect = CGRectMake((int)(108 - width) / 2 + 21, (int)(108 - height) / 2 + 21, width, height);
+		CGRect rect = CGRectMake((NSInteger)(108 - width) / 2 + 21, (NSInteger)(108 - height) / 2 + 21, width, height);
 		rect.origin.x -= 6;
 		rect.origin.y -= 6;
 		rect.size.width += 12;

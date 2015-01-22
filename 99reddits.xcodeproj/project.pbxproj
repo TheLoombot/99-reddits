@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		846C65691A70E85A0071664B /* libFlurry_5.4.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 846C65681A70E85A0071664B /* libFlurry_5.4.0.a */; };
 		8D060A8616AD29E700AED06E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D060A8516AD29E700AED06E /* QuartzCore.framework */; };
 		8D060A9A16AD385B00AED06E /* CustomCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D060A9916AD385B00AED06E /* CustomCollectionView.m */; };
 		8D060AAD16AD525A00AED06E /* MainViewLayoutPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D060AAC16AD525A00AED06E /* MainViewLayoutPad.m */; };
@@ -238,10 +239,10 @@
 		9C16324C14733A9400CF0443 /* DefaultPhoto.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C16323114733A9400CF0443 /* DefaultPhoto.png */; };
 		9C16324D14733A9400CF0443 /* DefaultAlbumIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C16323214733A9400CF0443 /* DefaultAlbumIcon@2x.png */; };
 		9C16324E14733A9400CF0443 /* DefaultAlbumIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 9C16323314733A9400CF0443 /* DefaultAlbumIcon.png */; };
-		9C57D5931680201B00AB7126 /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C57D5921680201B00AB7126 /* libFlurry.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		846C65681A70E85A0071664B /* libFlurry_5.4.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_5.4.0.a; sourceTree = "<group>"; };
 		8D060A8516AD29E700AED06E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8D060A9816AD385B00AED06E /* CustomCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCollectionView.h; sourceTree = "<group>"; };
 		8D060A9916AD385B00AED06E /* CustomCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCollectionView.m; sourceTree = "<group>"; };
@@ -603,7 +604,6 @@
 		9C16323214733A9400CF0443 /* DefaultAlbumIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DefaultAlbumIcon@2x.png"; sourceTree = "<group>"; };
 		9C16323314733A9400CF0443 /* DefaultAlbumIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultAlbumIcon.png; sourceTree = "<group>"; };
 		9C57D5911680201B00AB7126 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
-		9C57D5921680201B00AB7126 /* libFlurry.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -626,9 +626,9 @@
 				8D5080091445923700788875 /* Foundation.framework in Frameworks */,
 				8D50800B1445923700788875 /* CoreGraphics.framework in Frameworks */,
 				8DAECE43145A3E55004D194A /* MessageUI.framework in Frameworks */,
+				846C65691A70E85A0071664B /* libFlurry_5.4.0.a in Frameworks */,
 				8D5080BB1445944500788875 /* libz.dylib in Frameworks */,
 				8D4B1CA3145AEA7D005E9BFE /* libxml2.dylib in Frameworks */,
-				9C57D5931680201B00AB7126 /* libFlurry.a in Frameworks */,
 				9C0334BB16B2391800A2F5D3 /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1191,7 +1191,7 @@
 			isa = PBXGroup;
 			children = (
 				9C57D5911680201B00AB7126 /* Flurry.h */,
-				9C57D5921680201B00AB7126 /* libFlurry.a */,
+				846C65681A70E85A0071664B /* libFlurry_5.4.0.a */,
 			);
 			name = Flurry;
 			path = 99reddits/Flurry;
@@ -1624,6 +1624,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/99reddits/Flurry\"",
+					"$(PROJECT_DIR)/99reddits/Flurry",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -1644,6 +1645,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/99reddits/Flurry\"",
+					"$(PROJECT_DIR)/99reddits/Flurry",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

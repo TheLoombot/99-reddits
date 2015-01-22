@@ -12,7 +12,7 @@
 	UIActivityIndicatorView *activityIndicator;
 	UIImageView *contentImageView;
 	UILabel *contentTextLabel;
-	UIImageView *unshowedBackImageView;
+	UIView *unshowedBackView;
 	UILabel *unshowedLabel;
 	UIImageView *animateImageView;
 

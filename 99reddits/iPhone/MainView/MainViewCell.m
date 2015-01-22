@@ -34,17 +34,15 @@
 //		self.textLabel.textColor = [UIColor blackColor];
 //		self.textLabel.backgroundColor = [UIColor clearColor];
 
-		unshowedBackImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 29, 29)];
-		if (isIOS7Below)
-			unshowedBackImageView.image = [[UIImage imageNamed:@"BadgeBack.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0];
-		else
-			unshowedBackImageView.image = [[UIImage imageNamed:@"BadgeRedBack.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0];
-		[self addSubview:unshowedBackImageView];
+		unshowedBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
+		unshowedBackView.userInteractionEnabled = NO;
+		unshowedBackView.backgroundColor = [UIColor redColor];
+		unshowedBackView.clipsToBounds = YES;
+		unshowedBackView.layer.cornerRadius = 12;
+		[self addSubview:unshowedBackView];
+		
 		unshowedLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-		if (isIOS7Below)
-			unshowedLabel.font = [UIFont boldSystemFontOfSize:14];
-		else
-			unshowedLabel.font = [UIFont boldSystemFontOfSize:17];
+		unshowedLabel.font = [UIFont boldSystemFontOfSize:17];
 		unshowedLabel.backgroundColor = [UIColor clearColor];
 		unshowedLabel.textColor = [UIColor whiteColor];
 		[self addSubview:unshowedLabel];
@@ -56,9 +54,10 @@
     return self;
 }
 
-
 - (void)layoutSubviews {
 	[super layoutSubviews];
+	
+	unshowedBackView.backgroundColor = [UIColor redColor];
 	
 	if (first) {
 		first = NO;
@@ -86,11 +85,11 @@
 		self.accessoryView = nil;
 	
 	if (unshowedCount == 0) {
-		unshowedBackImageView.hidden = YES;
+		unshowedBackView.hidden = YES;
 		unshowedLabel.hidden = YES;
 	}
 	else {
-		unshowedBackImageView.hidden = NO;
+		unshowedBackView.hidden = NO;
 		unshowedLabel.hidden = NO;
 		
 		CGRect frame = self.textLabel.frame;
@@ -103,16 +102,18 @@
 		
 		CGRect rect = unshowedLabel.frame;
 		rect.size.width = ceil(rect.size.width);
+		if (rect.size.width < 10)
+			rect.size.width = 10;
 		rect.size.height = 20;
 		rect.origin.x = 275 - rect.size.width;
 		rect.origin.y = 17;
 		unshowedLabel.frame = rect;
 		
-		rect.origin.x -= 10;
-		rect.origin.y -= 3;
-		rect.size.width += 20;
-		rect.size.height += 9;
-		unshowedBackImageView.frame = rect;
+		rect.origin.x -= 7;
+		rect.origin.y -= 2;
+		rect.size.width += 14;
+		rect.size.height += 4;
+		unshowedBackView.frame = rect;
 	}
 }
 
@@ -130,7 +131,7 @@
 	else
 		self.accessoryView = nil;
 	
-	unshowedBackImageView.hidden = YES;
+	unshowedBackView.hidden = YES;
 	unshowedLabel.hidden = YES;
 	
 //	CGRect frame = self.textLabel.frame;
@@ -144,11 +145,11 @@
 	[UIView animateWithDuration:0.2
 					 animations:^(void) {
 						 if (editing) {
-							 unshowedBackImageView.alpha = 0.0;
+							 unshowedBackView.alpha = 0.0;
 							 unshowedLabel.alpha = 0.0;
 						 }
 						 else {
-							 unshowedBackImageView.alpha = 1.0;
+							 unshowedBackView.alpha = 1.0;
 							 unshowedLabel.alpha = 1.0;
 						 }
 					 }];

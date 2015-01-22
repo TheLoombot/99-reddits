@@ -22,7 +22,7 @@
 	UIButton *tapButton;
 	UIActivityIndicatorView *activityIndicator;
 	UIButton *deleteButton;
-	UIImageView *unshowedBackImageView;
+	UIView *unshowedBackView;
 	UILabel *unshowedLabel;
 	UILabel *nameLabel;
 	UIImageView *animateImageView;

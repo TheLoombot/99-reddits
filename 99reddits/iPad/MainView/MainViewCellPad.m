@@ -45,6 +45,7 @@
 		activityIndicator.center = imageOutlineView.center;
 		[activityIndicator startAnimating];
 		[self.contentView addSubview:activityIndicator];
+		
 		nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 135, 120, 40)];
 		nameLabel.font = [UIFont boldSystemFontOfSize:15];
 		nameLabel.numberOfLines = 2;
@@ -52,29 +53,28 @@
 		nameLabel.backgroundColor = [UIColor clearColor];
 		nameLabel.textAlignment = NSTextAlignmentCenter;
 		[self.contentView addSubview:nameLabel];
+		
 		deleteButton = [UIButton buttonWithType:UIButtonTypeCustom];
 		deleteButton.frame = CGRectMake(0, 0, 29, 29);
 		[deleteButton setBackgroundImage:[UIImage imageNamed:@"DeleteButton.png"] forState:UIControlStateNormal];
 		[deleteButton addTarget:self action:@selector(onDeleteButton:) forControlEvents:UIControlEventTouchUpInside];
 		[self.contentView addSubview:deleteButton];
-		unshowedBackImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 29, 29)];
-		if (isIOS7Below)
-			unshowedBackImageView.image = [[UIImage imageNamed:@"BadgeBack.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0];
-		else
-			unshowedBackImageView.image = [[UIImage imageNamed:@"BadgeRedBack.png"] stretchableImageWithLeftCapWidth:14 topCapHeight:0];
-		[self.contentView addSubview:unshowedBackImageView];
+		
+		unshowedBackView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
+		unshowedBackView.userInteractionEnabled = NO;
+		unshowedBackView.backgroundColor = [UIColor redColor];
+		unshowedBackView.clipsToBounds = YES;
+		unshowedBackView.layer.cornerRadius = 12;
+		[self.contentView addSubview:unshowedBackView];
+		
 		unshowedLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-		if (isIOS7Below)
-			unshowedLabel.font = [UIFont boldSystemFontOfSize:14];
-		else
-			unshowedLabel.font = [UIFont boldSystemFontOfSize:17];
+		unshowedLabel.font = [UIFont boldSystemFontOfSize:17];
 		unshowedLabel.backgroundColor = [UIColor clearColor];
 		unshowedLabel.textColor = [UIColor whiteColor];
 		[self.contentView addSubview:unshowedLabel];
 	}
 	return self;
 }
-
 
 - (void)setUnshowedCount:(NSInteger)_unshowedCount totalCount:(NSInteger)_totalCount loading:(BOOL)_loading {
 	unshowedCount = _unshowedCount;
@@ -97,11 +97,11 @@
 	}
 	
 	if (unshowedCount == 0) {
-		unshowedBackImageView.hidden = YES;
+		unshowedBackView.hidden = YES;
 		unshowedLabel.hidden = YES;
 	}
 	else {
-		unshowedBackImageView.hidden = NO;
+		unshowedBackView.hidden = NO;
 		unshowedLabel.hidden = NO;
 		
 		unshowedLabel.frame = CGRectMake(0, 0, 200, 20);
@@ -110,16 +110,18 @@
 		
 		CGRect rect = unshowedLabel.frame;
 		rect.size.width = ceil(rect.size.width);
+		if (rect.size.width < 10)
+			rect.size.width = 10;
 		rect.size.height = 20;
 		rect.origin.x = imageOutlineView.frame.origin.x + imageOutlineView.frame.size.width + 2 - rect.size.width;
 		rect.origin.y = imageOutlineView.frame.origin.y + imageOutlineView.frame.size.height - 11;
 		unshowedLabel.frame = rect;
 		
-		rect.origin.x -= 10;
-		rect.origin.y -= 3;
-		rect.size.width += 20;
-		rect.size.height += 9;
-		unshowedBackImageView.frame = rect;
+		rect.origin.x -= 7;
+		rect.origin.y -= 2;
+		rect.size.width += 14;
+		rect.size.height += 4;
+		unshowedBackView.frame = rect;
 	}
 }
 
@@ -133,7 +135,7 @@
 		[activityIndicator stopAnimating];
 	}
 	
-	unshowedBackImageView.hidden = YES;
+	unshowedBackView.hidden = YES;
 	unshowedLabel.hidden = YES;
 }
 
@@ -201,16 +203,18 @@
 
 		rect = unshowedLabel.frame;
 		rect.size.width = ceil(rect.size.width);
+		if (rect.size.width < 10)
+			rect.size.height = 10;
 		rect.size.height = 20;
 		rect.origin.x = imageOutlineView.frame.origin.x + imageOutlineView.frame.size.width + 2 - rect.size.width;
 		rect.origin.y = imageOutlineView.frame.origin.y + imageOutlineView.frame.size.height - 11;
 		unshowedLabel.frame = rect;
 
-		rect.origin.x -= 10;
-		rect.origin.y -= 3;
-		rect.size.width += 20;
-		rect.size.height += 9;
-		unshowedBackImageView.frame = rect;
+		rect.origin.x -= 7;
+		rect.origin.y -= 2;
+		rect.size.width += 14;
+		rect.size.height += 4;
+		unshowedBackView.frame = rect;
 
 		if (isIOS7Below)
 			imageView.frame = CGRectMake(6, 6, width, height);

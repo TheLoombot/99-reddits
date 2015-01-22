@@ -100,8 +100,6 @@ NIPhotoScrubberViewDelegate > {
 	BOOL _animateMovingToNextAndPreviousPhotos;
 	BOOL _scrubberIsEnabled;
 
-	UIImageView *navImageView;
-
 @public
 	int toolbarOffset;
 	IBOutlet UIButton *prevPhotoButton;

@@ -360,12 +360,10 @@
 
 	_isChromeHidden = YES;
 
-	if (navImageView) {
-		[navImageView removeFromSuperview];
-		navImageView = nil;
-	}
 	[self.navigationController setNavigationBarHidden:YES];
 	self.navigationController.navigationBar.alpha = 0.0;
+	
+	[[UIApplication sharedApplication] setStatusBarHidden:YES];
 }
 
 
@@ -389,90 +387,33 @@
 		return;
 	}
 
-	//  CGRect toolbarFrame = self.toolbar.frame;
-	//  CGRect bounds = self.view.bounds;
-
 	if (self.toolbarIsTranslucent) {
-		// Reset the toolbar's initial position.
-		if (!isVisible) {
-			//      toolbarFrame.origin.y = bounds.size.height - toolbarFrame.size.height;
-
-		} else {
-			// Ensure that the toolbar is visible through the animation.
+		if (isVisible) {
 			self.toolbar.hidden = NO;
 			self.titleLabelBar.hidden = NO;
 			prevPhotoButton.hidden = NO;
 			nextPhotoButton.hidden = NO;
 			fullPhotoButton.hidden = NO;
-
-			//      toolbarFrame.origin.y = bounds.size.height;
 		}
-		//    self.toolbar.frame = toolbarFrame;
 	}
 
-//	// Show/hide the system chrome.
-//	if ([[UIApplication sharedApplication] respondsToSelector:
-//		 @selector(setStatusBarHidden:withAnimation:)]) {
-//		[[UIApplication sharedApplication] setStatusBarHidden: !isVisible withAnimation: (animated ? UIStatusBarAnimationFade : UIStatusBarAnimationNone)];
-//	} else {
-//#if __IPHONE_OS_VERSION_MIN_REQUIRED < NIIOS_3_2
-//		// On 3.0 devices we use the boring fade animation.
-//		[[UIApplication sharedApplication] setStatusBarHidden: !isVisible
-//													 animated: animated];
-//#endif
-//	}
-
-	//  if (self.toolbarIsTranslucent) {
-	//    // Place the toolbar at its final location.
-	//    if (isVisible) {
-	//      // Slide up.
-	//      toolbarFrame.origin.y = bounds.size.height - toolbarFrame.size.height;
-	//
-	//    } else {
-	//      // Slide down.
-	//      toolbarFrame.origin.y = bounds.size.height;
-	//    }
-	//  }
-	//
-	//  // If there is a navigation bar, place it at its final location.
-	//  CGRect navigationBarFrame = CGRectZero;
-	//  if (nil != self.navigationController.navigationBar) {
-	//    navigationBarFrame = self.navigationController.navigationBar.frame;
-	//    CGRect statusBarFrame = [[UIApplication sharedApplication] statusBarFrame];
-	//    CGFloat statusBarHeight = MIN(statusBarFrame.size.width, statusBarFrame.size.height);
-	//
-	//    if (isVisible) {
-	//      navigationBarFrame.origin.y = statusBarHeight;
-	//
-	//    } else {
-	//      navigationBarFrame.origin.y = 0;
-	//    }
-	//  }
-
-	[self.navigationController setNavigationBarHidden:NO];
-
-	CGRect navigationBarFrame = self.navigationController.navigationBar.frame;
-	if (isVisible) {
-		navigationBarFrame.origin.y = 20;
-		if (!isIOS7Below)
-			navigationBarFrame.size.height = 64;
-		self.navigationController.navigationBar.frame = navigationBarFrame;
-		self.navigationController.navigationBar.alpha = 0.0;
-		[[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:(animated ? UIStatusBarAnimationFade : UIStatusBarAnimationNone)];
+	if (isIOS7Below) {
+		[[UIApplication sharedApplication] setStatusBarHidden:!isVisible withAnimation:(animated ? UIStatusBarAnimationFade : UIStatusBarAnimationNone)];
 	}
 	else {
-		if (!isIOS7Below && animated) {
-			navImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 66)];
-			navImageView.contentMode = UIViewContentModeTop;
-			navImageView.clipsToBounds = YES;
-			navImageView.image = [self screenshot];
-			[self.view addSubview:navImageView];
+		if (isVisible) {
+			[[UIApplication sharedApplication] setStatusBarHidden:NO];
 		}
-
-		[[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:(animated ? UIStatusBarAnimationFade : UIStatusBarAnimationNone)];
-
-		if (!isIOS7Below && animated)
-			[self.navigationController setNavigationBarHidden:YES];
+	}
+	
+	[self.navigationController setNavigationBarHidden:NO];
+	
+	CGRect navigationBarFrame = self.navigationController.navigationBar.frame;
+	if (isVisible) {
+		if (isIOS7Below)
+			navigationBarFrame.origin.y = 20;
+		self.navigationController.navigationBar.frame = navigationBarFrame;
+		self.navigationController.navigationBar.alpha = 0.0;
 	}
 
 	if (animated) {
@@ -486,15 +427,7 @@
 		[UIView setAnimationDuration:NIStatusBarAnimationDuration()];
 		[UIView setAnimationCurve:NIStatusBarAnimationCurve()];
 	}
-
-	//  if (self.toolbarIsTranslucent) {
-	//    self.toolbar.frame = toolbarFrame;
-	//  }
-	//  if (nil != self.navigationController.navigationBar) {
-	//    self.navigationController.navigationBar.frame = navigationBarFrame;
-	//    self.navigationController.navigationBar.alpha = (isVisible ? 1 : 0);
-	//  }
-
+	
 	if (isVisible) {
 		self.navigationController.navigationBar.alpha = 1.0;
 		self.toolbar.alpha = 1.0;
@@ -510,9 +443,6 @@
 		fullPhotoButton.alpha = 1.0;
 	}
 	else {
-		if (navImageView) {
-			navImageView.alpha = 0.0;
-		}
 		self.navigationController.navigationBar.alpha = 0.0;
 		self.toolbar.alpha = 0.0;
 		self.titleLabelBar.alpha = 0.0;
@@ -529,46 +459,6 @@
 	} else if (isVisible) {
 		[self didShowChrome];
 	}
-}
-
-- (UIImage *)screenshot {
-    CGSize imageSize = CGSizeZero;
-
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    if (UIInterfaceOrientationIsPortrait(orientation)) {
-        imageSize = [UIScreen mainScreen].bounds.size;
-    } else {
-        imageSize = CGSizeMake([UIScreen mainScreen].bounds.size.height, [UIScreen mainScreen].bounds.size.width);
-    }
-
-    UIGraphicsBeginImageContextWithOptions(imageSize, NO, [[UIScreen mainScreen] scale]);
-    CGContextRef context = UIGraphicsGetCurrentContext();
-    for (UIWindow *window in [[UIApplication sharedApplication] windows]) {
-        CGContextSaveGState(context);
-        CGContextTranslateCTM(context, window.center.x, window.center.y);
-        CGContextConcatCTM(context, window.transform);
-        CGContextTranslateCTM(context, -window.bounds.size.width * window.layer.anchorPoint.x, -window.bounds.size.height * window.layer.anchorPoint.y);
-        if (orientation == UIInterfaceOrientationLandscapeLeft) {
-            CGContextRotateCTM(context, M_PI_2);
-            CGContextTranslateCTM(context, 0, -imageSize.width);
-        } else if (orientation == UIInterfaceOrientationLandscapeRight) {
-            CGContextRotateCTM(context, -M_PI_2);
-            CGContextTranslateCTM(context, -imageSize.height, 0);
-        } else if (orientation == UIInterfaceOrientationPortraitUpsideDown) {
-            CGContextRotateCTM(context, M_PI);
-            CGContextTranslateCTM(context, -imageSize.width, -imageSize.height);
-        }
-        if ([window respondsToSelector:@selector(drawViewHierarchyInRect:afterScreenUpdates:)]) {
-            [window drawViewHierarchyInRect:window.bounds afterScreenUpdates:YES];
-        } else {
-            [window.layer renderInContext:context];
-        }
-        CGContextRestoreGState(context);
-    }
-
-    UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    return image;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

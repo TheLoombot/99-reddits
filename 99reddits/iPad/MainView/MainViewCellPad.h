@@ -20,7 +20,7 @@
 	UIView *imageOutlineView;
 	UIImageView *imageView;
 	UIButton *tapButton;
-	UIActivityIndicatorView *activityIndicator;
+//	UIActivityIndicatorView *activityIndicator;
 	UIButton *deleteButton;
 	UIView *unshowedBackView;
 	UILabel *unshowedLabel;

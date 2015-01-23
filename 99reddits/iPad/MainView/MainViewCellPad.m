@@ -41,10 +41,10 @@
 		[tapButton addTarget:self action:@selector(onTap:) forControlEvents:UIControlEventTouchUpInside];
 		[self.contentView addSubview:tapButton];
 		
-		activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-		activityIndicator.center = imageOutlineView.center;
-		[activityIndicator startAnimating];
-		[self.contentView addSubview:activityIndicator];
+//		activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+//		activityIndicator.center = imageOutlineView.center;
+//		[activityIndicator startAnimating];
+//		[self.contentView addSubview:activityIndicator];
 		
 		nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(15, 135, 120, 40)];
 		nameLabel.font = [UIFont boldSystemFontOfSize:15];
@@ -83,18 +83,18 @@
 	bFavorites = NO;
 	deleteButton.alpha = 1.0;
 	
-	if (loading) {
-		if (![activityIndicator isAnimating]) {
-			activityIndicator.hidden = NO;
-			[activityIndicator startAnimating];
-		}
-	}
-	else {
-		if ([activityIndicator isAnimating]) {
-			activityIndicator.hidden = YES;
-			[activityIndicator stopAnimating];
-		}
-	}
+//	if (loading) {
+//		if (![activityIndicator isAnimating]) {
+//			activityIndicator.hidden = NO;
+//			[activityIndicator startAnimating];
+//		}
+//	}
+//	else {
+//		if ([activityIndicator isAnimating]) {
+//			activityIndicator.hidden = YES;
+//			[activityIndicator stopAnimating];
+//		}
+//	}
 	
 	if (unshowedCount == 0) {
 		unshowedBackView.hidden = YES;
@@ -130,10 +130,10 @@
 	bFavorites = YES;
 	deleteButton.alpha = 0.0;
 	
-	if ([activityIndicator isAnimating]) {
-		activityIndicator.hidden = YES;
-		[activityIndicator stopAnimating];
-	}
+//	if ([activityIndicator isAnimating]) {
+//		activityIndicator.hidden = YES;
+//		[activityIndicator stopAnimating];
+//	}
 	
 	unshowedBackView.hidden = YES;
 	unshowedLabel.hidden = YES;

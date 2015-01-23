@@ -359,11 +359,12 @@
 }
 
 - (IBAction)onTweetButton:(id)sender {
-	SLComposeViewController __weak *tweetComposeViewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
+	SLComposeViewController *tweetComposeViewController = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
 	[tweetComposeViewController setInitialText:@"@99reddits "];
 	
+	SLComposeViewController __weak *weakTweetComposeViewController = tweetComposeViewController;
 	tweetComposeViewController.completionHandler = ^(SLComposeViewControllerResult result) {
-		[tweetComposeViewController dismissViewControllerAnimated:YES completion:nil];
+		[weakTweetComposeViewController dismissViewControllerAnimated:YES completion:nil];
 	};
 	
 	[self presentViewController:tweetComposeViewController animated:YES completion:nil];

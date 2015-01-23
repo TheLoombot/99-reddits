@@ -38,18 +38,8 @@
 	self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 	self.navigationController.navigationBar.translucent = YES;
 
-	if (isIOS7Below) {
-		[leftItem setBackgroundImage:[UIImage imageNamed:@"Transparent.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
-		[rightItem setBackgroundImage:[UIImage imageNamed:@"Transparent.png"] forToolbarPosition:UIToolbarPositionAny barMetrics:UIBarMetricsDefault];
-		self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftItem];
-		self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightItem];
-		webView.scrollView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
-		webView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(44, 0, 0, 0);
-	}
-	else {
-		self.navigationItem.leftBarButtonItem = closeItem;
-		self.navigationItem.rightBarButtonItem = shareItem;
-	}
+	self.navigationItem.leftBarButtonItem = closeItem;
+	self.navigationItem.rightBarButtonItem = shareItem;
 	
 	webView.opaque = NO;
 	webView.backgroundColor = [UIColor clearColor];
@@ -61,7 +51,6 @@
 	for (UIView *subview in subviews) {
 		subview.clipsToBounds = NO;
 	}
-	[[[UIApplication sharedApplication].windows objectAtIndex:0] setBackgroundColor:[UIColor scrollViewTexturedBackgroundColor]];
 }
 
 - (void)didReceiveMemoryWarning {

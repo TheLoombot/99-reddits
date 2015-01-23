@@ -16,25 +16,13 @@
 		self.itemSize = CGSizeMake(120, 120);
 		self.minimumLineSpacing = 30;
 		self.scrollDirection = UICollectionViewScrollDirectionVertical;
-		if (isIOS7Below) {
-			if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
-				self.minimumInteritemSpacing = 23;
-				self.sectionInset = UIEdgeInsetsMake(15, 23, 15, 23);
-			}
-			else {
-				self.minimumInteritemSpacing = 28;
-				self.sectionInset = UIEdgeInsetsMake(15, 28, 15, 28);
-			}
+		if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
+			self.minimumInteritemSpacing = 23;
+			self.sectionInset = UIEdgeInsetsMake(79, 23, 15, 23);
 		}
 		else {
-			if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
-				self.minimumInteritemSpacing = 23;
-				self.sectionInset = UIEdgeInsetsMake(79, 23, 15, 23);
-			}
-			else {
-				self.minimumInteritemSpacing = 28;
-				self.sectionInset = UIEdgeInsetsMake(79, 28, 15, 28);
-			}
+			self.minimumInteritemSpacing = 28;
+			self.sectionInset = UIEdgeInsetsMake(79, 28, 15, 28);
 		}
 	}
 
@@ -106,18 +94,12 @@
 		if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
 			NSInteger row = itemIndexPath.item / 7;
 			NSInteger col = itemIndexPath.item % 7;
-			if (isIOS7Below)
-				attributes.frame = CGRectMake(23 + col * 143, 15 + row * 150, 120, 120);
-			else
-				attributes.frame = CGRectMake(23 + col * 143, 79 + row * 150, 120, 120);
+			attributes.frame = CGRectMake(23 + col * 143, 79 + row * 150, 120, 120);
 		}
 		else {
 			NSInteger row = itemIndexPath.item / 5;
 			NSInteger col = itemIndexPath.item % 5;
-			if (isIOS7Below)
-				attributes.frame = CGRectMake(28 + col * 148, 15 + row * 150, 120, 120);
-			else
-				attributes.frame = CGRectMake(28 + col * 148, 79 + row * 150, 120, 120);
+			attributes.frame = CGRectMake(28 + col * 148, 79 + row * 150, 120, 120);
 		}
 		attributes.alpha = 0.0;
 		attributes.transform3D = CATransform3DMakeScale(0.1, 0.1, 1.0);
@@ -127,18 +109,12 @@
 		if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
 			NSInteger row = (itemIndexPath.item + count) / 7;
 			NSInteger col = (itemIndexPath.item + count) % 7;
-			if (isIOS7Below)
-				attributes.frame = CGRectMake(23 + col * 143, 15 + row * 150, 120, 120);
-			else
-				attributes.frame = CGRectMake(23 + col * 143, 79 + row * 150, 120, 120);
+			attributes.frame = CGRectMake(23 + col * 143, 79 + row * 150, 120, 120);
 		}
 		else {
 			NSInteger row = (itemIndexPath.item + count) / 5;
 			NSInteger col = (itemIndexPath.item + count) % 5;
-			if (isIOS7Below)
-				attributes.frame = CGRectMake(28 + col * 148, 15 + row * 150, 120, 120);
-			else
-				attributes.frame = CGRectMake(28 + col * 148, 79 + row * 150, 120, 120);
+			attributes.frame = CGRectMake(28 + col * 148, 79 + row * 150, 120, 120);
 		}
 	}
 
@@ -154,18 +130,12 @@
 	if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
 		NSInteger row = itemIndexPath.item / 7;
 		NSInteger col = itemIndexPath.item % 7;
-		if (isIOS7Below)
-			attributes.frame = CGRectMake(23 + col * 143, 15 + row * 150, 120, 120);
-		else
-			attributes.frame = CGRectMake(23 + col * 143, 79 + row * 150, 120, 120);
+		attributes.frame = CGRectMake(23 + col * 143, 79 + row * 150, 120, 120);
 	}
 	else {
 		NSInteger row = itemIndexPath.item / 5;
 		NSInteger col = itemIndexPath.item % 5;
-		if (isIOS7Below)
-			attributes.frame = CGRectMake(28 + col * 148, 15 + row * 150, 120, 120);
-		else
-			attributes.frame = CGRectMake(28 + col * 148, 79 + row * 150, 120, 120);
+		attributes.frame = CGRectMake(28 + col * 148, 79 + row * 150, 120, 120);
 	}
 
 	if ([deleteIndexPaths containsObject:itemIndexPath]) {
@@ -178,26 +148,15 @@
 }
 
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds {
-	if (isIOS7Below) {
-		if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
-			self.minimumInteritemSpacing = 23;
-			self.sectionInset = UIEdgeInsetsMake(15, 23, 15, 23);
-		}
-		else {
-			self.minimumInteritemSpacing = 28;
-			self.sectionInset = UIEdgeInsetsMake(15, 28, 15, 28);
-		}
+	if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
+		self.minimumInteritemSpacing = 23;
+		self.sectionInset = UIEdgeInsetsMake(79, 23, 15, 23);
 	}
 	else {
-		if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
-			self.minimumInteritemSpacing = 23;
-			self.sectionInset = UIEdgeInsetsMake(79, 23, 15, 23);
-		}
-		else {
-			self.minimumInteritemSpacing = 28;
-			self.sectionInset = UIEdgeInsetsMake(79, 28, 15, 28);
-		}
+		self.minimumInteritemSpacing = 28;
+		self.sectionInset = UIEdgeInsetsMake(79, 28, 15, 28);
 	}
+
 	return YES;
 }
 

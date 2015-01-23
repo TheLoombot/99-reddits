@@ -36,21 +36,11 @@ static NSString * const kMainViewLayoutPadScrollingDirectionKey = @"LXScrollingD
 		self.minimumInteritemSpacing = 0;
 		self.minimumLineSpacing = 0;
 		self.scrollDirection = UICollectionViewScrollDirectionVertical;
-		if (isIOS7Below) {
-			if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
-				self.sectionInset = UIEdgeInsetsMake(10, 2, 15, 7);
-			}
-			else {
-				self.sectionInset = UIEdgeInsetsMake(10, 15, 15, 20);
-			}
+		if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
+			self.sectionInset = UIEdgeInsetsMake(74, 2, 15, 7);
 		}
 		else {
-			if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
-				self.sectionInset = UIEdgeInsetsMake(74, 2, 15, 7);
-			}
-			else {
-				self.sectionInset = UIEdgeInsetsMake(74, 15, 15, 20);
-			}
+			self.sectionInset = UIEdgeInsetsMake(74, 15, 15, 20);
 		}
 	}
 	return self;
@@ -508,22 +498,13 @@ static NSString * const kMainViewLayoutPadScrollingDirectionKey = @"LXScrollingD
 }
 
 - (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds {
-	if (isIOS7Below) {
-		if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
-			self.sectionInset = UIEdgeInsetsMake(10, 2, 15, 7);
-		}
-		else {
-			self.sectionInset = UIEdgeInsetsMake(10, 15, 15, 20);
-		}
+	if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
+		self.sectionInset = UIEdgeInsetsMake(74, 2, 15, 7);
 	}
 	else {
-		if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) {
-			self.sectionInset = UIEdgeInsetsMake(74, 2, 15, 7);
-		}
-		else {
-			self.sectionInset = UIEdgeInsetsMake(74, 15, 15, 20);
-		}
+		self.sectionInset = UIEdgeInsetsMake(74, 15, 15, 20);
 	}
+
 	return YES;
 }
 

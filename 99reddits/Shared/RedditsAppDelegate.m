@@ -43,12 +43,9 @@ void uncaughtExceptionHandler(NSException *exception) {
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	[application setStatusBarHidden:NO];
 
-	isIOS7Below = ([[[UIDevice currentDevice] systemVersion] floatValue] < 7.0);
-	if (!isIOS7Below) {
-		self.window.backgroundColor = [UIColor whiteColor];
-		mainNavigationController.navigationBar.barStyle = UIBarStyleDefault;
-		mainNavigationController.navigationBar.translucent = YES;
-	}
+	self.window.backgroundColor = [UIColor whiteColor];
+	mainNavigationController.navigationBar.barStyle = UIBarStyleDefault;
+	mainNavigationController.navigationBar.translucent = YES;
 
     [Crashlytics startWithAPIKey:@"7228ed62a7b305f3ee6ec449adbda49637b3168a"];
 	NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
@@ -392,26 +389,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 	[favoritesSet removeAllObjects];
 
 	[self saveFavoritesData];
-}
-
-- (void)setNavAppearance {
-	if (isIOS7Below) {
-		[[UINavigationBar appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:[UIImage imageNamed:@"NavBarBack.png"] forBarMetrics:UIBarMetricsDefault];
-		[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:[[UIImage imageNamed:@"BarButtonBack.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-		[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:[[UIImage imageNamed:@"BarButtonBackHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
-		[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackButtonBackgroundImage:[[UIImage imageNamed:@"BarBackButtonBack.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 14, 0, 5)] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-		[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackButtonBackgroundImage:[[UIImage imageNamed:@"BarBackButtonBackHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 14, 0, 5)] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
-	}
-}
-
-- (void)unsetNavAppearance {
-	if (isIOS7Below) {
-		[[UINavigationBar appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:nil forBarMetrics:UIBarMetricsDefault];
-		[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-		[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
-		[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackButtonBackgroundImage:nil forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-		[[UIBarButtonItem appearanceWhenContainedIn:[CustomNavigationController class], nil] setBackButtonBackgroundImage:nil forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
-	}
 }
 
 - (void)refreshNameStringsSet {

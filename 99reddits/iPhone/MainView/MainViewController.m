@@ -117,11 +117,9 @@
 
 	self.tableView.tableFooterView = footerView;
 
-	if (!isIOS7Below) {
-		self.view.backgroundColor = [UIColor whiteColor];
-		self.edgesForExtendedLayout = UIRectEdgeAll;
-		self.tableView.separatorInset = UIEdgeInsetsZero;
-	}
+	self.view.backgroundColor = [UIColor whiteColor];
+	self.edgesForExtendedLayout = UIRectEdgeAll;
+	self.tableView.separatorInset = UIEdgeInsetsZero;
 
 	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
 	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateHighlighted];

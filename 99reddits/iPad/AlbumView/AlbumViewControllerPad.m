@@ -81,7 +81,7 @@
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	
 	self.title = subReddit.nameString;
-	self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:subReddit.nameString style:UIBarButtonItemStyleBordered target:nil action:nil];
+	self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:subReddit.nameString style:UIBarButtonItemStylePlain target:nil action:nil];
 
 	refreshQueue = [[NSOperationQueue alloc] init];
 	[queue setMaxConcurrentOperationCount:5];
@@ -105,11 +105,6 @@
 	[moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateDisabled];
 	moarWaitingView.hidden = YES;
 
-	if (isIOS7Below) {
-		[showTypeSegmentedControl setBackgroundImage:[[UIImage imageNamed:@"BarButtonBack.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
-		[showTypeSegmentedControl setBackgroundImage:[[UIImage imageNamed:@"BarButtonBackHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 5, 0, 5)] forState:UIControlStateSelected barMetrics:UIBarMetricsDefault];
-	}
-
 	[appDelegate checkNetworkReachable:YES];
 	
 	tabBar.selectedItem = hotItem;
@@ -131,26 +126,24 @@
 		self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl];
 	}
 
-	if (!isIOS7Below) {
-		self.view.backgroundColor = [UIColor whiteColor];
-		self.edgesForExtendedLayout = UIRectEdgeNone;
-		self.automaticallyAdjustsScrollViewInsets = NO;
-		self.extendedLayoutIncludesOpaqueBars = NO;
+	self.view.backgroundColor = [UIColor whiteColor];
+	self.edgesForExtendedLayout = UIRectEdgeNone;
+	self.automaticallyAdjustsScrollViewInsets = NO;
+	self.extendedLayoutIncludesOpaqueBars = NO;
 
-		CGRect frame = contentCollectionView.frame;
-		frame.origin.y -= 64;
-		frame.size.height += 64;
-		if (!bFavorites)
-			frame.size.height += 49;
-		contentCollectionView.frame = frame;
-		contentCollectionView.backgroundColor = [UIColor whiteColor];
-		if (!bFavorites) {
-			contentCollectionView.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 49, 0);
-			contentCollectionView.contentInset = UIEdgeInsetsMake(0, 0, 49, 0);
-		}
-		else {
-			contentCollectionView.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 0, 0);
-		}
+	CGRect frame = contentCollectionView.frame;
+	frame.origin.y -= 64;
+	frame.size.height += 64;
+	if (!bFavorites)
+		frame.size.height += 49;
+	contentCollectionView.frame = frame;
+	contentCollectionView.backgroundColor = [UIColor whiteColor];
+	if (!bFavorites) {
+		contentCollectionView.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 49, 0);
+		contentCollectionView.contentInset = UIEdgeInsetsMake(0, 0, 49, 0);
+	}
+	else {
+		contentCollectionView.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 0, 0);
 	}
 
 	AlbumViewLayoutPad *albumViewLayout = [[AlbumViewLayoutPad alloc] init];

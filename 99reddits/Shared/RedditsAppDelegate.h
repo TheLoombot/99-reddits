@@ -55,9 +55,6 @@
 - (BOOL)isFavorite:(PhotoItem *)photo;
 - (void)clearFavorites;
 
-- (void)setNavAppearance;
-- (void)unsetNavAppearance;
-
 - (void)refreshNameStringsSet;
 
 - (NSString *)getFavoritesEmailString;

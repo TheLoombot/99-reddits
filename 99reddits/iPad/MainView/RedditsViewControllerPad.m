@@ -44,14 +44,9 @@
 	self.navigationItem.title = @"Add Sub-reddits";
 	self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCompose target:self action:@selector(onAddButton:)];
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onDoneButton:)];
-	if (isIOS7Below) {
-		self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-	}
-	else {
-		[self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
+	[self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
 
-		contentTableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
-	}
+	contentTableView.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
 
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	
@@ -178,10 +173,7 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	if (isIOS7Below)
-		return [categoryArray objectAtIndex:section];
-	else
-		return [NSString stringWithFormat:@"   %@", [categoryArray objectAtIndex:section]];
+	return [NSString stringWithFormat:@"   %@", [categoryArray objectAtIndex:section]];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -205,10 +197,7 @@
 	cell.textLabel.text = nameString;
 	if ([nameStringsSet containsObject:[nameString lowercaseString]]) {
 		cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"CheckCellBack.png"]];
-		if (isIOS7Below)
-			cell.imageView.image = [UIImage imageNamed:@"CheckIcon.png"];
-		else
-			cell.imageView.image = [UIImage imageNamed:@"CheckBlueIcon.png"];
+		cell.imageView.image = [UIImage imageNamed:@"CheckBlueIcon.png"];
 	}
 	else {
 		cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"UncheckCellBack.png"]];
@@ -233,10 +222,7 @@
 	UITableViewCell *cell = [contentTableView cellForRowAtIndexPath:indexPath];
 	if ([nameStringsSet containsObject:[nameString lowercaseString]]) {
 		cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"CheckCellBack.png"]];
-		if (isIOS7Below)
-			cell.imageView.image = [UIImage imageNamed:@"CheckIcon.png"];
-		else
-			cell.imageView.image = [UIImage imageNamed:@"CheckBlueIcon.png"];
+		cell.imageView.image = [UIImage imageNamed:@"CheckBlueIcon.png"];
 	}
 	else {
 		cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"UncheckCellBack.png"]];

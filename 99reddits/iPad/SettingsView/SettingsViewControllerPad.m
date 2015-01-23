@@ -66,12 +66,7 @@
 
 	self.title = @"Settings";
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(onDoneButton:)];
-	if (isIOS7Below) {
-		self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-	}
-	else {
-		[self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
-	}
+	[self.navigationController.navigationBar setBarTintColor:[UIColor whiteColor]];
 
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	
@@ -79,10 +74,7 @@
 		if ([[subview class] isSubclassOfClass:[UIScrollView class]])
 			((UIScrollView *)subview).bounces = NO;
 
-	if (isIOS7Below)
-		self.view.backgroundColor = [self groupTableViewBackgroundColor];
-	else
-		self.view.backgroundColor = [UIColor colorWithRed:239 / 255.0 green:239 / 255.0 blue:244 / 255.0 alpha:1.0];
+	self.view.backgroundColor = [UIColor colorWithRed:239 / 255.0 green:239 / 255.0 blue:244 / 255.0 alpha:1.0];
 	
 	[upgradeForMOARButton setBackgroundImage:[[UIImage imageNamed:@"UpgradeButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
 	[restoreUpdateButton setBackgroundImage:[[UIImage imageNamed:@"UpgradeButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
@@ -120,11 +112,9 @@
 	[rateAppButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
 	[rateAppButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateHighlighted];
 
-	if (!isIOS7Below) {
-		self.edgesForExtendedLayout = UIRectEdgeNone;
-		self.extendedLayoutIncludesOpaqueBars = NO;
-		self.automaticallyAdjustsScrollViewInsets = NO;
-	}
+	self.edgesForExtendedLayout = UIRectEdgeNone;
+	self.extendedLayoutIncludesOpaqueBars = NO;
+	self.automaticallyAdjustsScrollViewInsets = NO;
 
 	UIImageView *infoBackView = [[UIImageView alloc] initWithFrame:contentTableView.frame];
 	infoBackView.image = [[UIImage imageNamed:@"SettingsInfoBack.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)];

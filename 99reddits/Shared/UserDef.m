@@ -51,8 +51,6 @@ NSString *normalStrings[] = {
 	@"`"
 };
 
-BOOL isIOS7Below;
-
 NSString *deviceName() {
 	struct utsname systemInfo;
 	uname(&systemInfo);

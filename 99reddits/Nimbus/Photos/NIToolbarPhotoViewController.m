@@ -79,10 +79,7 @@
 		// The scrubber is better use of the extra real estate on the iPad.
 		// If you ask me, though, the scrubber works pretty well on the iPhone too. It's up
 		// to you if you want to use it in your own implementations.
-		self.scrubberIsEnabled = NIIsPad();
-
-		// Allow the photos to display beneath the status bar.
-		self.wantsFullScreenLayout = YES;
+		// self.scrubberIsEnabled = NIIsPad();
 	}
 	return self;
 }
@@ -216,23 +213,11 @@
 	_titleLabel.numberOfLines = 0;
 
 	_titleLabelBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, toolbarFrame.origin.y - 30, toolbarFrame.size.width, 30)];
-	if (isIOS7Below) {
-		CGRect rect = CGRectMake(0.0f, 0.0f, 1.0f, 1.0f);
-		UIGraphicsBeginImageContext(rect.size);
-		CGContextRef context = UIGraphicsGetCurrentContext();
-		CGContextSetFillColorWithColor(context, [[UIColor colorWithWhite:0 alpha:0.5] CGColor]);
-		CGContextFillRect(context, rect);
-		UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
-		UIGraphicsEndImageContext();
-		[_titleLabelBar setBackgroundImage:image forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
-	}
-	else {
-		_titleLabelBar.barStyle = UIBarStyleBlackTranslucent;
-		_titleLabelBar.translucent = YES;
-		_titleLabelBar.tintColor = nil;
-		_titleLabelBar.barTintColor = nil;
-		[_titleLabelBar setBackgroundImage:nil forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
-	}
+	_titleLabelBar.barStyle = UIBarStyleBlackTranslucent;
+	_titleLabelBar.translucent = YES;
+	_titleLabelBar.tintColor = nil;
+	_titleLabelBar.barTintColor = nil;
+	[_titleLabelBar setBackgroundImage:nil forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
 
 	// Photo Album View Setup
 
@@ -273,12 +258,9 @@
 
 	[NINavigationAppearance pushAppearanceForNavigationController:self.navigationController];
 
-	[[UIApplication sharedApplication] setStatusBarStyle: (NIIsPad()
-														   ? UIStatusBarStyleBlackOpaque
-														   : UIStatusBarStyleBlackTranslucent)
-												animated: animated];
+	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:animated];
 
-	UINavigationBar* navBar = self.navigationController.navigationBar;
+	UINavigationBar *navBar = self.navigationController.navigationBar;
 	navBar.barStyle = UIBarStyleBlack;
 	navBar.translucent = YES;
 
@@ -397,21 +379,14 @@
 		}
 	}
 
-	if (isIOS7Below) {
-		[[UIApplication sharedApplication] setStatusBarHidden:!isVisible withAnimation:(animated ? UIStatusBarAnimationFade : UIStatusBarAnimationNone)];
-	}
-	else {
-		if (isVisible) {
-			[[UIApplication sharedApplication] setStatusBarHidden:NO];
-		}
+	if (isVisible) {
+		[[UIApplication sharedApplication] setStatusBarHidden:NO];
 	}
 	
 	[self.navigationController setNavigationBarHidden:NO];
 	
 	CGRect navigationBarFrame = self.navigationController.navigationBar.frame;
 	if (isVisible) {
-		if (isIOS7Below)
-			navigationBarFrame.origin.y = 20;
 		self.navigationController.navigationBar.frame = navigationBarFrame;
 		self.navigationController.navigationBar.alpha = 0.0;
 	}
@@ -654,8 +629,11 @@
 
 - (void)setTitleLabelText:(NSString *)titleString {
 	CGRect toolbarFrame = _toolbar.frame;
-	CGSize size = [titleString sizeWithFont:_titleLabel.font constrainedToSize:CGSizeMake(toolbarFrame.size.width, 1000)];
-	CGRect titleLabelFrame = CGRectMake(0, 0, toolbarFrame.size.width, size.height);
+	_titleLabel.text = titleString;
+	_titleLabel.frame = CGRectMake(0, 0, toolbarFrame.size.width, 1000);
+	[_titleLabel sizeToFit];
+
+	CGRect titleLabelFrame = CGRectMake(0, 0, toolbarFrame.size.width, _titleLabel.frame.size.height);
 
 	if (titleLabelFrame.size.height < 20)
 		titleLabelFrame.size.height = 20;

@@ -52,23 +52,6 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 /**
- * Calculates the height of this text given the font, max width, and line break mode.
- *
- * A convenience wrapper for sizeWithFont:constrainedToSize:lineBreakMode:
- */
-// COV_NF_START
-- (CGFloat)heightWithFont:(UIFont*)font
-       constrainedToWidth:(CGFloat)width
-            lineBreakMode:(UILineBreakMode)lineBreakMode {
-  return [self sizeWithFont:font
-          constrainedToSize:CGSizeMake(width, CGFLOAT_MAX)
-              lineBreakMode:lineBreakMode].height;
-}
-// COV_NF_END
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-/**
  * Parses a URL query string into a dictionary where the values are arrays.
  *
  * A query string is one that looks like &param1=value1&param2=value2...

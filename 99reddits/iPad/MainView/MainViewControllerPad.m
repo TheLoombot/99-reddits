@@ -84,8 +84,6 @@
 		[refreshControl endRefreshing];
 	});
 
-	[appDelegate setNavAppearance];
-
 	self.title = @"99 reddits";
 	
 	self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:settingsItem, nil];
@@ -115,19 +113,17 @@
 //			[self reloadData];
 	}
 
-	if (!isIOS7Below) {
-		self.view.backgroundColor = [UIColor whiteColor];
-		self.edgesForExtendedLayout = UIRectEdgeNone;
-		self.automaticallyAdjustsScrollViewInsets = NO;
-		self.extendedLayoutIncludesOpaqueBars = NO;
+	self.view.backgroundColor = [UIColor whiteColor];
+	self.edgesForExtendedLayout = UIRectEdgeNone;
+	self.automaticallyAdjustsScrollViewInsets = NO;
+	self.extendedLayoutIncludesOpaqueBars = NO;
 
-		CGRect frame = self.collectionView.frame;
-		frame.origin.y -= 64;
-		frame.size.height += 64;
-		self.collectionView.frame = frame;
-		self.collectionView.backgroundColor = [UIColor whiteColor];
-		self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 0, 0);
-	}
+	CGRect frame = self.collectionView.frame;
+	frame.origin.y -= 64;
+	frame.size.height += 64;
+	self.collectionView.frame = frame;
+	self.collectionView.backgroundColor = [UIColor whiteColor];
+	self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 0, 0);
 
 	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
 	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateHighlighted];

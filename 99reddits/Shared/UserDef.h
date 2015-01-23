@@ -21,6 +21,5 @@
 
 extern NSString *htmlStrings[];
 extern NSString *normalStrings[];
-extern BOOL isIOS7Below;
 
 extern NSString *deviceName();

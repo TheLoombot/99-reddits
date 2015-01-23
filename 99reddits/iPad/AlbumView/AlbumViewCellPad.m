@@ -29,10 +29,7 @@
 		imageOutlineView.backgroundColor = [UIColor whiteColor];
 		[self.contentView addSubview:imageOutlineView];
 
-		if (isIOS7Below)
-			imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 6, 108, 108)];
-		else
-			imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 120)];
+		imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 120)];
 		[imageOutlineView addSubview:imageView];
 
 		favoriteOverlayView = [[UIImageView alloc] initWithFrame:CGRectMake(89, 89, 25, 25)];
@@ -80,10 +77,7 @@
 
 	if (thumbImage == nil) {
 		imageOutlineView.frame = CGRectMake(0, 0, 120, 120);
-		if (isIOS7Below)
-			imageView.frame = CGRectMake(6, 6, 108, 108);
-		else
-			imageView.frame = CGRectMake(0, 0, 120, 120);
+		imageView.frame = CGRectMake(0, 0, 120, 120);
 		imageView.image = [UIImage imageNamed:@"DefaultPhoto.png"];
 		imageEmpty = YES;
 	}
@@ -113,10 +107,7 @@
 		rect.size.height = 25;
 		favoriteOverlayView.frame = rect;
 
-		if (isIOS7Below)
-			imageView.frame = CGRectMake(6, 6, width, height);
-		else
-			imageView.frame = CGRectMake(0, 0, width + 12, height + 12);
+		imageView.frame = CGRectMake(0, 0, width + 12, height + 12);
 
 		if (animated || imageEmpty) {
 			imageView.image = [UIImage imageNamed:@"DefaultPhoto.png"];

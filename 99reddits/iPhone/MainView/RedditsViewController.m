@@ -201,10 +201,7 @@
 	cell.textLabel.text = nameString;
 	if ([nameStringsSet containsObject:[nameString lowercaseString]]) {
 		cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"CheckCellBack.png"]];
-		if (isIOS7Below)
-			cell.imageView.image = [UIImage imageNamed:@"CheckIcon.png"];
-		else
-			cell.imageView.image = [UIImage imageNamed:@"CheckBlueIcon.png"];
+		cell.imageView.image = [UIImage imageNamed:@"CheckBlueIcon.png"];
 	}
 	else {
 		cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"UncheckCellBack.png"]];
@@ -229,10 +226,7 @@
 	UITableViewCell *cell = [contentTableView cellForRowAtIndexPath:indexPath];
 	if ([nameStringsSet containsObject:[nameString lowercaseString]]) {
 		cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"CheckCellBack.png"]];
-		if (isIOS7Below)
-			cell.imageView.image = [UIImage imageNamed:@"CheckIcon.png"];
-		else
-			cell.imageView.image = [UIImage imageNamed:@"CheckBlueIcon.png"];
+		cell.imageView.image = [UIImage imageNamed:@"CheckBlueIcon.png"];
 	}
 	else {
 		cell.backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"UncheckCellBack.png"]];

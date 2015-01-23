@@ -28,10 +28,7 @@
 		
 		imageOutlineView = [[UIView alloc] initWithFrame:CGRectMake(15, 15, 120, 120)];
 		imageOutlineView.backgroundColor = [UIColor whiteColor];
-		if (isIOS7Below)
-			imageView = [[UIImageView alloc] initWithFrame:CGRectMake(6, 6, 108, 108)];
-		else
-			imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 120)];
+		imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 120, 120)];
 		[imageOutlineView addSubview:imageView];
 		[self.contentView addSubview:imageOutlineView];
 		
@@ -170,10 +167,7 @@
 
 	if (thumbImage == nil) {
 		imageOutlineView.frame = CGRectMake(15, 15, 120, 120);
-		if (isIOS7Below)
-			imageView.frame = CGRectMake(6, 6, 108, 108);
-		else
-			imageView.frame = CGRectMake(0, 0, 120, 120);
+		imageView.frame = CGRectMake(0, 0, 120, 120);
 		imageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
 		imageEmpty = YES;
 	}
@@ -216,10 +210,7 @@
 		rect.size.height += 4;
 		unshowedBackView.frame = rect;
 
-		if (isIOS7Below)
-			imageView.frame = CGRectMake(6, 6, width, height);
-		else
-			imageView.frame = CGRectMake(0, 0, width + 12, height + 12);
+		imageView.frame = CGRectMake(0, 0, width + 12, height + 12);
 
 		if (animated || imageEmpty) {
 			imageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];

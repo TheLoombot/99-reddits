@@ -13,11 +13,9 @@
 - (void)layoutSubviews {
 	[super layoutSubviews];
 
-	if (!isIOS7Below) {
-		CGRect frame = self.frame;
-		frame.origin.y += 64;
-		self.frame = frame;
-	}
+	CGRect frame = self.frame;
+	frame.origin.y += 64;
+	self.frame = frame;
 }
 
 @end

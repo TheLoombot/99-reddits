@@ -15,10 +15,12 @@
 #define CONTROVERSIAL_SUBREDDIT_FORMAT	@"http://www.reddit.com/r/%@/controversial.json?limit=50"
 #define TOP_SUBREDDIT_FORMAT			@"http://www.reddit.com/r/%@/top.json?sort=top&t=all&limit=50"
 
+#define PRODUCT_ID						@"PAID_USER"
+
+#define DATA_VERSION					@"1.0"
+
 extern NSString *htmlStrings[];
 extern NSString *normalStrings[];
 extern BOOL isIOS7Below;
 
-#define PRODUCT_ID						@"PAID_USER"
-
-#define DATA_VERSION					@"1.0"
+extern NSString *deviceName();

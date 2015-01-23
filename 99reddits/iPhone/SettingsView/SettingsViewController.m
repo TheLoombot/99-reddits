@@ -345,12 +345,10 @@
 
 - (IBAction)onEmailButton:(id)sender {
 	if ([MFMailComposeViewController canSendMail]) {
-		UIDevice *currentDevice = [UIDevice currentDevice];
-		
 		NSString *contentString = [NSString stringWithFormat:@"\n\n\n---\n99 reddits v%@\n%@ / iOS %@",
 								   [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"],
-								   currentDevice.name,
-								   currentDevice.systemVersion];
+								   deviceName(),
+								   [[UIDevice currentDevice] systemVersion]];
 		
 		MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
 		mailComposeViewController.mailComposeDelegate = self;

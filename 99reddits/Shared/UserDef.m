@@ -7,6 +7,7 @@
 //
 
 #import "UserDef.h"
+#import <sys/utsname.h>
 
 NSString *htmlStrings[] = {
 	@"&ndash;",		@"&#8211;",		@"&mdash;",		@"&#8212;",		@"&iexcl;",		@"&#161;",		@"&iquest;",	@"&#191;",		@"&quot;",		@"&#34;",
@@ -51,3 +52,10 @@ NSString *normalStrings[] = {
 };
 
 BOOL isIOS7Below;
+
+NSString *deviceName() {
+	struct utsname systemInfo;
+	uname(&systemInfo);
+	
+	return [NSString stringWithCString:systemInfo.machine encoding:NSUTF8StringEncoding];
+}

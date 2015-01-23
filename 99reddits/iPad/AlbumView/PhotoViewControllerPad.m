@@ -136,6 +136,7 @@
 	sharing = NO;
 	
 	self.titleLabelBar.hidden = YES;
+	self.titleLabel.hidden = YES;
 	
 	self.toolbarOffset = 44;
 	
@@ -182,6 +183,7 @@
 	PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
 	[self setTitleLabelText:photo.titleString];
 	self.titleLabelBar.hidden = NO;
+	self.titleLabel.hidden = NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -210,6 +212,9 @@
 	if (!disappearForSubview) {
 		sharing = NO;
 	}
+	
+	self.titleLabelBar.hidden = YES;
+	self.titleLabel.hidden = YES;
 }
 
 - (IBAction)onActionButton:(id)sender {

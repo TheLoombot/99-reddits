@@ -125,12 +125,9 @@
 	
 	sharing = NO;
 	
+	self.titleLabelBar.hidden = YES;
 	self.titleLabel.hidden = YES;
-
-	if (UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation]))
-		fullPhotoButton.frame = CGRectMake([[UIScreen mainScreen] bounds].size.height - 50, 63, 40, 40);
-	else
-		fullPhotoButton.frame = CGRectMake([[UIScreen mainScreen] bounds].size.width - 50, 74, 40, 40);
+	
 	[self.view bringSubviewToFront:fullPhotoButton];
 }
 
@@ -162,10 +159,7 @@
 	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 	[UIView animateWithDuration:duration
 					 animations:^(void) {
-						 if (UIInterfaceOrientationIsLandscape(toInterfaceOrientation))
-							 fullPhotoButton.frame = CGRectMake([[UIScreen mainScreen] bounds].size.height - 50, 63, 40, 40);
-						 else
-							 fullPhotoButton.frame = CGRectMake([[UIScreen mainScreen] bounds].size.width - 50, 74, 40, 40);
+						 [self refreshFullPhotoButton:toInterfaceOrientation];
 					 }];
 }
 
@@ -176,6 +170,8 @@
 	
 	disappearForSubview = NO;
 	[self.photoAlbumView moveToPageAtIndex:self.photoAlbumView.centerPageIndex animated:NO];
+	
+	[self refreshFullPhotoButton:[[UIApplication sharedApplication] statusBarOrientation]];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -183,6 +179,7 @@
 
 	PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
 	[self setTitleLabelText:photo.titleString];
+	self.titleLabelBar.hidden = NO;
 	self.titleLabel.hidden = NO;
 }
 
@@ -197,6 +194,19 @@
 	
 	if (!disappearForSubview) {
 		sharing = NO;
+	}
+	
+	self.titleLabelBar.hidden = YES;
+	self.titleLabel.hidden = YES;
+}
+
+- (void)refreshFullPhotoButton:(UIInterfaceOrientation)interfaceOrientation {
+	CGSize boundsSize = [[UIScreen mainScreen] bounds].size;
+	if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
+		fullPhotoButton.frame = CGRectMake(MAX(boundsSize.width, boundsSize.height) - 50, 63, 40, 40);
+	}
+	else {
+		fullPhotoButton.frame = CGRectMake(MIN(boundsSize.width, boundsSize.height) - 50, 74, 40, 40);
 	}
 }
 

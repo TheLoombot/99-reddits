@@ -49,9 +49,10 @@
 	else {
 		self.navigationItem.leftBarButtonItem = closeItem;
 		self.navigationItem.rightBarButtonItem = shareItem;
-		webView.scrollView.contentInset = UIEdgeInsetsMake(64, 0, 0, 0);
-		webView.scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 0, 0);
 	}
+	
+	webView.opaque = NO;
+	webView.backgroundColor = [UIColor clearColor];
 
 	self.title = @"Loading...";
 	[webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];

@@ -519,7 +519,7 @@
 - (void)shareImage:(UIImage *)image {
 	PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
 	
-	NSArray *activityItems = @[image, [NSURL URLWithString:[NSString stringWithFormat:@"http://redd.it/%@", photo.idString]], photo.titleString];
+	NSArray *activityItems = @[image, photo.titleString, [NSURL URLWithString:[NSString stringWithFormat:@"http://redd.it/%@", photo.idString]]];
 	NSArray *applicationActivities = nil;
 	NSArray *excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList];
 	

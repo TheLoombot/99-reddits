@@ -293,13 +293,13 @@
 //			}
 
 			BOOL shouldRefresh = NO;
-//			PhotoItem *photo = [subReddit.photosArray objectAtIndex:photoIndex];
+			PhotoItem *photo = [subReddit.photosArray objectAtIndex:photoIndex];
 //			if ([[[photo.urlString pathExtension] lowercaseString] isEqualToString:@"gif"]) {
 				if (![highQualityImageCache objectWithName:photoIndexKey]) {
 					[highQualityImageCache storeObject:image withName:photoIndexKey];
 					shouldRefresh = YES;
 				}
-				
+			
 				if (photoIndex == self.photoAlbumView.centerPageIndex) {
 					CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)data, NULL);
 					if (imageSource) {
@@ -312,6 +312,13 @@
 							shouldRefresh = NO;
 						}
 						CFRelease(imageSource);
+					}
+					
+					if (image.size.width >= 1024 || image.size.height >= 1024) {
+						fullPhotoButton.enabled = ![appDelegate isFullImage:photo.urlString];
+					}
+					else {
+						fullPhotoButton.enabled = NO;
 					}
 				}
 //			}
@@ -477,7 +484,12 @@
 		}
 	}
 
-	fullPhotoButton.enabled = ![appDelegate isFullImage:photo.urlString];
+	if (image.size.width >= 1024 || image.size.height >= 1024) {
+		fullPhotoButton.enabled = ![appDelegate isFullImage:photo.urlString];
+	}
+	else {
+		fullPhotoButton.enabled = NO;
+	}
 }
 
 - (void)shareImage:(UIImage *)image {

@@ -42,6 +42,14 @@ void uncaughtExceptionHandler(NSException *exception) {
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	[application setStatusBarHidden:NO];
+	
+	screenWidth = [[UIScreen mainScreen] bounds].size.width;
+	screenHeight = [[UIScreen mainScreen] bounds].size.height;
+	if (screenWidth > screenHeight) {
+		CGFloat temp = screenWidth;
+		screenWidth = screenHeight;
+		screenHeight = temp;
+	}
 
 	self.window.backgroundColor = [UIColor whiteColor];
 	mainNavigationController.navigationBar.barStyle = UIBarStyleDefault;

@@ -14,7 +14,7 @@
 	[super layoutSubviews];
 
 	CGRect frame = self.frame;
-	frame.origin.y += 64;
+	frame.origin.y = -16;
 	self.frame = frame;
 }
 

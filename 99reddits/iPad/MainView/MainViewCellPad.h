@@ -14,8 +14,8 @@
 
 @interface MainViewCellPad : UICollectionViewCell {
 	RedditsAppDelegate *appDelegate;
-	MainViewControllerPad *__weak mainViewController;
-	SubRedditItem *__weak subReddit;
+	MainViewControllerPad __weak *mainViewController;
+	SubRedditItem __weak *subReddit;
 
 	UIView *imageOutlineView;
 	UIImageView *imageView;

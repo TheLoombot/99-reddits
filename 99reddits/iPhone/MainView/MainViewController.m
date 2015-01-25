@@ -64,6 +64,12 @@
 	
 	[activeRequests removeAllObjects];
 	[thumbnailImageCache reduceMemoryUsage];
+	
+	refreshCount = 0;
+	refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+	[refreshControl endRefreshing];
+	
+	[self.tableView reloadData];
 
     [super didReceiveMemoryWarning];
 }
@@ -115,15 +121,18 @@
 //			[self reloadData];
 	}
 
+	CGRect frame = footerView.frame;
+	frame.size.width = screenWidth;
+	footerView.frame = frame;
 	self.tableView.tableFooterView = footerView;
 
 	self.view.backgroundColor = [UIColor whiteColor];
 	self.edgesForExtendedLayout = UIRectEdgeAll;
 	self.tableView.separatorInset = UIEdgeInsetsZero;
 
-	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
-	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateHighlighted];
-	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateDisabled];
+	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
+	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateHighlighted];
+	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateDisabled];
 
 	lastAddedIndex = -1;
 }
@@ -381,6 +390,7 @@
 		
 		NSURL *url = [NSURL URLWithString:subReddit.urlString];
 		NIProcessorHTTPRequest* albumRequest = [NIJSONKitProcessorHTTPRequest requestWithURL:url usingCache:nil];
+		albumRequest.shouldAttemptPersistentConnection = NO;
 		albumRequest.timeOutSeconds = 30;
 		albumRequest.delegate = self;
 		albumRequest.processorDelegate = (id)[self class];
@@ -578,6 +588,7 @@
 	
 	NSURL *url = [NSURL URLWithString:subReddit.urlString];
 	NIProcessorHTTPRequest* albumRequest = [NIJSONKitProcessorHTTPRequest requestWithURL:url usingCache:nil];
+	albumRequest.shouldAttemptPersistentConnection = NO;
 	albumRequest.timeOutSeconds = 30;
 	albumRequest.delegate = self;
 	albumRequest.processorDelegate = (id)[self class];
@@ -615,6 +626,7 @@
 	
 	__block NIHTTPRequest __weak *readOp = [NIHTTPRequest requestWithURL:url usingCache:[ASIDownloadCache sharedCache]];
 	readOp.cacheStoragePolicy = ASICachePermanentlyCacheStoragePolicy;
+	readOp.shouldAttemptPersistentConnection = NO;
 	readOp.timeOutSeconds = 30;
 	
 	NSString *photoIndexKey = [self cacheKeyForPhotoIndex:photoIndex];

@@ -26,8 +26,6 @@
 
 - (void)refreshViews;
 
-- (UIColor *)groupTableViewBackgroundColor;
-
 @end
 
 @implementation SettingsViewController
@@ -70,11 +68,11 @@
 	
 	self.view.backgroundColor = [UIColor colorWithRed:239 / 255.0 green:239 / 255.0 blue:244 / 255.0 alpha:1.0];
 
-	[upgradeForMOARButton setBackgroundImage:[[UIImage imageNamed:@"UpgradeButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
-	[restoreUpdateButton setBackgroundImage:[[UIImage imageNamed:@"UpgradeButton.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
-	[clearButton setBackgroundImage:[[UIImage imageNamed:@"ClearButton.png"] stretchableImageWithLeftCapWidth:12 topCapHeight:0] forState:UIControlStateNormal];
+	[upgradeForMOARButton setBackgroundImage:[[UIImage imageNamed:@"UpgradeButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
+	[restoreUpdateButton setBackgroundImage:[[UIImage imageNamed:@"UpgradeButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
+	[clearButton setBackgroundImage:[[UIImage imageNamed:@"ClearButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
     
-	aboutWebView.frame = CGRectMake(20, 335, 280, 100);
+	aboutWebView.frame = CGRectMake(20, 335, screenWidth - 40, 100);
 	[aboutWebView loadRequest:[NSURLRequest requestWithURL:[NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"about" ofType:@"html"]]]];
 	
 	NSInteger showedCount = [[appDelegate showedSet] count];
@@ -97,16 +95,17 @@
         imagesToNextTitleString = @"You win!";
     }
 
-	[aboutOutlineButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:10] forState:UIControlStateNormal];
-	[emailButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
-	[emailButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateHighlighted];
-	[tweetButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
-	[tweetButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateHighlighted];
-	[rateAppButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
-	[rateAppButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateHighlighted];
+	[aboutOutlineButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(10, 10, 10, 10)] forState:UIControlStateNormal];
+	[emailButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
+	[emailButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateHighlighted];
+	[tweetButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
+	[tweetButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateHighlighted];
+	[rateAppButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
+	[rateAppButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateHighlighted];
 
 	UIImageView *infoBackView = [[UIImageView alloc] initWithFrame:contentTableView.frame];
 	infoBackView.image = [[UIImage imageNamed:@"SettingsInfoBack.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)];
+	infoBackView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	[aboutView insertSubview:infoBackView belowSubview:contentTableView];
 
 	contentTableView.backgroundColor = [UIColor clearColor];
@@ -313,11 +312,11 @@
 	frame.size.height = height;
 	aboutWebView.frame = frame;
 	
-	aboutOutlineButton.frame = CGRectMake(10, 318, 300, height + 25);
+	aboutOutlineButton.frame = CGRectMake(10, 318, screenWidth - 20, height + 25);
 	
-	emailButton.frame = CGRectMake(10, height + 354, 300, 45);
-	tweetButton.frame = CGRectMake(10, height + 409, 300, 45);
-	rateAppButton.frame = CGRectMake(10, height + 464, 300, 45);
+	emailButton.frame = CGRectMake(10, height + 354, screenWidth - 20, 45);
+	tweetButton.frame = CGRectMake(10, height + 409, screenWidth - 20, 45);
+	rateAppButton.frame = CGRectMake(10, height + 464, screenWidth - 20, 45);
 	
 	if (appDelegate.isPaid) {
 		[buttonsView removeFromSuperview];
@@ -326,7 +325,7 @@
 		frame.size.height = height + 509;
 		aboutView.frame = frame;
 		
-		contentScrollView.contentSize = CGSizeMake(320, rateAppButton.frame.origin.y + rateAppButton.frame.size.height + 10);
+		contentScrollView.contentSize = CGSizeMake(screenWidth, rateAppButton.frame.origin.y + rateAppButton.frame.size.height + 10);
 	}
 	else {
 		CGRect frame = aboutView.frame;
@@ -334,7 +333,7 @@
 		frame.size.height = height + 509;
 		aboutView.frame = frame;
 		
-		contentScrollView.contentSize = CGSizeMake(320, rateAppButton.frame.origin.y + rateAppButton.frame.size.height + 181);
+		contentScrollView.contentSize = CGSizeMake(screenWidth, rateAppButton.frame.origin.y + rateAppButton.frame.size.height + 181);
 	}
 	
 	[contentTableView reloadData];
@@ -400,22 +399,6 @@
 	[[NSFileManager defaultManager] removeItemAtPath:cachePath error:nil];
 	[[NSFileManager defaultManager] createDirectoryAtPath:cachePath withIntermediateDirectories:NO attributes:nil error:nil];
 	[self performSelector:@selector(dismissHUD:) withObject:nil afterDelay:0.01];
-}
-
-- (UIColor *)groupTableViewBackgroundColor {
-	UIImage *tableViewBackgroundImage = nil;
-	UIGraphicsBeginImageContextWithOptions(CGSizeMake(7.f, 1.f), NO, 0.0);
-	CGContextRef c = UIGraphicsGetCurrentContext();
-	[[UIColor colorWithRed:185/255.f green:192/255.f blue:202/255.f alpha:1.f] setFill];
-	CGContextFillRect(c, CGRectMake(0, 0, 4, 1));
-	[[UIColor colorWithRed:185/255.f green:193/255.f blue:200/255.f alpha:1.f] setFill];
-	CGContextFillRect(c, CGRectMake(4, 0, 1, 1));
-	[[UIColor colorWithRed:192/255.f green:200/255.f blue:207/255.f alpha:1.f] setFill];
-	CGContextFillRect(c, CGRectMake(5, 0, 2, 1));
-	tableViewBackgroundImage = UIGraphicsGetImageFromCurrentImageContext();
-	UIGraphicsEndImageContext();
-
-	return [UIColor colorWithPatternImage:tableViewBackgroundImage];
 }
 
 @end

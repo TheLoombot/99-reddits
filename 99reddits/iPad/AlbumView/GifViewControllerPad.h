@@ -22,7 +22,7 @@
 	
 	BOOL hidden;
 	
-	PhotoViewPad *__weak photoView;
+	PhotoViewPad __weak *photoView;
 }
 
 @property (nonatomic, strong) NSData *gifData;

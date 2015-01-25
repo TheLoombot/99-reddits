@@ -14,7 +14,7 @@
 
 @interface RedditsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
 	RedditsAppDelegate *appDelegate;
-	MainViewController *__weak mainViewController;
+	MainViewController __weak *mainViewController;
 
 	IBOutlet UIBarButtonItem *addButton;
 	IBOutlet UIBarButtonItem *doneButton;

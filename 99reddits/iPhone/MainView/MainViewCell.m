@@ -22,7 +22,7 @@
 		contentImageView.contentMode = UIViewContentModeScaleAspectFill;
 		[self.contentView addSubview:contentImageView];
 
-		contentTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 0, 180, 55)];
+		contentTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 0, screenWidth - 140, 55)];
 		contentTextLabel.font = [UIFont boldSystemFontOfSize:16];
 		contentTextLabel.textColor = [UIColor blackColor];
 		contentTextLabel.backgroundColor = [UIColor clearColor];
@@ -68,6 +68,10 @@
 		[self setTotalCount:totalCount];
 	else
 		[self setUnshowedCount:unshowedCount totalCount:totalCount loading:loading];
+	
+	CGRect accessoryViewFrame = self.accessoryView.frame;
+	accessoryViewFrame.origin.x = CGRectGetWidth(self.bounds) - CGRectGetWidth(accessoryViewFrame) - 10;
+	self.accessoryView.frame = accessoryViewFrame;
 }
 
 - (void)setUnshowedCount:(NSInteger)_unshowedCount totalCount:(NSInteger)_totalCount loading:(BOOL)_loading {
@@ -105,7 +109,7 @@
 		if (rect.size.width < 10)
 			rect.size.width = 10;
 		rect.size.height = 20;
-		rect.origin.x = 275 - rect.size.width;
+		rect.origin.x = screenWidth - 45 - rect.size.width;
 		rect.origin.y = 17;
 		unshowedLabel.frame = rect;
 		

@@ -51,6 +51,9 @@ NSString *normalStrings[] = {
 	@"`"
 };
 
+CGFloat screenWidth;
+CGFloat screenHeight;
+
 NSString *deviceName() {
 	struct utsname systemInfo;
 	uname(&systemInfo);

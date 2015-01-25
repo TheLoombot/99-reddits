@@ -65,6 +65,12 @@
 	[activeRequests removeAllObjects];
 	[thumbnailImageCache reduceMemoryUsage];
 
+	refreshCount = 0;
+	refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
+	[refreshControl endRefreshing];
+	
+	[self.collectionView reloadData];
+
     [super didReceiveMemoryWarning];
 }
 
@@ -125,9 +131,9 @@
 	self.collectionView.backgroundColor = [UIColor whiteColor];
 	self.collectionView.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 0, 0);
 
-	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateNormal];
-	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateHighlighted];
-	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:0] forState:UIControlStateDisabled];
+	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
+	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateHighlighted];
+	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateDisabled];
 
 	MainViewLayoutPad *mainViewLayout = [[MainViewLayoutPad alloc] init];
 	mainViewLayout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, 60);
@@ -194,7 +200,7 @@
 - (IBAction)onAddButton:(id)sender {
 	RedditsViewControllerPad *redditsViewController = [[RedditsViewControllerPad alloc] initWithNibName:@"RedditsViewControllerPad" bundle:nil];
 	redditsViewController.mainViewController = self;
-	UINavigationController *redditsNavigationController = [[CustomNavigationController alloc] initWithRootViewController:redditsViewController];
+	UINavigationController *redditsNavigationController = [[UINavigationController alloc] initWithRootViewController:redditsViewController];
 	popoverController = [[PopoverController alloc] initWithContentViewController:redditsNavigationController];
 	popoverController.popoverContentSize = CGSizeMake(540, 620);
 	popoverController.delegate = self;
@@ -656,7 +662,7 @@
 - (IBAction)onSettingsButton:(id)sender {
 	SettingsViewControllerPad *settingsViewController = [[SettingsViewControllerPad alloc] initWithNibName:@"SettingsViewControllerPad" bundle:nil];
 	settingsViewController.mainViewController = self;
-	UINavigationController *settingsNavigationController = [[CustomNavigationController alloc] initWithRootViewController:settingsViewController];
+	UINavigationController *settingsNavigationController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
 	popoverController = [[PopoverController alloc] initWithContentViewController:settingsNavigationController];
 	popoverController.popoverContentSize = CGSizeMake(540, 620);
 	popoverController.delegate = self;

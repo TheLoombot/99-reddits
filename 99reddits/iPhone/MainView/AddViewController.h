@@ -13,7 +13,7 @@
 
 @interface AddViewController : UIViewController <UITextFieldDelegate> {
 	RedditsAppDelegate *appDelegate;
-	RedditsViewController *__weak redditsViewController;
+	RedditsViewController __weak *redditsViewController;
 
 	IBOutlet UIBarButtonItem *cancelButton;
 	IBOutlet UITextField *urlTextField;

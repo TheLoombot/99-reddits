@@ -144,14 +144,6 @@
 	return UIInterfaceOrientationMaskAllButUpsideDown;
 }
 
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration {
-	[super willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-	[UIView animateWithDuration:duration
-					 animations:^(void) {
-						 [self refreshFullPhotoButton:toInterfaceOrientation];
-					 }];
-}
-
 - (void)viewWillAppear:(BOOL)animated {
 	if (!disappearForSubview) {
 		[super viewWillAppear:YES];
@@ -159,8 +151,6 @@
 	
 	disappearForSubview = NO;
 	[self.photoAlbumView moveToPageAtIndex:self.photoAlbumView.centerPageIndex animated:NO];
-	
-	[self refreshFullPhotoButton:[[UIApplication sharedApplication] statusBarOrientation]];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -189,14 +179,10 @@
 	self.titleLabel.hidden = YES;
 }
 
-- (void)refreshFullPhotoButton:(UIInterfaceOrientation)interfaceOrientation {
-	CGSize boundsSize = [[UIScreen mainScreen] bounds].size;
-	if (UIInterfaceOrientationIsLandscape(interfaceOrientation)) {
-		fullPhotoButton.frame = CGRectMake(MAX(boundsSize.width, boundsSize.height) - 50, 63, 40, 40);
-	}
-	else {
-		fullPhotoButton.frame = CGRectMake(MIN(boundsSize.width, boundsSize.height) - 50, 74, 40, 40);
-	}
+- (void)viewDidLayoutSubviews {
+	[super viewDidLayoutSubviews];
+	CGRect frame = self.navigationController.navigationBar.frame;
+	fullPhotoButton.frame = CGRectMake(frame.size.width - 50, frame.size.height + 30, 40, 40);
 }
 
 - (void)onActionButton {

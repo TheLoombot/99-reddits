@@ -14,7 +14,7 @@
 
 @interface RedditsViewControllerPad : UIViewController <UITableViewDelegate, UITableViewDataSource> {
 	RedditsAppDelegate *appDelegate;
-	MainViewControllerPad *__weak mainViewController;
+	MainViewControllerPad __weak *mainViewController;
 	
 	IBOutlet UITableView *contentTableView;
 	

@@ -13,11 +13,14 @@
 - (id)init {
 	self = [super init];
 	if (self) {
+		space = (screenWidth - 300) / 5;
+		offset = (screenWidth - 300 - space * 3) / 2;
+		
 		self.itemSize = CGSizeMake(75, 75);
 		self.minimumInteritemSpacing = 0;
 		self.minimumLineSpacing = 4;
 		self.scrollDirection = UICollectionViewScrollDirectionVertical;
-		self.sectionInset = UIEdgeInsetsMake(4, 4, 4, 4);
+		self.sectionInset = UIEdgeInsetsMake(4, offset, 4, offset);
 	}
 
 	return self;
@@ -28,7 +31,7 @@
     UICollectionViewLayoutAttributes *attributes = [UICollectionViewLayoutAttributes layoutAttributesForCellWithIndexPath:indexPath];
 	NSInteger row = indexPath.item / 4;
 	NSInteger col = indexPath.item % 4;
-	attributes.frame = CGRectMake(4 + col * 79, 4 + row * 79, 75, 75);
+	attributes.frame = CGRectMake(offset + col * (75 + space), 4 + row * 79, 75, 75);
     return attributes;
 }
 
@@ -80,7 +83,7 @@
 	if ([insertIndexPaths containsObject:itemIndexPath]) {
 		NSInteger row = itemIndexPath.row / 4;
 		NSInteger col = itemIndexPath.row % 4;
-		attributes.frame = CGRectMake(4 + col * 79, 4 + row * 79, 75, 75);
+		attributes.frame = CGRectMake(offset + col * (75 + space), 4 + row * 79, 75, 75);
 		attributes.alpha = 0.0;
 		attributes.transform3D = CATransform3DMakeScale(0.1, 0.1, 1.0);
 		attributes.zIndex = -1;
@@ -88,7 +91,7 @@
 	else {
 		NSInteger row = (itemIndexPath.row + count) / 4;
 		NSInteger col = (itemIndexPath.row + count) % 4;
-		attributes.frame = CGRectMake(4 + col * 79, 4 + row * 79, 75, 75);
+		attributes.frame = CGRectMake(offset + col * (75 + space), 4 + row * 79, 75, 75);
 	}
 
 	return attributes;
@@ -102,7 +105,7 @@
 
 	NSInteger row = itemIndexPath.row / 4;
 	NSInteger col = itemIndexPath.row % 4;
-	attributes.frame = CGRectMake(4 + col * 79, 4 + row * 79, 75, 75);
+	attributes.frame = CGRectMake(offset + col * (75 + space), 4 + row * 79, 75, 75);
 
 	if ([deleteIndexPaths containsObject:itemIndexPath]) {
 		attributes.alpha = 0.0;

@@ -17,7 +17,7 @@
 
 @interface SettingsViewControllerPad : UIViewController <UITableViewDelegate, UITableViewDataSource, UIWebViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate> {
 	RedditsAppDelegate *appDelegate;
-	MainViewControllerPad *__weak mainViewController;
+	MainViewControllerPad __weak *mainViewController;
 	PopoverController __weak *popoverController;
 
 	IBOutlet UIScrollView *contentScrollView;

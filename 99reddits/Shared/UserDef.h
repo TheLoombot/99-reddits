@@ -21,5 +21,7 @@
 
 extern NSString *htmlStrings[];
 extern NSString *normalStrings[];
+extern CGFloat screenWidth;
+extern CGFloat screenHeight;
 
 extern NSString *deviceName();

@@ -14,7 +14,7 @@
 
 @interface AlbumViewCellPad : UICollectionViewCell {
 	RedditsAppDelegate *appDelegate;
-	AlbumViewControllerPad *__weak albumViewController;
+	AlbumViewControllerPad __weak *albumViewController;
 
 	PhotoItem *photo;
 	BOOL bFavorites;

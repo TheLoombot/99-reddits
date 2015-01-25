@@ -10,12 +10,11 @@
 #import "SubRedditItem.h"
 #import "PhotoItem.h"
 #import "Appirater.h"
-#import "CustomNavigationController.h"
 
 @class MainViewController;
 
 @interface RedditsAppDelegate : NSObject <UIApplicationDelegate, AppiraterDelegate> {
-	IBOutlet CustomNavigationController *mainNavigationController;
+	IBOutlet UINavigationController *mainNavigationController;
 
 	NSMutableArray *subRedditsArray;
 	NSMutableSet *nameStringsSet;

@@ -12,6 +12,9 @@
 	NSInteger cellCount;
 	NSMutableArray *deleteIndexPaths;
 	NSMutableArray *insertIndexPaths;
+	
+	NSInteger offset;
+	NSInteger space;
 }
 
 @end

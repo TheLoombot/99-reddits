@@ -7,7 +7,6 @@
 //
 
 #import "MainViewControllerPad.h"
-#import "RedditsAppDelegate.h"
 #import "MainViewCellPad.h"
 #import "NIHTTPRequest.h"
 #import "ASIDownloadCache.h"
@@ -108,7 +107,6 @@
 	thumbnailImageCache = [[NIImageMemoryCache alloc] init];
 	
 	refreshCount = 0;
-	scale = [[UIScreen mainScreen] scale];
 	
 	if (appDelegate.firstRun) {
 		[self reloadData];
@@ -153,10 +151,6 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return YES;
 }
 
 - (BOOL)shouldAutorotate {
@@ -633,8 +627,8 @@
 					y = 0.0;
 				}
 				
-				UIGraphicsBeginImageContext(CGSizeMake(w * scale, h * scale));
-				CGRect rect = CGRectMake(x * scale, y * scale, w * scale, h * scale);
+				UIGraphicsBeginImageContextWithOptions(CGSizeMake(w, h), NO, screenScale);
+				CGRect rect = CGRectMake(x, y, w, h);
 				[image drawInRect:rect];
 				UIImage *thumbImage = UIGraphicsGetImageFromCurrentImageContext();
 				UIGraphicsEndImageContext();

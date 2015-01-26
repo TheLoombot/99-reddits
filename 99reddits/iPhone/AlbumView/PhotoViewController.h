@@ -11,16 +11,10 @@
 #import "PhotoItem.h"
 #import "ASIHTTPRequestDelegate.h"
 
-@class RedditsAppDelegate;
-
 @interface PhotoViewController : NIToolbarPhotoViewController <NIPhotoAlbumScrollViewDataSource, UIActionSheetDelegate> {
-	RedditsAppDelegate *appDelegate;
-	
 	NSOperationQueue *queue;
 	
 	NSMutableSet *activeRequests;
-	
-	NIImageMemoryCache *highQualityImageCache;
 	
 	SubRedditItem *subReddit;
 	NSInteger index;

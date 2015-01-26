@@ -136,7 +136,7 @@
 
 		_scrollView.backgroundColor = self.backgroundColor;
 
-		_imageView = [[[UIImageView alloc] initWithFrame:CGRectZero] autorelease];
+		_imageView = [[[FLAnimatedImageView alloc] initWithFrame:CGRectZero] autorelease];
 
 		[_scrollView addSubview:_imageView];
 		[self addSubview:_scrollView];
@@ -250,6 +250,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)prepareForReuse {
 	_imageView.image = nil;
+	_imageView.animatedImage = nil;
 	self.photoSize = NIPhotoScrollViewPhotoSizeUnknown;
 	_scrollView.zoomScale = 1;
 	_scrollView.contentSize = self.bounds.size;
@@ -271,6 +272,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setImage:(UIImage *)image photoSize:(NIPhotoScrollViewPhotoSize)photoSize {
 	_imageView.image = image;
+	_imageView.animatedImage = nil;
 	[_imageView sizeToFit];
 
 	if (nil == image) {
@@ -296,6 +298,10 @@
 	_scrollView.zoomScale = _scrollView.minimumZoomScale;
 
 	[self setNeedsLayout];
+}
+
+- (void)setGifImage:(FLAnimatedImage *)image {
+	_imageView.animatedImage = image;
 }
 
 
@@ -362,6 +368,14 @@
 - (CGFloat)scaleForSize:(CGSize)size boundsSize:(CGSize)boundsSize useMinimalScale:(BOOL)minimalScale {
 	CGFloat xScale = boundsSize.width / size.width;   // The scale needed to perfectly fit the image width-wise.
 	CGFloat yScale = boundsSize.height / size.height; // The scale needed to perfectly fit the image height-wise.
+	
+	if (xScale * size.width > boundsSize.width) {
+		xScale -= 0.0000001;
+	}
+	if (yScale *size.height > boundsSize.height) {
+		yScale -= 0.0000001;
+	}
+	
 	CGFloat minScale = minimalScale ? MIN(xScale, yScale) : MAX(xScale, yScale); // Use the minimum of these to allow the image to become fully visible, or the maximum to get fullscreen size
 
 	return minScale;

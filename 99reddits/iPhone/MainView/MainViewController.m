@@ -7,7 +7,6 @@
 //
 
 #import "MainViewController.h"
-#import "RedditsAppDelegate.h"
 #import "MainViewCell.h"
 #import "NIHTTPRequest.h"
 #import "ASIDownloadCache.h"
@@ -143,13 +142,8 @@
     // e.g. self.myOutlet = nil;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
 - (BOOL)shouldAutorotate {
-	return NO;
+	return YES;
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
@@ -679,7 +673,7 @@
 					y = (THUMB_HEIGHT - h) / 2;
 				}
 				
-				UIGraphicsBeginImageContext(CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT));
+				UIGraphicsBeginImageContextWithOptions(CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT), NO, screenScale);
 				CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(), [UIColor whiteColor].CGColor);
 				CGContextFillRect(UIGraphicsGetCurrentContext(), CGRectMake(0, 0, THUMB_WIDTH, THUMB_HEIGHT));
 				CGRect rect = CGRectMake(x, y, w, h);
@@ -699,7 +693,6 @@
 	[readOp setFailedBlock:^{
 		[activeRequests removeObject:source];
 	}];
-	
 	
 	[readOp setQueuePriority:NSOperationQueuePriorityNormal];
 	

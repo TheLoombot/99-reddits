@@ -12,7 +12,6 @@
 #import "NIHTTPRequest.h"
 #import "ASIDownloadCache.h"
 #import "PhotoViewControllerPad.h"
-#import "RedditsAppDelegate.h"
 #import "MainViewControllerPad.h"
 #import "UserDef.h"
 #import "AlbumViewLayoutPad.h"
@@ -36,22 +35,26 @@
 @synthesize bFavorites;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
+	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+	if (self) {
+		// Custom initialization
+	}
+	return self;
 }
 
 - (void)dealloc {
+	[self releaseCaches];
+}
+
+- (void)releaseCaches {
 	for (ASIHTTPRequest *request in refreshQueue.operations) {
 		[request clearDelegatesAndCancel];
 	}
-
+	
 	for (ASIHTTPRequest *request in queue.operations) {
 		[request clearDelegatesAndCancel];
 	}
-
+	
 	activeRequests = nil;
 	thumbnailImageCache = nil;
 	refreshQueue = nil;
@@ -69,22 +72,22 @@
 	}
 	[activeRequests removeAllObjects];
 	[thumbnailImageCache reduceMemoryUsage];
-
+	
 	[contentCollectionView reloadData];
-
-    [super didReceiveMemoryWarning];
+	
+	[super didReceiveMemoryWarning];
 }
 
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+	[super viewDidLoad];
 	
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	
 	self.title = subReddit.nameString;
 	self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:subReddit.nameString style:UIBarButtonItemStylePlain target:nil action:nil];
-
+	
 	refreshQueue = [[NSOperationQueue alloc] init];
 	[queue setMaxConcurrentOperationCount:5];
 	
@@ -95,8 +98,6 @@
 	
 	thumbnailImageCache = [[NIImageMemoryCache alloc] init];
 	
-	scale = [[UIScreen mainScreen] scale];
-	
 	if (bFavorites) {
 		[tabBar removeFromSuperview];
 		contentCollectionView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
@@ -106,7 +107,7 @@
 	[moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateHighlighted];
 	[moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateDisabled];
 	moarWaitingView.hidden = YES;
-
+	
 	[appDelegate checkNetworkReachable:YES];
 	
 	tabBar.selectedItem = hotItem;
@@ -115,7 +116,7 @@
 	currentPhotosArray = [[NSMutableArray alloc] init];
 	if (bFavorites) {
 		currentSubReddit = subReddit;
-
+		
 		self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(onActionButton:)];
 	}
 	else {
@@ -127,12 +128,12 @@
 		
 		self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl];
 	}
-
+	
 	self.view.backgroundColor = [UIColor whiteColor];
 	self.edgesForExtendedLayout = UIRectEdgeNone;
 	self.automaticallyAdjustsScrollViewInsets = NO;
 	self.extendedLayoutIncludesOpaqueBars = NO;
-
+	
 	CGRect frame = contentCollectionView.frame;
 	frame.origin.y -= 64;
 	frame.size.height += 64;
@@ -147,7 +148,7 @@
 	else {
 		contentCollectionView.scrollIndicatorInsets = UIEdgeInsetsMake(64, 0, 0, 0);
 	}
-
+	
 	AlbumViewLayoutPad *albumViewLayout = [[AlbumViewLayoutPad alloc] init];
 	if (!bFavorites) {
 		albumViewLayout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, 60);
@@ -160,23 +161,19 @@
 	if (!bFavorites)
 		[contentCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"ALBUM_FOOTER_VIEW_PAD"];
 	[contentCollectionView setCollectionViewLayout:albumViewLayout];
-
+	
 	if (!bFavorites)
 		showTypeSegmentedControl.selectedSegmentIndex = 1;
-
+	
 	initialized = NO;
-
+	
 	actionSheetTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onActionSheetTapGesture:)];
 }
 
 - (void)viewDidUnload {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	return YES;
+	[super viewDidUnload];
+	// Release any retained subviews of the main view.
+	// e.g. self.myOutlet = nil;
 }
 
 - (BOOL)shouldAutorotate {
@@ -185,8 +182,14 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	[self refreshSubReddit:YES];
-
+	
 	bFromSubview = NO;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
+		[self releaseCaches];
+	}
 }
 
 - (void)onSelectPhoto:(PhotoItem *)photo {
@@ -229,7 +232,7 @@
 	cell.albumViewController = self;
 	cell.bFavorites = bFavorites;
 	cell.photo = [currentPhotosArray objectAtIndex:indexPath.item];
-
+	
 	NSString *urlString = [self cacheKeyForPhotoIndex:indexPath.item];
 	UIImage *image = [thumbnailImageCache objectWithName:urlString];
 	if (image == nil) {
@@ -239,7 +242,7 @@
 	else {
 		[cell setThumbImage:image animated:NO];
 	}
-
+	
 	return cell;
 }
 
@@ -250,7 +253,7 @@
 		footerView.center = CGPointMake(collectionFooterView.frame.size.width / 2, collectionFooterView.frame.size.height / 2);
 		[collectionFooterView addSubview:footerView];
 	}
-
+	
 	return collectionFooterView;
 }
 
@@ -268,8 +271,8 @@
 }
 
 - (void)requestImageFromSource:(NSString *)source photoIndex:(NSInteger)photoIndex {
-//	if (![appDelegate checkNetworkReachable:NO])
-//		return;
+	//	if (![appDelegate checkNetworkReachable:NO])
+	//		return;
 	
 	if (source.length == 0)
 		return;
@@ -313,8 +316,8 @@
 				y = 0.0;
 			}
 			
-			UIGraphicsBeginImageContext(CGSizeMake(w * scale, h * scale));
-			CGRect rect = CGRectMake(x * scale, y * scale, w * scale, h * scale);
+			UIGraphicsBeginImageContextWithOptions(CGSizeMake(w, h), NO, screenScale);
+			CGRect rect = CGRectMake(x, y, w, h);
 			[image drawInRect:rect];
 			UIImage *thumbImage = UIGraphicsGetImageFromCurrentImageContext();
 			UIGraphicsEndImageContext();
@@ -430,7 +433,7 @@
 			moarWaitingView.hidden = YES;
 			
 			[currentSubReddit.photosArray addObjectsFromArray:subReddit.photosArray];
-
+			
 			[self refreshSubReddit:YES];
 		}
 	}
@@ -446,7 +449,7 @@
 		albumRequest.delegate = self;
 		albumRequest.processorDelegate = (id)[self class];
 		[refreshQueue addOperation:albumRequest];
-
+		
 		[self refreshSubReddit:YES];
 	}
 	else if (currentItem == controversialItem) {
@@ -531,7 +534,7 @@
 	}
 	
 	[self refreshSubReddit:NO];
-
+	
 	bMOARLoading = NO;
 }
 
@@ -579,16 +582,16 @@
 		NSString *thumbnailString = [itemData objectForKey:@"thumbnail"];
 		
 		// If the thumbnail string is empty or a default value, AND the URL is an imgur link,
-        // then we go to imgur to get the thumbnail
+		// then we go to imgur to get the thumbnail
 		// Big Square   [160x160px]:  http://i.imgur.com/46dFab.jpg
-        if ([photo.urlString hasPrefix:@"http://i.imgur.com/"] || [photo.urlString hasPrefix:@"http://imgur.com/"]) {
+		if ([photo.urlString hasPrefix:@"http://i.imgur.com/"] || [photo.urlString hasPrefix:@"http://imgur.com/"]) {
 			NSString *lastComp = [photo.urlString lastPathComponent];
 			photo.thumbnailString = [NSString stringWithFormat:@"http://i.imgur.com/%@b.png", [lastComp stringByDeletingPathExtension]];
 		}
 		else {
 			photo.thumbnailString = [RedditsAppDelegate getImageURL:thumbnailString];
 		}
-        
+		
 		NSString *extension = [[photo.urlString pathExtension] lowercaseString];
 		if (extension.length != 0 && ([extension isEqualToString:@"jpg"] ||
 									  [extension isEqualToString:@"jpeg"] ||
@@ -598,17 +601,17 @@
 									  [extension isEqualToString:@"tif"] ||
 									  [extension isEqualToString:@"bmp"]
 									  )) {
-            
+			
 			// However if the thumbnail is empty or a default value and NOT an imgur link,
-            // we instead use the FULL image URL as the thumbnail...
-            // Do we need this?  Does this result in us downloading photos twice if we don't have
-            // an otherwise usable thumbnail?  (Aman 20-Dec-2011)
-            if ((photo.thumbnailString.length == 0) ||
-                [photo.thumbnailString isEqualToString:@"nsfw"] ||
-                [photo.thumbnailString isEqualToString:@"default"])
+			// we instead use the FULL image URL as the thumbnail...
+			// Do we need this?  Does this result in us downloading photos twice if we don't have
+			// an otherwise usable thumbnail?  (Aman 20-Dec-2011)
+			if ((photo.thumbnailString.length == 0) ||
+				[photo.thumbnailString isEqualToString:@"nsfw"] ||
+				[photo.thumbnailString isEqualToString:@"default"])
 				photo.thumbnailString = photo.urlString;
 			
-            [photosArray addObject:photo];
+			[photosArray addObject:photo];
 		}
 	}
 	
@@ -628,7 +631,7 @@
 
 - (void)refreshSubReddit:(BOOL)reload {
 	NSMutableArray *newPhotosArray = [NSMutableArray array];
-
+	
 	if (showTypeSegmentedControl.selectedSegmentIndex == 0) {
 		[newPhotosArray addObjectsFromArray:currentSubReddit.photosArray];
 	}
@@ -639,7 +642,7 @@
 			}
 		}
 	}
-
+	
 	if (self.bFavorites) {
 		self.title = subReddit.nameString;
 	}
@@ -650,27 +653,27 @@
 				unshowedCount ++;
 			}
 		}
-
+		
 		if (unshowedCount > 0) {
 			self.title = [NSString stringWithFormat:@"%@ (%ld)", subReddit.nameString, (long)unshowedCount];
-
+			
 			showTypeSegmentedControl.userInteractionEnabled = YES;
 			self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl];
 		}
 		else {
 			self.title = subReddit.nameString;
-
+			
 			self.navigationItem.rightBarButtonItem.enabled = NO;
 			showTypeSegmentedControl.userInteractionEnabled = NO;
-
+			
 			if (showTypeSegmentedControl.selectedSegmentIndex == 1) {
 				showTypeSegmentedControl.selectedSegmentIndex = 0;
-
+				
 				[newPhotosArray addObjectsFromArray:currentSubReddit.photosArray];
 			}
 		}
 	}
-
+	
 	if (!initialized || reload) {
 		initialized = YES;
 		[currentPhotosArray removeAllObjects];
@@ -686,7 +689,7 @@
 				[deleteItemsArray addObject:[NSIndexPath indexPathForItem:i inSection:0]];
 			}
 		}
-
+		
 		NSMutableArray *insertItemsArray = [NSMutableArray array];
 		for (NSInteger i = 0; i < newPhotosArray.count; i ++) {
 			PhotoItem *photo = [newPhotosArray objectAtIndex:i];
@@ -694,14 +697,14 @@
 				[insertItemsArray addObject:[NSIndexPath indexPathForItem:i inSection:0]];
 			}
 		}
-
+		
 		if (deleteItemsArray.count == 0 && insertItemsArray.count == 0)
 			return;
-
+		
 		[currentPhotosArray removeAllObjects];
 		[currentPhotosArray addObjectsFromArray:newPhotosArray];
 		[self loadThumbnails];
-
+		
 		self.view.userInteractionEnabled = NO;
 		footerView.alpha = 0.0;
 		[contentCollectionView
@@ -725,9 +728,9 @@
 		[actionSheet dismissWithClickedButtonIndex:actionSheet.cancelButtonIndex animated:NO];
 		actionSheet = nil;
 	}
-
+	
 	[self.navigationController.navigationBar addGestureRecognizer:actionSheetTapGesture];
-
+	
 	actionSheet = [[UIActionSheet alloc] initWithTitle:nil
 											  delegate:self
 									 cancelButtonTitle:@"Cancel"
@@ -741,13 +744,13 @@
 // UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)sheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
 	[self.navigationController.navigationBar removeGestureRecognizer:actionSheetTapGesture];
-
+	
 	if (actionSheet == nil)
 		return;
-
+	
 	if (buttonIndex == actionSheet.cancelButtonIndex)
 		return;
-
+	
 	if (buttonIndex == 0) {
 		if (!appDelegate.isPaid) {
 			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"This is a paid feature. It's cheap." message:nil delegate:self cancelButtonTitle:@"No thanks" otherButtonTitles:@"Buy", nil];
@@ -760,7 +763,7 @@
 				mailComposeViewController.mailComposeDelegate = self;
 				[mailComposeViewController setSubject:@"99 reddits Favorites Export"];
 				[mailComposeViewController setMessageBody:[appDelegate getFavoritesEmailString] isHTML:YES];
-
+				
 				bFromSubview = YES;
 				[self presentViewController:mailComposeViewController animated:YES completion:nil];
 			}
@@ -771,7 +774,7 @@
 		alertView.tag = 101;
 		[alertView show];
 	}
-
+	
 	actionSheet = nil;
 }
 

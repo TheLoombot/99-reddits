@@ -8,12 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class RedditsAppDelegate;
 @class MainViewController;
 @class SubRedditItem;
 
 @interface RedditsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource> {
-	RedditsAppDelegate *appDelegate;
 	MainViewController __weak *mainViewController;
 
 	IBOutlet UIBarButtonItem *addButton;

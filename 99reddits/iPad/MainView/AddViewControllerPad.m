@@ -7,7 +7,6 @@
 //
 
 #import "AddViewControllerPad.h"
-#import "RedditsAppDelegate.h"
 #import "RedditsViewControllerPad.h"
 #import "UserDef.h"
 
@@ -26,7 +25,6 @@
     }
     return self;
 }
-
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
@@ -58,10 +56,6 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return YES;
 }
 
 - (BOOL)shouldAutorotate {

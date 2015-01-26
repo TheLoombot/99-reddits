@@ -12,7 +12,6 @@
 #import "NIHTTPRequest.h"
 #import "ASIDownloadCache.h"
 #import "PhotoViewController.h"
-#import "RedditsAppDelegate.h"
 #import "MainViewController.h"
 #import "UserDef.h"
 #import "AlbumViewLayout.h"
@@ -44,14 +43,18 @@
 }
 
 - (void)dealloc {
+	[self releaseCaches];
+}
+
+- (void)releaseCaches {
 	for (ASIHTTPRequest *request in refreshQueue.operations) {
 		[request clearDelegatesAndCancel];
 	}
-
+	
 	for (ASIHTTPRequest *request in queue.operations) {
 		[request clearDelegatesAndCancel];
 	}
-
+	
 	activeRequests = nil;
 	thumbnailImageCache = nil;
 	refreshQueue = nil;
@@ -156,13 +159,8 @@
     // e.g. self.myOutlet = nil;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
 - (BOOL)shouldAutorotate {
-	return NO;
+	return YES;
 }
 
 - (NSUInteger)supportedInterfaceOrientations {
@@ -173,6 +171,12 @@
 	[self refreshSubReddit:YES];
 
 	bFromSubview = NO;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
+		[self releaseCaches];
+	}
 }
 
 - (void)onSelectPhoto:(PhotoItem *)photo {
@@ -307,7 +311,7 @@
 				y = (THUMB_HEIGHT - h) / 2;
 			}
 
-			UIGraphicsBeginImageContext(CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT));
+			UIGraphicsBeginImageContextWithOptions(CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT), NO, screenScale);
 			CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(), [UIColor whiteColor].CGColor);
 			CGContextFillRect(UIGraphicsGetCurrentContext(), CGRectMake(0, 0, THUMB_WIDTH, THUMB_HEIGHT));
 			CGRect rect = CGRectMake(x, y, w, h);

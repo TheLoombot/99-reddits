@@ -7,7 +7,6 @@
 //
 
 #import "SettingsViewControllerPad.h"
-#import "RedditsAppDelegate.h"
 #import "UserDef.h"
 #import <Accounts/Accounts.h>
 #import "ASIDownloadCache.h"
@@ -31,7 +30,6 @@
 @implementation SettingsViewControllerPad
 
 @synthesize mainViewController;
-@synthesize hud;
 @synthesize popoverController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -136,11 +134,6 @@
     // e.g. self.myOutlet = nil;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	contentScrollView.contentSize = CGSizeMake(contentScrollView.frame.size.width, contentScrollView.contentSize.height);
-    return YES;
-}
-
 - (BOOL)shouldAutorotate {
 	contentScrollView.contentSize = CGSizeMake(contentScrollView.frame.size.width, contentScrollView.contentSize.height);
 	return YES;
@@ -218,7 +211,7 @@
 	[PurchaseManager sharedManager].productIdentifiers = [NSSet setWithObject:PRODUCT_ID];
 	[[PurchaseManager sharedManager] requestProducts];
 	
-	self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+	hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 	hud.labelText = @"Loading ...";
 	[self performSelector:@selector(timeout:) withObject:nil afterDelay:300];
 }
@@ -227,14 +220,14 @@
 	[PurchaseManager sharedManager].delegate = self;
 	[[PurchaseManager sharedManager] restorePurchases];
 	
-	self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+	hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 	hud.labelText = @"Restoring ...";
 	[self performSelector:@selector(timeout:) withObject:nil afterDelay:300];
 }
 
 - (void)dismissHUD:(id)arg {
 	[MBProgressHUD hideHUDForView:self.view animated:YES];
-	self.hud = nil;
+	hud = nil;
 }
 
 - (void)timeout:(id)arg {
@@ -254,7 +247,7 @@
 		SKProduct *product = [[PurchaseManager sharedManager].products objectAtIndex:0];
 		[[PurchaseManager sharedManager] buyProduct:product];
 		
-		self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+		hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 		hud.labelText = @"Buying ...";
 		[self performSelector:@selector(timeout:) withObject:nil afterDelay:300];
 	}
@@ -394,7 +387,7 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
 	if (actionSheet.cancelButtonIndex != buttonIndex) {
-		self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+		hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
 		hud.labelText = @"Clearing...";
 		
 		[self performSelector:@selector(clearCaches) withObject:nil afterDelay:0.01];

@@ -7,23 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PopoverController.h"
 
-@class PhotoViewController;
-
-@interface PhotoView : NIPhotoScrollView <PopoverControllerDelegate> {
+@interface PhotoView : NIPhotoScrollView {
 	UIActivityIndicatorView *activityIndicator;
-	UIButton *playButton;
-	NSData *gifData;
-	
-	PhotoViewController *photoViewController;
-
-	PopoverController *popoverController;
 }
-
-@property (nonatomic, strong) PhotoViewController *photoViewController;
-
-- (void)setGifData:(NSData *)data;
-- (void)dismissPopover;
 
 @end

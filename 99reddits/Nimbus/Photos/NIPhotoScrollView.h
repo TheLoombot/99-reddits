@@ -20,6 +20,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#import "FLAnimatedImageView.h"
+
 @protocol NIPhotoScrollViewDelegate;
 @class NICenteringScrollView;
 
@@ -33,7 +35,7 @@
   NIPagingScrollViewPage> {
 @private
   // The photo view to be zoomed.
-  UIImageView* _imageView;
+  FLAnimatedImageView* _imageView;
   // The scroll view.
   NICenteringScrollView* _scrollView;
 
@@ -62,6 +64,7 @@
 - (UIImage *)image;
 - (NIPhotoScrollViewPhotoSize)photoSize;
 - (void)setImage:(UIImage *)image photoSize:(NIPhotoScrollViewPhotoSize)photoSize;
+- (void)setGifImage:(FLAnimatedImage *)image;
 
 @property (nonatomic, readwrite, assign) NSInteger pageIndex;
 @property (nonatomic, readwrite, assign) CGSize photoDimensions;

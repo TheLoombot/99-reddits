@@ -9,14 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "PhotoItem.h"
 
-@class RedditsAppDelegate;
 @class AlbumViewController;
 
 @interface AlbumViewCell : UICollectionViewCell {
-	RedditsAppDelegate *appDelegate;
 	AlbumViewController __weak *albumViewController;
 	
-	PhotoItem *photo;
+	PhotoItem __weak *photo;
 	BOOL bFavorites;
 
 	UIImageView *favoriteOverlayView;
@@ -28,7 +26,7 @@
 }
 
 @property (nonatomic, weak) AlbumViewController *albumViewController;
-@property (nonatomic, strong) PhotoItem *photo;
+@property (nonatomic, weak) PhotoItem *photo;
 @property (nonatomic) BOOL bFavorites;
 
 - (void)setThumbImage:(UIImage *)thumbImage animated:(BOOL)animated;

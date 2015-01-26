@@ -16,7 +16,6 @@
 @class MainViewControllerPad;
 
 @interface SettingsViewControllerPad : UIViewController <UITableViewDelegate, UITableViewDataSource, UIWebViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate> {
-	RedditsAppDelegate *appDelegate;
 	MainViewControllerPad __weak *mainViewController;
 	PopoverController __weak *popoverController;
 
@@ -41,7 +40,6 @@
 	MBProgressHUD *hud;
 }
 
-@property (strong) MBProgressHUD *hud;
 @property (nonatomic, weak) MainViewControllerPad *mainViewController;
 @property (nonatomic, weak) PopoverController *popoverController;
 

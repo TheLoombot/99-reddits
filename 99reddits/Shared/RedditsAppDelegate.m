@@ -43,6 +43,8 @@ void uncaughtExceptionHandler(NSException *exception) {
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	[application setStatusBarHidden:NO];
 	
+	appDelegate = self;
+	
 	screenWidth = [[UIScreen mainScreen] bounds].size.width;
 	screenHeight = [[UIScreen mainScreen] bounds].size.height;
 	if (screenWidth > screenHeight) {
@@ -50,6 +52,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 		screenWidth = screenHeight;
 		screenHeight = temp;
 	}
+	screenScale = [[UIScreen mainScreen] scale];
 
 	self.window.backgroundColor = [UIColor whiteColor];
 	mainNavigationController.navigationBar.barStyle = UIBarStyleDefault;
@@ -100,7 +103,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 - (void)applicationWillTerminate:(UIApplication *)application {
 	[self saveToDefaults];
 }
-\
+
 - (void)loadFromDefaults {
 	firstRun = NO;
 	

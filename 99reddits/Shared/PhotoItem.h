@@ -8,29 +8,24 @@
 
 #import <Foundation/Foundation.h>
 
-@class RedditsAppDelegate;
-
 @interface PhotoItem : NSObject {
-	RedditsAppDelegate *appDelegate;
-	
 	NSString *idString;
 	NSString *nameString;
 	NSString *permalinkString;
 	NSString *thumbnailString;
 	NSString *titleString;
 	NSString *urlString;
-//	BOOL showed;
 }
 
-@property (nonatomic, strong) NSString *idString;
-@property (nonatomic, strong) NSString *nameString;
-@property (nonatomic, strong) NSString *permalinkString;
-@property (nonatomic, strong) NSString *thumbnailString;
-@property (nonatomic, strong) NSString *titleString;
-@property (nonatomic, strong) NSString *urlString;
-//@property (nonatomic) BOOL showed;
+@property (nonatomic, copy) NSString *idString;
+@property (nonatomic, copy) NSString *nameString;
+@property (nonatomic, copy) NSString *permalinkString;
+@property (nonatomic, copy) NSString *thumbnailString;
+@property (nonatomic, copy) NSString *titleString;
+@property (nonatomic, copy) NSString *urlString;
 
 - (BOOL)isShowed;
 - (void)removeCaches;
+- (BOOL)isGif;
 
 @end

@@ -67,9 +67,6 @@
 		8439038A1A749747007B9EFF /* NewIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 843903351A749747007B9EFF /* NewIcon@3x.png */; };
 		8439038B1A749747007B9EFF /* NextPhotoButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 843903361A749747007B9EFF /* NextPhotoButton.png */; };
 		8439038C1A749747007B9EFF /* NextPhotoButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 843903371A749747007B9EFF /* NextPhotoButton@2x.png */; };
-		8439038D1A749747007B9EFF /* PlayButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 843903381A749747007B9EFF /* PlayButton.png */; };
-		8439038E1A749747007B9EFF /* PlayButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 843903391A749747007B9EFF /* PlayButton@2x.png */; };
-		8439038F1A749747007B9EFF /* PlayButton@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439033A1A749747007B9EFF /* PlayButton@3x.png */; };
 		843903901A749747007B9EFF /* PrevPhotoButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439033B1A749747007B9EFF /* PrevPhotoButton.png */; };
 		843903911A749747007B9EFF /* PrevPhotoButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439033C1A749747007B9EFF /* PrevPhotoButton@2x.png */; };
 		843903921A749747007B9EFF /* SettingsIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439033D1A749747007B9EFF /* SettingsIcon.png */; };
@@ -95,6 +92,9 @@
 		843903A71A749CC5007B9EFF /* NimbusPhotos.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 843903A61A749CC5007B9EFF /* NimbusPhotos.bundle */; };
 		846C65691A70E85A0071664B /* libFlurry_5.4.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 846C65681A70E85A0071664B /* libFlurry_5.4.0.a */; };
 		846C65741A7201C50071664B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 846C65731A7201C50071664B /* Images.xcassets */; };
+		84EB13081A762D78006A39B5 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EB13051A762D78006A39B5 /* FLAnimatedImage.m */; };
+		84EB13091A762D78006A39B5 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EB13071A762D78006A39B5 /* FLAnimatedImageView.m */; };
+		84EB130C1A76337F006A39B5 /* CustomRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EB130B1A76337F006A39B5 /* CustomRefreshControl.m */; };
 		8D060A8616AD29E700AED06E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D060A8516AD29E700AED06E /* QuartzCore.framework */; };
 		8D060A9A16AD385B00AED06E /* CustomCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D060A9916AD385B00AED06E /* CustomCollectionView.m */; };
 		8D060AAD16AD525A00AED06E /* MainViewLayoutPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D060AAC16AD525A00AED06E /* MainViewLayoutPad.m */; };
@@ -175,8 +175,6 @@
 		8D6C5D2C164ACCCC008A98A7 /* AlbumViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D00164ACCCC008A98A7 /* AlbumViewCell.m */; };
 		8D6C5D2E164ACCCC008A98A7 /* AlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D04164ACCCC008A98A7 /* AlbumViewController.m */; };
 		8D6C5D2F164ACCCC008A98A7 /* AlbumViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D6C5D05164ACCCC008A98A7 /* AlbumViewController.xib */; };
-		8D6C5D30164ACCCC008A98A7 /* GifViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D07164ACCCC008A98A7 /* GifViewController.m */; };
-		8D6C5D31164ACCCC008A98A7 /* GifViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D6C5D08164ACCCC008A98A7 /* GifViewController.xib */; };
 		8D6C5D32164ACCCC008A98A7 /* PhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D0A164ACCCC008A98A7 /* PhotoView.m */; };
 		8D6C5D33164ACCCC008A98A7 /* PhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D0C164ACCCC008A98A7 /* PhotoViewController.m */; };
 		8D6C5D34164ACCCC008A98A7 /* PhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D6C5D0D164ACCCC008A98A7 /* PhotoViewController.xib */; };
@@ -204,13 +202,9 @@
 		8DB6205A1770584A00D744A4 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DB620591770584A00D744A4 /* AdSupport.framework */; };
 		8DB62065177059E300D744A4 /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DB62064177059E300D744A4 /* libsqlite3.0.dylib */; };
 		8DCC4516176FF89F00815473 /* AlbumViewLayoutPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DCC4515176FF89F00815473 /* AlbumViewLayoutPad.m */; };
-		8DE7C29C181B59F000334ED4 /* CustomRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DE7C29B181B59F000334ED4 /* CustomRefreshControl.m */; };
 		8DF07896164F6EDE00B26B8F /* AlbumViewCellPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF07895164F6EDE00B26B8F /* AlbumViewCellPad.m */; };
 		8DF0789E164F6F0900B26B8F /* PhotoViewControllerPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF0789C164F6F0800B26B8F /* PhotoViewControllerPad.m */; };
 		8DF0789F164F6F0900B26B8F /* PhotoViewControllerPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DF0789D164F6F0800B26B8F /* PhotoViewControllerPad.xib */; };
-		8DF078A2164F6F1500B26B8F /* PhotoViewPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF078A1164F6F1500B26B8F /* PhotoViewPad.m */; };
-		8DF078A6164F6F2E00B26B8F /* GifViewControllerPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF078A4164F6F2E00B26B8F /* GifViewControllerPad.m */; };
-		8DF078A7164F6F2E00B26B8F /* GifViewControllerPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DF078A5164F6F2E00B26B8F /* GifViewControllerPad.xib */; };
 		9C0334BB16B2391800A2F5D3 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C0334BA16B2391800A2F5D3 /* Crashlytics.framework */; };
 /* End PBXBuildFile section */
 
@@ -275,9 +269,6 @@
 		843903351A749747007B9EFF /* NewIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NewIcon@3x.png"; sourceTree = "<group>"; };
 		843903361A749747007B9EFF /* NextPhotoButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NextPhotoButton.png; sourceTree = "<group>"; };
 		843903371A749747007B9EFF /* NextPhotoButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NextPhotoButton@2x.png"; sourceTree = "<group>"; };
-		843903381A749747007B9EFF /* PlayButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PlayButton.png; sourceTree = "<group>"; };
-		843903391A749747007B9EFF /* PlayButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PlayButton@2x.png"; sourceTree = "<group>"; };
-		8439033A1A749747007B9EFF /* PlayButton@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PlayButton@3x.png"; sourceTree = "<group>"; };
 		8439033B1A749747007B9EFF /* PrevPhotoButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PrevPhotoButton.png; sourceTree = "<group>"; };
 		8439033C1A749747007B9EFF /* PrevPhotoButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "PrevPhotoButton@2x.png"; sourceTree = "<group>"; };
 		8439033D1A749747007B9EFF /* SettingsIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SettingsIcon.png; sourceTree = "<group>"; };
@@ -303,6 +294,12 @@
 		843903A61A749CC5007B9EFF /* NimbusPhotos.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NimbusPhotos.bundle; sourceTree = "<group>"; };
 		846C65681A70E85A0071664B /* libFlurry_5.4.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_5.4.0.a; sourceTree = "<group>"; };
 		846C65731A7201C50071664B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = 99reddits/Resources/Images.xcassets; sourceTree = SOURCE_ROOT; };
+		84EB13041A762D78006A39B5 /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImage.h; sourceTree = "<group>"; };
+		84EB13051A762D78006A39B5 /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImage.m; sourceTree = "<group>"; };
+		84EB13061A762D78006A39B5 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImageView.h; sourceTree = "<group>"; };
+		84EB13071A762D78006A39B5 /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImageView.m; sourceTree = "<group>"; };
+		84EB130A1A76337F006A39B5 /* CustomRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomRefreshControl.h; sourceTree = "<group>"; };
+		84EB130B1A76337F006A39B5 /* CustomRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomRefreshControl.m; sourceTree = "<group>"; };
 		8D060A8516AD29E700AED06E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8D060A9816AD385B00AED06E /* CustomCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCollectionView.h; sourceTree = "<group>"; };
 		8D060A9916AD385B00AED06E /* CustomCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCollectionView.m; sourceTree = "<group>"; };
@@ -492,9 +489,6 @@
 		8D6C5D03164ACCCC008A98A7 /* AlbumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumViewController.h; sourceTree = "<group>"; };
 		8D6C5D04164ACCCC008A98A7 /* AlbumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumViewController.m; sourceTree = "<group>"; };
 		8D6C5D05164ACCCC008A98A7 /* AlbumViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlbumViewController.xib; sourceTree = "<group>"; };
-		8D6C5D06164ACCCC008A98A7 /* GifViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GifViewController.h; sourceTree = "<group>"; };
-		8D6C5D07164ACCCC008A98A7 /* GifViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GifViewController.m; sourceTree = "<group>"; };
-		8D6C5D08164ACCCC008A98A7 /* GifViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GifViewController.xib; sourceTree = "<group>"; };
 		8D6C5D09164ACCCC008A98A7 /* PhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoView.h; sourceTree = "<group>"; };
 		8D6C5D0A164ACCCC008A98A7 /* PhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoView.m; sourceTree = "<group>"; };
 		8D6C5D0B164ACCCC008A98A7 /* PhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoViewController.h; sourceTree = "<group>"; };
@@ -535,18 +529,11 @@
 		8DB62064177059E300D744A4 /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		8DCC4514176FF89F00815473 /* AlbumViewLayoutPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumViewLayoutPad.h; sourceTree = "<group>"; };
 		8DCC4515176FF89F00815473 /* AlbumViewLayoutPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumViewLayoutPad.m; sourceTree = "<group>"; };
-		8DE7C29A181B59F000334ED4 /* CustomRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomRefreshControl.h; sourceTree = "<group>"; };
-		8DE7C29B181B59F000334ED4 /* CustomRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomRefreshControl.m; sourceTree = "<group>"; };
 		8DF07894164F6EDE00B26B8F /* AlbumViewCellPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumViewCellPad.h; sourceTree = "<group>"; };
 		8DF07895164F6EDE00B26B8F /* AlbumViewCellPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumViewCellPad.m; sourceTree = "<group>"; };
 		8DF0789B164F6F0800B26B8F /* PhotoViewControllerPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoViewControllerPad.h; sourceTree = "<group>"; };
 		8DF0789C164F6F0800B26B8F /* PhotoViewControllerPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoViewControllerPad.m; sourceTree = "<group>"; };
 		8DF0789D164F6F0800B26B8F /* PhotoViewControllerPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoViewControllerPad.xib; sourceTree = "<group>"; };
-		8DF078A0164F6F1500B26B8F /* PhotoViewPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoViewPad.h; sourceTree = "<group>"; };
-		8DF078A1164F6F1500B26B8F /* PhotoViewPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoViewPad.m; sourceTree = "<group>"; };
-		8DF078A3164F6F2D00B26B8F /* GifViewControllerPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GifViewControllerPad.h; sourceTree = "<group>"; };
-		8DF078A4164F6F2E00B26B8F /* GifViewControllerPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GifViewControllerPad.m; sourceTree = "<group>"; };
-		8DF078A5164F6F2E00B26B8F /* GifViewControllerPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GifViewControllerPad.xib; sourceTree = "<group>"; };
 		9C0334BA16B2391800A2F5D3 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		9C57D5911680201B00AB7126 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -581,6 +568,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		84EB13031A762D78006A39B5 /* FLAnimatedImage */ = {
+			isa = PBXGroup;
+			children = (
+				84EB13041A762D78006A39B5 /* FLAnimatedImage.h */,
+				84EB13051A762D78006A39B5 /* FLAnimatedImage.m */,
+				84EB13061A762D78006A39B5 /* FLAnimatedImageView.h */,
+				84EB13071A762D78006A39B5 /* FLAnimatedImageView.m */,
+			);
+			path = FLAnimatedImage;
+			sourceTree = "<group>";
+		};
 		8D0BF513164B9E95000EF3A8 /* MainView */ = {
 			isa = PBXGroup;
 			children = (
@@ -599,8 +597,8 @@
 				8D66C227164C049E00EAC2C0 /* AddViewControllerPad.h */,
 				8D66C228164C049E00EAC2C0 /* AddViewControllerPad.m */,
 				8D66C229164C049E00EAC2C0 /* AddViewControllerPad.xib */,
-				8DE7C29A181B59F000334ED4 /* CustomRefreshControl.h */,
-				8DE7C29B181B59F000334ED4 /* CustomRefreshControl.m */,
+				84EB130A1A76337F006A39B5 /* CustomRefreshControl.h */,
+				84EB130B1A76337F006A39B5 /* CustomRefreshControl.m */,
 			);
 			path = MainView;
 			sourceTree = "<group>";
@@ -756,9 +754,6 @@
 				843903351A749747007B9EFF /* NewIcon@3x.png */,
 				843903361A749747007B9EFF /* NextPhotoButton.png */,
 				843903371A749747007B9EFF /* NextPhotoButton@2x.png */,
-				843903381A749747007B9EFF /* PlayButton.png */,
-				843903391A749747007B9EFF /* PlayButton@2x.png */,
-				8439033A1A749747007B9EFF /* PlayButton@3x.png */,
 				8439033B1A749747007B9EFF /* PrevPhotoButton.png */,
 				8439033C1A749747007B9EFF /* PrevPhotoButton@2x.png */,
 				8439033D1A749747007B9EFF /* SettingsIcon.png */,
@@ -799,11 +794,6 @@
 				8DF0789B164F6F0800B26B8F /* PhotoViewControllerPad.h */,
 				8DF0789C164F6F0800B26B8F /* PhotoViewControllerPad.m */,
 				8DF0789D164F6F0800B26B8F /* PhotoViewControllerPad.xib */,
-				8DF078A0164F6F1500B26B8F /* PhotoViewPad.h */,
-				8DF078A1164F6F1500B26B8F /* PhotoViewPad.m */,
-				8DF078A3164F6F2D00B26B8F /* GifViewControllerPad.h */,
-				8DF078A4164F6F2E00B26B8F /* GifViewControllerPad.m */,
-				8DF078A5164F6F2E00B26B8F /* GifViewControllerPad.xib */,
 				8D22424117671A4D0053868F /* CommentViewControllerPad.h */,
 				8D22424217671A4D0053868F /* CommentViewControllerPad.m */,
 				8D22424317671A4D0053868F /* CommentViewControllerPad.xib */,
@@ -1022,9 +1012,6 @@
 				8D6C5D0D164ACCCC008A98A7 /* PhotoViewController.xib */,
 				8D6C5D09164ACCCC008A98A7 /* PhotoView.h */,
 				8D6C5D0A164ACCCC008A98A7 /* PhotoView.m */,
-				8D6C5D06164ACCCC008A98A7 /* GifViewController.h */,
-				8D6C5D07164ACCCC008A98A7 /* GifViewController.m */,
-				8D6C5D08164ACCCC008A98A7 /* GifViewController.xib */,
 				8D22423C176714570053868F /* CommentViewController.h */,
 				8D22423D176714570053868F /* CommentViewController.m */,
 				8D22423E176714570053868F /* CommentViewController.xib */,
@@ -1067,6 +1054,7 @@
 				8D66C1AD164BA38300EAC2C0 /* RedditsAppDelegate.m */,
 				8D060A9816AD385B00AED06E /* CustomCollectionView.h */,
 				8D060A9916AD385B00AED06E /* CustomCollectionView.m */,
+				84EB13031A762D78006A39B5 /* FLAnimatedImage */,
 				8D6C5D22164ACCCC008A98A7 /* MBProgressHUD.h */,
 				8D6C5D23164ACCCC008A98A7 /* MBProgressHUD.m */,
 				8D59A7E81676229500739E26 /* PopoverController.h */,
@@ -1193,7 +1181,6 @@
 				8439039B1A749747007B9EFF /* TopIcon.png in Resources */,
 				8439036B1A749747007B9EFF /* DefaultAlbumIcon@2x.png in Resources */,
 				843903621A749747007B9EFF /* ClearButton@2x.png in Resources */,
-				8D6C5D31164ACCCC008A98A7 /* GifViewController.xib in Resources */,
 				843903771A749747007B9EFF /* FavoritesBlueIcon@3x.png in Resources */,
 				8D6C5D34164ACCCC008A98A7 /* PhotoViewController.xib in Resources */,
 				8439035B1A749747007B9EFF /* ButtonOverlay@2x.png in Resources */,
@@ -1233,7 +1220,6 @@
 				843903891A749747007B9EFF /* NewIcon@2x.png in Resources */,
 				843903761A749747007B9EFF /* FavoritesBlueIcon@2x.png in Resources */,
 				843903791A749747007B9EFF /* FavoritesIcon@2x.png in Resources */,
-				8439038E1A749747007B9EFF /* PlayButton@2x.png in Resources */,
 				843903821A749747007B9EFF /* FireIcon@3x.png in Resources */,
 				8439037D1A749747007B9EFF /* FavoritesRedIcon.png in Resources */,
 				8D66C1BA164BAF4900EAC2C0 /* AlbumViewControllerPad.xib in Resources */,
@@ -1261,7 +1247,6 @@
 				843903981A749747007B9EFF /* SubRedditsList.plist in Resources */,
 				8439039C1A749747007B9EFF /* TopIcon@2x.png in Resources */,
 				8439036D1A749747007B9EFF /* DefaultPhoto.png in Resources */,
-				8DF078A7164F6F2E00B26B8F /* GifViewControllerPad.xib in Resources */,
 				8439036A1A749747007B9EFF /* DefaultAlbumIcon.png in Resources */,
 				843903721A749747007B9EFF /* DeleteButton@2x.png in Resources */,
 				843903961A749747007B9EFF /* SettingsInfoBack@2x.png in Resources */,
@@ -1274,7 +1259,6 @@
 				8439035E1A749747007B9EFF /* CheckBlueIcon@2x.png in Resources */,
 				8439039E1A749747007B9EFF /* Transparent.png in Resources */,
 				8D2242351766CA480053868F /* Appirater.podspec in Resources */,
-				8439038F1A749747007B9EFF /* PlayButton@3x.png in Resources */,
 				843903931A749747007B9EFF /* SettingsIcon@2x.png in Resources */,
 				843903681A749747007B9EFF /* ControversialIcon@2x.png in Resources */,
 				8D2242361766CA480053868F /* AppiraterLocalizable.strings in Resources */,
@@ -1291,7 +1275,6 @@
 				843903A01A749747007B9EFF /* UncheckIcon.png in Resources */,
 				843903751A749747007B9EFF /* FavoritesBlueIcon.png in Resources */,
 				8D22424517671A4D0053868F /* CommentViewControllerPad.xib in Resources */,
-				8439038D1A749747007B9EFF /* PlayButton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1324,7 +1307,7 @@
 				8D68FD5A14F88DCB00CDCF66 /* ASIDataCompressor.m in Sources */,
 				8D68FD5B14F88DCB00CDCF66 /* ASIDataDecompressor.m in Sources */,
 				8D68FD5C14F88DCB00CDCF66 /* ASIDownloadCache.m in Sources */,
-				8DE7C29C181B59F000334ED4 /* CustomRefreshControl.m in Sources */,
+				84EB130C1A76337F006A39B5 /* CustomRefreshControl.m in Sources */,
 				8D68FD5D14F88DCB00CDCF66 /* ASIFormDataRequest.m in Sources */,
 				8D68FD5E14F88DCB00CDCF66 /* ASIHTTPRequest.m in Sources */,
 				8D68FD5F14F88DCB00CDCF66 /* ASIInputStream.m in Sources */,
@@ -1362,7 +1345,6 @@
 				8D68FDE714F8909000CDCF66 /* NIProcessorHTTPRequest.m in Sources */,
 				8D6C5D2C164ACCCC008A98A7 /* AlbumViewCell.m in Sources */,
 				8D6C5D2E164ACCCC008A98A7 /* AlbumViewController.m in Sources */,
-				8D6C5D30164ACCCC008A98A7 /* GifViewController.m in Sources */,
 				8D6C5D32164ACCCC008A98A7 /* PhotoView.m in Sources */,
 				8D6C5D33164ACCCC008A98A7 /* PhotoViewController.m in Sources */,
 				8D6C5D35164ACCCC008A98A7 /* AddViewController.m in Sources */,
@@ -1384,14 +1366,14 @@
 				8D66C22A164C049E00EAC2C0 /* AddViewControllerPad.m in Sources */,
 				8DF07896164F6EDE00B26B8F /* AlbumViewCellPad.m in Sources */,
 				8DF0789E164F6F0900B26B8F /* PhotoViewControllerPad.m in Sources */,
-				8DF078A2164F6F1500B26B8F /* PhotoViewPad.m in Sources */,
-				8DF078A6164F6F2E00B26B8F /* GifViewControllerPad.m in Sources */,
+				84EB13091A762D78006A39B5 /* FLAnimatedImageView.m in Sources */,
 				8D59A7EA1676229500739E26 /* PopoverController.m in Sources */,
 				8D060A9A16AD385B00AED06E /* CustomCollectionView.m in Sources */,
 				8D060AAD16AD525A00AED06E /* MainViewLayoutPad.m in Sources */,
 				8D060AB016AD528A00AED06E /* MainViewLayoutAttributesPad.m in Sources */,
 				8D2242341766CA480053868F /* Appirater.m in Sources */,
 				8D22423F176714570053868F /* CommentViewController.m in Sources */,
+				84EB13081A762D78006A39B5 /* FLAnimatedImage.m in Sources */,
 				8D22424417671A4D0053868F /* CommentViewControllerPad.m in Sources */,
 				8D0DE761176AD92B00E9F76A /* AlbumViewLayout.m in Sources */,
 				8DCC4516176FF89F00815473 /* AlbumViewLayoutPad.m in Sources */,

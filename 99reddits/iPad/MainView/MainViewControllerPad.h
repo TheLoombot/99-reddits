@@ -13,12 +13,9 @@
 #import "MainViewLayoutPad.h"
 #import "CustomRefreshControl.h"
 
-@class RedditsAppDelegate;
 @class SubRedditItem;
 
 @interface MainViewControllerPad : UICollectionViewController <ASIHTTPRequestDelegate, PopoverControllerDelegate, MainViewLayoutPadDelegate> {
-	RedditsAppDelegate *appDelegate;
-	
 	IBOutlet UIBarButtonItem *settingsItem;
 	IBOutlet UIBarButtonItem *editItem;
 	IBOutlet UIBarButtonItem *doneItem;
@@ -35,7 +32,6 @@
 	NIImageMemoryCache* thumbnailImageCache;
 	
 	NSInteger refreshCount;
-	float scale;
 
 	NSInteger lastAddedIndex;
 	

@@ -497,9 +497,9 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)pagingScrollViewDidScroll:(NIPagingScrollView *)pagingScrollView {
-	//  if (self.hidesChromeWhenScrolling) {
-	//    [self setChromeVisibility:NO animated:YES];
-	//  }
+//  if (self.hidesChromeWhenScrolling) {
+//    [self setChromeVisibility:NO animated:YES];
+//  }
 }
 
 

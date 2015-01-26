@@ -46,7 +46,6 @@ static NSString * const kMainViewLayoutPadScrollingDirectionKey = @"LXScrollingD
 	return self;
 }
 
-
 - (BOOL)isEditing {
 	if ([[self.collectionView.delegate class] conformsToProtocol:@protocol(MainViewLayoutPadDelegate)]) {
 		return [(id)self.collectionView.delegate isEditingForCollectionView:self.collectionView layout:self];
@@ -250,7 +249,7 @@ static NSString * const kMainViewLayoutPadScrollingDirectionKey = @"LXScrollingD
 			
 			UICollectionViewCell *theCollectionViewCell = [self.collectionView cellForItemAtIndexPath:theIndexPathOfSelectedItem];
 			
-			UIGraphicsBeginImageContext(theCollectionViewCell.bounds.size);
+			UIGraphicsBeginImageContextWithOptions(theCollectionViewCell.bounds.size, NO, screenScale);
 			[theCollectionViewCell.layer renderInContext:UIGraphicsGetCurrentContext()];
 			UIImage *theImage = UIGraphicsGetImageFromCurrentImageContext();
 			UIGraphicsEndImageContext();

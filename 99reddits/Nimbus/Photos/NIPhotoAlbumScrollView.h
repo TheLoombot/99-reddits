@@ -68,7 +68,8 @@
 
 - (void)didLoadPhoto: (UIImage *)image
              atIndex: (NSInteger)photoIndex
-           photoSize: (NIPhotoScrollViewPhotoSize)photoSize;
+           photoSize: (NIPhotoScrollViewPhotoSize)photoSize
+			   error: (BOOL)error;
 
 - (void)didLoadGif: (NSData *)gifData
 		   atIndex: (NSInteger)photoIndex;

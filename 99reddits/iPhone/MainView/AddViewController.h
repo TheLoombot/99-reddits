@@ -8,11 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@class RedditsAppDelegate;
 @class RedditsViewController;
 
 @interface AddViewController : UIViewController <UITextFieldDelegate> {
-	RedditsAppDelegate *appDelegate;
 	RedditsViewController __weak *redditsViewController;
 
 	IBOutlet UIBarButtonItem *cancelButton;

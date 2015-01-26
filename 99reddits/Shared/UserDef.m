@@ -9,6 +9,8 @@
 #import "UserDef.h"
 #import <sys/utsname.h>
 
+RedditsAppDelegate *appDelegate;
+
 NSString *htmlStrings[] = {
 	@"&ndash;",		@"&#8211;",		@"&mdash;",		@"&#8212;",		@"&iexcl;",		@"&#161;",		@"&iquest;",	@"&#191;",		@"&quot;",		@"&#34;",
 	@"&ldquo;",		@"&#8220;",		@"&rdquo;",		@"&#8221;",		@"&#39;",		@"&lsquo;",		@"&#8216;",		@"&rsquo;",		@"&#8217;",		@"&laquo;",
@@ -53,6 +55,7 @@ NSString *normalStrings[] = {
 
 CGFloat screenWidth;
 CGFloat screenHeight;
+CGFloat screenScale;
 
 NSString *deviceName() {
 	struct utsname systemInfo;

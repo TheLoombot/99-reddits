@@ -9,7 +9,6 @@
 #import "PhotoItem.h"
 #import "NIHTTPRequest.h"
 #import "ASIDownloadCache.h"
-#import "RedditsAppDelegate.h"
 
 @implementation PhotoItem
 
@@ -19,7 +18,6 @@
 @synthesize thumbnailString;
 @synthesize titleString;
 @synthesize urlString;
-//@synthesize showed;
 
 - (id)initWithCoder:(NSCoder *)decoder {
 	self = [super init];
@@ -32,7 +30,6 @@
 		self.thumbnailString = [decoder decodeObjectForKey:@"thumbnail"];
 		self.titleString = [decoder decodeObjectForKey:@"title"];
 		self.urlString = [decoder decodeObjectForKey:@"url"];
-//		self.showed = [decoder decodeBoolForKey:@"showed"];
 	}
 	
 	return self;
@@ -45,7 +42,6 @@
 	[encoder encodeObject:self.thumbnailString forKey:@"thumbnail"];
 	[encoder encodeObject:self.titleString forKey:@"title"];
 	[encoder encodeObject:self.urlString forKey:@"url"];
-//	[encoder encodeBool:self.showed forKey:@"showed"];
 }
 
 - (void)removeCaches {
@@ -69,46 +65,23 @@
 	return [appDelegate.showedSet containsObject:idString];
 }
 
-- (void)setIdString:(NSString *)_idString {
-	if (_idString)
-		idString = _idString;
-	else
-		idString = @"";
-}
+- (BOOL)isGif {
+	if ([self.nameString rangeOfString:@"gif" options:NSCaseInsensitiveSearch].location != NSNotFound)
+		return YES;
 
-- (void)setNameString:(NSString *)_nameString {
-	if (_nameString)
-		nameString = _nameString;
-	else
-		nameString = @"";
-}
+	if ([self.nameString rangeOfString:@"gifs" options:NSCaseInsensitiveSearch].location != NSNotFound)
+		return YES;
+	
+	if ([self.titleString rangeOfString:@"gif" options:NSCaseInsensitiveSearch].location != NSNotFound)
+		return YES;
 
-- (void)setPermalinkString:(NSString *)_permalinkString {
-	if (_permalinkString)
-		permalinkString = _permalinkString;
-	else
-		permalinkString = @"";
-}
+	if ([self.titleString rangeOfString:@"gifs" options:NSCaseInsensitiveSearch].location != NSNotFound)
+		return YES;
 
-- (void)setThumbnailString:(NSString *)_thumbnailString {
-	if (_thumbnailString)
-		thumbnailString = _thumbnailString;
-	else
-		thumbnailString = @"";
-}
-
-- (void)setTitleString:(NSString *)_titleString {
-	if (_titleString)
-		titleString = _titleString;
-	else
-		titleString = @"";
-}
-
-- (void)setUrlString:(NSString *)_urlString {
-	if (_urlString)
-		urlString = _urlString;
-	else
-		urlString = @"";
+	if ([[[self.urlString pathExtension] lowercaseString] isEqualToString:@"gif"])
+		return YES;
+	
+	return NO;
 }
 
 @end

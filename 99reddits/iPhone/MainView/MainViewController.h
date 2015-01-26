@@ -10,12 +10,9 @@
 #import "ASIHTTPRequestDelegate.h"
 #import "NIProcessorHTTPRequest.h"
 
-@class RedditsAppDelegate;
 @class SubRedditItem;
 
 @interface MainViewController : UITableViewController <ASIHTTPRequestDelegate> {
-	RedditsAppDelegate *appDelegate;
-	
 	IBOutlet UIBarButtonItem *settingsItem;
 	IBOutlet UIBarButtonItem *editItem;
 	IBOutlet UIBarButtonItem *doneItem;

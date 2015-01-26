@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RedditsAppDelegate.h"
 
 #define SUBREDDIT_FORMAT1				@"http://www.reddit.com/r/%@/.json?limit=50"
 #define SUBREDDIT_FORMAT2				@"http://www.reddit.com/r/%@"
@@ -19,9 +20,11 @@
 
 #define DATA_VERSION					@"1.0"
 
+extern RedditsAppDelegate *appDelegate;
 extern NSString *htmlStrings[];
 extern NSString *normalStrings[];
 extern CGFloat screenWidth;
 extern CGFloat screenHeight;
+extern CGFloat screenScale;
 
 extern NSString *deviceName();

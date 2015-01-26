@@ -20,7 +20,7 @@
 	BOOL loading;
 }
 
-@property (nonatomic, strong) NSString *urlString;
+@property (nonatomic, copy) NSString *urlString;
 
 - (IBAction)onCloseButton:(id)sender;
 - (IBAction)onShareButton:(id)sender;

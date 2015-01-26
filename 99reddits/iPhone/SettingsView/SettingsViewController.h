@@ -11,11 +11,7 @@
 #import "PurchaseManager.h"
 #import <MessageUI/MFMailComposeViewController.h>
 
-@class RedditsAppDelegate;
-
 @interface SettingsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIWebViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate> {
-	RedditsAppDelegate *appDelegate;
-
 	IBOutlet UIBarButtonItem *doneButton;
 	IBOutlet UIScrollView *contentScrollView;
 	IBOutlet UIView *buttonsView;
@@ -37,7 +33,5 @@
 
 	MBProgressHUD *hud;
 }
-
-@property (strong) MBProgressHUD *hud;
 
 @end

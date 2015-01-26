@@ -7,7 +7,6 @@
 //
 
 #import "AlbumViewCell.h"
-#import "RedditsAppDelegate.h"
 #import "AlbumViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
@@ -39,7 +38,6 @@
 	}
 	return self;
 }
-
 
 - (void)onTap:(id)sender {
 	[albumViewController onSelectPhoto:photo];

@@ -43,15 +43,6 @@
 @synthesize contentViewController;
 @synthesize fullscreen;
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-	UIViewController *viewController = self.contentViewController;
-	if ([viewController isKindOfClass:[UINavigationController class]])
-		viewController = [(UINavigationController *)viewController topViewController];
-	if ([viewController respondsToSelector:@selector(shouldAutorotateToInterfaceOrientation:)])
-		return [viewController shouldAutorotateToInterfaceOrientation:toInterfaceOrientation];
-	return YES;
-}
-
 - (BOOL)shouldAutorotate {
 	UIViewController *viewController = self.contentViewController;
 	if ([viewController isKindOfClass:[UINavigationController class]])

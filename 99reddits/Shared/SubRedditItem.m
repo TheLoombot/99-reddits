@@ -9,7 +9,6 @@
 #import "SubRedditItem.h"
 #import "NIHTTPRequest.h"
 #import "ASIDownloadCache.h"
-#import "RedditsAppDelegate.h"
 
 @implementation SubRedditItem
 
@@ -101,28 +100,6 @@
 		else
 			[appDelegate.showedSet addObject:item.idString];
 	}
-}
-
-- (void)setNameString:(NSString *)_nameString {
-	nameString = _nameString;
-}
-
-- (void)setUrlString:(NSString *)_urlString {
-	urlString = _urlString;
-}
-
-- (void)setAfterString:(NSString *)_afterString {
-	if (_afterString)
-		afterString = _afterString;
-	else
-		afterString = @"";
-}
-
-- (void)setCategory:(NSString *)_category {
-	if (_category)
-		category = _category;
-	else
-		category = @"";
 }
 
 @end

@@ -11,9 +11,9 @@
 #ifdef __OBJC__
 	#import <UIKit/UIKit.h>
 	#import <Foundation/Foundation.h>
-	#import "UserDef.h"
 	#import "NimbusCore.h"
 	#import "NimbusPhotos.h"
 	#import "NimbusProcessors.h"
 	#import "NIJSONKitProcessorHTTPRequest.h"
+	#import "UserDef.h"
 #endif

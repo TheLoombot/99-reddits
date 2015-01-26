@@ -22,11 +22,11 @@
 	NSInteger unshowedCount;
 }
 
-@property (nonatomic, strong) NSString *nameString;
-@property (nonatomic, strong) NSString *urlString;
-@property (nonatomic) NSMutableArray *photosArray;
-@property (nonatomic, strong) NSString *afterString;
-@property (nonatomic, strong) NSString *category;
+@property (nonatomic, copy) NSString *nameString;
+@property (nonatomic, copy) NSString *urlString;
+@property (nonatomic, readonly) NSMutableArray *photosArray;
+@property (nonatomic, copy) NSString *afterString;
+@property (nonatomic, copy) NSString *category;
 @property (nonatomic) BOOL subscribe;
 @property (nonatomic) BOOL loading;
 @property (nonatomic) NSInteger unshowedCount;

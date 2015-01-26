@@ -14,12 +14,10 @@
 #import "CustomCollectionView.h"
 #import <MessageUI/MessageUI.h>
 
-@class RedditsAppDelegate;
 @class MainViewControllerPad;
 
 @interface AlbumViewControllerPad : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITabBarDelegate, UIAlertViewDelegate, ASIHTTPRequestDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate> {
-	RedditsAppDelegate *appDelegate;
-	MainViewControllerPad *mainViewController;
+	MainViewControllerPad __weak *mainViewController;
 	
 	IBOutlet CustomCollectionView *contentCollectionView;
 	IBOutlet UIView *footerView;
@@ -41,8 +39,8 @@
 	NSOperationQueue *refreshQueue;
 	NSOperationQueue *queue;
 	
-	NSMutableSet* activeRequests;
-	NIImageMemoryCache* thumbnailImageCache;
+	NSMutableSet *activeRequests;
+	NIImageMemoryCache *thumbnailImageCache;
 	
 	BOOL bFromSubview;
 	
@@ -50,14 +48,12 @@
 	
 	BOOL bMOARLoading;
 	
-	float scale;
-	
 	NSMutableArray *currentPhotosArray;
 
 	BOOL initialized;
 }
 
-@property (nonatomic, strong) MainViewControllerPad *mainViewController;
+@property (nonatomic, weak) MainViewControllerPad *mainViewController;
 @property (nonatomic, strong) SubRedditItem *subReddit;
 @property (nonatomic) BOOL bFavorites;
 

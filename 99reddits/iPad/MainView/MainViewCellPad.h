@@ -8,12 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class RedditsAppDelegate;
 @class MainViewControllerPad;
 @class SubRedditItem;
 
 @interface MainViewCellPad : UICollectionViewCell {
-	RedditsAppDelegate *appDelegate;
 	MainViewControllerPad __weak *mainViewController;
 	SubRedditItem __weak *subReddit;
 

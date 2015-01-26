@@ -8,11 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@class RedditsAppDelegate;
 @class RedditsViewControllerPad;
 
 @interface AddViewControllerPad : UIViewController <UITextFieldDelegate> {
-	RedditsAppDelegate *appDelegate;
 	RedditsViewControllerPad __weak *redditsViewController;
 	
 	IBOutlet UITextField *urlTextField;

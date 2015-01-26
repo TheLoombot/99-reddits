@@ -8,7 +8,6 @@
 
 #import "MainViewCellPad.h"
 #import "UserDef.h"
-#import "RedditsAppDelegate.h"
 #import "MainViewControllerPad.h"
 #import <QuartzCore/QuartzCore.h>
 

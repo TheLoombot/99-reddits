@@ -20,6 +20,8 @@
 #import "NIPhotoAlbumScrollViewDataSource.h"
 #import "NimbusCore.h"
 
+#import "FLAnimatedImage.h"
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -174,7 +176,8 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)didLoadPhoto: (UIImage *)image
              atIndex: (NSInteger)pageIndex
-           photoSize: (NIPhotoScrollViewPhotoSize)photoSize {
+           photoSize: (NIPhotoScrollViewPhotoSize)photoSize
+			   error: (BOOL)error {
 	for (NIPhotoScrollView* page in self.visiblePages) {
 		if (page.pageIndex == pageIndex) {
 
@@ -183,7 +186,7 @@
 				[page setImage:image photoSize:photoSize];
 
 				page.zoomingIsEnabled = ([self isZoomingEnabled]
-										 && (NIPhotoScrollViewPhotoSizeOriginal == photoSize));
+										 && (NIPhotoScrollViewPhotoSizeOriginal == photoSize) && !error);
 
 				// Notify the delegate that the photo has been loaded.
 				if (NIPhotoScrollViewPhotoSizeOriginal == photoSize) {
@@ -199,8 +202,8 @@
 		   atIndex: (NSInteger)photoIndex {
 	for (NIPhotoScrollView* page in self.visiblePages) {
 		if (page.pageIndex == photoIndex) {
-			if ([page respondsToSelector:@selector(setGifData:)])
-				[page performSelector:@selector(setGifData:) withObject:gifData];
+			FLAnimatedImage *image = [FLAnimatedImage animatedImageWithGIFData:gifData];
+			[page setGifImage:image];
 			break;
 		}
 	}

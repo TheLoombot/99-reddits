@@ -7,7 +7,6 @@
 //
 
 #import "RedditsViewController.h"
-#import "RedditsAppDelegate.h"
 #import "MainViewController.h"
 #import "AddViewController.h"
 #import "UserDef.h"
@@ -30,7 +29,6 @@
     }
     return self;
 }
-
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.
@@ -70,13 +68,8 @@
     // e.g. self.myOutlet = nil;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
 - (BOOL)shouldAutorotate {
-	return NO;
+	return YES;
 }
 
 - (NSUInteger)supportedInterfaceOrientations {

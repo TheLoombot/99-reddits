@@ -18,7 +18,6 @@
 
 @interface PhotoViewControllerPad ()
 
-- (NSString *)cacheKeyForPhotoIndex:(NSInteger)photoIndex;
 - (void)requestImageFromSource:(NSString *)source photoSize:(NIPhotoScrollViewPhotoSize)photoSize photoIndex:(NSInteger)photoIndex;
 
 - (void)shareImage:(UIImage *)image;
@@ -152,8 +151,6 @@
 
 - (void)viewWillDisappear:(BOOL)animated {
 	if (!disappearForSubview) {
-		[self releaseCaches];
-		
 		[super viewWillDisappear:animated];
 	}
 	
@@ -177,6 +174,10 @@
 	
 	self.titleLabelBar.hidden = YES;
 	self.titleLabel.hidden = YES;
+
+	if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
+		[self releaseCaches];
+	}
 }
 
 - (IBAction)onActionButton:(id)sender {
@@ -228,10 +229,6 @@
 	}
 	
 	favoriteActionSheet = nil;
-}
-
-- (NSString *)cacheKeyForPhotoIndex:(NSInteger)photoIndex {
-	return [NSString stringWithFormat:@"%ld", (long)photoIndex];
 }
 
 - (void)requestImageFromSource:(NSString *)source photoSize:(NIPhotoScrollViewPhotoSize)photoSize photoIndex:(NSInteger)photoIndex {

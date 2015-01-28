@@ -173,7 +173,7 @@
 	bFromSubview = NO;
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
+- (void)viewDidDisappear:(BOOL)animated {
 	if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
 		[self releaseCaches];
 	}

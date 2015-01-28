@@ -82,7 +82,7 @@
                 </button>
                 <activityIndicatorView opaque="NO" contentMode="scaleToFill" animating="YES" style="gray" id="32">
                     <rect key="frame" x="150" y="19" width="20" height="20"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 </activityIndicatorView>
             </subviews>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>

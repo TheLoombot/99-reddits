@@ -42,7 +42,7 @@
 	NSMutableSet *activeRequests;
 	NIImageMemoryCache *thumbnailImageCache;
 	
-	BOOL bFromSubview;
+	BOOL shouldReleaseCaches;
 	
 	BOOL bFavorites;
 	

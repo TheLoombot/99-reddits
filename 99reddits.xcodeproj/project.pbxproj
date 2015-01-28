@@ -57,9 +57,6 @@
 		843903801A749747007B9EFF /* FireIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439032B1A749747007B9EFF /* FireIcon.png */; };
 		843903811A749747007B9EFF /* FireIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439032C1A749747007B9EFF /* FireIcon@2x.png */; };
 		843903821A749747007B9EFF /* FireIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439032D1A749747007B9EFF /* FireIcon@3x.png */; };
-		843903831A749747007B9EFF /* FullPhotoButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439032E1A749747007B9EFF /* FullPhotoButton.png */; };
-		843903841A749747007B9EFF /* FullPhotoButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439032F1A749747007B9EFF /* FullPhotoButton@2x.png */; };
-		843903851A749747007B9EFF /* FullPhotoButton@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 843903301A749747007B9EFF /* FullPhotoButton@3x.png */; };
 		843903861A749747007B9EFF /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 843903311A749747007B9EFF /* iTunesArtwork */; };
 		843903871A749747007B9EFF /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = 843903321A749747007B9EFF /* iTunesArtwork@2x */; };
 		843903881A749747007B9EFF /* NewIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 843903331A749747007B9EFF /* NewIcon.png */; };
@@ -92,6 +89,10 @@
 		843903A71A749CC5007B9EFF /* NimbusPhotos.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 843903A61A749CC5007B9EFF /* NimbusPhotos.bundle */; };
 		846C65691A70E85A0071664B /* libFlurry_5.4.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 846C65681A70E85A0071664B /* libFlurry_5.4.0.a */; };
 		846C65741A7201C50071664B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 846C65731A7201C50071664B /* Images.xcassets */; };
+		84B9DFF01A7928E800EA3CF0 /* Maximize.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B9DFED1A7928E800EA3CF0 /* Maximize.png */; };
+		84B9DFF11A7928E800EA3CF0 /* Maximize@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B9DFEE1A7928E800EA3CF0 /* Maximize@2x.png */; };
+		84B9DFF21A7928E800EA3CF0 /* Maximize@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B9DFEF1A7928E800EA3CF0 /* Maximize@3x.png */; };
+		84B9DFF51A792B3D00EA3CF0 /* MaximizeActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B9DFF41A792B3D00EA3CF0 /* MaximizeActivity.m */; };
 		84EB13081A762D78006A39B5 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EB13051A762D78006A39B5 /* FLAnimatedImage.m */; };
 		84EB13091A762D78006A39B5 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EB13071A762D78006A39B5 /* FLAnimatedImageView.m */; };
 		84EB130C1A76337F006A39B5 /* CustomRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EB130B1A76337F006A39B5 /* CustomRefreshControl.m */; };
@@ -259,9 +260,6 @@
 		8439032B1A749747007B9EFF /* FireIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FireIcon.png; sourceTree = "<group>"; };
 		8439032C1A749747007B9EFF /* FireIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FireIcon@2x.png"; sourceTree = "<group>"; };
 		8439032D1A749747007B9EFF /* FireIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FireIcon@3x.png"; sourceTree = "<group>"; };
-		8439032E1A749747007B9EFF /* FullPhotoButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FullPhotoButton.png; sourceTree = "<group>"; };
-		8439032F1A749747007B9EFF /* FullPhotoButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FullPhotoButton@2x.png"; sourceTree = "<group>"; };
-		843903301A749747007B9EFF /* FullPhotoButton@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "FullPhotoButton@3x.png"; sourceTree = "<group>"; };
 		843903311A749747007B9EFF /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
 		843903321A749747007B9EFF /* iTunesArtwork@2x */ = {isa = PBXFileReference; lastKnownFileType = file; path = "iTunesArtwork@2x"; sourceTree = "<group>"; };
 		843903331A749747007B9EFF /* NewIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NewIcon.png; sourceTree = "<group>"; };
@@ -294,6 +292,11 @@
 		843903A61A749CC5007B9EFF /* NimbusPhotos.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NimbusPhotos.bundle; sourceTree = "<group>"; };
 		846C65681A70E85A0071664B /* libFlurry_5.4.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_5.4.0.a; sourceTree = "<group>"; };
 		846C65731A7201C50071664B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = 99reddits/Resources/Images.xcassets; sourceTree = SOURCE_ROOT; };
+		84B9DFED1A7928E800EA3CF0 /* Maximize.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Maximize.png; sourceTree = "<group>"; };
+		84B9DFEE1A7928E800EA3CF0 /* Maximize@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Maximize@2x.png"; sourceTree = "<group>"; };
+		84B9DFEF1A7928E800EA3CF0 /* Maximize@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Maximize@3x.png"; sourceTree = "<group>"; };
+		84B9DFF31A792B3D00EA3CF0 /* MaximizeActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaximizeActivity.h; sourceTree = "<group>"; };
+		84B9DFF41A792B3D00EA3CF0 /* MaximizeActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MaximizeActivity.m; sourceTree = "<group>"; };
 		84EB13041A762D78006A39B5 /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImage.h; sourceTree = "<group>"; };
 		84EB13051A762D78006A39B5 /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImage.m; sourceTree = "<group>"; };
 		84EB13061A762D78006A39B5 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImageView.h; sourceTree = "<group>"; };
@@ -744,11 +747,11 @@
 				8439032B1A749747007B9EFF /* FireIcon.png */,
 				8439032C1A749747007B9EFF /* FireIcon@2x.png */,
 				8439032D1A749747007B9EFF /* FireIcon@3x.png */,
-				8439032E1A749747007B9EFF /* FullPhotoButton.png */,
-				8439032F1A749747007B9EFF /* FullPhotoButton@2x.png */,
-				843903301A749747007B9EFF /* FullPhotoButton@3x.png */,
 				843903311A749747007B9EFF /* iTunesArtwork */,
 				843903321A749747007B9EFF /* iTunesArtwork@2x */,
+				84B9DFED1A7928E800EA3CF0 /* Maximize.png */,
+				84B9DFEE1A7928E800EA3CF0 /* Maximize@2x.png */,
+				84B9DFEF1A7928E800EA3CF0 /* Maximize@3x.png */,
 				843903331A749747007B9EFF /* NewIcon.png */,
 				843903341A749747007B9EFF /* NewIcon@2x.png */,
 				843903351A749747007B9EFF /* NewIcon@3x.png */,
@@ -1065,6 +1068,8 @@
 				8D6C5D25164ACCCC008A98A7 /* PhotoItem.m */,
 				8D6C5D28164ACCCC008A98A7 /* SubRedditItem.h */,
 				8D6C5D29164ACCCC008A98A7 /* SubRedditItem.m */,
+				84B9DFF31A792B3D00EA3CF0 /* MaximizeActivity.h */,
+				84B9DFF41A792B3D00EA3CF0 /* MaximizeActivity.m */,
 				8D6C5D2A164ACCCC008A98A7 /* UserDef.h */,
 				8D6C5D2B164ACCCC008A98A7 /* UserDef.m */,
 			);
@@ -1178,6 +1183,7 @@
 				843903661A749747007B9EFF /* CommentBlueIcon@3x.png in Resources */,
 				8D6C5D2F164ACCCC008A98A7 /* AlbumViewController.xib in Resources */,
 				843903801A749747007B9EFF /* FireIcon.png in Resources */,
+				84B9DFF21A7928E800EA3CF0 /* Maximize@3x.png in Resources */,
 				8439039B1A749747007B9EFF /* TopIcon.png in Resources */,
 				8439036B1A749747007B9EFF /* DefaultAlbumIcon@2x.png in Resources */,
 				843903621A749747007B9EFF /* ClearButton@2x.png in Resources */,
@@ -1192,7 +1198,6 @@
 				843903641A749747007B9EFF /* CommentBlueIcon.png in Resources */,
 				8D6C5D39164ACCCC008A98A7 /* MainViewController.xib in Resources */,
 				843903A21A749747007B9EFF /* UncheckIcon@3x.png in Resources */,
-				843903841A749747007B9EFF /* FullPhotoButton@2x.png in Resources */,
 				8D6C5D3B164ACCCC008A98A7 /* RedditsViewController.xib in Resources */,
 				8439038A1A749747007B9EFF /* NewIcon@3x.png in Resources */,
 				8439038C1A749747007B9EFF /* NextPhotoButton@2x.png in Resources */,
@@ -1204,8 +1209,8 @@
 				843903711A749747007B9EFF /* DeleteButton.png in Resources */,
 				843903951A749747007B9EFF /* SettingsInfoBack.png in Resources */,
 				843903811A749747007B9EFF /* FireIcon@2x.png in Resources */,
+				84B9DFF01A7928E800EA3CF0 /* Maximize.png in Resources */,
 				8D6C5D3C164ACCCC008A98A7 /* MainWindow.xib in Resources */,
-				843903831A749747007B9EFF /* FullPhotoButton.png in Resources */,
 				8D6C5D3F164ACCCC008A98A7 /* SettingsViewController.xib in Resources */,
 				8439037B1A749747007B9EFF /* FavoritesIconPad.png in Resources */,
 				843903941A749747007B9EFF /* SettingsIcon@3x.png in Resources */,
@@ -1213,7 +1218,6 @@
 				843903611A749747007B9EFF /* ClearButton.png in Resources */,
 				8D0BF518164B9EAE000EF3A8 /* MainViewControllerPad.xib in Resources */,
 				843903971A749747007B9EFF /* SettingsInfoBack@3x.png in Resources */,
-				843903851A749747007B9EFF /* FullPhotoButton@3x.png in Resources */,
 				843903A11A749747007B9EFF /* UncheckIcon@2x.png in Resources */,
 				8D66C1B5164BAF3E00EAC2C0 /* SettingsViewControllerPad.xib in Resources */,
 				8439039D1A749747007B9EFF /* TopIcon@3x.png in Resources */,
@@ -1222,6 +1226,7 @@
 				843903791A749747007B9EFF /* FavoritesIcon@2x.png in Resources */,
 				843903821A749747007B9EFF /* FireIcon@3x.png in Resources */,
 				8439037D1A749747007B9EFF /* FavoritesRedIcon.png in Resources */,
+				84B9DFF11A7928E800EA3CF0 /* Maximize@2x.png in Resources */,
 				8D66C1BA164BAF4900EAC2C0 /* AlbumViewControllerPad.xib in Resources */,
 				843903A51A749747007B9EFF /* UpgradeButton@3x.png in Resources */,
 				843903A31A749747007B9EFF /* UpgradeButton.png in Resources */,
@@ -1303,6 +1308,7 @@
 			files = (
 				8D5080131445923700788875 /* main.m in Sources */,
 				8D24A77514F888F7001CC042 /* JSONKit.m in Sources */,
+				84B9DFF51A792B3D00EA3CF0 /* MaximizeActivity.m in Sources */,
 				8D68FD5914F88DCB00CDCF66 /* ASIAuthenticationDialog.m in Sources */,
 				8D68FD5A14F88DCB00CDCF66 /* ASIDataCompressor.m in Sources */,
 				8D68FD5B14F88DCB00CDCF66 /* ASIDataDecompressor.m in Sources */,

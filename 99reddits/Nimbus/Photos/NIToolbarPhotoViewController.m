@@ -61,7 +61,6 @@
 	[self shutdown_NIToolbarPhotoViewController];
 	[prevPhotoButton release];
 	[nextPhotoButton release];
-	[fullPhotoButton release];
 
 	[super dealloc];
 }
@@ -275,7 +274,6 @@
 		nextPhotoButton.alpha = 1.0;
 	else
 		nextPhotoButton.alpha = 0.0;
-	fullPhotoButton.alpha = 1.0;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -337,7 +335,6 @@
 		self.titleLabelBar.hidden = YES;
 		prevPhotoButton.hidden = YES;
 		nextPhotoButton.hidden = YES;
-		fullPhotoButton.hidden = YES;
 	}
 
 	_isChromeHidden = YES;
@@ -375,7 +372,6 @@
 			self.titleLabelBar.hidden = NO;
 			prevPhotoButton.hidden = NO;
 			nextPhotoButton.hidden = NO;
-			fullPhotoButton.hidden = NO;
 		}
 	}
 
@@ -415,7 +411,6 @@
 			nextPhotoButton.alpha = 1.0;
 		else
 			nextPhotoButton.alpha = 0.0;
-		fullPhotoButton.alpha = 1.0;
 	}
 	else {
 		self.navigationController.navigationBar.alpha = 0.0;
@@ -423,7 +418,6 @@
 		self.titleLabelBar.alpha = 0.0;
 		prevPhotoButton.alpha = 0.0;
 		nextPhotoButton.alpha = 0.0;
-		fullPhotoButton.alpha = 0.0;
 	}
 
 	if (animated) {
@@ -482,7 +476,6 @@
 		nextPhotoButton.alpha = 1.0;
 	else
 		nextPhotoButton.alpha = 0.0;
-	fullPhotoButton.alpha = 1.0;
 	self.title = [NSString stringWithFormat:@"%ld of %ld",
 				  (long)(self.photoAlbumView.centerPageIndex + 1),
 				  (long)self.photoAlbumView.numberOfPages];
@@ -603,7 +596,6 @@
 			self.titleLabelBar.hidden = NO;
 			prevPhotoButton.hidden = NO;
 			nextPhotoButton.hidden = NO;
-			fullPhotoButton.hidden = NO;
 
 			CGRect toolbarFrame = self.toolbar.frame;
 			CGRect bounds = self.view.bounds;

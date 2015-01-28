@@ -182,19 +182,26 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	[self refreshSubReddit:YES];
-	
-	bFromSubview = NO;
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
+		shouldReleaseCaches = YES;
+	}
+	else {
+		shouldReleaseCaches = NO;
+	}
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
-	if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
+	if (shouldReleaseCaches) {
+		shouldReleaseCaches = NO;
+		
 		[self releaseCaches];
 	}
 }
 
 - (void)onSelectPhoto:(PhotoItem *)photo {
-	bFromSubview = YES;
-	
 	if (bFavorites) {
 		PhotoViewControllerPad *photoViewController = [[PhotoViewControllerPad alloc] initWithNibName:@"PhotoViewControllerPad" bundle:nil];
 		photoViewController.bFavorites = bFavorites;
@@ -271,8 +278,8 @@
 }
 
 - (void)requestImageFromSource:(NSString *)source photoIndex:(NSInteger)photoIndex {
-	//	if (![appDelegate checkNetworkReachable:NO])
-	//		return;
+//	if (![appDelegate checkNetworkReachable:NO])
+//		return;
 	
 	if (source.length == 0)
 		return;
@@ -764,7 +771,6 @@
 				[mailComposeViewController setSubject:@"99 reddits Favorites Export"];
 				[mailComposeViewController setMessageBody:[appDelegate getFavoritesEmailString] isHTML:YES];
 				
-				bFromSubview = YES;
 				[self presentViewController:mailComposeViewController animated:YES completion:nil];
 			}
 		}

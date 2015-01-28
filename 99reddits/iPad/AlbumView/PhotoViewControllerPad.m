@@ -20,7 +20,7 @@
 
 - (void)requestImageFromSource:(NSString *)source photoSize:(NIPhotoScrollViewPhotoSize)photoSize photoIndex:(NSInteger)photoIndex;
 
-- (void)shareImage:(UIImage *)image;
+- (void)shareImage:(UIImage *)image showFull:(BOOL)showFull;
 
 @end
 
@@ -118,7 +118,6 @@
 	
 	[self.view bringSubviewToFront:prevPhotoButton];
 	[self.view bringSubviewToFront:nextPhotoButton];
-	[self.view bringSubviewToFront:fullPhotoButton];
 }
 
 - (void)viewDidUnload {
@@ -163,6 +162,13 @@
 		[sharePopoverController dismissPopoverAnimated:YES];
 		sharePopoverController = nil;
 	}
+	
+	if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
+		shouldReleaseCaches = YES;
+	}
+	else {
+		shouldReleaseCaches = NO;
+	}
 }
 
 - (void)viewDidDisappear:(BOOL)animated {
@@ -175,7 +181,9 @@
 	self.titleLabelBar.hidden = YES;
 	self.titleLabel.hidden = YES;
 
-	if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
+	if (shouldReleaseCaches) {
+		shouldReleaseCaches = NO;
+		
 		[self releaseCaches];
 	}
 }
@@ -267,57 +275,48 @@
 		NSData *data = [readOp responseData];
 		UIImage *image = [UIImage imageWithData:data];
 		
-		size_t imageCount = 1;
-		if (image && subReddit.photosArray.count > photoIndex) {
-			[self.photoAlbumView didLoadPhoto:image atIndex:photoIndex photoSize:photoSize error:NO];
-
-			if (photoIndex == self.photoAlbumView.centerPageIndex) {
-				CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)data, NULL);
-				if (imageSource) {
-					imageCount = CGImageSourceGetCount(imageSource);
-					if (imageCount > 1) {
-						uint8_t c;
-						[data getBytes:&c length:1];
-						if (c == 0x47) {
-							[self.photoAlbumView didLoadGif:data atIndex:photoIndex];
-						}
-					}
-					CFRelease(imageSource);
-				}
-				
-				if (!isFullImage && (image.size.width >= 1024 || image.size.height >= 1024)) {
-					fullPhotoButton.enabled = YES;
-				}
-				else {
-					fullPhotoButton.enabled = NO;
-				}
+		if (sharing && photoIndex == self.photoAlbumView.centerPageIndex && photoIndex == sharingIndex && image) {
+			if (subReddit.photosArray.count > photoIndex) {
+				[self.photoAlbumView didLoadPhoto:image atIndex:photoIndex photoSize:photoSize error:NO];
 			}
+
+			BOOL showFull = NO;
+			if (!isFullImage && (image.size.width >= 1024 || image.size.height >= 1024)) {
+				showFull = YES;
+			}
+
+			[self shareImage:image showFull:showFull];
 		}
 		else {
-			[self.photoAlbumView didLoadPhoto:[UIImage imageNamed:@"Error.png"] atIndex:photoIndex photoSize:photoSize error:YES];
-			
-			if (photoIndex == self.photoAlbumView.centerPageIndex) {
-				fullPhotoButton.enabled = NO;
-			}
-		}
-		
-		if (photoIndex == self.photoAlbumView.centerPageIndex) {
-			PhotoItem *photo = [subReddit.photosArray objectAtIndex:photoIndex];
-			
-			if (![photo isShowed]) {
-				[appDelegate.showedSet addObject:photo.idString];
-				subReddit.unshowedCount --;
-			}
-			
-			if (sharing && photoIndex == sharingIndex && image) {
-				[self shareImage:image];
+			size_t imageCount = 1;
+			if (image && subReddit.photosArray.count > photoIndex) {
+				[self.photoAlbumView didLoadPhoto:image atIndex:photoIndex photoSize:photoSize error:NO];
+				
+				if (photoIndex == self.photoAlbumView.centerPageIndex) {
+					CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)data, NULL);
+					if (imageSource) {
+						imageCount = CGImageSourceGetCount(imageSource);
+						if (imageCount > 1) {
+							uint8_t c;
+							[data getBytes:&c length:1];
+							if (c == 0x47) {
+								[self.photoAlbumView didLoadGif:data atIndex:photoIndex];
+							}
+						}
+						CFRelease(imageSource);
+					}
+				}
 			}
 			else {
-				sharing = NO;
+				[self.photoAlbumView didLoadPhoto:[UIImage imageNamed:@"Error.png"] atIndex:photoIndex photoSize:photoSize error:YES];
 			}
-		}
-		else {
-			sharing = NO;
+			
+			if (photoIndex == self.photoAlbumView.centerPageIndex) {
+				if (![photo isShowed]) {
+					[appDelegate.showedSet addObject:photo.idString];
+					subReddit.unshowedCount --;
+				}
+			}
 		}
 		
 		[activeRequests removeObject:identifierKey];
@@ -333,8 +332,6 @@
 				[appDelegate.showedSet addObject:photo.idString];
 				subReddit.unshowedCount --;
 			}
-			
-			fullPhotoButton.enabled = NO;
 		}
 		
 		sharing = NO;
@@ -411,8 +408,6 @@
 		sharing = NO;
 	}
 
-	fullPhotoButton.enabled = NO;
-
 	[self requestImageFromSource:photo.urlString photoSize:NIPhotoScrollViewPhotoSizeOriginal photoIndex:self.photoAlbumView.centerPageIndex];
 	
 	if (!bFavorites) {
@@ -425,12 +420,16 @@
 	}
 }
 
-- (void)shareImage:(UIImage *)image {
+- (void)shareImage:(UIImage *)image showFull:(BOOL)showFull {
 	PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
 	
+	MaximizeActivity *maximizeActivity = [[MaximizeActivity alloc] init];
+	maximizeActivity.delegate = self;
+	maximizeActivity.canPerformActivity = showFull;
+	
 	NSArray *activityItems = @[image, photo.titleString, [NSURL URLWithString:[NSString stringWithFormat:@"http://redd.it/%@", photo.idString]]];
-	NSArray *applicationActivities = nil;
-	NSArray *excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList];
+	NSArray *applicationActivities = @[maximizeActivity];
+	NSArray *excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypePrint];
 	
 	UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:applicationActivities];
 	activityViewController.excludedActivityTypes = excludedActivityTypes;
@@ -512,14 +511,14 @@
 	[self presentViewController:commentNavigationController animated:YES completion:nil];
 }
 
-- (IBAction)onFullPhotoButton:(id)sender {
+// MaximizeActivityDelegate
+- (void)performMaximize {
 	NSInteger identifier = self.photoAlbumView.centerPageIndex;
 	NSNumber *identifierKey = [NSNumber numberWithInteger:identifier];
 	[activeRequests removeObject:identifierKey];
 	
 	PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
 	[appDelegate addToFullImagesSet:photo.urlString];
-	fullPhotoButton.enabled = NO;
 	[self.photoAlbumView reloadData];
 }
 

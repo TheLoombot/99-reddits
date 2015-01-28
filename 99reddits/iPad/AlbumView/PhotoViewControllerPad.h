@@ -10,8 +10,9 @@
 #import "SubRedditItem.h"
 #import "PhotoItem.h"
 #import "ASIHTTPRequestDelegate.h"
+#import "MaximizeActivity.h"
 
-@interface PhotoViewControllerPad : NIToolbarPhotoViewController <NIPhotoAlbumScrollViewDataSource, UIActionSheetDelegate, UIPopoverControllerDelegate> {
+@interface PhotoViewControllerPad : NIToolbarPhotoViewController <NIPhotoAlbumScrollViewDataSource, UIActionSheetDelegate, UIPopoverControllerDelegate, MaximizeActivityDelegate> {
 	NSOperationQueue *queue;
 	
 	NSMutableSet *activeRequests;
@@ -19,7 +20,7 @@
 	SubRedditItem *subReddit;
 	NSInteger index;
 	
-	BOOL releasing;
+	BOOL shouldReleaseCaches;
 	
 	BOOL disappearForSubview;
 	
@@ -49,6 +50,5 @@
 
 - (IBAction)onPrevPhotoButton:(id)sender;
 - (IBAction)onNextPhotoButton:(id)sender;
-- (IBAction)onFullPhotoButton:(id)sender;
 
 @end

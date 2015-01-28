@@ -69,13 +69,10 @@
 	if ([self.nameString rangeOfString:@"gif" options:NSCaseInsensitiveSearch].location != NSNotFound)
 		return YES;
 
-	if ([self.nameString rangeOfString:@"gifs" options:NSCaseInsensitiveSearch].location != NSNotFound)
-		return YES;
-	
 	if ([self.titleString rangeOfString:@"gif" options:NSCaseInsensitiveSearch].location != NSNotFound)
 		return YES;
 
-	if ([self.titleString rangeOfString:@"gifs" options:NSCaseInsensitiveSearch].location != NSNotFound)
+	if ([self.permalinkString rangeOfString:@"gif" options:NSCaseInsensitiveSearch].location != NSNotFound)
 		return YES;
 
 	if ([[[self.urlString pathExtension] lowercaseString] isEqualToString:@"gif"])

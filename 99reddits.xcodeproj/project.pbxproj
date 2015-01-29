@@ -91,6 +91,8 @@
 		846C65741A7201C50071664B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 846C65731A7201C50071664B /* Images.xcassets */; };
 		847D5F6C1A7A1FEA00173A01 /* MaximizePad.png in Resources */ = {isa = PBXBuildFile; fileRef = 847D5F6A1A7A1FEA00173A01 /* MaximizePad.png */; };
 		847D5F6D1A7A1FEA00173A01 /* MaximizePad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 847D5F6B1A7A1FEA00173A01 /* MaximizePad@2x.png */; };
+		847D5F701A7A345100173A01 /* TitleProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 847D5F6F1A7A345100173A01 /* TitleProvider.m */; };
+		847D5F731A7A3C9F00173A01 /* URLProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 847D5F721A7A3C9F00173A01 /* URLProvider.m */; };
 		84B9DFF01A7928E800EA3CF0 /* Maximize.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B9DFED1A7928E800EA3CF0 /* Maximize.png */; };
 		84B9DFF11A7928E800EA3CF0 /* Maximize@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B9DFEE1A7928E800EA3CF0 /* Maximize@2x.png */; };
 		84B9DFF21A7928E800EA3CF0 /* Maximize@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B9DFEF1A7928E800EA3CF0 /* Maximize@3x.png */; };
@@ -296,6 +298,10 @@
 		846C65731A7201C50071664B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = 99reddits/Resources/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		847D5F6A1A7A1FEA00173A01 /* MaximizePad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MaximizePad.png; sourceTree = "<group>"; };
 		847D5F6B1A7A1FEA00173A01 /* MaximizePad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MaximizePad@2x.png"; sourceTree = "<group>"; };
+		847D5F6E1A7A345100173A01 /* TitleProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TitleProvider.h; sourceTree = "<group>"; };
+		847D5F6F1A7A345100173A01 /* TitleProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TitleProvider.m; sourceTree = "<group>"; };
+		847D5F711A7A3C9F00173A01 /* URLProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = URLProvider.h; sourceTree = "<group>"; };
+		847D5F721A7A3C9F00173A01 /* URLProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLProvider.m; sourceTree = "<group>"; };
 		84B9DFED1A7928E800EA3CF0 /* Maximize.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Maximize.png; sourceTree = "<group>"; };
 		84B9DFEE1A7928E800EA3CF0 /* Maximize@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Maximize@2x.png"; sourceTree = "<group>"; };
 		84B9DFEF1A7928E800EA3CF0 /* Maximize@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Maximize@3x.png"; sourceTree = "<group>"; };
@@ -1076,6 +1082,10 @@
 				8D6C5D29164ACCCC008A98A7 /* SubRedditItem.m */,
 				84B9DFF31A792B3D00EA3CF0 /* MaximizeActivity.h */,
 				84B9DFF41A792B3D00EA3CF0 /* MaximizeActivity.m */,
+				847D5F6E1A7A345100173A01 /* TitleProvider.h */,
+				847D5F6F1A7A345100173A01 /* TitleProvider.m */,
+				847D5F711A7A3C9F00173A01 /* URLProvider.h */,
+				847D5F721A7A3C9F00173A01 /* URLProvider.m */,
 				8D6C5D2A164ACCCC008A98A7 /* UserDef.h */,
 				8D6C5D2B164ACCCC008A98A7 /* UserDef.m */,
 			);
@@ -1330,6 +1340,7 @@
 				8D68FD6414F88DF400CDCF66 /* NIHTTPRequest.m in Sources */,
 				8D68FDC914F8909000CDCF66 /* NICommonMetrics.m in Sources */,
 				8D68FDCA14F8909000CDCF66 /* NIDataStructures.m in Sources */,
+				847D5F731A7A3C9F00173A01 /* URLProvider.m in Sources */,
 				8D68FDCB14F8909000CDCF66 /* NIDebuggingTools.m in Sources */,
 				8D68FDCC14F8909000CDCF66 /* NIDeviceOrientation.m in Sources */,
 				8D68FDCD14F8909000CDCF66 /* NIError.m in Sources */,
@@ -1370,6 +1381,7 @@
 				8D6C5D41164ACCCC008A98A7 /* PhotoItem.m in Sources */,
 				8D6C5D42164ACCCC008A98A7 /* PurchaseManager.m in Sources */,
 				8D6C5D43164ACCCC008A98A7 /* SubRedditItem.m in Sources */,
+				847D5F701A7A345100173A01 /* TitleProvider.m in Sources */,
 				8D6C5D44164ACCCC008A98A7 /* UserDef.m in Sources */,
 				8D0BF517164B9EAE000EF3A8 /* MainViewControllerPad.m in Sources */,
 				8D66C1AE164BA38300EAC2C0 /* RedditsAppDelegate.m in Sources */,

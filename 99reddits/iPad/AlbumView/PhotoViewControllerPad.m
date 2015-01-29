@@ -15,12 +15,14 @@
 #import "PhotoView.h"
 #import <Social/Social.h>
 #import "CommentViewControllerPad.h"
+#import "TitleProvider.h"
+#import "URLProvider.h"
 
 @interface PhotoViewControllerPad ()
 
 - (void)requestImageFromSource:(NSString *)source photoSize:(NIPhotoScrollViewPhotoSize)photoSize photoIndex:(NSInteger)photoIndex;
 
-- (void)shareImage:(UIImage *)image showFull:(BOOL)showFull;
+- (void)shareImage:(NSData *)data title:(NSString *)title url:(NSURL *)url showFull:(BOOL)showFull;
 
 @end
 
@@ -284,8 +286,8 @@
 			if (!isFullImage && (image.size.width >= 1024 || image.size.height >= 1024)) {
 				showFull = YES;
 			}
-
-			[self shareImage:image showFull:showFull];
+			
+			[self shareImage:data title:[NSString stringWithFormat:@"%@\n", photo.titleString] url:[NSURL URLWithString:[NSString stringWithFormat:@"http://redd.it/%@", photo.idString]] showFull:showFull];
 		}
 		else {
 			size_t imageCount = 1;
@@ -420,27 +422,6 @@
 	}
 }
 
-- (void)shareImage:(UIImage *)image showFull:(BOOL)showFull {
-	PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
-	
-	MaximizeActivity *maximizeActivity = [[MaximizeActivity alloc] init];
-	maximizeActivity.delegate = self;
-	maximizeActivity.canPerformActivity = showFull;
-	
-	NSArray *activityItems = @[image, photo.titleString, [NSURL URLWithString:[NSString stringWithFormat:@"http://redd.it/%@", photo.idString]]];
-	NSArray *applicationActivities = @[maximizeActivity];
-	NSArray *excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypePrint];
-	
-	UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:applicationActivities];
-	activityViewController.excludedActivityTypes = excludedActivityTypes;
-	
-	sharePopoverController = [[UIPopoverController alloc] initWithContentViewController:activityViewController];
-	sharePopoverController.delegate = self;
-	[sharePopoverController presentPopoverFromBarButtonItem:actionItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
-	
-	sharing = NO;
-}
-
 // UIPopoverControllerDelegate
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
 	if (popoverController == sharePopoverController) {
@@ -509,6 +490,28 @@
 	commentViewController.urlString = photo.permalinkString;
 	UINavigationController *commentNavigationController = [[UINavigationController alloc] initWithRootViewController:commentViewController];
 	[self presentViewController:commentNavigationController animated:YES completion:nil];
+}
+
+- (void)shareImage:(NSData *)data title:(NSString *)title url:(NSURL *)url showFull:(BOOL)showFull {
+	MaximizeActivity *maximizeActivity = [[MaximizeActivity alloc] init];
+	maximizeActivity.delegate = self;
+	maximizeActivity.canPerformActivity = showFull;
+	
+	TitleProvider *titleItem = [[TitleProvider alloc] initWithPlaceholderItem:title];
+	URLProvider *urlItem = [[URLProvider alloc] initWithPlaceholderItem:url];
+	
+	NSArray *activityItems = @[data, titleItem, urlItem];
+	NSArray *applicationActivities = @[maximizeActivity];
+	NSArray *excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypePrint];
+	
+	UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:applicationActivities];
+	activityViewController.excludedActivityTypes = excludedActivityTypes;
+	
+	sharePopoverController = [[UIPopoverController alloc] initWithContentViewController:activityViewController];
+	sharePopoverController.delegate = self;
+	[sharePopoverController presentPopoverFromBarButtonItem:actionItem permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
+	
+	sharing = NO;
 }
 
 // MaximizeActivityDelegate

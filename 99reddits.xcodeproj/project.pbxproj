@@ -89,6 +89,8 @@
 		843903A71A749CC5007B9EFF /* NimbusPhotos.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 843903A61A749CC5007B9EFF /* NimbusPhotos.bundle */; };
 		846C65691A70E85A0071664B /* libFlurry_5.4.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 846C65681A70E85A0071664B /* libFlurry_5.4.0.a */; };
 		846C65741A7201C50071664B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 846C65731A7201C50071664B /* Images.xcassets */; };
+		847D5F6C1A7A1FEA00173A01 /* MaximizePad.png in Resources */ = {isa = PBXBuildFile; fileRef = 847D5F6A1A7A1FEA00173A01 /* MaximizePad.png */; };
+		847D5F6D1A7A1FEA00173A01 /* MaximizePad@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 847D5F6B1A7A1FEA00173A01 /* MaximizePad@2x.png */; };
 		84B9DFF01A7928E800EA3CF0 /* Maximize.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B9DFED1A7928E800EA3CF0 /* Maximize.png */; };
 		84B9DFF11A7928E800EA3CF0 /* Maximize@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B9DFEE1A7928E800EA3CF0 /* Maximize@2x.png */; };
 		84B9DFF21A7928E800EA3CF0 /* Maximize@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B9DFEF1A7928E800EA3CF0 /* Maximize@3x.png */; };
@@ -292,6 +294,8 @@
 		843903A61A749CC5007B9EFF /* NimbusPhotos.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NimbusPhotos.bundle; sourceTree = "<group>"; };
 		846C65681A70E85A0071664B /* libFlurry_5.4.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_5.4.0.a; sourceTree = "<group>"; };
 		846C65731A7201C50071664B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = 99reddits/Resources/Images.xcassets; sourceTree = SOURCE_ROOT; };
+		847D5F6A1A7A1FEA00173A01 /* MaximizePad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MaximizePad.png; sourceTree = "<group>"; };
+		847D5F6B1A7A1FEA00173A01 /* MaximizePad@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "MaximizePad@2x.png"; sourceTree = "<group>"; };
 		84B9DFED1A7928E800EA3CF0 /* Maximize.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Maximize.png; sourceTree = "<group>"; };
 		84B9DFEE1A7928E800EA3CF0 /* Maximize@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Maximize@2x.png"; sourceTree = "<group>"; };
 		84B9DFEF1A7928E800EA3CF0 /* Maximize@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Maximize@3x.png"; sourceTree = "<group>"; };
@@ -752,6 +756,8 @@
 				84B9DFED1A7928E800EA3CF0 /* Maximize.png */,
 				84B9DFEE1A7928E800EA3CF0 /* Maximize@2x.png */,
 				84B9DFEF1A7928E800EA3CF0 /* Maximize@3x.png */,
+				847D5F6A1A7A1FEA00173A01 /* MaximizePad.png */,
+				847D5F6B1A7A1FEA00173A01 /* MaximizePad@2x.png */,
 				843903331A749747007B9EFF /* NewIcon.png */,
 				843903341A749747007B9EFF /* NewIcon@2x.png */,
 				843903351A749747007B9EFF /* NewIcon@3x.png */,
@@ -1176,6 +1182,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				847D5F6D1A7A1FEA00173A01 /* MaximizePad@2x.png in Resources */,
 				843903781A749747007B9EFF /* FavoritesIcon.png in Resources */,
 				843903861A749747007B9EFF /* iTunesArtwork in Resources */,
 				8D5080111445923700788875 /* InfoPlist.strings in Resources */,
@@ -1213,6 +1220,7 @@
 				8D6C5D3C164ACCCC008A98A7 /* MainWindow.xib in Resources */,
 				8D6C5D3F164ACCCC008A98A7 /* SettingsViewController.xib in Resources */,
 				8439037B1A749747007B9EFF /* FavoritesIconPad.png in Resources */,
+				847D5F6C1A7A1FEA00173A01 /* MaximizePad.png in Resources */,
 				843903941A749747007B9EFF /* SettingsIcon@3x.png in Resources */,
 				8D6C5D4A164ACE0E008A98A7 /* MainWindowPad.xib in Resources */,
 				843903611A749747007B9EFF /* ClearButton.png in Resources */,

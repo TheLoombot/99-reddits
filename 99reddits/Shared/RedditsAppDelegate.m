@@ -11,8 +11,6 @@
 #import "Reachability.h"
 #import "Flurry.h"
 #import <Crashlytics/Crashlytics.h>
-#import "MainViewControllerPad.h"
-#import "RedditsViewControllerPad.h"
 
 @implementation UINavigationController (iOS6OrientationFix)
 
@@ -53,6 +51,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 		screenHeight = temp;
 	}
 	screenScale = [[UIScreen mainScreen] scale];
+	isPad = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
 
 	self.window.backgroundColor = [UIColor whiteColor];
 	mainNavigationController.navigationBar.barStyle = UIBarStyleDefault;

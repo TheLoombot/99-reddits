@@ -13,15 +13,22 @@
 @synthesize delegate;
 @synthesize canPerformActivity;
 
++ (UIActivityCategory)activityCategory {
+	return UIActivityCategoryAction;
+}
+
 - (NSString *)activityType {
 	return @"99reddits.maximize";
 }
 
 - (NSString *)activityTitle {
-	return @"Maximize";
+	return @"Full Size";
 }
 
 - (UIImage *)activityImage {
+	if (isPad)
+		return [UIImage imageNamed:@"MaximizePad.png"];
+	
 	return [UIImage imageNamed:@"Maximize.png"];
 }
 

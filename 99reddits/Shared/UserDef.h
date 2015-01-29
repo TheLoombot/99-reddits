@@ -26,5 +26,6 @@ extern NSString *normalStrings[];
 extern CGFloat screenWidth;
 extern CGFloat screenHeight;
 extern CGFloat screenScale;
+extern BOOL isPad;
 
 extern NSString *deviceName();

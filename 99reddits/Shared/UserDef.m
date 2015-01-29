@@ -56,6 +56,7 @@ NSString *normalStrings[] = {
 CGFloat screenWidth;
 CGFloat screenHeight;
 CGFloat screenScale;
+BOOL isPad;
 
 NSString *deviceName() {
 	struct utsname systemInfo;

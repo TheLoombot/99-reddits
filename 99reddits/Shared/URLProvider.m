@@ -20,7 +20,7 @@
 }
 
 - (id)activityViewController:(UIActivityViewController *)activityViewController itemForActivityType:(NSString *)activityType {
-	if ([activityType isEqualToString:UIActivityTypeCopyToPasteboard])
+	if ([activityType isEqualToString:UIActivityTypeCopyToPasteboard] || [activityType isEqualToString:UIActivityTypeMessage])
 		return nil;
 	
 	return url;

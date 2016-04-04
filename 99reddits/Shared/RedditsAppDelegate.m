@@ -279,6 +279,14 @@ void uncaughtExceptionHandler(NSException *exception) {
 // The latter turns "http://blah" into "http:/blah" ... obviously not right
 // ALSO: we should account for www.imgur.com, i.imgur.com and imgur.com equally...
 + (NSString *)getImageURL:(NSString *)urlString {
+    
+    NSLog(@"URLString: %@", urlString);
+    
+    // hacky crash fix possibly for the case where content is removed for violating
+    // reddit's content policies instead of normal deletion
+    if (urlString == [NSNull null])
+        return @"";
+    
 	if ([urlString hasPrefix:@"http://imgur.com/a/"])
 		return @"";
 	

@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>99reddits</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.lensie.99reddits</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -31,6 +31,20 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>2.7a</string>
+	<key>Fabric</key>
+	<dict>
+		<key>APIKey</key>
+		<string>7228ed62a7b305f3ee6ec449adbda49637b3168a</string>
+		<key>Kits</key>
+		<array>
+			<dict>
+				<key>KitInfo</key>
+				<dict/>
+				<key>KitName</key>
+				<string>Crashlytics</string>
+			</dict>
+		</array>
+	</dict>
 	<key>FacebookAppID</key>
 	<string>253475838035936</string>
 	<key>FacebookDisplayName</key>

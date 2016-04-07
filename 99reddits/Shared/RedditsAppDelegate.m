@@ -280,11 +280,11 @@ void uncaughtExceptionHandler(NSException *exception) {
 // ALSO: we should account for www.imgur.com, i.imgur.com and imgur.com equally...
 + (NSString *)getImageURL:(NSString *)urlString {
     
-    NSLog(@"URLString: %@", urlString);
+    // NSLog(@"URLString: %@", urlString);
     
     // hacky crash fix possibly for the case where content is removed for violating
     // reddit's content policies instead of normal deletion
-    if (urlString == [NSNull null])
+    if ((id)urlString == [NSNull null])
         return @"";
     
 	if ([urlString hasPrefix:@"http://imgur.com/a/"])

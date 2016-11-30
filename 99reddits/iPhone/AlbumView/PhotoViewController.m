@@ -29,7 +29,7 @@
 @implementation PhotoViewController
 
 @synthesize subReddit;
-@synthesize index;
+@synthesize testindex;
 @synthesize disappearForSubview;
 @synthesize bFavorites;
 
@@ -94,7 +94,7 @@
 	self.photoAlbumView.photoViewBackgroundColor = [UIColor blackColor];
 	
 	[self.photoAlbumView reloadData];
-	[self.photoAlbumView moveToPageAtIndex:index animated:NO];
+	[self.photoAlbumView moveToPageAtIndex:testindex animated:YES];
 	
 	[appDelegate checkNetworkReachable:YES];
 	

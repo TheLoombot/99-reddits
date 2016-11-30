@@ -18,7 +18,7 @@
 	NSMutableSet *activeRequests;
 	
 	SubRedditItem *subReddit;
-	NSInteger index;
+	NSInteger testindex;
 	
 	BOOL shouldReleaseCaches;
 	
@@ -34,7 +34,7 @@
 }
 
 @property (nonatomic, strong) SubRedditItem *subReddit;
-@property (nonatomic) NSInteger index;
+@property (nonatomic) NSInteger testindex;
 @property (nonatomic) BOOL disappearForSubview;
 @property (nonatomic) BOOL bFavorites;
 

@@ -10,7 +10,9 @@
 #import "UserDef.h"
 #import "Reachability.h"
 #import "Flurry.h"
+#import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
+
 
 @implementation UINavigationController (iOS6OrientationFix)
 
@@ -57,7 +59,8 @@ void uncaughtExceptionHandler(NSException *exception) {
 	mainNavigationController.navigationBar.barStyle = UIBarStyleDefault;
 	mainNavigationController.navigationBar.translucent = YES;
 
-    [Crashlytics startWithAPIKey:@"7228ed62a7b305f3ee6ec449adbda49637b3168a"];
+    [Fabric with:@[[Crashlytics class]]];
+
 	NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
 
 	[Flurry startSession:@"29Y8B1XXMBQVLEPC3ZPU"];

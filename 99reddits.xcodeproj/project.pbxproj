@@ -206,7 +206,7 @@
 		8DF07896164F6EDE00B26B8F /* AlbumViewCellPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF07895164F6EDE00B26B8F /* AlbumViewCellPad.m */; };
 		8DF0789E164F6F0900B26B8F /* PhotoViewControllerPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF0789C164F6F0800B26B8F /* PhotoViewControllerPad.m */; };
 		8DF0789F164F6F0900B26B8F /* PhotoViewControllerPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DF0789D164F6F0800B26B8F /* PhotoViewControllerPad.xib */; };
-		9C0334BB16B2391800A2F5D3 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C0334BA16B2391800A2F5D3 /* Crashlytics.framework */; };
+		9C3E7EA41DF495B700A70F4C /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C3E7EA31DF495B700A70F4C /* Crashlytics.framework */; };
 		9C6EC04B1CACC88900DEB36D /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC04A1CACC88900DEB36D /* Fabric.framework */; };
 		9C6EC04D1CACC9BF00DEB36D /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC04C1CACC9BF00DEB36D /* libc++.tbd */; };
 		9C6EC04F1CACC9C700DEB36D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC04E1CACC9C700DEB36D /* libz.tbd */; };
@@ -544,6 +544,7 @@
 		8DF0789C164F6F0800B26B8F /* PhotoViewControllerPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoViewControllerPad.m; sourceTree = "<group>"; };
 		8DF0789D164F6F0800B26B8F /* PhotoViewControllerPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoViewControllerPad.xib; sourceTree = "<group>"; };
 		9C0334BA16B2391800A2F5D3 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		9C3E7EA31DF495B700A70F4C /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		9C6EC0481CACC62900DEB36D /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		9C6EC04A1CACC88900DEB36D /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		9C6EC04C1CACC9BF00DEB36D /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
@@ -559,6 +560,7 @@
 			files = (
 				9C6EC04F1CACC9C700DEB36D /* libz.tbd in Frameworks */,
 				9C6EC04D1CACC9BF00DEB36D /* libc++.tbd in Frameworks */,
+				9C3E7EA41DF495B700A70F4C /* Crashlytics.framework in Frameworks */,
 				8D5080B71445942600788875 /* SystemConfiguration.framework in Frameworks */,
 				9C6EC0521CACCB0A00DEB36D /* libFlurry_7.5.2.a in Frameworks */,
 				8DB620571770583700D744A4 /* Security.framework in Frameworks */,
@@ -575,7 +577,6 @@
 				8D5080091445923700788875 /* Foundation.framework in Frameworks */,
 				8D50800B1445923700788875 /* CoreGraphics.framework in Frameworks */,
 				8DAECE43145A3E55004D194A /* MessageUI.framework in Frameworks */,
-				9C0334BB16B2391800A2F5D3 /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -670,6 +671,7 @@
 		8D5080051445923700788875 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				9C3E7EA31DF495B700A70F4C /* Crashlytics.framework */,
 				9C6EC04E1CACC9C700DEB36D /* libz.tbd */,
 				9C6EC04C1CACC9BF00DEB36D /* libc++.tbd */,
 				9C6EC04A1CACC88900DEB36D /* Fabric.framework */,
@@ -1149,6 +1151,7 @@
 				TargetAttributes = {
 					8D5080011445923700788875 = {
 						DevelopmentTeam = Z5S4TLR4D3;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -1322,7 +1325,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Crashlytics.framework/run 7228ed62a7b305f3ee6ec449adbda49637b3168a";
+			shellScript = "./Fabric.framework/run 7228ed62a7b305f3ee6ec449adbda49637b3168a 515b7522059c7777f4ec6c99f236ddc0d0d7baf3e873187176adcd6e31d29331";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1515,6 +1518,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = Z5S4TLR4D3;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
@@ -1540,6 +1545,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = Z5S4TLR4D3;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",

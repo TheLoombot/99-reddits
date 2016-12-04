@@ -67,6 +67,7 @@
 
 - (void)viewDidLoad {
 	[super viewDidLoad];
+    [self setAutomaticallyAdjustsScrollViewInsets: NO];
 	
 	UIButton *redButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	redButton.frame = CGRectMake(0, 0, 25, 25);
@@ -92,10 +93,8 @@
 	self.photoAlbumView.dataSource = self;
 	self.photoAlbumView.backgroundColor = [UIColor blackColor];
 	self.photoAlbumView.photoViewBackgroundColor = [UIColor blackColor];
-	
 	[self.photoAlbumView reloadData];
-	[self.photoAlbumView moveToPageAtIndex:testindex animated:YES];
-	
+   // [self.photoAlbumView moveToPageAtIndex:self.testindex animated:YES];
 	[appDelegate checkNetworkReachable:YES];
 	
 	UIBarButtonItem *actionButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(onActionButton)];
@@ -133,16 +132,15 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	if (!disappearForSubview) {
-		[super viewWillAppear:YES];
+		[super viewWillAppear:animated];
 	}
-	
 	disappearForSubview = NO;
-	[self.photoAlbumView moveToPageAtIndex:self.photoAlbumView.centerPageIndex animated:NO];
+    self.photoAlbumView.centerPageIndex = self.testindex;
+	[self.photoAlbumView moveToPageAtIndex:self.testindex animated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
-	
 	PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
 	[self setTitleLabelText:photo.titleString];
 	self.titleLabelBar.hidden = NO;

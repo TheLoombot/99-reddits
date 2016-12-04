@@ -18,7 +18,7 @@
 	NSMutableSet *activeRequests;
 	
 	SubRedditItem *subReddit;
-	NSInteger testindex;
+	//NSInteger testindex;
 	
 	BOOL shouldReleaseCaches;
 	

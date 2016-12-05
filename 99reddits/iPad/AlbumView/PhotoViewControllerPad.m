@@ -29,7 +29,7 @@
 @implementation PhotoViewControllerPad
 
 @synthesize subReddit;
-@synthesize index;
+@synthesize testIndex;
 @synthesize disappearForSubview;
 @synthesize bFavorites;
 
@@ -105,7 +105,7 @@
 	self.photoAlbumView.photoViewBackgroundColor = [UIColor blackColor];
 	
 	[self.photoAlbumView reloadData];
-	[self.photoAlbumView moveToPageAtIndex:index animated:NO];
+	//[self.photoAlbumView moveToPageAtIndex:index animated:NO];
 	
 	[appDelegate checkNetworkReachable:YES];
 	
@@ -138,7 +138,8 @@
 	}
 	
 	disappearForSubview = NO;
-	[self.photoAlbumView moveToPageAtIndex:self.photoAlbumView.centerPageIndex animated:NO];
+    self.photoAlbumView.centerPageIndex = self.testIndex;
+    [self.photoAlbumView moveToPageAtIndex:self.testIndex animated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated {

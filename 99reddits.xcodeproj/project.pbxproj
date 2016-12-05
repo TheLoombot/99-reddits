@@ -206,7 +206,6 @@
 		8DF07896164F6EDE00B26B8F /* AlbumViewCellPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF07895164F6EDE00B26B8F /* AlbumViewCellPad.m */; };
 		8DF0789E164F6F0900B26B8F /* PhotoViewControllerPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8DF0789C164F6F0800B26B8F /* PhotoViewControllerPad.m */; };
 		8DF0789F164F6F0900B26B8F /* PhotoViewControllerPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8DF0789D164F6F0800B26B8F /* PhotoViewControllerPad.xib */; };
-		9C0334BB16B2391800A2F5D3 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C0334BA16B2391800A2F5D3 /* Crashlytics.framework */; };
 		9C6EC04B1CACC88900DEB36D /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC04A1CACC88900DEB36D /* Fabric.framework */; };
 		9C6EC04D1CACC9BF00DEB36D /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC04C1CACC9BF00DEB36D /* libc++.tbd */; };
 		9C6EC04F1CACC9C700DEB36D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC04E1CACC9C700DEB36D /* libz.tbd */; };
@@ -543,7 +542,6 @@
 		8DF0789B164F6F0800B26B8F /* PhotoViewControllerPad.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoViewControllerPad.h; sourceTree = "<group>"; };
 		8DF0789C164F6F0800B26B8F /* PhotoViewControllerPad.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoViewControllerPad.m; sourceTree = "<group>"; };
 		8DF0789D164F6F0800B26B8F /* PhotoViewControllerPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PhotoViewControllerPad.xib; sourceTree = "<group>"; };
-		9C0334BA16B2391800A2F5D3 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		9C6EC0481CACC62900DEB36D /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		9C6EC04A1CACC88900DEB36D /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		9C6EC04C1CACC9BF00DEB36D /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
@@ -575,7 +573,6 @@
 				8D5080091445923700788875 /* Foundation.framework in Frameworks */,
 				8D50800B1445923700788875 /* CoreGraphics.framework in Frameworks */,
 				8DAECE43145A3E55004D194A /* MessageUI.framework in Frameworks */,
-				9C0334BB16B2391800A2F5D3 /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -676,7 +673,6 @@
 				9C6EC0481CACC62900DEB36D /* Fabric.framework */,
 				8DB620591770584A00D744A4 /* AdSupport.framework */,
 				8DB620561770583700D744A4 /* Security.framework */,
-				9C0334BA16B2391800A2F5D3 /* Crashlytics.framework */,
 				8D060A8516AD29E700AED06E /* QuartzCore.framework */,
 				8DAACC8416A785DF00237C83 /* Social.framework */,
 				8D22CA1414B750D000E4DDD3 /* StoreKit.framework */,
@@ -1144,7 +1140,7 @@
 		8D507FF91445923700788875 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0810;
 				ORGANIZATIONNAME = "99 reddits";
 				TargetAttributes = {
 					8D5080011445923700788875 = {
@@ -1322,7 +1318,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Crashlytics.framework/run 7228ed62a7b305f3ee6ec449adbda49637b3168a";
+			shellScript = "";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1464,12 +1460,24 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1477,8 +1485,12 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1492,13 +1504,29 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_PROTOTYPES = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

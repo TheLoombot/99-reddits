@@ -40,7 +40,7 @@
 }
 
 @property (nonatomic, strong) SubRedditItem *subReddit;
-@property (nonatomic) NSInteger index;
+@property (nonatomic) NSInteger testIndex;
 @property (nonatomic) BOOL disappearForSubview;
 @property (nonatomic) BOOL bFavorites;
 

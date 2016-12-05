@@ -206,7 +206,7 @@
 		PhotoViewControllerPad *photoViewController = [[PhotoViewControllerPad alloc] initWithNibName:@"PhotoViewControllerPad" bundle:nil];
 		photoViewController.bFavorites = bFavorites;
 		photoViewController.subReddit = currentSubReddit;
-		photoViewController.index = [currentSubReddit.photosArray indexOfObject:photo];
+		photoViewController.testIndex = [currentSubReddit.photosArray indexOfObject:photo];
 		[self.navigationController pushViewController:photoViewController animated:YES];
 	}
 	else {
@@ -219,7 +219,7 @@
 		PhotoViewControllerPad *photoViewController = [[PhotoViewControllerPad alloc] initWithNibName:@"PhotoViewControllerPad" bundle:nil];
 		photoViewController.bFavorites = bFavorites;
 		photoViewController.subReddit = photoSubReddit;
-		photoViewController.index = [currentPhotosArray indexOfObject:photo];
+		photoViewController.testIndex = [currentPhotosArray indexOfObject:photo];
 		[self.navigationController pushViewController:photoViewController animated:YES];
 	}
 }

@@ -387,6 +387,7 @@
 		albumRequest.shouldAttemptPersistentConnection = NO;
 		albumRequest.timeOutSeconds = 30;
 		albumRequest.delegate = self;
+        albumRequest.userAgentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 10_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B72";
 		albumRequest.processorDelegate = (id)[self class];
 		[refreshQueue addOperation:albumRequest];
 	}
@@ -518,7 +519,7 @@
 		else if ([permalinkString hasPrefix:@"http"])
 			photo.permalinkString = permalinkString;
 		else
-			photo.permalinkString = [NSString stringWithFormat:@"http://www.reddit.com%@.compact", permalinkString];
+			photo.permalinkString = [NSString stringWithFormat:@"https://www.reddit.com%@.compact", permalinkString];
 		
 		photo.titleString = [RedditsAppDelegate stringByRemoveHTML:[itemData objectForKey:@"title"]];
 		photo.urlString = [RedditsAppDelegate getImageURL:[itemData objectForKey:@"url"]];
@@ -584,6 +585,7 @@
 	NIProcessorHTTPRequest* albumRequest = [NIJSONKitProcessorHTTPRequest requestWithURL:url usingCache:nil];
 	albumRequest.shouldAttemptPersistentConnection = NO;
 	albumRequest.timeOutSeconds = 30;
+    albumRequest.userAgentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 10_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B72";
 	albumRequest.delegate = self;
 	albumRequest.processorDelegate = (id)[self class];
 	[refreshQueue addOperation:albumRequest];

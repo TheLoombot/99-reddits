@@ -300,7 +300,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 	}
 	
 	if ([urlString hasPrefix:@"/"]) {
-		urlString = [NSString stringWithFormat:@"http://www.reddit.com%@", urlString];
+		urlString = [NSString stringWithFormat:@"https://www.reddit.com%@", urlString];
 	}
 	
 	if ([urlString hasPrefix:@"http://i.imgur.com/"] && [[urlString pathExtension] length] == 0) {

@@ -9,12 +9,12 @@
 #import <Foundation/Foundation.h>
 #import "RedditsAppDelegate.h"
 
-#define SUBREDDIT_FORMAT1				@"http://www.reddit.com/r/%@/.json?limit=50"
-#define SUBREDDIT_FORMAT2				@"http://www.reddit.com/r/%@"
+#define SUBREDDIT_FORMAT1				@"https://www.reddit.com/r/%@/.json?limit=50"
+#define SUBREDDIT_FORMAT2				@"https://www.reddit.com/r/%@"
 
-#define NEW_SUBREDDIT_FORMAT			@"http://www.reddit.com/r/%@/new.json?limit=50&sort=new"
-#define CONTROVERSIAL_SUBREDDIT_FORMAT	@"http://www.reddit.com/r/%@/controversial.json?limit=50"
-#define TOP_SUBREDDIT_FORMAT			@"http://www.reddit.com/r/%@/top.json?sort=top&t=all&limit=50"
+#define NEW_SUBREDDIT_FORMAT			@"https://www.reddit.com/r/%@/new.json?limit=50&sort=new"
+#define CONTROVERSIAL_SUBREDDIT_FORMAT	@"https://www.reddit.com/r/%@/controversial.json?limit=50"
+#define TOP_SUBREDDIT_FORMAT			@"https://www.reddit.com/r/%@/top.json?sort=top&t=all&limit=50"
 
 #define PRODUCT_ID						@"PAID_USER"
 

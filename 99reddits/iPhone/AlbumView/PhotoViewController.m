@@ -148,7 +148,8 @@
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
-	if (!disappearForSubview) {
+    self.testindex = self.photoAlbumView.centerPageIndex;
+    if (!disappearForSubview) {
 		[super viewWillDisappear:animated];
 	}
 	

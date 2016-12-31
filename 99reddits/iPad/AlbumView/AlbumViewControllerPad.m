@@ -371,6 +371,7 @@
 		NSURL *url = [NSURL URLWithString:currentSubReddit.urlString];
 		NIProcessorHTTPRequest* albumRequest = [NIJSONKitProcessorHTTPRequest requestWithURL:url usingCache:nil];
 		albumRequest.timeOutSeconds = 30;
+        albumRequest.userAgentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 10_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B72";
 		albumRequest.delegate = self;
 		albumRequest.processorDelegate = (id)[self class];
 		[refreshQueue addOperation:albumRequest];
@@ -379,6 +380,7 @@
 		NSURL *url = [NSURL URLWithString:[currentSubReddit.urlString stringByAppendingFormat:@"&after=%@", currentSubReddit.afterString]];
 		NIProcessorHTTPRequest* albumRequest = [NIJSONKitProcessorHTTPRequest requestWithURL:url usingCache:nil];
 		albumRequest.timeOutSeconds = 30;
+        albumRequest.userAgentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 10_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B72";
 		albumRequest.delegate = self;
 		albumRequest.processorDelegate = (id)[self class];
 		[refreshQueue addOperation:albumRequest];
@@ -428,6 +430,7 @@
 			NSURL *url = [NSURL URLWithString:currentSubReddit.urlString];
 			NIProcessorHTTPRequest* albumRequest = [NIJSONKitProcessorHTTPRequest requestWithURL:url usingCache:nil];
 			albumRequest.timeOutSeconds = 30;
+            albumRequest.userAgentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 10_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B72";
 			albumRequest.delegate = self;
 			albumRequest.processorDelegate = (id)[self class];
 			[refreshQueue addOperation:albumRequest];
@@ -453,6 +456,7 @@
 		NSURL *url = [NSURL URLWithString:currentSubReddit.urlString];
 		NIProcessorHTTPRequest* albumRequest = [NIJSONKitProcessorHTTPRequest requestWithURL:url usingCache:nil];
 		albumRequest.timeOutSeconds = 30;
+        albumRequest.userAgentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 10_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B72";
 		albumRequest.delegate = self;
 		albumRequest.processorDelegate = (id)[self class];
 		[refreshQueue addOperation:albumRequest];
@@ -469,6 +473,7 @@
 		NIProcessorHTTPRequest* albumRequest = [NIJSONKitProcessorHTTPRequest requestWithURL:url usingCache:nil];
 		albumRequest.timeOutSeconds = 30;
 		albumRequest.delegate = self;
+        albumRequest.userAgentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 10_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B72";
 		albumRequest.processorDelegate = (id)[self class];
 		[refreshQueue addOperation:albumRequest];
 		
@@ -484,6 +489,7 @@
 		NIProcessorHTTPRequest* albumRequest = [NIJSONKitProcessorHTTPRequest requestWithURL:url usingCache:nil];
 		albumRequest.timeOutSeconds = 30;
 		albumRequest.delegate = self;
+        albumRequest.userAgentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 10_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B72";
 		albumRequest.processorDelegate = (id)[self class];
 		[refreshQueue addOperation:albumRequest];
 		
@@ -530,6 +536,7 @@
 			NSURL *url = [NSURL URLWithString:[currentSubReddit.urlString stringByAppendingFormat:@"&after=%@", currentSubReddit.afterString]];
 			NIProcessorHTTPRequest* albumRequest = [NIJSONKitProcessorHTTPRequest requestWithURL:url usingCache:nil];
 			albumRequest.timeOutSeconds = 30;
+            albumRequest.userAgentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 10_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B72";
 			albumRequest.delegate = self;
 			albumRequest.processorDelegate = (id)[self class];
 			[refreshQueue addOperation:albumRequest];

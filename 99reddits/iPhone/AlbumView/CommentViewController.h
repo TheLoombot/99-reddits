@@ -9,14 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface CommentViewController : UIViewController <UIWebViewDelegate, UIActionSheetDelegate> {
+  
 	NSString *urlString;
-
-	IBOutlet UIToolbar *leftItem;
-	IBOutlet UIToolbar *rightItem;
-	IBOutlet UIBarButtonItem *closeItem;
-	IBOutlet UIBarButtonItem *shareItem;
-	IBOutlet UIWebView *webView;
-
 	BOOL loading;
 }
 

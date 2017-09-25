@@ -16,6 +16,9 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *closeItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *shareItem;
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
+
+
+@property (weak, nonatomic) IBOutlet UIToolbar *bottomToolbar;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *previousBarButtonItem;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *nextBarButtonItem;
 
@@ -59,6 +62,8 @@
 	for (UIView *subview in subviews) {
 		subview.clipsToBounds = NO;
 	}
+
+  [self updatePrevNextToolbarBarButtonItem];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -109,6 +114,8 @@
 	loading = NO;
 	NINetworkActivityTaskDidFinish();
 	self.title = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+
+  [self updatePrevNextToolbarBarButtonItem];
 }
 
 //MARK - IBAction methods
@@ -125,6 +132,13 @@
   if ([self.webView canGoForward]) {
     [self.webView goForward];
   }
+}
+
+//MARK - Helper methods
+
+- (void)updatePrevNextToolbarBarButtonItem {
+  self.previousBarButtonItem.enabled = self.webView.canGoBack;
+  self.nextBarButtonItem.enabled = self.webView.canGoForward;
 }
 
 @end

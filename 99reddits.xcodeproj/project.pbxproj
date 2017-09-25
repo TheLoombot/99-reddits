@@ -211,6 +211,7 @@
 		9C6EC04D1CACC9BF00DEB36D /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC04C1CACC9BF00DEB36D /* libc++.tbd */; };
 		9C6EC04F1CACC9C700DEB36D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC04E1CACC9C700DEB36D /* libz.tbd */; };
 		9C6EC0521CACCB0A00DEB36D /* libFlurry_7.5.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC0511CACCB0A00DEB36D /* libFlurry_7.5.2.a */; };
+		FE91DCA41F789C61005F5B7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE91DCA31F789C61005F5B7F /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -551,6 +552,7 @@
 		9C6EC04E1CACC9C700DEB36D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		9C6EC0501CACCB0A00DEB36D /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
 		9C6EC0511CACCB0A00DEB36D /* libFlurry_7.5.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_7.5.2.a; sourceTree = "<group>"; };
+		FE91DCA31F789C61005F5B7F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -645,6 +647,7 @@
 		8D507FF71445923700788875 = {
 			isa = PBXGroup;
 			children = (
+				FE91DCA31F789C61005F5B7F /* Assets.xcassets */,
 				9C57D5901680201B00AB7126 /* Flurry */,
 				8D6C5D21164ACCCC008A98A7 /* Shared */,
 				8D6C5CFD164ACCCC008A98A7 /* iPhone */,
@@ -1261,6 +1264,7 @@
 				8D66C1C2164BAFA200EAC2C0 /* RedditsViewControllerPad.xib in Resources */,
 				843903571A749747007B9EFF /* ButtonNormal.png in Resources */,
 				843903511A749747007B9EFF /* about.css in Resources */,
+				FE91DCA41F789C61005F5B7F /* Assets.xcassets in Resources */,
 				843903871A749747007B9EFF /* iTunesArtwork@2x in Resources */,
 				843903651A749747007B9EFF /* CommentBlueIcon@2x.png in Resources */,
 				843903541A749747007B9EFF /* ButtonHighlighted.png in Resources */,

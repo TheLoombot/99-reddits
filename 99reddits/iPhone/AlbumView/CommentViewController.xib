@@ -11,6 +11,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CommentViewController">
             <connections>
+                <outlet property="bottomToolbar" destination="sM6-es-ESU" id="oAz-Ob-LpS"/>
                 <outlet property="closeItem" destination="6" id="Coo-O5-vYb"/>
                 <outlet property="leftItem" destination="21" id="24"/>
                 <outlet property="nextBarButtonItem" destination="9d1-ah-eUy" id="ysO-4a-P0F"/>
@@ -33,17 +34,17 @@
                         <outlet property="delegate" destination="-1" id="tG1-F0-hic"/>
                     </connections>
                 </webView>
-                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" barStyle="blackTranslucent" id="sM6-es-ESU">
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" barStyle="black" id="sM6-es-ESU" userLabel="&lt;bottomToolbar&gt;">
                     <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <items>
-                        <barButtonItem title="Item" image="previous.png" style="plain" id="UhW-gF-s7g" userLabel="&lt;previousBarButtonItem&gt;">
+                        <barButtonItem title="Item" image="previousArrow" style="plain" id="UhW-gF-s7g" userLabel="&lt;previousBarButtonItem&gt;">
                             <connections>
                                 <action selector="previousBarButtonItemTapped:" destination="-1" id="xdP-77-O44"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem style="plain" systemItem="flexibleSpace" id="aDp-Jk-8zJ"/>
-                        <barButtonItem title="Item" image="next.png" id="9d1-ah-eUy" userLabel="&lt;nextBarButtonItem&gt;">
+                        <barButtonItem title="Item" image="nextArrow" id="9d1-ah-eUy" userLabel="&lt;nextBarButtonItem&gt;">
                             <connections>
                                 <action selector="nextBarButtonItemTapped:" destination="-1" id="m3O-JR-9Wk"/>
                             </connections>
@@ -80,7 +81,7 @@
         </toolbar>
     </objects>
     <resources>
-        <image name="next.png" width="22" height="18"/>
-        <image name="previous.png" width="22" height="18"/>
+        <image name="nextArrow" width="22" height="18"/>
+        <image name="previousArrow" width="22" height="18"/>
     </resources>
 </document>

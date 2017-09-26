@@ -9,7 +9,18 @@
 #import "CommentViewController.h"
 #import "NINetworkActivity.h"
 
-@interface CommentViewController ()
+@interface CommentViewController () <UIWebViewDelegate, UIActionSheetDelegate>
+
+@property (weak, nonatomic) IBOutlet UIToolbar *leftItem;
+@property (weak, nonatomic) IBOutlet UIToolbar *rightItem;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *closeItem;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *shareItem;
+@property (weak, nonatomic) IBOutlet UIWebView *webView;
+
+
+@property (weak, nonatomic) IBOutlet UIToolbar *bottomToolbar;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *previousBarButtonItem;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *nextBarButtonItem;
 
 @end
 
@@ -27,7 +38,7 @@
 
 - (void)dealloc {
 	if (loading) {
-		[webView stopLoading];
+		[self.webView stopLoading];
 		NINetworkActivityTaskDidFinish();
 	}
 }
@@ -38,19 +49,21 @@
 	self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 	self.navigationController.navigationBar.translucent = YES;
 
-	self.navigationItem.leftBarButtonItem = closeItem;
-	self.navigationItem.rightBarButtonItem = shareItem;
+	self.navigationItem.leftBarButtonItem = self.closeItem;
+	self.navigationItem.rightBarButtonItem = self.shareItem;
 	
-	webView.opaque = NO;
-	webView.backgroundColor = [UIColor clearColor];
+	self.webView.opaque = NO;
+	self.webView.backgroundColor = [UIColor clearColor];
 
 	self.title = @"Loading...";
-	[webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
+	[self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:urlString]]];
 
-	NSArray *subviews = webView.subviews;
+	NSArray *subviews = self.webView.subviews;
 	for (UIView *subview in subviews) {
 		subview.clipsToBounds = NO;
 	}
+
+  [self updatePrevNextToolbarBarButtonItem];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -59,7 +72,7 @@
 }
 
 - (IBAction)onCloseButton:(id)sender {
-	NSArray *subviews = webView.subviews;
+	NSArray *subviews = self.webView.subviews;
 	for (UIView *subview in subviews) {
 		subview.clipsToBounds = YES;
 	}
@@ -100,7 +113,32 @@
 - (void)webViewDidFinishLoad:(UIWebView *)wv {
 	loading = NO;
 	NINetworkActivityTaskDidFinish();
-	self.title = [webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+	self.title = [self.webView stringByEvaluatingJavaScriptFromString:@"document.title"];
+
+  [self updatePrevNextToolbarBarButtonItem];
+}
+
+//MARK - IBAction methods
+
+- (IBAction)previousBarButtonItemTapped:(UIBarButtonItem *)sender {
+
+  if ([self.webView canGoBack]) {
+    [self.webView goBack];
+  }
+}
+
+- (IBAction)nextBarButtonItemTapped:(UIBarButtonItem *)sender {
+
+  if ([self.webView canGoForward]) {
+    [self.webView goForward];
+  }
+}
+
+//MARK - Helper methods
+
+- (void)updatePrevNextToolbarBarButtonItem {
+  self.previousBarButtonItem.enabled = self.webView.canGoBack;
+  self.nextBarButtonItem.enabled = self.webView.canGoForward;
 }
 
 @end

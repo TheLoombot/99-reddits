@@ -128,12 +128,6 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(productPurchaseRestoreFailed:) name:kProductPurchaseRestoreFailedNotification object:nil];
 }
 
-- (void)viewDidUnload {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
 - (BOOL)shouldAutorotate {
 	contentScrollView.contentSize = CGSizeMake(contentScrollView.frame.size.width, contentScrollView.contentSize.height);
 	return YES;

@@ -106,10 +106,6 @@
 		8D0BF517164B9EAE000EF3A8 /* MainViewControllerPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D0BF515164B9EAE000EF3A8 /* MainViewControllerPad.m */; };
 		8D0BF518164B9EAE000EF3A8 /* MainViewControllerPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D0BF516164B9EAE000EF3A8 /* MainViewControllerPad.xib */; };
 		8D0DE761176AD92B00E9F76A /* AlbumViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D0DE760176AD92A00E9F76A /* AlbumViewLayout.m */; };
-		8D2242341766CA480053868F /* Appirater.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D2242151766CA480053868F /* Appirater.m */; };
-		8D2242351766CA480053868F /* Appirater.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 8D2242161766CA480053868F /* Appirater.podspec */; };
-		8D2242361766CA480053868F /* AppiraterLocalizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8D2242181766CA480053868F /* AppiraterLocalizable.strings */; };
-		8D2242371766CA480053868F /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 8D22422C1766CA480053868F /* README.md */; };
 		8D22423F176714570053868F /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D22423D176714570053868F /* CommentViewController.m */; };
 		8D224240176714570053868F /* CommentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D22423E176714570053868F /* CommentViewController.xib */; };
 		8D22424417671A4D0053868F /* CommentViewControllerPad.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D22424217671A4D0053868F /* CommentViewControllerPad.m */; };
@@ -325,37 +321,6 @@
 		8D0BF516164B9EAE000EF3A8 /* MainViewControllerPad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewControllerPad.xib; sourceTree = "<group>"; };
 		8D0DE75F176AD92A00E9F76A /* AlbumViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumViewLayout.h; sourceTree = "<group>"; };
 		8D0DE760176AD92A00E9F76A /* AlbumViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumViewLayout.m; sourceTree = "<group>"; };
-		8D2242141766CA480053868F /* Appirater.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Appirater.h; sourceTree = "<group>"; };
-		8D2242151766CA480053868F /* Appirater.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Appirater.m; sourceTree = "<group>"; };
-		8D2242161766CA480053868F /* Appirater.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Appirater.podspec; sourceTree = "<group>"; };
-		8D2242171766CA480053868F /* AppiraterDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppiraterDelegate.h; sourceTree = "<group>"; };
-		8D2242191766CA480053868F /* ca */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ca; path = ca.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
-		8D22421A1766CA480053868F /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
-		8D22421B1766CA480053868F /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
-		8D22421C1766CA480053868F /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
-		8D22421D1766CA480053868F /* el */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = el; path = el.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
-		8D22421E1766CA480053868F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
-		8D22421F1766CA480053868F /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
-		8D2242201766CA480053868F /* fi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
-		8D2242211766CA480053868F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
-		8D2242221766CA480053868F /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
-		8D2242231766CA480053868F /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
-		8D2242241766CA480053868F /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
-		8D2242251766CA480053868F /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
-		8D2242261766CA480053868F /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
-		8D2242271766CA480053868F /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
-		8D2242281766CA480053868F /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
-		8D2242291766CA480053868F /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
-		8D22422A1766CA480053868F /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
-		8D22422B1766CA480053868F /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
-		8D22422C1766CA480053868F /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README.md; sourceTree = "<group>"; };
-		8D22422D1766CA480053868F /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
-		8D22422E1766CA480053868F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
-		8D22422F1766CA480053868F /* sk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sk; path = sk.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
-		8D2242301766CA480053868F /* sv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = sv; path = sv.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
-		8D2242311766CA480053868F /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/AppiraterLocalizable.strings; sourceTree = "<group>"; };
-		8D2242321766CA480053868F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/AppiraterLocalizable.strings"; sourceTree = "<group>"; };
-		8D2242331766CA480053868F /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/AppiraterLocalizable.strings"; sourceTree = "<group>"; };
 		8D22423C176714570053868F /* CommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentViewController.h; sourceTree = "<group>"; };
 		8D22423D176714570053868F /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentViewController.m; sourceTree = "<group>"; };
 		8D22423E176714570053868F /* CommentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentViewController.xib; sourceTree = "<group>"; };
@@ -620,20 +585,6 @@
 			path = MainView;
 			sourceTree = "<group>";
 		};
-		8D2242131766CA480053868F /* Appirater */ = {
-			isa = PBXGroup;
-			children = (
-				8D2242141766CA480053868F /* Appirater.h */,
-				8D2242151766CA480053868F /* Appirater.m */,
-				8D2242161766CA480053868F /* Appirater.podspec */,
-				8D2242171766CA480053868F /* AppiraterDelegate.h */,
-				8D2242181766CA480053868F /* AppiraterLocalizable.strings */,
-				8D22422C1766CA480053868F /* README.md */,
-			);
-			name = Appirater;
-			path = 99reddits/Appirater;
-			sourceTree = "<group>";
-		};
 		8D24A76814F888F7001CC042 /* JSONKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -652,7 +603,6 @@
 				8D6C5D21164ACCCC008A98A7 /* Shared */,
 				8D6C5CFD164ACCCC008A98A7 /* iPhone */,
 				8D6C5D45164ACD24008A98A7 /* iPad */,
-				8D2242131766CA480053868F /* Appirater */,
 				8D68FD7214F8909000CDCF66 /* Nimbus */,
 				8D68FD4114F88DCB00CDCF66 /* ASIHTTPRequest */,
 				8D24A76814F888F7001CC042 /* JSONKit */,
@@ -1295,11 +1245,8 @@
 				8439035F1A749747007B9EFF /* CheckBlueIcon@3x.png in Resources */,
 				8439035E1A749747007B9EFF /* CheckBlueIcon@2x.png in Resources */,
 				8439039E1A749747007B9EFF /* Transparent.png in Resources */,
-				8D2242351766CA480053868F /* Appirater.podspec in Resources */,
 				843903931A749747007B9EFF /* SettingsIcon@2x.png in Resources */,
 				843903681A749747007B9EFF /* ControversialIcon@2x.png in Resources */,
-				8D2242361766CA480053868F /* AppiraterLocalizable.strings in Resources */,
-				8D2242371766CA480053868F /* README.md in Resources */,
 				8439037F1A749747007B9EFF /* FavoritesRedIcon@3x.png in Resources */,
 				843903A71A749CC5007B9EFF /* NimbusPhotos.bundle in Resources */,
 				8439037C1A749747007B9EFF /* FavoritesIconPad@2x.png in Resources */,
@@ -1411,7 +1358,6 @@
 				8D060A9A16AD385B00AED06E /* CustomCollectionView.m in Sources */,
 				8D060AAD16AD525A00AED06E /* MainViewLayoutPad.m in Sources */,
 				8D060AB016AD528A00AED06E /* MainViewLayoutAttributesPad.m in Sources */,
-				8D2242341766CA480053868F /* Appirater.m in Sources */,
 				8D22423F176714570053868F /* CommentViewController.m in Sources */,
 				84EB13081A762D78006A39B5 /* FLAnimatedImage.m in Sources */,
 				8D22424417671A4D0053868F /* CommentViewControllerPad.m in Sources */,
@@ -1423,39 +1369,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		8D2242181766CA480053868F /* AppiraterLocalizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8D2242191766CA480053868F /* ca */,
-				8D22421A1766CA480053868F /* cs */,
-				8D22421B1766CA480053868F /* da */,
-				8D22421C1766CA480053868F /* de */,
-				8D22421D1766CA480053868F /* el */,
-				8D22421E1766CA480053868F /* en */,
-				8D22421F1766CA480053868F /* es */,
-				8D2242201766CA480053868F /* fi */,
-				8D2242211766CA480053868F /* fr */,
-				8D2242221766CA480053868F /* he */,
-				8D2242231766CA480053868F /* hu */,
-				8D2242241766CA480053868F /* id */,
-				8D2242251766CA480053868F /* it */,
-				8D2242261766CA480053868F /* ja */,
-				8D2242271766CA480053868F /* ko */,
-				8D2242281766CA480053868F /* nb */,
-				8D2242291766CA480053868F /* nl */,
-				8D22422A1766CA480053868F /* pl */,
-				8D22422B1766CA480053868F /* pt */,
-				8D22422D1766CA480053868F /* ro */,
-				8D22422E1766CA480053868F /* ru */,
-				8D22422F1766CA480053868F /* sk */,
-				8D2242301766CA480053868F /* sv */,
-				8D2242311766CA480053868F /* tr */,
-				8D2242321766CA480053868F /* zh-Hans */,
-				8D2242331766CA480053868F /* zh-Hant */,
-			);
-			name = AppiraterLocalizable.strings;
-			sourceTree = "<group>";
-		};
 		8D50800F1445923700788875 /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (

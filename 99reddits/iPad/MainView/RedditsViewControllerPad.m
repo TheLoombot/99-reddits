@@ -77,7 +77,6 @@
 }
 
 - (IBAction)onDoneButton:(id)sender {
-	BOOL bChanged = NO;
 
 	NSInteger lastAddedIndex = -1;
 	
@@ -95,8 +94,6 @@
 		if (!bExist) {
 			[mainViewController removeSubRedditOperations:subReddit];
 			[appDelegate.subRedditsArray removeObject:subReddit];
-
-			bChanged = YES;
 		}
 	}
 	
@@ -137,14 +134,8 @@
 				[mainViewController addSubReddit:subReddit];
 
 				lastAddedIndex = appDelegate.subRedditsArray.count - 1;
-
-				bChanged = YES;
 			}
 		}
-	}
-
-	if (bChanged) {
-		[Appirater userDidSignificantEvent:YES];
 	}
 
 	mainViewController.lastAddedIndex = lastAddedIndex;

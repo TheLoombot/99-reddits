@@ -9,11 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "SubRedditItem.h"
 #import "PhotoItem.h"
-#import "Appirater.h"
 
 @class MainViewController;
 
-@interface RedditsAppDelegate : NSObject <UIApplicationDelegate, AppiraterDelegate> {
+@interface RedditsAppDelegate : NSObject <UIApplicationDelegate> {
 	IBOutlet UINavigationController *mainNavigationController;
 
 	NSMutableArray *subRedditsArray;

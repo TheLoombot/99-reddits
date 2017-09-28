@@ -75,16 +75,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 	self.window.rootViewController = mainNavigationController;
 	[self.window makeKeyAndVisible];
 
-	[Appirater setAppId:@"474846610"];
-	[Appirater setDaysUntilPrompt:2];
-	[Appirater setUsesUntilPrompt:5];
-	[Appirater setSignificantEventsUntilPrompt:3];
-	[Appirater setTimeBeforeReminding:7];
-	[Appirater setDebug:NO];
-	[Appirater appLaunched:NO];
-    [Appirater setOpenInAppStore:YES];
-
-    return YES;
+  return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -95,7 +86,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-	[Appirater appEnteredForeground:NO];
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {

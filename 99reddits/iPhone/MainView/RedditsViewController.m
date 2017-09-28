@@ -62,12 +62,6 @@
 	}
 }
 
-- (void)viewDidUnload {
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
-}
-
 - (BOOL)shouldAutorotate {
 	return YES;
 }
@@ -81,7 +75,6 @@
 }
 
 - (IBAction)onDoneButton:(id)sender {
-	BOOL bChanged = NO;
 
 	NSInteger lastAddedIndex = -1;
 
@@ -99,8 +92,6 @@
 		if (!bExist) {
 			[mainViewController removeSubRedditOperations:subReddit];
 			[appDelegate.subRedditsArray removeObject:subReddit];
-
-			bChanged = YES;
 		}
 	}
 	
@@ -141,14 +132,8 @@
 				[mainViewController addSubReddit:subReddit];
 
 				lastAddedIndex = appDelegate.subRedditsArray.count - 1;
-
-				bChanged = YES;
 			}
 		}
-	}
-
-	if (bChanged) {
-		[Appirater userDidSignificantEvent:YES];
 	}
 	
 	[appDelegate refreshNameStringsSet];

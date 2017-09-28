@@ -62,6 +62,8 @@
 	<string>MainWindow</string>
 	<key>NSMainNibFile~ipad</key>
 	<string>MainWindowPad</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This allows you to save photos.</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UIRequiresFullScreen</key>
@@ -83,7 +85,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This allows you to save photos.</string>
 </dict>
 </plist>

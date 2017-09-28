@@ -12,7 +12,6 @@
 #import "ASIDownloadCache.h"
 #import "ReviewManager.h"
 #import <Social/Social.h>
-#import <StoreKit/SKStoreReviewController.h>
 
 @interface SettingsViewController ()
 

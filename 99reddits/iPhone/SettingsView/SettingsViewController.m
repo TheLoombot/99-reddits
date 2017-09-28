@@ -10,7 +10,9 @@
 #import "UserDef.h"
 #import <Accounts/Accounts.h>
 #import "ASIDownloadCache.h"
+#import "ReviewManager.h"
 #import <Social/Social.h>
+#import <StoreKit/SKStoreReviewController.h>
 
 @interface SettingsViewController ()
 
@@ -186,17 +188,17 @@
 }
 
 - (BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType {
-	if (navigationType == UIWebViewNavigationTypeLinkClicked) {
-		if ([[[request URL] absoluteString] isEqualToString:@"itms-apps://itunes.com/apps/lensie/99reddits"]) {
-			//[Appirater rateApp];
-		}
-		else {
-			[[UIApplication sharedApplication] openURL:[request URL]];
-		}
-		return NO;
-	}
-	
-	return YES;
+
+  if (navigationType != UIWebViewNavigationTypeLinkClicked) {
+    return YES;
+  }
+
+  if ([[[request URL] absoluteString] isEqualToString:SettingsAppStoreURLString]) {
+    [ReviewManager linkToAppStoreReviewPage];
+    return NO;
+  }
+
+  return YES;
 }
 
 - (IBAction)onUpgradeForMOARButton:(id)sender {
@@ -361,7 +363,7 @@
 }
 
 - (IBAction)onRateAppButton:(id)sender {
-	//[Appirater rateApp];
+  [ReviewManager linkToAppStoreReviewPage];
 }
 
 // MFMailComposeViewControllerDelegate

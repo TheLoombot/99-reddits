@@ -207,6 +207,7 @@
 		9C6EC04D1CACC9BF00DEB36D /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC04C1CACC9BF00DEB36D /* libc++.tbd */; };
 		9C6EC04F1CACC9C700DEB36D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC04E1CACC9C700DEB36D /* libz.tbd */; };
 		9C6EC0521CACCB0A00DEB36D /* libFlurry_7.5.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC0511CACCB0A00DEB36D /* libFlurry_7.5.2.a */; };
+		FE4738771F7CA0C300EC4828 /* ReviewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4738761F7CA0C300EC4828 /* ReviewManager.m */; };
 		FE91DCA41F789C61005F5B7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE91DCA31F789C61005F5B7F /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -517,6 +518,8 @@
 		9C6EC04E1CACC9C700DEB36D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		9C6EC0501CACCB0A00DEB36D /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
 		9C6EC0511CACCB0A00DEB36D /* libFlurry_7.5.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_7.5.2.a; sourceTree = "<group>"; };
+		FE4738751F7CA0C300EC4828 /* ReviewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReviewManager.h; sourceTree = "<group>"; };
+		FE4738761F7CA0C300EC4828 /* ReviewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReviewManager.m; sourceTree = "<group>"; };
 		FE91DCA31F789C61005F5B7F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1045,6 +1048,8 @@
 				847D5F721A7A3C9F00173A01 /* URLProvider.m */,
 				8D6C5D2A164ACCCC008A98A7 /* UserDef.h */,
 				8D6C5D2B164ACCCC008A98A7 /* UserDef.m */,
+				FE4738751F7CA0C300EC4828 /* ReviewManager.h */,
+				FE4738761F7CA0C300EC4828 /* ReviewManager.m */,
 			);
 			name = Shared;
 			path = 99reddits/Shared;
@@ -1103,7 +1108,8 @@
 				ORGANIZATIONNAME = "99 reddits";
 				TargetAttributes = {
 					8D5080011445923700788875 = {
-						DevelopmentTeam = Z5S4TLR4D3;
+						DevelopmentTeam = PL8BQ59YE2;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -1324,6 +1330,7 @@
 				8D68FDDF14F8909000CDCF66 /* NIPageView.m in Sources */,
 				8D68FDE014F8909000CDCF66 /* NIPagingScrollView.m in Sources */,
 				8D68FDE214F8909000CDCF66 /* NIPhotoAlbumScrollView.m in Sources */,
+				FE4738771F7CA0C300EC4828 /* ReviewManager.m in Sources */,
 				8D68FDE314F8909000CDCF66 /* NIPhotoScrollView.m in Sources */,
 				8D68FDE414F8909000CDCF66 /* NIPhotoScrubberView.m in Sources */,
 				8D68FDE514F8909000CDCF66 /* NIToolbarPhotoViewController.m in Sources */,
@@ -1478,9 +1485,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = Z5S4TLR4D3;
+				DEVELOPMENT_TEAM = PL8BQ59YE2;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
@@ -1489,13 +1497,16 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "99reddits/99reddits-Prefix.pch";
 				INFOPLIST_FILE = "99reddits/99reddits-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/99reddits/Flurry\"",
 					"$(PROJECT_DIR)/99reddits/Flurry",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.lensie.99reddits;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.lensie-custom.99reddits";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1505,9 +1516,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = Z5S4TLR4D3;
+				DEVELOPMENT_TEAM = PL8BQ59YE2;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
@@ -1516,13 +1528,15 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "99reddits/99reddits-Prefix.pch";
 				INFOPLIST_FILE = "99reddits/99reddits-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/99reddits/Flurry\"",
 					"$(PROJECT_DIR)/99reddits/Flurry",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.lensie.99reddits;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.lensie-custom.99reddits";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

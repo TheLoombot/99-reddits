@@ -83,9 +83,6 @@
 		843903A01A749747007B9EFF /* UncheckIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439034B1A749747007B9EFF /* UncheckIcon.png */; };
 		843903A11A749747007B9EFF /* UncheckIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439034C1A749747007B9EFF /* UncheckIcon@2x.png */; };
 		843903A21A749747007B9EFF /* UncheckIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439034D1A749747007B9EFF /* UncheckIcon@3x.png */; };
-		843903A31A749747007B9EFF /* UpgradeButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439034E1A749747007B9EFF /* UpgradeButton.png */; };
-		843903A41A749747007B9EFF /* UpgradeButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439034F1A749747007B9EFF /* UpgradeButton@2x.png */; };
-		843903A51A749747007B9EFF /* UpgradeButton@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 843903501A749747007B9EFF /* UpgradeButton@3x.png */; };
 		843903A71A749CC5007B9EFF /* NimbusPhotos.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 843903A61A749CC5007B9EFF /* NimbusPhotos.bundle */; };
 		846C65741A7201C50071664B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 846C65731A7201C50071664B /* Images.xcassets */; };
 		847D5F6C1A7A1FEA00173A01 /* MaximizePad.png in Resources */ = {isa = PBXBuildFile; fileRef = 847D5F6A1A7A1FEA00173A01 /* MaximizePad.png */; };
@@ -287,9 +284,6 @@
 		8439034B1A749747007B9EFF /* UncheckIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UncheckIcon.png; sourceTree = "<group>"; };
 		8439034C1A749747007B9EFF /* UncheckIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UncheckIcon@2x.png"; sourceTree = "<group>"; };
 		8439034D1A749747007B9EFF /* UncheckIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UncheckIcon@3x.png"; sourceTree = "<group>"; };
-		8439034E1A749747007B9EFF /* UpgradeButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UpgradeButton.png; sourceTree = "<group>"; };
-		8439034F1A749747007B9EFF /* UpgradeButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UpgradeButton@2x.png"; sourceTree = "<group>"; };
-		843903501A749747007B9EFF /* UpgradeButton@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UpgradeButton@3x.png"; sourceTree = "<group>"; };
 		843903A61A749CC5007B9EFF /* NimbusPhotos.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NimbusPhotos.bundle; sourceTree = "<group>"; };
 		846C65731A7201C50071664B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = 99reddits/Resources/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		847D5F6A1A7A1FEA00173A01 /* MaximizePad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MaximizePad.png; sourceTree = "<group>"; };
@@ -745,9 +739,6 @@
 				8439034B1A749747007B9EFF /* UncheckIcon.png */,
 				8439034C1A749747007B9EFF /* UncheckIcon@2x.png */,
 				8439034D1A749747007B9EFF /* UncheckIcon@3x.png */,
-				8439034E1A749747007B9EFF /* UpgradeButton.png */,
-				8439034F1A749747007B9EFF /* UpgradeButton@2x.png */,
-				843903501A749747007B9EFF /* UpgradeButton@3x.png */,
 			);
 			name = Resources;
 			path = 99reddits/Resources;
@@ -1210,8 +1201,6 @@
 				8439037D1A749747007B9EFF /* FavoritesRedIcon.png in Resources */,
 				84B9DFF11A7928E800EA3CF0 /* Maximize@2x.png in Resources */,
 				8D66C1BA164BAF4900EAC2C0 /* AlbumViewControllerPad.xib in Resources */,
-				843903A51A749747007B9EFF /* UpgradeButton@3x.png in Resources */,
-				843903A31A749747007B9EFF /* UpgradeButton.png in Resources */,
 				8D66C1C2164BAFA200EAC2C0 /* RedditsViewControllerPad.xib in Resources */,
 				843903571A749747007B9EFF /* ButtonNormal.png in Resources */,
 				843903511A749747007B9EFF /* about.css in Resources */,
@@ -1241,7 +1230,6 @@
 				843903691A749747007B9EFF /* ControversialIcon@3x.png in Resources */,
 				843903531A749747007B9EFF /* about.jpg in Resources */,
 				8439037E1A749747007B9EFF /* FavoritesRedIcon@2x.png in Resources */,
-				843903A41A749747007B9EFF /* UpgradeButton@2x.png in Resources */,
 				8439035C1A749747007B9EFF /* ButtonOverlay@3x.png in Resources */,
 				8439035F1A749747007B9EFF /* CheckBlueIcon@3x.png in Resources */,
 				8439035E1A749747007B9EFF /* CheckBlueIcon@2x.png in Resources */,

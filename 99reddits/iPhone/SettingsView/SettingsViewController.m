@@ -165,16 +165,6 @@
   return YES;
 }
 
-- (IBAction)onUpgradeForMOARButton:(id)sender {
-  //https://github.com/TheLoombot/99-reddits/issues/33
-  //TODO: remove button when removing settings screen
-}
-
-- (IBAction)onRestoreUpgradeButton:(id)sender {
-  //https://github.com/TheLoombot/99-reddits/issues/33
-  //TODO: remove button when removing settings screen
-}
-
 - (void)dismissHUD:(id)arg {
 	[MBProgressHUD hideHUDForView:self.view animated:YES];
 	hud = nil;

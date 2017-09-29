@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
-#import "PurchaseManager.h"
 #import <MessageUI/MFMailComposeViewController.h>
 
 @interface SettingsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIWebViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate> {

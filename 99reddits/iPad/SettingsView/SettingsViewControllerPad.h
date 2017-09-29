@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
-#import "PurchaseManager.h"
 #import <MessageUI/MFMailComposeViewController.h>
 #import "PopoverController.h"
 

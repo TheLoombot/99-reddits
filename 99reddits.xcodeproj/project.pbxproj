@@ -188,7 +188,6 @@
 		8D6C5D3F164ACCCC008A98A7 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D6C5D20164ACCCC008A98A7 /* SettingsViewController.xib */; };
 		8D6C5D40164ACCCC008A98A7 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D23164ACCCC008A98A7 /* MBProgressHUD.m */; };
 		8D6C5D41164ACCCC008A98A7 /* PhotoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D25164ACCCC008A98A7 /* PhotoItem.m */; };
-		8D6C5D42164ACCCC008A98A7 /* PurchaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D27164ACCCC008A98A7 /* PurchaseManager.m */; };
 		8D6C5D43164ACCCC008A98A7 /* SubRedditItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D29164ACCCC008A98A7 /* SubRedditItem.m */; };
 		8D6C5D44164ACCCC008A98A7 /* UserDef.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D2B164ACCCC008A98A7 /* UserDef.m */; };
 		8D6C5D4A164ACE0E008A98A7 /* MainWindowPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D6C5D49164ACE0E008A98A7 /* MainWindowPad.xib */; };
@@ -490,8 +489,6 @@
 		8D6C5D23164ACCCC008A98A7 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		8D6C5D24164ACCCC008A98A7 /* PhotoItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoItem.h; sourceTree = "<group>"; };
 		8D6C5D25164ACCCC008A98A7 /* PhotoItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoItem.m; sourceTree = "<group>"; };
-		8D6C5D26164ACCCC008A98A7 /* PurchaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseManager.h; sourceTree = "<group>"; };
-		8D6C5D27164ACCCC008A98A7 /* PurchaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseManager.m; sourceTree = "<group>"; };
 		8D6C5D28164ACCCC008A98A7 /* SubRedditItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubRedditItem.h; sourceTree = "<group>"; };
 		8D6C5D29164ACCCC008A98A7 /* SubRedditItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubRedditItem.m; sourceTree = "<group>"; };
 		8D6C5D2A164ACCCC008A98A7 /* UserDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDef.h; sourceTree = "<group>"; };
@@ -1034,8 +1031,6 @@
 				8D6C5D23164ACCCC008A98A7 /* MBProgressHUD.m */,
 				8D59A7E81676229500739E26 /* PopoverController.h */,
 				8D59A7E91676229500739E26 /* PopoverController.m */,
-				8D6C5D26164ACCCC008A98A7 /* PurchaseManager.h */,
-				8D6C5D27164ACCCC008A98A7 /* PurchaseManager.m */,
 				8D6C5D24164ACCCC008A98A7 /* PhotoItem.h */,
 				8D6C5D25164ACCCC008A98A7 /* PhotoItem.m */,
 				8D6C5D28164ACCCC008A98A7 /* SubRedditItem.h */,
@@ -1347,7 +1342,6 @@
 				8D6C5D3E164ACCCC008A98A7 /* SettingsViewController.m in Sources */,
 				8D6C5D40164ACCCC008A98A7 /* MBProgressHUD.m in Sources */,
 				8D6C5D41164ACCCC008A98A7 /* PhotoItem.m in Sources */,
-				8D6C5D42164ACCCC008A98A7 /* PurchaseManager.m in Sources */,
 				8D6C5D43164ACCCC008A98A7 /* SubRedditItem.m in Sources */,
 				847D5F701A7A345100173A01 /* TitleProvider.m in Sources */,
 				8D6C5D44164ACCCC008A98A7 /* UserDef.m in Sources */,

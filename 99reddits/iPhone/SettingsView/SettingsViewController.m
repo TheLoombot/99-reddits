@@ -37,22 +37,6 @@
     return self;
 }
 
-- (void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:kProductsLoadedNotification object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:kProductPurchasedNotification object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:kProductPurchaseFailedNotification object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:kProductPurchaseRestoreFinishedNotification object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:kProductPurchaseRestoreFailedNotification object:nil];
-	
-}
-
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
-}
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad {
@@ -109,12 +93,6 @@
 	contentTableView.backgroundView = nil;
 	
 	[self refreshViews];
-
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(productsLoaded:) name:kProductsLoadedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(productPurchased:) name:kProductPurchasedNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector: @selector(productPurchaseFailed:) name:kProductPurchaseFailedNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(productPurchaseRestoreFinished:) name:kProductPurchaseRestoreFinishedNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(productPurchaseRestoreFailed:) name:kProductPurchaseRestoreFailedNotification object:nil];
 }
 
 - (BOOL)shouldAutorotate {
@@ -192,95 +170,18 @@
 }
 
 - (IBAction)onUpgradeForMOARButton:(id)sender {
-	[PurchaseManager sharedManager].delegate = self;
-	[PurchaseManager sharedManager].productIdentifiers = [NSSet setWithObject:PRODUCT_ID];
-	[[PurchaseManager sharedManager] requestProducts];
-	
-	hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-	hud.labelText = @"Loading ...";
-	[self performSelector:@selector(timeout:) withObject:nil afterDelay:300];
+  //https://github.com/TheLoombot/99-reddits/issues/33
+  //TODO: remove button when removing settings screen
 }
 
 - (IBAction)onRestoreUpgradeButton:(id)sender {
-	[PurchaseManager sharedManager].delegate = self;
-	[[PurchaseManager sharedManager] restorePurchases];
-	
-	hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-	hud.labelText = @"Restoring ...";
-	[self performSelector:@selector(timeout:) withObject:nil afterDelay:300];
+  //https://github.com/TheLoombot/99-reddits/issues/33
+  //TODO: remove button when removing settings screen
 }
 
 - (void)dismissHUD:(id)arg {
 	[MBProgressHUD hideHUDForView:self.view animated:YES];
 	hud = nil;
-}
-
-- (void)timeout:(id)arg {
-	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Timeout" message:@"Please try again later" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-	[alertView show];
-	
-	[PurchaseManager sharedManager].delegate = nil;
-	
-	[self performSelector:@selector(dismissHUD:) withObject:nil afterDelay:0.01];
-}
-
-- (void)productsLoaded:(NSNotification *)notification {
-	[NSObject cancelPreviousPerformRequestsWithTarget:self];
-	[MBProgressHUD hideHUDForView:self.view animated:YES];
-	
-	if ([PurchaseManager sharedManager].products.count > 0) {
-		SKProduct *product = [[PurchaseManager sharedManager].products objectAtIndex:0];
-		[[PurchaseManager sharedManager] buyProduct:product];
-		
-		hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-		hud.labelText = @"Buying ...";
-		[self performSelector:@selector(timeout:) withObject:nil afterDelay:300];
-	}
-	else {
-		[PurchaseManager sharedManager].delegate = nil;
-	}
-}
-
-- (void)productPurchased:(NSNotification *)notification {
-	[NSObject cancelPreviousPerformRequestsWithTarget:self];
-	[MBProgressHUD hideHUDForView:self.view animated:YES];
-	[PurchaseManager sharedManager].delegate = nil;
-	
-	[self refreshViews];
-}
-
-- (void)productPurchaseFailed:(NSNotification *)notification {
-	[NSObject cancelPreviousPerformRequestsWithTarget:self];
-	[MBProgressHUD hideHUDForView:self.view animated:YES];
-	[PurchaseManager sharedManager].delegate = nil;
-
-    SKPaymentTransaction *transaction = (SKPaymentTransaction *)notification.object;
-    if (transaction.error.code != SKErrorPaymentCancelled) {    
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:transaction.error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-		[alertView show];
-    }
-}
-
-- (void)productPurchaseRestoreFinished:(NSNotification *)notification {
-	[NSObject cancelPreviousPerformRequestsWithTarget:self];
-	[MBProgressHUD hideHUDForView:self.view animated:YES];
-	[PurchaseManager sharedManager].delegate = nil;
-	
-	[self refreshViews];
-}
-
-- (void)productPurchaseRestoreFailed:(NSNotification *)notification {
-	[NSObject cancelPreviousPerformRequestsWithTarget:self];
-	[MBProgressHUD hideHUDForView:self.view animated:YES];
-	[PurchaseManager sharedManager].delegate = nil;
-	
-	[self refreshViews];
-	
-	NSError *error = (NSError *)notification.object;
-	if (error.code != SKErrorPaymentCancelled) {
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[(NSError *)notification.object localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-		[alertView show];
-	}
 }
 
 - (void)refreshViews {

@@ -25,8 +25,6 @@
 	
 	SubRedditItem *favoritesItem;
 	NSMutableSet *favoritesSet;
-	
-	BOOL isPaid;
 
 	NSMutableSet *fullImagesSet;
 }
@@ -37,7 +35,6 @@
 @property (nonatomic) BOOL firstRun;
 @property (nonatomic, readonly) NSMutableSet *showedSet;
 @property (nonatomic, readonly) SubRedditItem *favoritesItem;
-@property (nonatomic) BOOL isPaid;
 
 + (NSString *)getImageURL:(NSString *)urlString;
 + (NSString *)stringByRemoveHTML:(NSString *)string;

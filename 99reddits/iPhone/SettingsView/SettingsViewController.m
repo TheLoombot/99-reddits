@@ -151,10 +151,7 @@
 	if (row == 0) {
 		cell.textLabel.text = @"Version";
 		cell.detailTextLabel.textColor = [UIColor colorWithRed:80 / 255.0 green:114 / 255.0 blue:160 / 255.0 alpha:1.0];
-		if (appDelegate.isPaid)
-			cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ MOAR",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
-		else
-			cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ FREE",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ MOAR",[[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 	}
 	else if (row == 1) {
 		cell.textLabel.text = @"Images Seen";
@@ -249,11 +246,6 @@
 	[MBProgressHUD hideHUDForView:self.view animated:YES];
 	[PurchaseManager sharedManager].delegate = nil;
 	
-	NSString *productId = (NSString *)notification.object;
-	if ([productId isEqualToString:PRODUCT_ID]) {
-		appDelegate.isPaid = YES;
-	}
-	
 	[self refreshViews];
 }
 
@@ -303,24 +295,14 @@
 	emailButton.frame = CGRectMake(10, height + 354, screenWidth - 20, 45);
 	tweetButton.frame = CGRectMake(10, height + 409, screenWidth - 20, 45);
 	rateAppButton.frame = CGRectMake(10, height + 464, screenWidth - 20, 45);
-	
-	if (appDelegate.isPaid) {
-		[buttonsView removeFromSuperview];
-		CGRect frame = aboutView.frame;
-		frame.origin.y = 0;
-		frame.size.height = height + 509;
-		aboutView.frame = frame;
-		
-		contentScrollView.contentSize = CGSizeMake(screenWidth, rateAppButton.frame.origin.y + rateAppButton.frame.size.height + 10);
-	}
-	else {
-		CGRect frame = aboutView.frame;
-		frame.origin.y = 171;
-		frame.size.height = height + 509;
-		aboutView.frame = frame;
-		
-		contentScrollView.contentSize = CGSizeMake(screenWidth, rateAppButton.frame.origin.y + rateAppButton.frame.size.height + 181);
-	}
+
+  [buttonsView removeFromSuperview];
+  CGRect aboutFrame = aboutView.frame;
+  aboutFrame.origin.y = 0;
+  aboutFrame.size.height = height + 509;
+  aboutView.frame = aboutFrame;
+
+  contentScrollView.contentSize = CGSizeMake(screenWidth, rateAppButton.frame.origin.y + rateAppButton.frame.size.height + 10);
 	
 	[contentTableView reloadData];
 }

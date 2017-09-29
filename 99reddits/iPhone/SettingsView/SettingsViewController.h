@@ -13,9 +13,6 @@
 @interface SettingsViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIWebViewDelegate, MFMailComposeViewControllerDelegate, UIActionSheetDelegate> {
 	IBOutlet UIBarButtonItem *doneButton;
 	IBOutlet UIScrollView *contentScrollView;
-	IBOutlet UIView *buttonsView;
-	IBOutlet UIButton *upgradeForMOARButton;
-	IBOutlet UIButton *restoreUpdateButton;
 	IBOutlet UIView *aboutView;
 	IBOutlet UIButton *clearButton;
 	IBOutlet UITableView *contentTableView;

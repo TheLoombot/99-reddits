@@ -16,8 +16,6 @@
 @interface SettingsViewController ()
 
 - (IBAction)onDoneButton:(id)sender;
-- (IBAction)onUpgradeForMOARButton:(id)sender;
-- (IBAction)onRestoreUpgradeButton:(id)sender;
 - (IBAction)onClearButton:(id)sender;
 - (IBAction)onEmailButton:(id)sender;
 - (IBAction)onTweetButton:(id)sender;
@@ -49,8 +47,6 @@
 	
 	self.view.backgroundColor = [UIColor colorWithRed:239 / 255.0 green:239 / 255.0 blue:244 / 255.0 alpha:1.0];
 
-	[upgradeForMOARButton setBackgroundImage:[[UIImage imageNamed:@"UpgradeButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
-	[restoreUpdateButton setBackgroundImage:[[UIImage imageNamed:@"UpgradeButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
 	[clearButton setBackgroundImage:[[UIImage imageNamed:@"ClearButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
     
 	aboutWebView.frame = CGRectMake(20, 335, screenWidth - 40, 100);
@@ -197,7 +193,6 @@
 	tweetButton.frame = CGRectMake(10, height + 409, screenWidth - 20, 45);
 	rateAppButton.frame = CGRectMake(10, height + 464, screenWidth - 20, 45);
 
-  [buttonsView removeFromSuperview];
   CGRect aboutFrame = aboutView.frame;
   aboutFrame.origin.y = 0;
   aboutFrame.size.height = height + 509;

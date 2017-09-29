@@ -16,8 +16,6 @@
 
 @interface SettingsViewControllerPad ()
 
-- (IBAction)onUpgradeForMOARButton:(id)sender;
-- (IBAction)onRestoreUpgradeButton:(id)sender;
 - (IBAction)onClearButton:(id)sender;
 - (IBAction)onEmailButton:(id)sender;
 - (IBAction)onTweetButton:(id)sender;
@@ -56,9 +54,7 @@
 			((UIScrollView *)subview).bounces = NO;
 
 	self.view.backgroundColor = [UIColor colorWithRed:239 / 255.0 green:239 / 255.0 blue:244 / 255.0 alpha:1.0];
-	
-	[upgradeForMOARButton setBackgroundImage:[[UIImage imageNamed:@"UpgradeButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
-	[restoreUpdateButton setBackgroundImage:[[UIImage imageNamed:@"UpgradeButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
+
 	[clearButton setBackgroundImage:[[UIImage imageNamed:@"ClearButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
 
     NSInteger width = self.view.bounds.size.width;
@@ -178,16 +174,6 @@
   return YES;
 }
 
-- (IBAction)onUpgradeForMOARButton:(id)sender {
-  //https://github.com/TheLoombot/99-reddits/issues/33
-  //TODO: remove button when removing settings screen
-}
-
-- (IBAction)onRestoreUpgradeButton:(id)sender {
-  //https://github.com/TheLoombot/99-reddits/issues/33
-  //TODO: remove button when removing settings screen
-}
-
 - (void)dismissHUD:(id)arg {
 	[MBProgressHUD hideHUDForView:self.view animated:YES];
 	hud = nil;
@@ -208,7 +194,6 @@
 	tweetButton.frame = CGRectMake((width - 480) / 2, height + 409, 480, 45);
 	rateAppButton.frame = CGRectMake((width - 480) / 2, height + 464, 480, 45);
 
-  [buttonsView removeFromSuperview];
   CGRect aboutFrame = aboutView.frame;
   aboutFrame.origin.y = 20;
   aboutFrame.size.height = height + 529;

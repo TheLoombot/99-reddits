@@ -18,6 +18,4 @@
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, assign, getter=isInsideFavoriesAlbum) BOOL insideFavoritesAlbum;
 
-- (void)setThumbImage:(UIImage *)thumbImage animated:(BOOL)animated;
-
 @end

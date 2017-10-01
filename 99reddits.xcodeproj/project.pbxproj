@@ -35,9 +35,6 @@
 		8439036A1A749747007B9EFF /* DefaultAlbumIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 843903151A749747007B9EFF /* DefaultAlbumIcon.png */; };
 		8439036B1A749747007B9EFF /* DefaultAlbumIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 843903161A749747007B9EFF /* DefaultAlbumIcon@2x.png */; };
 		8439036C1A749747007B9EFF /* DefaultAlbumIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 843903171A749747007B9EFF /* DefaultAlbumIcon@3x.png */; };
-		8439036D1A749747007B9EFF /* DefaultPhoto.png in Resources */ = {isa = PBXBuildFile; fileRef = 843903181A749747007B9EFF /* DefaultPhoto.png */; };
-		8439036E1A749747007B9EFF /* DefaultPhoto@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 843903191A749747007B9EFF /* DefaultPhoto@2x.png */; };
-		8439036F1A749747007B9EFF /* DefaultPhoto@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439031A1A749747007B9EFF /* DefaultPhoto@3x.png */; };
 		843903701A749747007B9EFF /* DefaultPhotoLarge.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439031B1A749747007B9EFF /* DefaultPhotoLarge.png */; };
 		843903711A749747007B9EFF /* DeleteButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439031C1A749747007B9EFF /* DeleteButton.png */; };
 		843903721A749747007B9EFF /* DeleteButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439031D1A749747007B9EFF /* DeleteButton@2x.png */; };
@@ -240,9 +237,6 @@
 		843903151A749747007B9EFF /* DefaultAlbumIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultAlbumIcon.png; sourceTree = "<group>"; };
 		843903161A749747007B9EFF /* DefaultAlbumIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DefaultAlbumIcon@2x.png"; sourceTree = "<group>"; };
 		843903171A749747007B9EFF /* DefaultAlbumIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DefaultAlbumIcon@3x.png"; sourceTree = "<group>"; };
-		843903181A749747007B9EFF /* DefaultPhoto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultPhoto.png; sourceTree = "<group>"; };
-		843903191A749747007B9EFF /* DefaultPhoto@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DefaultPhoto@2x.png"; sourceTree = "<group>"; };
-		8439031A1A749747007B9EFF /* DefaultPhoto@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DefaultPhoto@3x.png"; sourceTree = "<group>"; };
 		8439031B1A749747007B9EFF /* DefaultPhotoLarge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultPhotoLarge.png; sourceTree = "<group>"; };
 		8439031C1A749747007B9EFF /* DeleteButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DeleteButton.png; sourceTree = "<group>"; };
 		8439031D1A749747007B9EFF /* DeleteButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DeleteButton@2x.png"; sourceTree = "<group>"; };
@@ -699,9 +693,6 @@
 				843903151A749747007B9EFF /* DefaultAlbumIcon.png */,
 				843903161A749747007B9EFF /* DefaultAlbumIcon@2x.png */,
 				843903171A749747007B9EFF /* DefaultAlbumIcon@3x.png */,
-				843903181A749747007B9EFF /* DefaultPhoto.png */,
-				843903191A749747007B9EFF /* DefaultPhoto@2x.png */,
-				8439031A1A749747007B9EFF /* DefaultPhoto@3x.png */,
 				8439031B1A749747007B9EFF /* DefaultPhotoLarge.png */,
 				8439031C1A749747007B9EFF /* DeleteButton.png */,
 				8439031D1A749747007B9EFF /* DeleteButton@2x.png */,
@@ -1244,14 +1235,12 @@
 				8439039F1A749747007B9EFF /* UncheckCellBack.png in Resources */,
 				8DF0789F164F6F0900B26B8F /* PhotoViewControllerPad.xib in Resources */,
 				8439039A1A749747007B9EFF /* Titles.plist in Resources */,
-				8439036F1A749747007B9EFF /* DefaultPhoto@3x.png in Resources */,
 				843903581A749747007B9EFF /* ButtonNormal@2x.png in Resources */,
 				843903551A749747007B9EFF /* ButtonHighlighted@2x.png in Resources */,
 				8439035A1A749747007B9EFF /* ButtonOverlay.png in Resources */,
 				843903671A749747007B9EFF /* ControversialIcon.png in Resources */,
 				843903981A749747007B9EFF /* SubRedditsList.plist in Resources */,
 				8439039C1A749747007B9EFF /* TopIcon@2x.png in Resources */,
-				8439036D1A749747007B9EFF /* DefaultPhoto.png in Resources */,
 				8439036A1A749747007B9EFF /* DefaultAlbumIcon.png in Resources */,
 				843903721A749747007B9EFF /* DeleteButton@2x.png in Resources */,
 				843903961A749747007B9EFF /* SettingsInfoBack@2x.png in Resources */,
@@ -1267,7 +1256,6 @@
 				8439037F1A749747007B9EFF /* FavoritesRedIcon@3x.png in Resources */,
 				843903A71A749CC5007B9EFF /* NimbusPhotos.bundle in Resources */,
 				8439037C1A749747007B9EFF /* FavoritesIconPad@2x.png in Resources */,
-				8439036E1A749747007B9EFF /* DefaultPhoto@2x.png in Resources */,
 				843903901A749747007B9EFF /* PrevPhotoButton.png in Resources */,
 				843903911A749747007B9EFF /* PrevPhotoButton@2x.png in Resources */,
 				8D224240176714570053868F /* CommentViewController.xib in Resources */,

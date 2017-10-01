@@ -22,9 +22,6 @@
 
 @interface AlbumViewController ()
 
-- (void)loadThumbnails;
-- (NSString *)cacheKeyForPhotoIndex:(NSInteger)photoIndex;
-- (void)requestImageFromSource:(NSString *)source photoIndex:(NSInteger)photoIndex;
 - (void)refreshSubReddit:(BOOL)reload;
 
 @end
@@ -226,17 +223,6 @@
 	cell.photo = photo;
 
   [ImageLoader loadWithUrlString:photo.thumbnailString into:cell.imageView];
-  
-
-//  NSString *urlString = [self cacheKeyForPhotoIndex:indexPath.item];
-//  UIImage *image = [thumbnailImageCache objectWithName:urlString];
-//  if (image == nil) {
-//    [self requestImageFromSource:urlString photoIndex:indexPath.item];
-//    [cell setThumbImage:nil animated:NO];
-//  }
-//  else {
-//    [cell setThumbImage:image animated:NO];
-//  }
 
 	return cell;
 }
@@ -250,98 +236,6 @@
 	}
 
 	return collectionFooterView;
-}
-
-- (void)loadThumbnails {
-//  for (NSInteger i = 0; i < currentPhotosArray.count; i ++) {
-//    NSString *photoIndexKey = [self cacheKeyForPhotoIndex:i];
-//    if (![thumbnailImageCache containsObjectWithName:photoIndexKey]) {
-//      [self requestImageFromSource:[[currentPhotosArray objectAtIndex:i] thumbnailString] photoIndex:i];
-//    }
-//  }
-}
-
-- (NSString *)cacheKeyForPhotoIndex:(NSInteger)photoIndex {
-  return [[currentPhotosArray objectAtIndex:photoIndex] thumbnailString];
-}
-
-- (void)requestImageFromSource:(NSString *)source photoIndex:(NSInteger)photoIndex {
-
-	if (source.length == 0)
-		return;
-	
-	NSNumber *identifierKey = [NSNumber numberWithInteger:photoIndex];
-	if ([activeRequests containsObject:identifierKey]) {
-		return;
-	}
-	
-	NSURL *url = [NSURL URLWithString:source];
-	
-	__block NIHTTPRequest __weak *readOp = [NIHTTPRequest requestWithURL:url usingCache:[ASIDownloadCache sharedCache]];
-	readOp.cacheStoragePolicy = ASICachePermanentlyCacheStoragePolicy;
-	readOp.timeOutSeconds = 30;
-	readOp.tag = photoIndex;
-	
-	NSString* photoIndexKey = [self cacheKeyForPhotoIndex:photoIndex];
-	
-	[readOp setCompletionBlock:^{
-		UIImage *image = [UIImage imageWithData:[readOp responseData]];
-		
-		if (image && currentPhotosArray.count > photoIndex) {
-			NSInteger x, y, w, h;
-			if (image.size.width > THUMB_WIDTH * 2 && image.size.height > THUMB_HEIGHT * 2) {
-				float imgRatio = image.size.width / image.size.height;
-				if (imgRatio < 1) {
-					w = THUMB_WIDTH;
-					h = w / imgRatio;
-					x = 0;
-					y = (THUMB_HEIGHT - h) / 2;
-				}
-				else if (imgRatio > 1) {
-					h = THUMB_HEIGHT;
-					w = h * imgRatio;
-					x = (THUMB_WIDTH - w) / 2;
-					y = 0;
-				}
-				else {
-					w = THUMB_WIDTH;
-					h = THUMB_HEIGHT;
-					x = 0.0;
-					y = 0.0;
-				}
-			}
-			else {
-				w = image.size.width;
-				h = image.size.height;
-				x = (THUMB_WIDTH - w) / 2;
-				y = (THUMB_HEIGHT - h) / 2;
-			}
-
-			UIGraphicsBeginImageContextWithOptions(CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT), NO, screenScale);
-			CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(), [UIColor whiteColor].CGColor);
-			CGContextFillRect(UIGraphicsGetCurrentContext(), CGRectMake(0, 0, THUMB_WIDTH, THUMB_HEIGHT));
-			CGRect rect = CGRectMake(x, y, w, h);
-			[image drawInRect:rect];
-			UIImage *thumbImage = UIGraphicsGetImageFromCurrentImageContext();
-			UIGraphicsEndImageContext();
-			
-			[thumbnailImageCache storeObject:thumbImage withName:photoIndexKey];
-			AlbumViewCell *cell = (AlbumViewCell *)[contentCollectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:photoIndex inSection:0]];
-			[cell setThumbImage:thumbImage animated:YES];
-		}
-		
-		[activeRequests removeObject:identifierKey];
-	}];
-	
-	[readOp setFailedBlock:^{
-		[activeRequests removeObject:identifierKey];
-	}];
-	
-	
-	[readOp setQueuePriority:NSOperationQueuePriorityNormal];
-	
-	[activeRequests addObject:identifierKey];
-	[queue addOperation:readOp];
 }
 
 - (void)setSubReddit:(SubRedditItem *)_subReddit {
@@ -667,7 +561,6 @@
 		initialized = YES;
 		[currentPhotosArray removeAllObjects];
 		[currentPhotosArray addObjectsFromArray:newPhotosArray];
-		[self loadThumbnails];
 		[contentCollectionView reloadData];
 	}
 	else {
@@ -692,7 +585,6 @@
 
 		[currentPhotosArray removeAllObjects];
 		[currentPhotosArray addObjectsFromArray:newPhotosArray];
-		[self loadThumbnails];
 
 		self.view.userInteractionEnabled = NO;
 		footerView.alpha = 0.0;

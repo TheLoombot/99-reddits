@@ -13,9 +13,7 @@
 @interface AlbumViewCell()
 
 @property (strong, nonatomic) UIButton *tapButton;
-@property (strong, nonatomic) UIImageView *animateImageView;
 @property (strong, nonatomic) UIImageView *favoriteOverlayView;
-@property (assign, nonatomic) BOOL isEmpty;
 
 @end
 
@@ -49,8 +47,7 @@
 - (void)prepareForReuse {
   [super prepareForReuse];
 
-  //No flickering images!
-  self.imageView.image = nil;
+  self.imageView.image = [UIImage imageNamed:@"DefaultPhoto"];
 }
 
 - (void)onTap:(id)sender {
@@ -75,42 +72,6 @@
 			self.favoriteOverlayView.hidden = YES;
 			self.favoriteOverlayView.image = nil;
 		}
-	}
-}
-
-- (void)setThumbImage:(UIImage *)thumbImage animated:(BOOL)animated {
-	[self.animateImageView.layer removeAllAnimations];
-  [self.animateImageView removeFromSuperview];
-	self.animateImageView = nil;
-
-	if (thumbImage == nil) {
-		self.imageView.image = [UIImage imageNamed:@"DefaultPhoto.png"];
-		self.isEmpty = YES;
-	}
-	else {
-		if (animated || self.isEmpty) {
-			self.imageView.image = [UIImage imageNamed:@"DefaultPhoto.png"];
-			self.animateImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 75, 75)];
-			self.animateImageView.image = thumbImage;
-			[self.contentView addSubview:self.animateImageView];
-
-			self.animateImageView.alpha = 0.0;
-			[UIView animateWithDuration:0.2
-							 animations:^(void) {
-								 self.animateImageView.alpha = 1.0;
-							 }
-							 completion:^(BOOL finished) {
-								 [self.animateImageView removeFromSuperview];
-								 self.animateImageView = nil;
-								 if (finished) {
-									 self.imageView.image = thumbImage;
-								 }
-							 }];
-		}
-		else {
-			self.imageView.image = thumbImage;
-		}
-		self.isEmpty = NO;
 	}
 }
 

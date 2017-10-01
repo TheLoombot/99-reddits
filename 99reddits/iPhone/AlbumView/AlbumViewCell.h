@@ -19,7 +19,6 @@
 
 	UIImageView *favoriteOverlayView;
 	UIImageView *animateImageView;
-	//UIImageView *imageView;
 	UIButton *tapButton;
 
 	BOOL imageEmpty;

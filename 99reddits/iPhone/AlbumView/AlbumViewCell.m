@@ -19,12 +19,14 @@
 - (id)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
 	if (self) {
+    self.clipsToBounds = YES;
 		self.backgroundColor = [UIColor clearColor];
 		self.contentView.backgroundColor = [UIColor clearColor];
 
 		appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 
 		self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 75, 75)];
+    self.imageView.contentMode = UIViewContentModeScaleAspectFill;
 		[self.contentView addSubview:self.imageView];
 
 		favoriteOverlayView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 50, 25, 25)];

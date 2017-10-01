@@ -16,8 +16,6 @@
 
 @interface SettingsViewControllerPad ()
 
-- (IBAction)onUpgradeForMOARButton:(id)sender;
-- (IBAction)onRestoreUpgradeButton:(id)sender;
 - (IBAction)onClearButton:(id)sender;
 - (IBAction)onEmailButton:(id)sender;
 - (IBAction)onTweetButton:(id)sender;
@@ -40,21 +38,6 @@
     return self;
 }
 
-- (void)dealloc {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:kProductsLoadedNotification object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:kProductPurchasedNotification object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:kProductPurchaseFailedNotification object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:kProductPurchaseRestoreFinishedNotification object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:kProductPurchaseRestoreFailedNotification object:nil];
-}
-
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
-}
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad {
@@ -71,9 +54,7 @@
 			((UIScrollView *)subview).bounces = NO;
 
 	self.view.backgroundColor = [UIColor colorWithRed:239 / 255.0 green:239 / 255.0 blue:244 / 255.0 alpha:1.0];
-	
-	[upgradeForMOARButton setBackgroundImage:[[UIImage imageNamed:@"UpgradeButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
-	[restoreUpdateButton setBackgroundImage:[[UIImage imageNamed:@"UpgradeButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
+
 	[clearButton setBackgroundImage:[[UIImage imageNamed:@"ClearButton.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
 
     NSInteger width = self.view.bounds.size.width;
@@ -120,12 +101,6 @@
 	contentTableView.backgroundView = nil;
 
 	[self refreshViews];
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(productsLoaded:) name:kProductsLoadedNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(productPurchased:) name:kProductPurchasedNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector: @selector(productPurchaseFailed:) name:kProductPurchaseFailedNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(productPurchaseRestoreFinished:) name:kProductPurchaseRestoreFinishedNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(productPurchaseRestoreFailed:) name:kProductPurchaseRestoreFailedNotification object:nil];
 }
 
 - (BOOL)shouldAutorotate {
@@ -159,10 +134,7 @@
 	if (row == 0) {
 		cell.textLabel.text = @"Version";
 		cell.detailTextLabel.textColor = [UIColor colorWithRed:80 / 255.0 green:114 / 255.0 blue:160 / 255.0 alpha:1.0];
-		if (appDelegate.isPaid)
-			cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ MOAR", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
-		else
-			cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ FREE", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@ MOAR", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"]];
 	}
 	else if (row == 1) {
 		cell.textLabel.text = @"Images Seen";
@@ -202,101 +174,9 @@
   return YES;
 }
 
-- (IBAction)onUpgradeForMOARButton:(id)sender {
-	[PurchaseManager sharedManager].delegate = self;
-	[PurchaseManager sharedManager].productIdentifiers = [NSSet setWithObject:PRODUCT_ID];
-	[[PurchaseManager sharedManager] requestProducts];
-	
-	hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-	hud.labelText = @"Loading ...";
-	[self performSelector:@selector(timeout:) withObject:nil afterDelay:300];
-}
-
-- (IBAction)onRestoreUpgradeButton:(id)sender {
-	[PurchaseManager sharedManager].delegate = self;
-	[[PurchaseManager sharedManager] restorePurchases];
-	
-	hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-	hud.labelText = @"Restoring ...";
-	[self performSelector:@selector(timeout:) withObject:nil afterDelay:300];
-}
-
 - (void)dismissHUD:(id)arg {
 	[MBProgressHUD hideHUDForView:self.view animated:YES];
 	hud = nil;
-}
-
-- (void)timeout:(id)arg {
-	UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Timeout" message:@"Please try again later" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-	[alertView show];
-	
-	[PurchaseManager sharedManager].delegate = nil;
-	
-	[self performSelector:@selector(dismissHUD:) withObject:nil afterDelay:0.01];
-}
-
-- (void)productsLoaded:(NSNotification *)notification {
-	[NSObject cancelPreviousPerformRequestsWithTarget:self];
-	[MBProgressHUD hideHUDForView:self.view animated:YES];
-	
-	if ([PurchaseManager sharedManager].products.count > 0) {
-		SKProduct *product = [[PurchaseManager sharedManager].products objectAtIndex:0];
-		[[PurchaseManager sharedManager] buyProduct:product];
-		
-		hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-		hud.labelText = @"Buying ...";
-		[self performSelector:@selector(timeout:) withObject:nil afterDelay:300];
-	}
-	else {
-		[PurchaseManager sharedManager].delegate = nil;
-	}
-}
-
-- (void)productPurchased:(NSNotification *)notification {
-	[NSObject cancelPreviousPerformRequestsWithTarget:self];
-	[MBProgressHUD hideHUDForView:self.view animated:YES];
-	[PurchaseManager sharedManager].delegate = nil;
-	
-	NSString *productId = (NSString *)notification.object;
-	if ([productId isEqualToString:PRODUCT_ID]) {
-		appDelegate.isPaid = YES;
-	}
-	
-	[self refreshViews];
-}
-
-- (void)productPurchaseFailed:(NSNotification *)notification {
-	[NSObject cancelPreviousPerformRequestsWithTarget:self];
-	[MBProgressHUD hideHUDForView:self.view animated:YES];
-	[PurchaseManager sharedManager].delegate = nil;
-	
-    SKPaymentTransaction *transaction = (SKPaymentTransaction *)notification.object;
-    if (transaction.error.code != SKErrorPaymentCancelled) {
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:transaction.error.localizedDescription delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-		[alertView show];
-    }
-}
-
-- (void)productPurchaseRestoreFinished:(NSNotification *)notification {
-	[NSObject cancelPreviousPerformRequestsWithTarget:self];
-	[MBProgressHUD hideHUDForView:self.view animated:YES];
-	[PurchaseManager sharedManager].delegate = nil;
-	
-	[self refreshViews];
-}
-
-- (void)productPurchaseRestoreFailed:(NSNotification *)notification {
-	[NSObject cancelPreviousPerformRequestsWithTarget:self];
-	[MBProgressHUD hideHUDForView:self.view animated:YES];
-	[PurchaseManager sharedManager].delegate = nil;
-	
-	[self refreshViews];
-	
-	NSError *error = (NSError *)notification.object;
-	if (error.code != SKErrorPaymentCancelled) {
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error" message:[(NSError *)notification.object localizedDescription] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-		[alertView show];
-	}
 }
 
 - (void)refreshViews {
@@ -313,24 +193,13 @@
 	emailButton.frame = CGRectMake((width - 480) / 2, height + 354, 480, 45);
 	tweetButton.frame = CGRectMake((width - 480) / 2, height + 409, 480, 45);
 	rateAppButton.frame = CGRectMake((width - 480) / 2, height + 464, 480, 45);
-	
-	if (appDelegate.isPaid) {
-		[buttonsView removeFromSuperview];
-		CGRect frame = aboutView.frame;
-		frame.origin.y = 20;
-		frame.size.height = height + 529;
-		aboutView.frame = frame;
-		
-		contentScrollView.contentSize = CGSizeMake(width, rateAppButton.frame.origin.y + rateAppButton.frame.size.height + 50);
-	}
-	else {
-		CGRect frame = aboutView.frame;
-		frame.origin.y = 191;
-		frame.size.height = height + 529;
-		aboutView.frame = frame;
-		
-		contentScrollView.contentSize = CGSizeMake(width, rateAppButton.frame.origin.y + rateAppButton.frame.size.height + 221);
-	}
+
+  CGRect aboutFrame = aboutView.frame;
+  aboutFrame.origin.y = 20;
+  aboutFrame.size.height = height + 529;
+  aboutView.frame = aboutFrame;
+
+  contentScrollView.contentSize = CGSizeMake(width, rateAppButton.frame.origin.y + rateAppButton.frame.size.height + 50);
 	
 	[contentTableView reloadData];
 }

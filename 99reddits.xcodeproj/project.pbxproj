@@ -83,9 +83,6 @@
 		843903A01A749747007B9EFF /* UncheckIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439034B1A749747007B9EFF /* UncheckIcon.png */; };
 		843903A11A749747007B9EFF /* UncheckIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439034C1A749747007B9EFF /* UncheckIcon@2x.png */; };
 		843903A21A749747007B9EFF /* UncheckIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439034D1A749747007B9EFF /* UncheckIcon@3x.png */; };
-		843903A31A749747007B9EFF /* UpgradeButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439034E1A749747007B9EFF /* UpgradeButton.png */; };
-		843903A41A749747007B9EFF /* UpgradeButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439034F1A749747007B9EFF /* UpgradeButton@2x.png */; };
-		843903A51A749747007B9EFF /* UpgradeButton@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 843903501A749747007B9EFF /* UpgradeButton@3x.png */; };
 		843903A71A749CC5007B9EFF /* NimbusPhotos.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 843903A61A749CC5007B9EFF /* NimbusPhotos.bundle */; };
 		846C65741A7201C50071664B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 846C65731A7201C50071664B /* Images.xcassets */; };
 		847D5F6C1A7A1FEA00173A01 /* MaximizePad.png in Resources */ = {isa = PBXBuildFile; fileRef = 847D5F6A1A7A1FEA00173A01 /* MaximizePad.png */; };
@@ -188,7 +185,6 @@
 		8D6C5D3F164ACCCC008A98A7 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D6C5D20164ACCCC008A98A7 /* SettingsViewController.xib */; };
 		8D6C5D40164ACCCC008A98A7 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D23164ACCCC008A98A7 /* MBProgressHUD.m */; };
 		8D6C5D41164ACCCC008A98A7 /* PhotoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D25164ACCCC008A98A7 /* PhotoItem.m */; };
-		8D6C5D42164ACCCC008A98A7 /* PurchaseManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D27164ACCCC008A98A7 /* PurchaseManager.m */; };
 		8D6C5D43164ACCCC008A98A7 /* SubRedditItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D29164ACCCC008A98A7 /* SubRedditItem.m */; };
 		8D6C5D44164ACCCC008A98A7 /* UserDef.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D2B164ACCCC008A98A7 /* UserDef.m */; };
 		8D6C5D4A164ACE0E008A98A7 /* MainWindowPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D6C5D49164ACE0E008A98A7 /* MainWindowPad.xib */; };
@@ -288,9 +284,6 @@
 		8439034B1A749747007B9EFF /* UncheckIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UncheckIcon.png; sourceTree = "<group>"; };
 		8439034C1A749747007B9EFF /* UncheckIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UncheckIcon@2x.png"; sourceTree = "<group>"; };
 		8439034D1A749747007B9EFF /* UncheckIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UncheckIcon@3x.png"; sourceTree = "<group>"; };
-		8439034E1A749747007B9EFF /* UpgradeButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UpgradeButton.png; sourceTree = "<group>"; };
-		8439034F1A749747007B9EFF /* UpgradeButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UpgradeButton@2x.png"; sourceTree = "<group>"; };
-		843903501A749747007B9EFF /* UpgradeButton@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "UpgradeButton@3x.png"; sourceTree = "<group>"; };
 		843903A61A749CC5007B9EFF /* NimbusPhotos.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = NimbusPhotos.bundle; sourceTree = "<group>"; };
 		846C65731A7201C50071664B /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = 99reddits/Resources/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		847D5F6A1A7A1FEA00173A01 /* MaximizePad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = MaximizePad.png; sourceTree = "<group>"; };
@@ -490,8 +483,6 @@
 		8D6C5D23164ACCCC008A98A7 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		8D6C5D24164ACCCC008A98A7 /* PhotoItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoItem.h; sourceTree = "<group>"; };
 		8D6C5D25164ACCCC008A98A7 /* PhotoItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoItem.m; sourceTree = "<group>"; };
-		8D6C5D26164ACCCC008A98A7 /* PurchaseManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PurchaseManager.h; sourceTree = "<group>"; };
-		8D6C5D27164ACCCC008A98A7 /* PurchaseManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PurchaseManager.m; sourceTree = "<group>"; };
 		8D6C5D28164ACCCC008A98A7 /* SubRedditItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubRedditItem.h; sourceTree = "<group>"; };
 		8D6C5D29164ACCCC008A98A7 /* SubRedditItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubRedditItem.m; sourceTree = "<group>"; };
 		8D6C5D2A164ACCCC008A98A7 /* UserDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDef.h; sourceTree = "<group>"; };
@@ -748,9 +739,6 @@
 				8439034B1A749747007B9EFF /* UncheckIcon.png */,
 				8439034C1A749747007B9EFF /* UncheckIcon@2x.png */,
 				8439034D1A749747007B9EFF /* UncheckIcon@3x.png */,
-				8439034E1A749747007B9EFF /* UpgradeButton.png */,
-				8439034F1A749747007B9EFF /* UpgradeButton@2x.png */,
-				843903501A749747007B9EFF /* UpgradeButton@3x.png */,
 			);
 			name = Resources;
 			path = 99reddits/Resources;
@@ -1034,8 +1022,6 @@
 				8D6C5D23164ACCCC008A98A7 /* MBProgressHUD.m */,
 				8D59A7E81676229500739E26 /* PopoverController.h */,
 				8D59A7E91676229500739E26 /* PopoverController.m */,
-				8D6C5D26164ACCCC008A98A7 /* PurchaseManager.h */,
-				8D6C5D27164ACCCC008A98A7 /* PurchaseManager.m */,
 				8D6C5D24164ACCCC008A98A7 /* PhotoItem.h */,
 				8D6C5D25164ACCCC008A98A7 /* PhotoItem.m */,
 				8D6C5D28164ACCCC008A98A7 /* SubRedditItem.h */,
@@ -1215,8 +1201,6 @@
 				8439037D1A749747007B9EFF /* FavoritesRedIcon.png in Resources */,
 				84B9DFF11A7928E800EA3CF0 /* Maximize@2x.png in Resources */,
 				8D66C1BA164BAF4900EAC2C0 /* AlbumViewControllerPad.xib in Resources */,
-				843903A51A749747007B9EFF /* UpgradeButton@3x.png in Resources */,
-				843903A31A749747007B9EFF /* UpgradeButton.png in Resources */,
 				8D66C1C2164BAFA200EAC2C0 /* RedditsViewControllerPad.xib in Resources */,
 				843903571A749747007B9EFF /* ButtonNormal.png in Resources */,
 				843903511A749747007B9EFF /* about.css in Resources */,
@@ -1246,7 +1230,6 @@
 				843903691A749747007B9EFF /* ControversialIcon@3x.png in Resources */,
 				843903531A749747007B9EFF /* about.jpg in Resources */,
 				8439037E1A749747007B9EFF /* FavoritesRedIcon@2x.png in Resources */,
-				843903A41A749747007B9EFF /* UpgradeButton@2x.png in Resources */,
 				8439035C1A749747007B9EFF /* ButtonOverlay@3x.png in Resources */,
 				8439035F1A749747007B9EFF /* CheckBlueIcon@3x.png in Resources */,
 				8439035E1A749747007B9EFF /* CheckBlueIcon@2x.png in Resources */,
@@ -1347,7 +1330,6 @@
 				8D6C5D3E164ACCCC008A98A7 /* SettingsViewController.m in Sources */,
 				8D6C5D40164ACCCC008A98A7 /* MBProgressHUD.m in Sources */,
 				8D6C5D41164ACCCC008A98A7 /* PhotoItem.m in Sources */,
-				8D6C5D42164ACCCC008A98A7 /* PurchaseManager.m in Sources */,
 				8D6C5D43164ACCCC008A98A7 /* SubRedditItem.m in Sources */,
 				847D5F701A7A345100173A01 /* TitleProvider.m in Sources */,
 				8D6C5D44164ACCCC008A98A7 /* UserDef.m in Sources */,

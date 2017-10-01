@@ -34,7 +34,6 @@
 @synthesize showedSet;
 @synthesize firstRun;
 @synthesize favoritesItem;
-@synthesize isPaid;
 
 void uncaughtExceptionHandler(NSException *exception) {
     [Flurry logError:@"Uncaught" message:@"Crash!" exception:exception];
@@ -213,8 +212,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 	}
 
 	favoritesItem.nameString = @"Favorites";
-	
-	isPaid = [defaults boolForKey:@"IS_PAID"];
 }
 
 - (void)saveToDefaults {
@@ -227,10 +224,7 @@ void uncaughtExceptionHandler(NSException *exception) {
 	[defaults setObject:data forKey:@"SUBREDDITS"];
 	
 	[defaults setObject:[showedSet allObjects] forKey:@"SHOWEDSET"];
-	[defaults setObject:[fullImagesSet allObjects] forKey:@"FULL_IMAGES"];
-	
-	[defaults setBool:isPaid forKey:@"IS_PAID"];
-	
+	[defaults setObject:[fullImagesSet allObjects] forKey:@"FULL_IMAGES"];	
 	[defaults synchronize];
 	
 	[self saveFavoritesData];

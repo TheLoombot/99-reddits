@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "MBProgressHUD.h"
-#import "PurchaseManager.h"
 #import <MessageUI/MFMailComposeViewController.h>
 #import "PopoverController.h"
 
@@ -20,9 +19,6 @@
 	PopoverController __weak *popoverController;
 
 	IBOutlet UIScrollView *contentScrollView;
-	IBOutlet UIView *buttonsView;
-	IBOutlet UIButton *upgradeForMOARButton;
-	IBOutlet UIButton *restoreUpdateButton;
 	IBOutlet UIView *aboutView;
 	IBOutlet UIButton *clearButton;
 	IBOutlet UITableView *contentTableView;

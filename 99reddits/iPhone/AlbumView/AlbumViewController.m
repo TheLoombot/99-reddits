@@ -344,14 +344,7 @@
 }
 
 - (IBAction)onMOARButton:(id)sender {
-	if (!appDelegate.isPaid) {
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"This is a paid feature. It's cheap." message:nil delegate:self cancelButtonTitle:@"No thanks" otherButtonTitles:@"Buy", nil];
-		alertView.tag = 100;
-		[alertView show];
-		
-		return;
-	}
-	
+
 	bMOARLoading = YES;
 	
 	moarButton.enabled = NO;
@@ -380,18 +373,9 @@
 
 // UITabBarDelegate
 - (void)tabBar:(UITabBar *)tb didSelectItem:(UITabBarItem *)item {
-	if (currentItem == item)
-		return;
-	
-	if (!appDelegate.isPaid) {
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"This is a paid feature. It's cheap." message:nil delegate:self cancelButtonTitle:@"No thanks" otherButtonTitles:@"Buy", nil];
-		alertView.tag = 100;
-		[alertView show];
-		
-		tabBar.selectedItem = hotItem;
-		
-		return;
-	}
+  if (currentItem == item) {
+    return;
+  }
 
 	bMOARLoading = NO;
 	
@@ -490,18 +474,13 @@
 
 // UIAlertViewDelegate
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-	if (alertView.tag == 100) {
-		if (buttonIndex != alertView.cancelButtonIndex) {
-			[self.navigationController popViewControllerAnimated:NO];
-			[mainViewController onSettingsButton:nil];
-		}
-	}
-	else if (alertView.tag == 101) {
-		if (buttonIndex != alertView.cancelButtonIndex) {
-			[appDelegate clearFavorites];
-			[self.navigationController popViewControllerAnimated:YES];
-		}
-	}
+
+  if (alertView.tag == 101) {
+    if (buttonIndex != alertView.cancelButtonIndex) {
+      [appDelegate clearFavorites];
+      [self.navigationController popViewControllerAnimated:YES];
+    }
+  }
 }
 
 // ASIHTTPRequestDelegate
@@ -741,29 +720,21 @@
 
 // UIActionSheetDelegate
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex {
-	if (buttonIndex == actionSheet.cancelButtonIndex)
-		return;
 
-	if (buttonIndex == actionSheet.cancelButtonIndex)
-		return;
+  if (buttonIndex == actionSheet.cancelButtonIndex) {
+    return;
+  }
 
 	if (buttonIndex == 0) {
-		if (!appDelegate.isPaid) {
-			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"This is a paid feature. It's cheap." message:nil delegate:self cancelButtonTitle:@"No thanks" otherButtonTitles:@"Buy", nil];
-			alertView.tag = 100;
-			[alertView show];
-		}
-		else {
-			if ([MFMailComposeViewController canSendMail]) {
-				MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
-				mailComposeViewController.mailComposeDelegate = self;
+    if ([MFMailComposeViewController canSendMail]) {
+      MFMailComposeViewController *mailComposeViewController = [[MFMailComposeViewController alloc] init];
+      mailComposeViewController.mailComposeDelegate = self;
 
-				[mailComposeViewController setSubject:@"99 reddits Favorites Export"];
-				[mailComposeViewController setMessageBody:[appDelegate getFavoritesEmailString] isHTML:YES];
+      [mailComposeViewController setSubject:@"99 reddits Favorites Export"];
+      [mailComposeViewController setMessageBody:[appDelegate getFavoritesEmailString] isHTML:YES];
 
-				[self presentViewController:mailComposeViewController animated:YES completion:nil];
-			}
-		}
+      [self presentViewController:mailComposeViewController animated:YES completion:nil];
+    }
 	}
 	else {
 		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Clear ALL your favorites?" message:nil delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];

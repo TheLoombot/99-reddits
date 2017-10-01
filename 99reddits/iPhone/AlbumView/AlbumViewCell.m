@@ -39,6 +39,13 @@
 	return self;
 }
 
+- (void)prepareForReuse {
+  [super prepareForReuse];
+
+  //No flickering images!
+  self.imageView.image = nil;
+}
+
 - (void)onTap:(id)sender {
 	[albumViewController onSelectPhoto:photo];
 }

@@ -19,7 +19,7 @@
 
 	UIImageView *favoriteOverlayView;
 	UIImageView *animateImageView;
-	UIImageView *imageView;
+	//UIImageView *imageView;
 	UIButton *tapButton;
 
 	BOOL imageEmpty;
@@ -27,6 +27,7 @@
 
 @property (nonatomic, weak) AlbumViewController *albumViewController;
 @property (nonatomic, weak) PhotoItem *photo;
+@property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic) BOOL bFavorites;
 
 - (void)setThumbImage:(UIImage *)thumbImage animated:(BOOL)animated;

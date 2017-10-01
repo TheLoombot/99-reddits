@@ -24,14 +24,14 @@
 
 		appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 
-		imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 75, 75)];
-		[self.contentView addSubview:imageView];
+		self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 75, 75)];
+		[self.contentView addSubview:self.imageView];
 
 		favoriteOverlayView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 50, 25, 25)];
 		[self.contentView addSubview:favoriteOverlayView];
 
 		tapButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		tapButton.frame = imageView.frame;
+		tapButton.frame = self.imageView.frame;
 		[tapButton setImage:[UIImage imageNamed:@"ButtonOverlay.png"] forState:UIControlStateHighlighted];
 		[tapButton addTarget:self action:@selector(onTap:) forControlEvents:UIControlEventTouchUpInside];
 		[self.contentView addSubview:tapButton];
@@ -70,12 +70,12 @@
 	animateImageView = nil;
 
 	if (thumbImage == nil) {
-		imageView.image = [UIImage imageNamed:@"DefaultPhoto.png"];
+		self.imageView.image = [UIImage imageNamed:@"DefaultPhoto.png"];
 		imageEmpty = YES;
 	}
 	else {
 		if (animated || imageEmpty) {
-			imageView.image = [UIImage imageNamed:@"DefaultPhoto.png"];
+			self.imageView.image = [UIImage imageNamed:@"DefaultPhoto.png"];
 			animateImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 75, 75)];
 			animateImageView.image = thumbImage;
 			[self.contentView addSubview:animateImageView];
@@ -89,12 +89,12 @@
 								 [animateImageView removeFromSuperview];
 								 animateImageView = nil;
 								 if (finished) {
-									 imageView.image = thumbImage;
+									 self.imageView.image = thumbImage;
 								 }
 							 }];
 		}
 		else {
-			imageView.image = thumbImage;
+			self.imageView.image = thumbImage;
 		}
 		imageEmpty = NO;
 	}

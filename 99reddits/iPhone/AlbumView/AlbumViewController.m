@@ -15,6 +15,7 @@
 #import "MainViewController.h"
 #import "UserDef.h"
 #import "AlbumViewLayout.h"
+#import "_9reddits-Swift.h"
 
 #define THUMB_WIDTH			75
 #define THUMB_HEIGHT		75
@@ -43,7 +44,7 @@
 }
 
 - (void)dealloc {
-	[self releaseCaches];
+	//[self releaseCaches];
 }
 
 - (void)releaseCaches {
@@ -216,20 +217,26 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+
+  PhotoItem *photo = currentPhotosArray[indexPath.item];
+
 	AlbumViewCell *cell = (AlbumViewCell *)[contentCollectionView dequeueReusableCellWithReuseIdentifier:@"ALBUM_VIEW_CELL" forIndexPath:indexPath];
 	cell.albumViewController = self;
 	cell.bFavorites = bFavorites;
-	cell.photo = [currentPhotosArray objectAtIndex:indexPath.item];
+	cell.photo = photo;
 
-	NSString *urlString = [self cacheKeyForPhotoIndex:indexPath.item];
-	UIImage *image = [thumbnailImageCache objectWithName:urlString];
-	if (image == nil) {
-		[self requestImageFromSource:urlString photoIndex:indexPath.item];
-		[cell setThumbImage:nil animated:NO];
-	}
-	else {
-		[cell setThumbImage:image animated:NO];
-	}
+  [ImageLoader loadWithUrlString:photo.thumbnailString into:cell.imageView];
+  
+
+//  NSString *urlString = [self cacheKeyForPhotoIndex:indexPath.item];
+//  UIImage *image = [thumbnailImageCache objectWithName:urlString];
+//  if (image == nil) {
+//    [self requestImageFromSource:urlString photoIndex:indexPath.item];
+//    [cell setThumbImage:nil animated:NO];
+//  }
+//  else {
+//    [cell setThumbImage:image animated:NO];
+//  }
 
 	return cell;
 }
@@ -246,21 +253,19 @@
 }
 
 - (void)loadThumbnails {
-	for (NSInteger i = 0; i < currentPhotosArray.count; i ++) {
-		NSString *photoIndexKey = [self cacheKeyForPhotoIndex:i];
-		if (![thumbnailImageCache containsObjectWithName:photoIndexKey]) {
-			[self requestImageFromSource:[[currentPhotosArray objectAtIndex:i] thumbnailString] photoIndex:i];
-		}
-	}
+//  for (NSInteger i = 0; i < currentPhotosArray.count; i ++) {
+//    NSString *photoIndexKey = [self cacheKeyForPhotoIndex:i];
+//    if (![thumbnailImageCache containsObjectWithName:photoIndexKey]) {
+//      [self requestImageFromSource:[[currentPhotosArray objectAtIndex:i] thumbnailString] photoIndex:i];
+//    }
+//  }
 }
 
 - (NSString *)cacheKeyForPhotoIndex:(NSInteger)photoIndex {
-	return [[currentPhotosArray objectAtIndex:photoIndex] thumbnailString];
+  return [[currentPhotosArray objectAtIndex:photoIndex] thumbnailString];
 }
 
 - (void)requestImageFromSource:(NSString *)source photoIndex:(NSInteger)photoIndex {
-//	if (![appDelegate checkNetworkReachable:NO])
-//		return;
 
 	if (source.length == 0)
 		return;

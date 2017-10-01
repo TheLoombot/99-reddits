@@ -34,20 +34,10 @@
 	SubRedditItem *currentSubReddit;
 	SubRedditItem *subReddit;
 	
-	NSOperationQueue *refreshQueue;
-	NSOperationQueue *queue;
-	
-	NSMutableSet *activeRequests;
-	NIImageMemoryCache *thumbnailImageCache;
-	
 	BOOL shouldReleaseCaches;
-	
 	BOOL bFavorites;
-	
 	BOOL bMOARLoading;
-
 	NSMutableArray *currentPhotosArray;
-
 	BOOL initialized;
 }
 

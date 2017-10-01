@@ -10,7 +10,6 @@
 #import "SubRedditItem.h"
 #import "AlbumViewCell.h"
 #import "NIHTTPRequest.h"
-#import "ASIDownloadCache.h"
 #import "PhotoViewController.h"
 #import "MainViewController.h"
 #import "UserDef.h"
@@ -22,7 +21,7 @@
 
 @interface AlbumViewController ()
 
-- (void)refreshSubReddit:(BOOL)reload;
+@property (nonatomic, strong) NSOperationQueue *refreshQueue;
 
 @end
 
@@ -40,61 +39,18 @@
     return self;
 }
 
-- (void)dealloc {
-	//[self releaseCaches];
-}
-
-- (void)releaseCaches {
-	for (ASIHTTPRequest *request in refreshQueue.operations) {
-		[request clearDelegatesAndCancel];
-	}
-	
-	for (ASIHTTPRequest *request in queue.operations) {
-		[request clearDelegatesAndCancel];
-	}
-	
-	activeRequests = nil;
-	thumbnailImageCache = nil;
-	refreshQueue = nil;
-	queue = nil;
-	currentSubReddit = nil;
-}
-
-- (void)didReceiveMemoryWarning {
-	for (ASIHTTPRequest *request in refreshQueue.operations) {
-		[request clearDelegatesAndCancel];
-	}
-	
-	for (ASIHTTPRequest *request in queue.operations) {
-		[request clearDelegatesAndCancel];
-	}
-	[activeRequests removeAllObjects];
-	[thumbnailImageCache reduceMemoryUsage];
-	
-	[contentCollectionView reloadData];
- 
-	[super didReceiveMemoryWarning];
-}
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+  [super viewDidLoad];
 	
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
+
+  self.refreshQueue = [[NSOperationQueue alloc] init];
+  self.refreshQueue.maxConcurrentOperationCount = 5;
 	
 	self.title = subReddit.nameString;
 	self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:subReddit.nameString style:UIBarButtonItemStylePlain target:nil action:nil];
-	
-	refreshQueue = [[NSOperationQueue alloc] init];
-	[queue setMaxConcurrentOperationCount:5];
-
-	queue = [[NSOperationQueue alloc] init];
-	[queue setMaxConcurrentOperationCount:5];
-	
-	activeRequests = [[NSMutableSet alloc] init];
-	
-	thumbnailImageCache = [[NIImageMemoryCache alloc] init];
 	
 	if (bFavorites) {
 		[tabBar removeFromSuperview];
@@ -160,24 +116,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
 	[self refreshSubReddit:YES];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-	if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
-		shouldReleaseCaches = YES;
-	}
-	else {
-		shouldReleaseCaches = NO;
-	}
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-	if (shouldReleaseCaches) {
-		shouldReleaseCaches = NO;
-		
-		[self releaseCaches];
-	}
 }
 
 - (void)onSelectPhoto:(PhotoItem *)photo {
@@ -257,7 +197,7 @@
         albumRequest.userAgentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 10_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B72";
         albumRequest.delegate = self;
 		albumRequest.processorDelegate = (id)[self class];
-		[refreshQueue addOperation:albumRequest];
+		[self.refreshQueue addOperation:albumRequest];
 	}
 	else {
 		NSURL *url = [NSURL URLWithString:[currentSubReddit.urlString stringByAppendingFormat:@"&after=%@", currentSubReddit.afterString]];
@@ -266,7 +206,7 @@
         albumRequest.userAgentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 10_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B72";
 		albumRequest.delegate = self;
 		albumRequest.processorDelegate = (id)[self class];
-		[refreshQueue addOperation:albumRequest];
+		[self.refreshQueue addOperation:albumRequest];
 	}
 }
 
@@ -277,17 +217,6 @@
   }
 
 	bMOARLoading = NO;
-	
-	for (ASIHTTPRequest *request in refreshQueue.operations) {
-		[request clearDelegatesAndCancel];
-	}
-
-	for (ASIHTTPRequest *request in queue.operations) {
-		[request clearDelegatesAndCancel];
-	}
-
-	[activeRequests removeAllObjects];
-
 	
 	moarButton.enabled = NO;
 	[moarButton setTitle:@"" forState:UIControlStateNormal];
@@ -307,7 +236,7 @@
 			albumRequest.delegate = self;
             albumRequest.userAgentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 10_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B72";
 			albumRequest.processorDelegate = (id)[self class];
-			[refreshQueue addOperation:albumRequest];
+			[self.refreshQueue addOperation:albumRequest];
 
 			[self refreshSubReddit:YES];
 		}
@@ -333,7 +262,7 @@
 		albumRequest.delegate = self;
         albumRequest.userAgentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 10_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B72";
 		albumRequest.processorDelegate = (id)[self class];
-		[refreshQueue addOperation:albumRequest];
+		[self.refreshQueue addOperation:albumRequest];
 
 		[self refreshSubReddit:YES];
 	}
@@ -349,7 +278,7 @@
 		albumRequest.delegate = self;
         albumRequest.userAgentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 10_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B72";
 		albumRequest.processorDelegate = (id)[self class];
-		[refreshQueue addOperation:albumRequest];
+		[self.refreshQueue addOperation:albumRequest];
 		
 		[self refreshSubReddit:YES];
 	}
@@ -365,7 +294,7 @@
         albumRequest.userAgentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 10_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B72";
 		albumRequest.delegate = self;
 		albumRequest.processorDelegate = (id)[self class];
-		[refreshQueue addOperation:albumRequest];
+		[self.refreshQueue addOperation:albumRequest];
 		
 		[self refreshSubReddit:YES];
 	}
@@ -408,7 +337,7 @@
             albumRequest.userAgentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 10_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B72";
 			albumRequest.delegate = self;
 			albumRequest.processorDelegate = (id)[self class];
-			[refreshQueue addOperation:albumRequest];
+			[self.refreshQueue addOperation:albumRequest];
 		}
 	}
 	else {

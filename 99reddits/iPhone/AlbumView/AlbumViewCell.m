@@ -56,7 +56,6 @@
 
 - (void)setPhoto:(PhotoItem *)aPhoto {
   _photo = nil;
-
 	_photo = aPhoto;
 
 	if (self.isInsideFavoriesAlbum) {

@@ -14,6 +14,7 @@
 #import "RedditsViewController.h"
 #import "SettingsViewController.h"
 #import "UserDef.h"
+#import "_9reddits-Swift.h"
 
 #define THUMB_WIDTH			55
 #define THUMB_HEIGHT		55
@@ -21,7 +22,6 @@
 @interface MainViewController ()
 
 - (NSString *)cacheKeyForPhotoIndex:(NSInteger)photoIndex;
-- (void)requestImageFromSource:(NSString *)source photoIndex:(NSInteger)photoIndex;
 
 @end
   
@@ -196,54 +196,43 @@
 	}
 	
 	if (indexPath.row == 0) {
-//		cell.textLabel.text = appDelegate.favoritesItem.nameString;
 		cell.contentTextLabel.text = appDelegate.favoritesItem.nameString;
 
 		if (appDelegate.favoritesItem.photosArray.count == 0) {
 			cell.accessoryType = UITableViewCellAccessoryNone;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-			[cell setThumbImage:[UIImage imageNamed:@"FavoritesIcon.png"] animated:NO];
+      cell.contentImageView.image = [UIImage imageNamed:@"FavoritesIcon.png"];
 		}
 		else {
 			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 			
 			NSString *urlString = [self cacheKeyForPhotoIndex:indexPath.row - 1];
-			UIImage *image = [thumbnailImageCache objectWithName:urlString];
-			if (image == nil) {
-				[self requestImageFromSource:urlString photoIndex:indexPath.row - 1];
-				[cell setThumbImage:[UIImage imageNamed:@"FavoritesIcon.png"] animated:NO];
-			}
-			else {
-				[cell setThumbImage:image animated:NO];
-			}
+
+      if (urlString) {
+        [ImageLoader loadWithUrlString:urlString into:cell.contentImageView];
+      } else {
+        cell.contentImageView.image = [UIImage imageNamed:@"FavoritesIcon.png"];
+      }
 		}
 		
 		[cell setTotalCount:appDelegate.favoritesItem.photosArray.count];
 	}
 	else {
 		SubRedditItem *subReddit = [subRedditsArray objectAtIndex:indexPath.row - 1];
-//		cell.textLabel.text = subReddit.nameString;
 		cell.contentTextLabel.text = subReddit.nameString;
 
 		if (subReddit.photosArray.count == 0 || subReddit.loading) {
 			cell.accessoryType = UITableViewCellAccessoryNone;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-			[cell setThumbImage:nil animated:NO];
+      cell.contentImageView.image = nil;
 		}
 		else {
 			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 			
 			NSString *urlString = [self cacheKeyForPhotoIndex:indexPath.row - 1];
-			UIImage *image = [thumbnailImageCache objectWithName:urlString];
-			if (image == nil) {
-				[self requestImageFromSource:urlString photoIndex:indexPath.row - 1];
-				[cell setThumbImage:nil animated:NO];
-			}
-			else {
-				[cell setThumbImage:image animated:NO];
-			}
+      [ImageLoader loadWithUrlString:urlString into:cell.contentImageView];
 		}
 		
 		[cell setUnshowedCount:subReddit.unshowedCount totalCount:subReddit.photosArray.count loading:subReddit.loading];
@@ -599,101 +588,6 @@
 		
 		return [[subReddit.photosArray objectAtIndex:0] thumbnailString];
 	}
-}
-
-- (void)requestImageFromSource:(NSString *)source photoIndex:(NSInteger)photoIndex {
-//	if (![appDelegate checkNetworkReachable:NO])
-//		return;
-
-	if (source.length == 0)
-		return;
-	
-	if ([activeRequests containsObject:source]) {
-		return;
-	}
-	
-	NSURL *url = [NSURL URLWithString:source];
-	
-	__block NIHTTPRequest __weak *readOp = [NIHTTPRequest requestWithURL:url usingCache:[ASIDownloadCache sharedCache]];
-	readOp.cacheStoragePolicy = ASICachePermanentlyCacheStoragePolicy;
-	readOp.shouldAttemptPersistentConnection = NO;
-	readOp.timeOutSeconds = 30;
-	
-	NSString *photoIndexKey = [self cacheKeyForPhotoIndex:photoIndex];
-	
-	[readOp setCompletionBlock:^{
-		UIImage *image = [UIImage imageWithData:[readOp responseData]];
-		
-		NSInteger index = -2;
-		if (photoIndex == -1) {
-			index = -1;
-		}
-		else {
-			for (NSInteger i = 0; i < subRedditsArray.count; i ++) {
-				NSString *keyString = [self cacheKeyForPhotoIndex:i];
-				if ([keyString isEqualToString:photoIndexKey]) {
-					index = i;
-					break;
-				}
-			}
-		}
-		
-		if (index != -2) {
-			if (image && (subRedditsArray.count + 1 > photoIndex || photoIndex == -1)) {
-				NSInteger x, y, w, h;
-				if (image.size.width > THUMB_WIDTH * 2 && image.size.height > THUMB_HEIGHT * 2) {
-					float imgRatio = image.size.width / image.size.height;
-					if (imgRatio < 1) {
-						w = THUMB_WIDTH;
-						h = w / imgRatio;
-						x = 0;
-						y = (THUMB_HEIGHT - h) / 2;
-					}
-					else if (imgRatio > 1) {
-						h = THUMB_HEIGHT;
-						w = h * imgRatio;
-						x = (THUMB_WIDTH - w) / 2;
-						y = 0;
-					}
-					else {
-						w = THUMB_WIDTH;
-						h = THUMB_HEIGHT;
-						x = 0.0;
-						y = 0.0;
-					}
-				}
-				else {
-					w = image.size.width;
-					h = image.size.height;
-					x = (THUMB_WIDTH - w) / 2;
-					y = (THUMB_HEIGHT - h) / 2;
-				}
-				
-				UIGraphicsBeginImageContextWithOptions(CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT), NO, screenScale);
-				CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(), [UIColor whiteColor].CGColor);
-				CGContextFillRect(UIGraphicsGetCurrentContext(), CGRectMake(0, 0, THUMB_WIDTH, THUMB_HEIGHT));
-				CGRect rect = CGRectMake(x, y, w, h);
-				[image drawInRect:rect];
-				UIImage *thumbImage = UIGraphicsGetImageFromCurrentImageContext();
-				UIGraphicsEndImageContext();
-				
-				[thumbnailImageCache storeObject:thumbImage withName:photoIndexKey];
-				MainViewCell *cell = (MainViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index + 1 inSection:0]];
-				[cell setThumbImage:thumbImage animated:YES];
-			}
-		}
-		
-		[activeRequests removeObject:source];
-	}];
-	
-	[readOp setFailedBlock:^{
-		[activeRequests removeObject:source];
-	}];
-	
-	[readOp setQueuePriority:NSOperationQueuePriorityNormal];
-	
-	[activeRequests addObject:source];
-	[queue addOperation:readOp];
 }
 
 - (IBAction)onSettingsButton:(id)sender {

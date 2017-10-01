@@ -18,9 +18,10 @@
     if (self) {
 		activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 
-		contentImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 55, 55)];
-		contentImageView.contentMode = UIViewContentModeScaleAspectFill;
-		[self.contentView addSubview:contentImageView];
+		self.contentImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 55, 55)];
+		self.contentImageView.contentMode = UIViewContentModeScaleAspectFill;
+    self.contentImageView.clipsToBounds = YES;
+		[self.contentView addSubview:self.contentImageView];
 
 		contentTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 0, screenWidth - 140, 55)];
 		contentTextLabel.font = [UIFont boldSystemFontOfSize:16];
@@ -30,9 +31,6 @@
 
 		self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 		self.selectionStyle = UITableViewCellSelectionStyleBlue;
-//		self.textLabel.font = [UIFont boldSystemFontOfSize:16];
-//		self.textLabel.textColor = [UIColor blackColor];
-//		self.textLabel.backgroundColor = [UIColor clearColor];
 
 		unshowedBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
 		unshowedBackView.userInteractionEnabled = NO;
@@ -47,11 +45,16 @@
 		unshowedLabel.textColor = [UIColor whiteColor];
 		[self addSubview:unshowedLabel];
 
-//		self.imageView.contentMode = UIViewContentModeScaleAspectFill;
 
 		first = YES;
     }
     return self;
+}
+
+- (void)prepareForReuse {
+  [super prepareForReuse];
+
+  self.contentImageView.image = [UIImage imageNamed:@"DefaultAlbumIcon"];
 }
 
 - (void)layoutSubviews {
@@ -137,10 +140,6 @@
 	
 	unshowedBackView.hidden = YES;
 	unshowedLabel.hidden = YES;
-	
-//	CGRect frame = self.textLabel.frame;
-//	frame.size.width = 180;
-//	self.textLabel.frame = frame;
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
@@ -157,46 +156,6 @@
 							 unshowedLabel.alpha = 1.0;
 						 }
 					 }];
-}
-
-- (void)setThumbImage:(UIImage *)thumbImage animated:(BOOL)animated {
-	[animateImageView.layer removeAllAnimations];
-	[animateImageView removeFromSuperview];
-	animateImageView = nil;
-
-	if (thumbImage == nil) {
-//		self.imageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
-		contentImageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
-		imageEmpty = YES;
-	}
-	else {
-		if (animated || imageEmpty) {
-//			self.imageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
-			contentImageView.image = [UIImage imageNamed:@"DefaultAlbumIcon.png"];
-			animateImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 55, 55)];
-			animateImageView.image = thumbImage;
-			[self.contentView addSubview:animateImageView];
-
-			animateImageView.alpha = 0.0;
-			[UIView animateWithDuration:0.2
-							 animations:^(void) {
-								 animateImageView.alpha = 1.0;
-							 }
-							 completion:^(BOOL finished) {
-								 [animateImageView removeFromSuperview];
-								 animateImageView = nil;
-								 if (finished) {
-//									 self.imageView.image = thumbImage;
-									 contentImageView.image = thumbImage;
-								 }
-							 }];
-		}
-		else {
-//			self.imageView.image = thumbImage;
-			contentImageView.image = thumbImage;
-		}
-		imageEmpty = NO;
-	}
 }
 
 @end

@@ -11,21 +11,10 @@
 
 @class AlbumViewController;
 
-@interface AlbumViewCell : UICollectionViewCell {
-	AlbumViewController __weak *albumViewController;
-	
-	PhotoItem __weak *photo;
-	BOOL bFavorites;
-
-	UIImageView *favoriteOverlayView;
-	UIImageView *animateImageView;
-	UIButton *tapButton;
-
-	BOOL imageEmpty;
-}
+@interface AlbumViewCell : UICollectionViewCell
 
 @property (nonatomic, weak) AlbumViewController *albumViewController;
-@property (nonatomic, weak) PhotoItem *photo;
+@property (nonatomic, strong) PhotoItem *photo;
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic) BOOL bFavorites;
 

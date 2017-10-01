@@ -10,7 +10,6 @@
 #import "AlbumViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
-
 @interface AlbumViewCell()
 
 @property (strong, nonatomic) UIButton *tapButton;
@@ -21,10 +20,6 @@
 @end
 
 @implementation AlbumViewCell
-
-@synthesize albumViewController;
-@synthesize photo;
-@synthesize bFavorites;
 
 - (id)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
@@ -59,20 +54,20 @@
 }
 
 - (void)onTap:(id)sender {
-	[albumViewController onSelectPhoto:photo];
+	[self.albumViewController onSelectPhoto:self.photo];
 }
 
-- (void)setPhoto:(PhotoItem *)_photo {
-	photo = nil;
+- (void)setPhoto:(PhotoItem *)aPhoto {
+  _photo = nil;
 
-	photo = _photo;
+	_photo = aPhoto;
 
-	if (bFavorites) {
+	if (self.isInsideFavoriesAlbum) {
 		self.favoriteOverlayView.hidden = YES;
 		self.favoriteOverlayView.image = nil;
 	}
 	else {
-		if ([appDelegate isFavorite:photo]) {
+		if ([appDelegate isFavorite:_photo]) {
 			self.favoriteOverlayView.hidden = NO;
 			self.favoriteOverlayView.image = [UIImage imageNamed:@"FavoritesRedIcon.png"];
 		}

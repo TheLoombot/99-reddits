@@ -16,7 +16,7 @@
 @property (nonatomic, weak) AlbumViewController *albumViewController;
 @property (nonatomic, strong) PhotoItem *photo;
 @property (nonatomic, strong) UIImageView *imageView;
-@property (nonatomic) BOOL bFavorites;
+@property (nonatomic, assign, getter=isInsideFavoriesAlbum) BOOL insideFavoritesAlbum;
 
 - (void)setThumbImage:(UIImage *)thumbImage animated:(BOOL)animated;
 

@@ -222,7 +222,7 @@
 
 	AlbumViewCell *cell = (AlbumViewCell *)[contentCollectionView dequeueReusableCellWithReuseIdentifier:@"ALBUM_VIEW_CELL" forIndexPath:indexPath];
 	cell.albumViewController = self;
-	cell.bFavorites = bFavorites;
+	cell.insideFavoritesAlbum = bFavorites;
 	cell.photo = photo;
 
   [ImageLoader loadWithUrlString:photo.thumbnailString into:cell.imageView];

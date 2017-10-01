@@ -204,6 +204,7 @@
 		9C6EC04F1CACC9C700DEB36D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC04E1CACC9C700DEB36D /* libz.tbd */; };
 		9C6EC0521CACCB0A00DEB36D /* libFlurry_7.5.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC0511CACCB0A00DEB36D /* libFlurry_7.5.2.a */; };
 		FE4738771F7CA0C300EC4828 /* ReviewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4738761F7CA0C300EC4828 /* ReviewManager.m */; };
+		FE8568981F808BC40033EC11 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = FE8568971F808BC40033EC11 /* Podfile */; };
 		FE91DCA41F789C61005F5B7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE91DCA31F789C61005F5B7F /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -511,6 +512,7 @@
 		9C6EC0511CACCB0A00DEB36D /* libFlurry_7.5.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_7.5.2.a; sourceTree = "<group>"; };
 		FE4738751F7CA0C300EC4828 /* ReviewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReviewManager.h; sourceTree = "<group>"; };
 		FE4738761F7CA0C300EC4828 /* ReviewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReviewManager.m; sourceTree = "<group>"; };
+		FE8568971F808BC40033EC11 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		FE91DCA31F789C61005F5B7F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -592,6 +594,7 @@
 		8D507FF71445923700788875 = {
 			isa = PBXGroup;
 			children = (
+				FE8568971F808BC40033EC11 /* Podfile */,
 				FE91DCA31F789C61005F5B7F /* Assets.xcassets */,
 				9C57D5901680201B00AB7126 /* Flurry */,
 				8D6C5D21164ACCCC008A98A7 /* Shared */,
@@ -1147,6 +1150,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE8568981F808BC40033EC11 /* Podfile in Resources */,
 				847D5F6D1A7A1FEA00173A01 /* MaximizePad@2x.png in Resources */,
 				843903781A749747007B9EFF /* FavoritesIcon.png in Resources */,
 				843903861A749747007B9EFF /* iTunesArtwork in Resources */,

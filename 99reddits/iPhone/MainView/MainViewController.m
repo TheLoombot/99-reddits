@@ -24,7 +24,7 @@
 - (void)requestImageFromSource:(NSString *)source photoIndex:(NSInteger)photoIndex;
 
 @end
-
+  
 @implementation MainViewController
 
 @synthesize lastAddedIndex;

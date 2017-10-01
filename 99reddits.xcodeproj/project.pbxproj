@@ -206,6 +206,7 @@
 		DD24326E76741E74CEB6EFD0 /* Pods_99reddits.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAB47ADD7B1F0AD26966574B /* Pods_99reddits.framework */; };
 		FE4738771F7CA0C300EC4828 /* ReviewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4738761F7CA0C300EC4828 /* ReviewManager.m */; };
 		FE8568981F808BC40033EC11 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = FE8568971F808BC40033EC11 /* Podfile */; };
+		FE85689B1F8094E20033EC11 /* NNImageLoader.m in Sources */ = {isa = PBXBuildFile; fileRef = FE85689A1F8094E20033EC11 /* NNImageLoader.m */; };
 		FE91DCA41F789C61005F5B7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE91DCA31F789C61005F5B7F /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
@@ -517,6 +518,8 @@
 		FE4738751F7CA0C300EC4828 /* ReviewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReviewManager.h; sourceTree = "<group>"; };
 		FE4738761F7CA0C300EC4828 /* ReviewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReviewManager.m; sourceTree = "<group>"; };
 		FE8568971F808BC40033EC11 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		FE8568991F8094E20033EC11 /* NNImageLoader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NNImageLoader.h; sourceTree = "<group>"; };
+		FE85689A1F8094E20033EC11 /* NNImageLoader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NNImageLoader.m; sourceTree = "<group>"; };
 		FE91DCA31F789C61005F5B7F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -1046,6 +1049,8 @@
 				8D6C5D2B164ACCCC008A98A7 /* UserDef.m */,
 				FE4738751F7CA0C300EC4828 /* ReviewManager.h */,
 				FE4738761F7CA0C300EC4828 /* ReviewManager.m */,
+				FE8568991F8094E20033EC11 /* NNImageLoader.h */,
+				FE85689A1F8094E20033EC11 /* NNImageLoader.m */,
 			);
 			name = Shared;
 			path = 99reddits/Shared;
@@ -1393,6 +1398,7 @@
 				8D68FDE314F8909000CDCF66 /* NIPhotoScrollView.m in Sources */,
 				8D68FDE414F8909000CDCF66 /* NIPhotoScrubberView.m in Sources */,
 				8D68FDE514F8909000CDCF66 /* NIToolbarPhotoViewController.m in Sources */,
+				FE85689B1F8094E20033EC11 /* NNImageLoader.m in Sources */,
 				8D68FDE614F8909000CDCF66 /* NIJSONKitProcessorHTTPRequest.m in Sources */,
 				8D68FDE714F8909000CDCF66 /* NIProcessorHTTPRequest.m in Sources */,
 				8D6C5D2C164ACCCC008A98A7 /* AlbumViewCell.m in Sources */,

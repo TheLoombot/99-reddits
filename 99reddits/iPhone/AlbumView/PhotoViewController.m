@@ -41,28 +41,6 @@
 	return self;
 }
 
-- (void)dealloc {
-	[self releaseCaches];
-}
-
-- (void)releaseCaches {
-	for (ASIHTTPRequest *request in queue.operations) {
-		[request clearDelegatesAndCancel];
-	}
-	
-	activeRequests = nil;
-	queue = nil;
-}
-
-- (void)didReceiveMemoryWarning {
-	for (ASIHTTPRequest *request in queue.operations) {
-		[request clearDelegatesAndCancel];
-	}
-	[activeRequests removeAllObjects];
-	
-	[super didReceiveMemoryWarning];
-}
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad {
@@ -94,7 +72,6 @@
 	self.photoAlbumView.backgroundColor = [UIColor blackColor];
 	self.photoAlbumView.photoViewBackgroundColor = [UIColor blackColor];
 	[self.photoAlbumView reloadData];
-   // [self.photoAlbumView moveToPageAtIndex:self.testindex animated:YES];
 	[appDelegate checkNetworkReachable:YES];
 	
 	UIBarButtonItem *actionButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(onActionButton)];
@@ -141,20 +118,6 @@
 	self.titleLabel.hidden = NO;
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    self.testindex = self.photoAlbumView.centerPageIndex;
-    if (!disappearForSubview) {
-		[super viewWillDisappear:animated];
-	}
-	
-	if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
-		shouldReleaseCaches = YES;
-	}
-	else {
-		shouldReleaseCaches = NO;
-	}
-}
-
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
 	
@@ -164,12 +127,6 @@
 	
 	self.titleLabelBar.hidden = YES;
 	self.titleLabel.hidden = YES;
-
-	if (shouldReleaseCaches) {
-		shouldReleaseCaches = NO;
-		
-		[self releaseCaches];
-	}
 }
 
 - (void)onActionButton {
@@ -212,9 +169,7 @@
 }
 
 - (void)requestImageFromSource:(NSString *)source photoSize:(NIPhotoScrollViewPhotoSize)photoSize photoIndex:(NSInteger)photoIndex {
-//	if (![appDelegate checkNetworkReachable:NO])
-//		return;
-	
+
 	if (photoIndex >= subReddit.photosArray.count)
 		return;
 	

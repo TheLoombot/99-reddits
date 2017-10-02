@@ -18,9 +18,6 @@
 	NSMutableSet *activeRequests;
 	
 	SubRedditItem *subReddit;
-	//NSInteger testindex;
-	
-	BOOL shouldReleaseCaches;
 	
 	BOOL disappearForSubview;
 	

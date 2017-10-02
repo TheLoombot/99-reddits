@@ -20,9 +20,6 @@
 	SubRedditItem *subReddit;
 	
 	BOOL disappearForSubview;
-	
-	BOOL sharing;
-	NSInteger sharingIndex;
 
 	UIBarButtonItem *favoriteWhiteItem;
 	UIBarButtonItem *favoriteRedItem;

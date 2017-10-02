@@ -86,9 +86,7 @@
 	self.toolbar.items = items;
 	
 	disappearForSubview = NO;
-	
-	sharing = NO;
-	
+
 	self.titleLabelBar.hidden = YES;
 	self.titleLabel.hidden = YES;
 }
@@ -121,24 +119,25 @@
 - (void)viewDidDisappear:(BOOL)animated {
 	[super viewDidDisappear:animated];
 	
-	if (!disappearForSubview) {
-		sharing = NO;
-	}
-	
 	self.titleLabelBar.hidden = YES;
 	self.titleLabel.hidden = YES;
 }
 
 - (void)onActionButton {
-	if (sharing)
-		return;
-	
-	sharing = YES;
+
+  NSInteger sharingIndex = self.photoAlbumView.centerPageIndex;
 	sharingIndex = self.photoAlbumView.centerPageIndex;
-	
 	PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
-	
-	[self requestImageFromSource:photo.urlString photoSize:NIPhotoScrollViewPhotoSizeOriginal photoIndex:sharingIndex];
+
+//  NSData *data = [readOp responseData];
+//  UIImage *image = [UIImage imageWithData:data];
+//
+//  BOOL showFull = NO;
+//  if (!isFullImage && (image.size.width >= 1024 || image.size.height >= 1024)) {
+//    showFull = YES;
+//  }
+//
+//  [self shareImage:data title:[NSString stringWithFormat:@"%@\n", photo.titleString] url:[NSURL URLWithString:[NSString stringWithFormat:@"http://redd.it/%@", photo.idString]] showFull:showFull];
 }
 
 // UIActionSheetDelegate
@@ -197,54 +196,41 @@
 	readOp.cacheStoragePolicy = ASICachePermanentlyCacheStoragePolicy;
 	readOp.timeOutSeconds = 30;
 	readOp.tag = photoIndex;
-	
+
+  NSData *data = [readOp responseData];
+  UIImage *image = [UIImage imageWithData:data];
+
 	[readOp setCompletionBlock:^{
-		NSData *data = [readOp responseData];
-		UIImage *image = [UIImage imageWithData:data];
 
-		if (sharing && photoIndex == self.photoAlbumView.centerPageIndex && photoIndex == sharingIndex && image) {
-			if (subReddit.photosArray.count > photoIndex) {
-				[self.photoAlbumView didLoadPhoto:image atIndex:photoIndex photoSize:photoSize error:NO];
-			}
+    size_t imageCount = 1;
+    if (image && subReddit.photosArray.count > photoIndex) {
+      [self.photoAlbumView didLoadPhoto:image atIndex:photoIndex photoSize:photoSize error:NO];
 
-			BOOL showFull = NO;
-			if (!isFullImage && (image.size.width >= 1024 || image.size.height >= 1024)) {
-				showFull = YES;
-			}
-			
-			[self shareImage:data title:[NSString stringWithFormat:@"%@\n", photo.titleString] url:[NSURL URLWithString:[NSString stringWithFormat:@"http://redd.it/%@", photo.idString]] showFull:showFull];
-		}
-		else {
-			size_t imageCount = 1;
-			if (image && subReddit.photosArray.count > photoIndex) {
-				[self.photoAlbumView didLoadPhoto:image atIndex:photoIndex photoSize:photoSize error:NO];
-				
-				if (photoIndex == self.photoAlbumView.centerPageIndex) {
-					CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)data, NULL);
-					if (imageSource) {
-						imageCount = CGImageSourceGetCount(imageSource);
-						if (imageCount > 1) {
-							uint8_t c;
-							[data getBytes:&c length:1];
-							if (c == 0x47) {
-								[self.photoAlbumView didLoadGif:data atIndex:photoIndex];
-							}
-						}
-						CFRelease(imageSource);
-					}
-				}
-			}
-			else {
-				[self.photoAlbumView didLoadPhoto:[UIImage imageNamed:@"Error.png"] atIndex:photoIndex photoSize:photoSize error:YES];
-			}
-			
-			if (photoIndex == self.photoAlbumView.centerPageIndex) {
-				if (![photo isShowed]) {
-					[appDelegate.showedSet addObject:photo.idString];
-					subReddit.unshowedCount --;
-				}
-			}
-		}
+      if (photoIndex == self.photoAlbumView.centerPageIndex) {
+        CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)data, NULL);
+        if (imageSource) {
+          imageCount = CGImageSourceGetCount(imageSource);
+          if (imageCount > 1) {
+            uint8_t c;
+            [data getBytes:&c length:1];
+            if (c == 0x47) {
+              [self.photoAlbumView didLoadGif:data atIndex:photoIndex];
+            }
+          }
+          CFRelease(imageSource);
+        }
+      }
+    }
+    else {
+      [self.photoAlbumView didLoadPhoto:[UIImage imageNamed:@"Error.png"] atIndex:photoIndex photoSize:photoSize error:YES];
+    }
+
+    if (photoIndex == self.photoAlbumView.centerPageIndex) {
+      if (![photo isShowed]) {
+        [appDelegate.showedSet addObject:photo.idString];
+        subReddit.unshowedCount --;
+      }
+    }
 		
 		[activeRequests removeObject:identifierKey];
 	}];
@@ -260,9 +246,7 @@
 				subReddit.unshowedCount --;
 			}
 		}
-		
-		sharing = NO;
-		
+
 		[activeRequests removeObject:identifierKey];
 	}];
 	
@@ -302,7 +286,7 @@
 		return nil;
 	
 	UIImage *image = nil;
-	
+
 	PhotoItem *photo = [subReddit.photosArray objectAtIndex:photoIndex];
 	
 	[self requestImageFromSource:photo.urlString photoSize:NIPhotoScrollViewPhotoSizeOriginal photoIndex:photoIndex];
@@ -330,10 +314,6 @@
 	
 	PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
 	[self setTitleLabelText:photo.titleString];
-	
-	if (sharing && self.photoAlbumView.centerPageIndex != sharingIndex) {
-		sharing = NO;
-	}
 	
 	[self requestImageFromSource:photo.urlString photoSize:NIPhotoScrollViewPhotoSizeOriginal photoIndex:self.photoAlbumView.centerPageIndex];
 	

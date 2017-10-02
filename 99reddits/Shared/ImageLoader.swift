@@ -21,13 +21,13 @@ class ImageLoader: NSObject {
     Nuke.loadImage(with: url, into: imageView)
   }
 
-  static func load(urlString: String, into imageView: UIImageView, completion: @escaping ImageLoaderCompletionHandler) {
+  static func load(urlString: String, completion: @escaping ImageLoaderCompletionHandler) {
     guard let url = URL(string: urlString) else {
       return
     }
 
     let request = Request(url: url)
-    Nuke.loadImage(with: request, into: imageView) { (result, _) in
+    Manager.shared.loadImage(with: request) { (result) in
       switch result {
       case .success(let image):
         completion(image)

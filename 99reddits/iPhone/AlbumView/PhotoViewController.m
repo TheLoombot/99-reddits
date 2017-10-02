@@ -17,6 +17,7 @@
 #import "CommentViewController.h"
 #import "TitleProvider.h"
 #import "URLProvider.h"
+#import "_9reddits-Swift.h"
 
 @interface PhotoViewController ()
 
@@ -282,28 +283,33 @@
 						isLoading:(BOOL *)isLoading
 		  originalPhotoDimensions:(CGSize *)originalPhotoDimensions {
 	
-	if (photoIndex >= subReddit.photosArray.count)
-		return nil;
-	
-	UIImage *image = nil;
+  if (photoIndex >= subReddit.photosArray.count) {
+    return nil;
+  }
 
-	PhotoItem *photo = [subReddit.photosArray objectAtIndex:photoIndex];
-	
-	[self requestImageFromSource:photo.urlString photoSize:NIPhotoScrollViewPhotoSizeOriginal photoIndex:photoIndex];
-	
-	*isLoading = YES;
-	
-	return image;
+  //TODO: maybe put `getHugeImage` in PhotoItem class
+  PhotoItem *photo = [subReddit.photosArray objectAtIndex:photoIndex];
+  NSString *source = photo.urlString;
+
+  if (![appDelegate isFullImage:source] && ![photo isGif]) {
+    NSString *hugeSource = [appDelegate getHugeImage:source];
+    if (![hugeSource isEqualToString:source]) {
+      source = hugeSource;
+    }
+  }
+
+  [ImageLoader loadWithUrlString:source completion:^(UIImage * _Nonnull image) {
+    //TODO: images too small
+    [self.photoAlbumView didLoadPhoto:image atIndex:photoIndex photoSize:NIPhotoScrollViewPhotoSizeOriginal error:NO];
+  }];
+
+  *isLoading = YES;
+
+	return nil;
 }
 
 - (void)photoAlbumScrollView:(NIPhotoAlbumScrollView *)photoAlbumScrollView stopLoadingPhotoAtIndex:(NSInteger)photoIndex {
-	for (ASIHTTPRequest *op in [queue operations]) {
-		if (op.tag == photoIndex) {
-			[op cancel];
-			NSNumber *identifierKey = [NSNumber numberWithInteger:photoIndex];
-			[activeRequests removeObject:identifierKey];
-		}
-	}
+  //TODO: implement cancelation
 }
 
 - (void)pagingScrollViewDidChangePages:(NIPhotoAlbumScrollView *)photoAlbumScrollView {
@@ -314,8 +320,9 @@
 	
 	PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
 	[self setTitleLabelText:photo.titleString];
-	
-	[self requestImageFromSource:photo.urlString photoSize:NIPhotoScrollViewPhotoSizeOriginal photoIndex:self.photoAlbumView.centerPageIndex];
+
+  //TODO: implement
+	//[self requestImageFromSource:photo.urlString photoSize:NIPhotoScrollViewPhotoSizeOriginal photoIndex:self.photoAlbumView.centerPageIndex];
 	
 	if (!bFavorites) {
 		if ([appDelegate isFavorite:photo]) {
@@ -378,8 +385,6 @@
 	activityViewController.excludedActivityTypes = excludedActivityTypes;
 	
 	[self presentViewController:activityViewController animated:YES completion:nil];
-	
-	sharing = NO;
 }
 
 // MaximizeActivityDelegate

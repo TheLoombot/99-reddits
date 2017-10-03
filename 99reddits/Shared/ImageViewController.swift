@@ -37,8 +37,6 @@ class ImageViewController: UIViewController {
         scrollView.frame = view.bounds
         scrollView.contentSize = self.imageView.frame.size
         scrollView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        scrollView.minimumZoomScale = 1
-        scrollView.maximumZoomScale = 2
         scrollView.isUserInteractionEnabled = true
         scrollView.delegate = self
 

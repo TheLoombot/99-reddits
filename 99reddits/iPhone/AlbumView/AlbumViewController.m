@@ -134,12 +134,15 @@
 		photoSubReddit.urlString = currentSubReddit.urlString;
 		[photoSubReddit.photosArray addObjectsFromArray:currentPhotosArray];
 		photoSubReddit.afterString = currentSubReddit.afterString;
-		
-		PhotoViewController *photoViewController = [[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:nil];
-		photoViewController.bFavorites = bFavorites;
-		photoViewController.subReddit = photoSubReddit;
-		photoViewController.testindex = [currentPhotosArray indexOfObject:photo];
-		[self.navigationController pushViewController:photoViewController animated:YES];
+
+        PhotoPageViewController *photoPageViewController = [[PhotoPageViewController alloc] init];
+        [photoPageViewController populateWith:photoSubReddit at:0];
+
+//        PhotoViewController *photoViewController = [[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:nil];
+//        photoViewController.bFavorites = bFavorites;
+//        photoViewController.subReddit = photoSubReddit;
+//        photoViewController.testindex = [currentPhotosArray indexOfObject:photo];
+		[self.navigationController pushViewController:photoPageViewController animated:YES];
 	}
 }
 

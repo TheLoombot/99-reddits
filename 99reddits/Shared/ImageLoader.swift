@@ -32,9 +32,13 @@ class ImageLoader: NSObject {
     Manager.shared.loadImage(with: request) { (result) in
       switch result {
       case .success(let image):
-        success(image)
+        DispatchQueue.main.async {
+          success(image)
+        }
       case .failure(let error):
-        failure(error)
+        DispatchQueue.main.async {
+          failure(error)
+        }
       }
     }
   }

@@ -269,9 +269,9 @@
 	if (nil == photoView) {
 		photoView = [[PhotoView alloc] init];
 		photoView.reuseIdentifier = reuseIdentifier;
-		photoView.zoomingAboveOriginalSizeIsEnabled = YES;
 	}
-	
+
+  photoView.zoomingAboveOriginalSizeIsEnabled = YES;
 	photoView.photoScrollViewDelegate = self.photoAlbumView;
 	
 	return photoView;
@@ -297,6 +297,8 @@
       source = hugeSource;
     }
   }
+
+  NSLog(@"url about to be fetched: %@", source);
 
   [ImageLoader loadWithUrlString:source success:^(UIImage * _Nonnull image) {
     [self.photoAlbumView didLoadPhoto:image atIndex:photoIndex photoSize:NIPhotoScrollViewPhotoSizeOriginal error:NO];

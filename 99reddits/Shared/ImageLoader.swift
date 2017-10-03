@@ -9,7 +9,8 @@
 import UIKit
 import Nuke
 
-typealias ImageLoaderCompletionHandler = ((UIImage) -> Void)
+typealias ImageLoaderSuccessHandler = ((UIImage) -> Void)
+typealias ImageLoaderErrorHandler = ((Error) -> Void)
 
 //Objective-C compatible wrapper around Nuke
 class ImageLoader: NSObject {
@@ -21,7 +22,8 @@ class ImageLoader: NSObject {
     Nuke.loadImage(with: url, into: imageView)
   }
 
-  static func load(urlString: String, completion: @escaping ImageLoaderCompletionHandler) {
+  static func load(urlString: String, success: @escaping ImageLoaderSuccessHandler, failure: @escaping ImageLoaderErrorHandler) {
+
     guard let url = URL(string: urlString) else {
       return
     }
@@ -30,10 +32,9 @@ class ImageLoader: NSObject {
     Manager.shared.loadImage(with: request) { (result) in
       switch result {
       case .success(let image):
-        completion(image)
+        success(image)
       case .failure(let error):
-        //handle error
-        print(error)
+        failure(error)
       }
     }
   }

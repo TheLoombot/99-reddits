@@ -32,10 +32,10 @@ class PhotoPageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = UIColor.black
 
         let pageViewController = UIPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
-        pageViewController.view.backgroundColor = UIColor.blue
+        pageViewController.view.backgroundColor = UIColor.black
         pageViewController.dataSource = self
         pageViewController.delegate = self
         self.pageViewController = pageViewController
@@ -53,7 +53,7 @@ class PhotoPageViewController: UIViewController {
             return
         }
 
-        imageViewController.view.backgroundColor = UIColor.red
+        imageViewController.view.backgroundColor = UIColor.black
         imageViewController.view.frame = view.bounds
         self.pageViewController?.setViewControllers([imageViewController], direction: .forward, animated: false, completion: nil)
     }

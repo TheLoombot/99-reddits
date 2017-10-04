@@ -37,6 +37,7 @@ class ImageViewController: UIViewController {
         super.viewDidLoad()
 
         view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        navigationController?.navigationBar.isTranslucent = true
 
         imageView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         imageView.contentMode = .scaleAspectFit
@@ -47,6 +48,12 @@ class ImageViewController: UIViewController {
         scrollView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         scrollView.isUserInteractionEnabled = true
         scrollView.delegate = self
+
+        if #available(iOS 11.0, *) {
+            scrollView.contentInsetAdjustmentBehavior = .never
+        } else {
+            // Fallback on earlier versions
+        }
 
         view.addSubview(self.scrollView)
         scrollView.addSubview(self.imageView)
@@ -76,12 +83,6 @@ class ImageViewController: UIViewController {
 
         scrollView.contentSize = imageView.frame.size
         scrollView.contentOffset = .zero
-    }
-
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-
-        scrollView.contentSize = view.bounds.size
     }
 
     func singleTap() {

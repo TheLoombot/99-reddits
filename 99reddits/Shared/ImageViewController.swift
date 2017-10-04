@@ -10,6 +10,8 @@ import UIKit
 
 class ImageViewController: UIViewController {
 
+    static let ImageViewControllerZoomedInScale: CGFloat = 2.0
+
     fileprivate let imageURL: URL
     fileprivate let imageView = UIImageView()
     fileprivate let scrollView = UIScrollView()
@@ -43,6 +45,10 @@ class ImageViewController: UIViewController {
         view.addSubview(self.scrollView)
         scrollView.addSubview(self.imageView)
 
+        let doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(doubleTapGestureRecognizerTapped))
+        doubleTapGestureRecognizer.numberOfTapsRequired = 2
+        scrollView.addGestureRecognizer(doubleTapGestureRecognizer)
+
         ImageLoader.load(urlString: imageURL.absoluteString, success: { [weak self] (image) in
             self?.imageView.image = image
         }) { (error) in
@@ -66,7 +72,18 @@ class ImageViewController: UIViewController {
 
         scrollView.contentSize = view.bounds.size
     }
+
+    func doubleTapGestureRecognizerTapped() {
+
+        guard scrollView.zoomScale < ImageViewController.ImageViewControllerZoomedInScale else {
+            scrollView.setZoomScale(1, animated: true)
+            return
+        }
+
+        scrollView.setZoomScale(ImageViewController.ImageViewControllerZoomedInScale, animated: true)
+    }
 }
+
 
 extension ImageViewController: UIScrollViewDelegate {
 

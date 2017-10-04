@@ -508,7 +508,7 @@
 		BAB47ADD7B1F0AD26966574B /* Pods_99reddits.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_99reddits.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE4738751F7CA0C300EC4828 /* ReviewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReviewManager.h; sourceTree = "<group>"; };
 		FE4738761F7CA0C300EC4828 /* ReviewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReviewManager.m; sourceTree = "<group>"; };
-		FE8568971F808BC40033EC11 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		FE8568971F808BC40033EC11 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		FE85689C1F8097D90033EC11 /* 99reddits-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "99reddits-Bridging-Header.h"; sourceTree = "<group>"; };
 		FE85689D1F8097D90033EC11 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		FE88A6DF1F832D90008B49F5 /* PhotoPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPageViewController.swift; sourceTree = "<group>"; };

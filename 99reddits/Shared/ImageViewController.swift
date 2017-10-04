@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol ImageViewControllerDelegate: class {
+    func didReceiveSingleTap(viewController: ImageViewController)
+}
+
 class ImageViewController: UIViewController {
 
     static let ImageViewControllerZoomedInScale: CGFloat = 2.0
@@ -15,6 +19,8 @@ class ImageViewController: UIViewController {
     fileprivate let imageURL: URL
     fileprivate let imageView = UIImageView()
     fileprivate let scrollView = UIScrollView()
+
+    weak var delegate: ImageViewControllerDelegate?
 
     var index: Int?
 
@@ -45,9 +51,14 @@ class ImageViewController: UIViewController {
         view.addSubview(self.scrollView)
         scrollView.addSubview(self.imageView)
 
-        let doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(doubleTapGestureRecognizerTapped))
+        let singleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(singleTap))
+        scrollView.addGestureRecognizer(singleTapGestureRecognizer)
+
+        let doubleTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(doubleTap))
         doubleTapGestureRecognizer.numberOfTapsRequired = 2
         scrollView.addGestureRecognizer(doubleTapGestureRecognizer)
+
+        singleTapGestureRecognizer.require(toFail: doubleTapGestureRecognizer)
 
         ImageLoader.load(urlString: imageURL.absoluteString, success: { [weak self] (image) in
             self?.imageView.image = image
@@ -73,8 +84,11 @@ class ImageViewController: UIViewController {
         scrollView.contentSize = view.bounds.size
     }
 
-    func doubleTapGestureRecognizerTapped() {
+    func singleTap() {
+        delegate?.didReceiveSingleTap(viewController: self)
+    }
 
+    func doubleTap() {
         guard scrollView.zoomScale < ImageViewController.ImageViewControllerZoomedInScale else {
             scrollView.setZoomScale(1, animated: true)
             return

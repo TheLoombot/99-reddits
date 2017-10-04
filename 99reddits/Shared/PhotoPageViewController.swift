@@ -67,6 +67,8 @@ class PhotoPageViewController: UIViewController {
         let imageURL = imageURLs[index]
         let photoViewController = ImageViewController(URL: imageURL)
         photoViewController.index = index
+        photoViewController.delegate = self
+
         return photoViewController
     }
 }
@@ -98,4 +100,18 @@ extension PhotoPageViewController: UIPageViewControllerDelegate {
     func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
         //Add logging
     }
+}
+
+
+extension PhotoPageViewController: ImageViewControllerDelegate {
+    func didReceiveSingleTap(viewController: ImageViewController) {
+        guard let navController = navigationController,
+            let isNavBarHidden = navigationController?.isNavigationBarHidden else {
+                return
+        }
+
+        navController.setNavigationBarHidden(!isNavBarHidden, animated: true)
+    }
+
+
 }

@@ -135,14 +135,16 @@
 		[photoSubReddit.photosArray addObjectsFromArray:currentPhotosArray];
 		photoSubReddit.afterString = currentSubReddit.afterString;
 
-        PhotoPageViewController *photoPageViewController = [[PhotoPageViewController alloc] init];
-        [photoPageViewController populateWith:photoSubReddit at:0];
+        //New implementation: PhotoPageViewController.swift
+        PhotoPageViewController *viewController = [[PhotoPageViewController alloc] init];
+        [viewController populateWith:photoSubReddit at:0];
 
-//        PhotoViewController *photoViewController = [[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:nil];
-//        photoViewController.bFavorites = bFavorites;
-//        photoViewController.subReddit = photoSubReddit;
-//        photoViewController.testindex = [currentPhotosArray indexOfObject:photo];
-		[self.navigationController pushViewController:photoPageViewController animated:YES];
+        //Old implementation; PhotoViewController
+//        PhotoViewController *viewController = [[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:nil];
+//        viewController.bFavorites = bFavorites;
+//        viewController.subReddit = photoSubReddit;
+//        viewController.testindex = [currentPhotosArray indexOfObject:photo];
+		[self.navigationController pushViewController:viewController animated:YES];
 	}
 }
 

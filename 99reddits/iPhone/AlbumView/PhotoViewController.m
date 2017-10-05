@@ -298,10 +298,11 @@
     }
   }
 
-  NSLog(@"url about to be fetched: %@", source);
-
   [ImageLoader loadWithUrlString:source success:^(UIImage * _Nonnull image) {
-    [self.photoAlbumView didLoadPhoto:image atIndex:photoIndex photoSize:NIPhotoScrollViewPhotoSizeOriginal error:NO];
+    //Nuke's `Decompressor` gives you a `UIImage` with the scale property set, which changes the image's reported size on different devices. Here we lose the reported scale and take the size of the CGImage bitmap.
+    UIImage *imageWithoutScale = [UIImage imageWithCGImage:image.CGImage];
+    [self.photoAlbumView didLoadPhoto:imageWithoutScale atIndex:photoIndex photoSize:NIPhotoScrollViewPhotoSizeOriginal error:NO];
+
   } failure:^(NSError * _Nonnull error) {
     [self.photoAlbumView didLoadPhoto:[UIImage imageNamed:@"Error.png"] atIndex:photoIndex photoSize:*photoSize error:YES];
   }];

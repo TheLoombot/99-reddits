@@ -136,9 +136,7 @@
 
 		_scrollView.backgroundColor = self.backgroundColor;
 
-		_imageView = [[[FLAnimatedImageView alloc] initWithFrame:self.bounds] autorelease];
-        _imageView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-        _imageView.contentMode = UIViewContentModeScaleAspectFit;
+		_imageView = [[[FLAnimatedImageView alloc] initWithFrame:CGRectZero] autorelease];
 
 		[_scrollView addSubview:_imageView];
 		[self addSubview:_scrollView];
@@ -275,6 +273,7 @@
 - (void)setImage:(UIImage *)image photoSize:(NIPhotoScrollViewPhotoSize)photoSize {
 	_imageView.image = image;
 	_imageView.animatedImage = nil;
+	[_imageView sizeToFit];
 
 	if (nil == image) {
 		self.photoSize = NIPhotoScrollViewPhotoSizeUnknown;
@@ -287,7 +286,7 @@
 	// be a value that allows the image to be seen at a 1-to-1 pixel resolution, while the min
 	// zoom will be small enough to fit the image on the screen perfectly.
 	if (nil != image) {
-        _scrollView.contentSize = image.size;
+		_scrollView.contentSize = image.size;
 
 	} else {
 		_scrollView.contentSize = self.bounds.size;

@@ -5,6 +5,5 @@ target '99reddits' do
   inhibit_all_warnings!
   use_frameworks!
 
-  pod 'Alamofire', '4.5.1'
   pod 'Nuke', '5.2'
 end

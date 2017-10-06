@@ -200,9 +200,6 @@
 		FE4738771F7CA0C300EC4828 /* ReviewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4738761F7CA0C300EC4828 /* ReviewManager.m */; };
 		FE8568981F808BC40033EC11 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = FE8568971F808BC40033EC11 /* Podfile */; };
 		FE85689E1F8097D90033EC11 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE85689D1F8097D90033EC11 /* ImageLoader.swift */; };
-		FE88A6E01F832D90008B49F5 /* PhotoPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE88A6DF1F832D90008B49F5 /* PhotoPageViewController.swift */; };
-		FE88A6E41F8330E2008B49F5 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE88A6E31F8330E2008B49F5 /* ImageViewController.swift */; };
-		FE88A6E61F833312008B49F5 /* NSLayoutConstraint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE88A6E51F833312008B49F5 /* NSLayoutConstraint+Extensions.swift */; };
 		FE91DCA41F789C61005F5B7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE91DCA31F789C61005F5B7F /* Assets.xcassets */; };
 		FECE3A4F1F87381300306B26 /* NSData+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FECE3A4E1F87381300306B26 /* NSData+Extensions.m */; };
 /* End PBXBuildFile section */
@@ -509,9 +506,6 @@
 		FE8568971F808BC40033EC11 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		FE85689C1F8097D90033EC11 /* 99reddits-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "99reddits-Bridging-Header.h"; sourceTree = "<group>"; };
 		FE85689D1F8097D90033EC11 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
-		FE88A6DF1F832D90008B49F5 /* PhotoPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPageViewController.swift; sourceTree = "<group>"; };
-		FE88A6E31F8330E2008B49F5 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
-		FE88A6E51F833312008B49F5 /* NSLayoutConstraint+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Extensions.swift"; sourceTree = "<group>"; };
 		FE91DCA31F789C61005F5B7F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FECE3A4D1F87381300306B26 /* NSData+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Extensions.h"; sourceTree = "<group>"; };
 		FECE3A4E1F87381300306B26 /* NSData+Extensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+Extensions.m"; sourceTree = "<group>"; };
@@ -1035,10 +1029,7 @@
 				8D6C5D2B164ACCCC008A98A7 /* UserDef.m */,
 				FE4738751F7CA0C300EC4828 /* ReviewManager.h */,
 				FE4738761F7CA0C300EC4828 /* ReviewManager.m */,
-				FE88A6DF1F832D90008B49F5 /* PhotoPageViewController.swift */,
-				FE88A6E31F8330E2008B49F5 /* ImageViewController.swift */,
 				FE85689D1F8097D90033EC11 /* ImageLoader.swift */,
-				FE88A6E51F833312008B49F5 /* NSLayoutConstraint+Extensions.swift */,
 				FE85689C1F8097D90033EC11 /* 99reddits-Bridging-Header.h */,
 				FECE3A4D1F87381300306B26 /* NSData+Extensions.h */,
 				FECE3A4E1F87381300306B26 /* NSData+Extensions.m */,
@@ -1339,7 +1330,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D5080131445923700788875 /* main.m in Sources */,
-				FE88A6E61F833312008B49F5 /* NSLayoutConstraint+Extensions.swift in Sources */,
 				8D24A77514F888F7001CC042 /* JSONKit.m in Sources */,
 				8D68FD5914F88DCB00CDCF66 /* ASIAuthenticationDialog.m in Sources */,
 				8D68FD5A14F88DCB00CDCF66 /* ASIDataCompressor.m in Sources */,
@@ -1416,9 +1406,7 @@
 				8D22423F176714570053868F /* CommentViewController.m in Sources */,
 				84EB13081A762D78006A39B5 /* FLAnimatedImage.m in Sources */,
 				8D22424417671A4D0053868F /* CommentViewControllerPad.m in Sources */,
-				FE88A6E41F8330E2008B49F5 /* ImageViewController.swift in Sources */,
 				8D0DE761176AD92B00E9F76A /* AlbumViewLayout.m in Sources */,
-				FE88A6E01F832D90008B49F5 /* PhotoPageViewController.swift in Sources */,
 				8DCC4516176FF89F00815473 /* AlbumViewLayoutPad.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

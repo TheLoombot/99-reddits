@@ -7,13 +7,8 @@
 //
 
 #import "PhotoViewController.h"
-#import "NIHTTPRequest.h"
-#import "ASIDownloadCache.h"
-#import <Accounts/Accounts.h>
 #import "UserDef.h"
-#import <ImageIO/CGImageSource.h>
 #import "PhotoView.h"
-#import <Social/Social.h>
 #import "CommentViewController.h"
 #import "TitleProvider.h"
 #import "URLProvider.h"
@@ -164,82 +159,6 @@
 	}
 }
 
-- (void)requestImageFromSource:(NSString *)source photoSize:(NIPhotoScrollViewPhotoSize)photoSize photoIndex:(NSInteger)photoIndex {
-
-	if (photoIndex >= subReddit.photosArray.count)
-		return;
-	
-	NSInteger identifier = photoIndex;
-	NSNumber *identifierKey = [NSNumber numberWithInteger:identifier];
-	
-	PhotoItem *photo = [subReddit.photosArray objectAtIndex:photoIndex];
-	
-	BOOL isFullImage = YES;
-	if (![appDelegate isFullImage:source] && ![photo isGif]) {
-		NSString *hugeSource = [appDelegate getHugeImage:source];
-		if (![hugeSource isEqualToString:source]) {
-			source = hugeSource;
-			isFullImage = NO;
-		}
-	}
-	
-	NSURL *url = [NSURL URLWithString:source];
-	
-	__block NIHTTPRequest __weak *readOp = [NIHTTPRequest requestWithURL:url usingCache:[ASIDownloadCache sharedCache]];
-	readOp.cacheStoragePolicy = ASICachePermanentlyCacheStoragePolicy;
-	readOp.timeOutSeconds = 30;
-	readOp.tag = photoIndex;
-
-  NSData *data = [readOp responseData];
-  UIImage *image = [UIImage imageWithData:data];
-
-	[readOp setCompletionBlock:^{
-
-    size_t imageCount = 1;
-    if (image && subReddit.photosArray.count > photoIndex) {
-      [self.photoAlbumView didLoadPhoto:image atIndex:photoIndex photoSize:photoSize error:NO];
-
-      if (photoIndex == self.photoAlbumView.centerPageIndex) {
-        CGImageSourceRef imageSource = CGImageSourceCreateWithData((__bridge CFDataRef)data, NULL);
-        if (imageSource) {
-          imageCount = CGImageSourceGetCount(imageSource);
-          if (imageCount > 1) {
-            uint8_t c;
-            [data getBytes:&c length:1];
-            if (c == 0x47) {
-              [self.photoAlbumView didLoadGif:data atIndex:photoIndex];
-            }
-          }
-          CFRelease(imageSource);
-        }
-      }
-    }
-    else {
-      [self.photoAlbumView didLoadPhoto:[UIImage imageNamed:@"Error.png"] atIndex:photoIndex photoSize:photoSize error:YES];
-    }
-
-    if (photoIndex == self.photoAlbumView.centerPageIndex) {
-      if (![photo isShowed]) {
-        [appDelegate.showedSet addObject:photo.idString];
-        subReddit.unshowedCount --;
-      }
-    }
-	}];
-	
-	[readOp setFailedBlock:^{
-		[self.photoAlbumView didLoadPhoto:[UIImage imageNamed:@"Error.png"] atIndex:photoIndex photoSize:photoSize error:YES];
-		
-		if (photoIndex == self.photoAlbumView.centerPageIndex) {
-			PhotoItem *photo = [subReddit.photosArray objectAtIndex:photoIndex];
-			
-			if (![photo isShowed]) {
-				[appDelegate.showedSet addObject:photo.idString];
-				subReddit.unshowedCount --;
-			}
-		}
-	}];
-}
-
 // NIPhotoAlbumScrollViewDataSource
 - (NSInteger)numberOfPagesInPagingScrollView:(NIPagingScrollView *)pagingScrollView {
 	return subReddit.photosArray.count;
@@ -285,8 +204,12 @@
             [self.photoAlbumView didLoadGif:imageData atIndex:photoIndex];
         }
 
+        [self markPhotoSeenIfNeessary:photo];
+
     } failure:^(NSError * _Nonnull error) {
         [self.photoAlbumView didLoadPhoto:[UIImage imageNamed:@"Error.png"] atIndex:photoIndex photoSize:*photoSize error:YES];
+
+        [self markPhotoSeenIfNeessary:photo];
     }];
 
     self.indexToCancelationTokens[@(photoIndex)] = token;
@@ -309,9 +232,6 @@
 	
 	PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
 	[self setTitleLabelText:photo.titleString];
-
-  //TODO: implement
-	//[self requestImageFromSource:photo.urlString photoSize:NIPhotoScrollViewPhotoSizeOriginal photoIndex:self.photoAlbumView.centerPageIndex];
 	
 	if (!bFavorites) {
 		if ([appDelegate isFavorite:photo]) {
@@ -369,6 +289,13 @@
 	activityViewController.excludedActivityTypes = excludedActivityTypes;
 	
 	[self presentViewController:activityViewController animated:YES completion:nil];
+}
+
+- (void)markPhotoSeenIfNeessary: (PhotoItem *)photo {
+    if (![photo isShowed]) {
+        [appDelegate.showedSet addObject:photo.idString];
+        subReddit.unshowedCount --;
+    }
 }
 
 @end

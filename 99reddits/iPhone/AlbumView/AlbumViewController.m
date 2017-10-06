@@ -135,11 +135,6 @@
 		[photoSubReddit.photosArray addObjectsFromArray:currentPhotosArray];
 		photoSubReddit.afterString = currentSubReddit.afterString;
 
-        //New implementation: PhotoPageViewController.swift
-//        PhotoPageViewController *viewController = [[PhotoPageViewController alloc] init];
-//        [viewController populateWith:photoSubReddit at:0];
-
-        //Old implementation; PhotoViewController
         PhotoViewController *viewController = [[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:nil];
         viewController.bFavorites = bFavorites;
         viewController.subReddit = photoSubReddit;

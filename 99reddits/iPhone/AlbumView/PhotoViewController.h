@@ -10,9 +10,8 @@
 #import "SubRedditItem.h"
 #import "PhotoItem.h"
 #import "ASIHTTPRequestDelegate.h"
-#import "MaximizeActivity.h"
 
-@interface PhotoViewController : NIToolbarPhotoViewController <NIPhotoAlbumScrollViewDataSource, UIActionSheetDelegate, MaximizeActivityDelegate> {
+@interface PhotoViewController : NIToolbarPhotoViewController <NIPhotoAlbumScrollViewDataSource, UIActionSheetDelegate> {
 
 	SubRedditItem *subReddit;
 	BOOL disappearForSubview;

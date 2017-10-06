@@ -12,34 +12,58 @@ import Nuke
 typealias ImageLoaderSuccessHandler = ((UIImage) -> Void)
 typealias ImageLoaderErrorHandler = ((Error) -> Void)
 
+class ImageLoaderCancelationToken: NSObject {
+    fileprivate let tokenSource: CancellationTokenSource
+
+    init(tokenSource: CancellationTokenSource) {
+        self.tokenSource = tokenSource
+    }
+    func cancel() {
+        tokenSource.cancel()
+    }
+}
+
 //Objective-C compatible wrapper around Nuke
 class ImageLoader: NSObject {
-  static func load(urlString: String, into imageView: UIImageView) {
-    guard let url = URL(string: urlString) else {
-      return
-    }
 
-    Nuke.loadImage(with: url, into: imageView)
-  }
+    static let errorDomain = "ImageLoaderErrorDomain"
+    static let malformedURLErrorCode = 100
 
-  static func load(urlString: String, success: @escaping ImageLoaderSuccessHandler, failure: @escaping ImageLoaderErrorHandler) {
-
-    guard let url = URL(string: urlString) else {
-      return
-    }
-
-    let request = Request(url: url)
-    Manager.shared.loadImage(with: request) { (result) in
-      switch result {
-      case .success(let image):
-        DispatchQueue.main.async {
-          success(image)
+    static func load(urlString: String, into imageView: UIImageView) {
+        guard let url = URL(string: urlString) else {
+            return
         }
-      case .failure(let error):
-        DispatchQueue.main.async {
-          failure(error)
-        }
-      }
+
+        Nuke.loadImage(with: url, into: imageView)
     }
-  }
+
+    static func load(urlString: String, success: @escaping ImageLoaderSuccessHandler, failure: @escaping ImageLoaderErrorHandler) -> ImageLoaderCancelationToken {
+
+        let cts = CancellationTokenSource()
+        let cancelationToken = ImageLoaderCancelationToken(tokenSource: cts)
+
+        guard let url = URL(string: urlString) else {
+            let error = NSError(domain: ImageLoader.errorDomain, code: ImageLoader.malformedURLErrorCode, userInfo: nil)
+            failure(error)
+            return cancelationToken
+        }
+
+        let request = Request(url: url)
+
+
+        Manager.shared.loadImage(with: request, token: cts.token) { (result) in
+            switch result {
+            case .success(let image):
+                DispatchQueue.main.async {
+                    success(image)
+                }
+            case .failure(let error):
+                DispatchQueue.main.async {
+                    failure(error)
+                }
+            }
+        }
+
+        return cancelationToken
+    }
 }

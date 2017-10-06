@@ -19,6 +19,11 @@
 #import "URLProvider.h"
 #import "_9reddits-Swift.h"
 
+@interface PhotoViewController()
+
+
+@end
+
 @implementation PhotoViewController
 
 @synthesize subReddit;
@@ -345,32 +350,17 @@
 	[self presentViewController:navigationController animated:YES completion:nil];
 }
 
-- (void)shareImage:(NSData *)data title:(NSString *)title url:(NSURL *)url showFull:(BOOL)showFull {
-	MaximizeActivity *maximizeActivity = [[MaximizeActivity alloc] init];
-	maximizeActivity.delegate = self;
-	maximizeActivity.canPerformActivity = showFull;
-	
+- (void)shareImage:(NSData *)data title:(NSString *)title url:(NSURL *)url {
 	TitleProvider *titleItem = [[TitleProvider alloc] initWithPlaceholderItem:title];
 	URLProvider *urlItem = [[URLProvider alloc] initWithPlaceholderItem:url];
 	
 	NSArray *activityItems = @[data, titleItem, urlItem];
-	NSArray *applicationActivities = @[maximizeActivity];
 	NSArray *excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypePrint];
 	
-	UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:applicationActivities];
+	UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:@[]];
 	activityViewController.excludedActivityTypes = excludedActivityTypes;
 	
 	[self presentViewController:activityViewController animated:YES completion:nil];
-}
-
-// MaximizeActivityDelegate
-- (void)performMaximize {
-	NSInteger identifier = self.photoAlbumView.centerPageIndex;
-	NSNumber *identifierKey = [NSNumber numberWithInteger:identifier];
-	
-	PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
-	[appDelegate addToFullImagesSet:photo.urlString];
-	[self.photoAlbumView reloadData];
 }
 
 @end

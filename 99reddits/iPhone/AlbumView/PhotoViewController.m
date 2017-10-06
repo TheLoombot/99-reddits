@@ -121,19 +121,21 @@
 
 - (void)onActionButton {
 
-  NSInteger sharingIndex = self.photoAlbumView.centerPageIndex;
-	sharingIndex = self.photoAlbumView.centerPageIndex;
-	PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
+    NSInteger sharingIndex = self.photoAlbumView.centerPageIndex;
+    PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
 
-//  NSData *data = [readOp responseData];
-//  UIImage *image = [UIImage imageWithData:data];
-//
-//  BOOL showFull = NO;
-//  if (!isFullImage && (image.size.width >= 1024 || image.size.height >= 1024)) {
-//    showFull = YES;
-//  }
-//
-//  [self shareImage:data title:[NSString stringWithFormat:@"%@\n", photo.titleString] url:[NSURL URLWithString:[NSString stringWithFormat:@"http://redd.it/%@", photo.idString]] showFull:showFull];
+    NSString *source = [photo photoViewControllerURLString];
+
+    ImageLoaderCancelationToken *token = [ImageLoader loadWithUrlString:source success:^(UIImage * _Nonnull image) {
+
+        NSString *title = [NSString stringWithFormat:@"%@\n", photo.titleString];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://redd.it/%@", photo.idString]];
+        NSData *imageData = UIImagePNGRepresentation(image);
+        [self shareImage:imageData title:title url:url];
+
+    } failure:^(NSError * _Nonnull error) {
+        //TODO: log failure
+    }];
 }
 
 // UIActionSheetDelegate
@@ -243,18 +245,18 @@
 }
 
 - (UIView<NIPagingScrollViewPage> *)pagingScrollView:(NIPagingScrollView *)pagingScrollView pageViewForIndex:(NSInteger)pageIndex {
-	PhotoView *photoView = nil;
-	NSString *reuseIdentifier = @"PHOTO_VIEW";
-	photoView = (PhotoView *)[pagingScrollView dequeueReusablePageWithIdentifier:reuseIdentifier];
-	if (nil == photoView) {
-		photoView = [[PhotoView alloc] init];
-		photoView.reuseIdentifier = reuseIdentifier;
-	}
+    PhotoView *photoView = nil;
+    NSString *reuseIdentifier = @"PHOTO_VIEW";
+    photoView = (PhotoView *)[pagingScrollView dequeueReusablePageWithIdentifier:reuseIdentifier];
+    if (nil == photoView) {
+        photoView = [[PhotoView alloc] init];
+        photoView.reuseIdentifier = reuseIdentifier;
+    }
 
-  photoView.zoomingAboveOriginalSizeIsEnabled = YES;
-	photoView.photoScrollViewDelegate = self.photoAlbumView;
-	
-	return photoView;
+    photoView.zoomingAboveOriginalSizeIsEnabled = YES;
+    photoView.photoScrollViewDelegate = self.photoAlbumView;
+
+    return photoView;
 }
 
 - (UIImage *)photoAlbumScrollView:(NIPhotoAlbumScrollView *)photoAlbumScrollView
@@ -269,14 +271,7 @@
 
     //TODO: maybe put `getHugeImage` in PhotoItem class
     PhotoItem *photo = [subReddit.photosArray objectAtIndex:photoIndex];
-    NSString *source = photo.urlString;
-
-    if (![appDelegate isFullImage:source] && ![photo isGif]) {
-        NSString *hugeSource = [appDelegate getHugeImage:source];
-        if (![hugeSource isEqualToString:source]) {
-            source = hugeSource;
-        }
-    }
+    NSString *source = [photo photoViewControllerURLString];
 
     ImageLoaderCancelationToken *token = [ImageLoader loadWithUrlString:source success:^(UIImage * _Nonnull image) {
         //Nuke's `Decompressor` gives you a `UIImage` with the scale property set, which changes the image's reported size on different devices. Here we lose the reported scale and take the size of the CGImage bitmap.

@@ -65,6 +65,24 @@
 	return [appDelegate.showedSet containsObject:idString];
 }
 
+- (NSString *)photoViewControllerURLString {
+
+    if (appDelegate == nil) {
+        appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
+    }
+
+    NSString *source = self.urlString;
+
+    if (![appDelegate isFullImage:source] && ![self isGif]) {
+        NSString *hugeSource = [appDelegate getHugeImage:source];
+        if (![hugeSource isEqualToString:source]) {
+            source = hugeSource;
+        }
+    }
+
+    return source;
+}
+
 - (BOOL)isGif {
 	if ([self.nameString rangeOfString:@"gif" options:NSCaseInsensitiveSearch].location != NSNotFound)
 		return YES;

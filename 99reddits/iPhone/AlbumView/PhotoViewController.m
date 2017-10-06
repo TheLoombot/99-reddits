@@ -21,6 +21,7 @@
 
 @interface PhotoViewController()
 
+@property (strong, nonatomic) NSMutableDictionary *indexToCancelationTokens;
 
 @end
 
@@ -44,6 +45,8 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
     [self setAutomaticallyAdjustsScrollViewInsets: NO];
+
+    self.indexToCancelationTokens = [[NSMutableDictionary<NSNumber *, ImageLoaderCancelationToken*> alloc] init];
 	
 	UIButton *redButton = [UIButton buttonWithType:UIButtonTypeCustom];
 	redButton.frame = CGRectMake(0, 0, 25, 25);
@@ -255,42 +258,45 @@
 }
 
 - (UIImage *)photoAlbumScrollView:(NIPhotoAlbumScrollView *)photoAlbumScrollView
-					 photoAtIndex:(NSInteger)photoIndex
-						photoSize:(NIPhotoScrollViewPhotoSize *)photoSize
-						isLoading:(BOOL *)isLoading
-		  originalPhotoDimensions:(CGSize *)originalPhotoDimensions {
-	
-  if (photoIndex >= subReddit.photosArray.count) {
-    return nil;
-  }
+                     photoAtIndex:(NSInteger)photoIndex
+                        photoSize:(NIPhotoScrollViewPhotoSize *)photoSize
+                        isLoading:(BOOL *)isLoading
+          originalPhotoDimensions:(CGSize *)originalPhotoDimensions {
 
-  //TODO: maybe put `getHugeImage` in PhotoItem class
-  PhotoItem *photo = [subReddit.photosArray objectAtIndex:photoIndex];
-  NSString *source = photo.urlString;
-
-  if (![appDelegate isFullImage:source] && ![photo isGif]) {
-    NSString *hugeSource = [appDelegate getHugeImage:source];
-    if (![hugeSource isEqualToString:source]) {
-      source = hugeSource;
+    if (photoIndex >= subReddit.photosArray.count) {
+        return nil;
     }
-  }
 
-  [ImageLoader loadWithUrlString:source success:^(UIImage * _Nonnull image) {
-    //Nuke's `Decompressor` gives you a `UIImage` with the scale property set, which changes the image's reported size on different devices. Here we lose the reported scale and take the size of the CGImage bitmap.
-    UIImage *imageWithoutScale = [UIImage imageWithCGImage:image.CGImage];
-    [self.photoAlbumView didLoadPhoto:imageWithoutScale atIndex:photoIndex photoSize:NIPhotoScrollViewPhotoSizeOriginal error:NO];
+    //TODO: maybe put `getHugeImage` in PhotoItem class
+    PhotoItem *photo = [subReddit.photosArray objectAtIndex:photoIndex];
+    NSString *source = photo.urlString;
 
-  } failure:^(NSError * _Nonnull error) {
-    [self.photoAlbumView didLoadPhoto:[UIImage imageNamed:@"Error.png"] atIndex:photoIndex photoSize:*photoSize error:YES];
-  }];
+    if (![appDelegate isFullImage:source] && ![photo isGif]) {
+        NSString *hugeSource = [appDelegate getHugeImage:source];
+        if (![hugeSource isEqualToString:source]) {
+            source = hugeSource;
+        }
+    }
 
-  *isLoading = YES;
+    ImageLoaderCancelationToken *token = [ImageLoader loadWithUrlString:source success:^(UIImage * _Nonnull image) {
+        //Nuke's `Decompressor` gives you a `UIImage` with the scale property set, which changes the image's reported size on different devices. Here we lose the reported scale and take the size of the CGImage bitmap.
+        UIImage *imageWithoutScale = [UIImage imageWithCGImage:image.CGImage];
+        [self.photoAlbumView didLoadPhoto:imageWithoutScale atIndex:photoIndex photoSize:NIPhotoScrollViewPhotoSizeOriginal error:NO];
 
-	return nil;
+    } failure:^(NSError * _Nonnull error) {
+        [self.photoAlbumView didLoadPhoto:[UIImage imageNamed:@"Error.png"] atIndex:photoIndex photoSize:*photoSize error:YES];
+    }];
+
+    self.indexToCancelationTokens[@(photoIndex)] = token;
+
+    *isLoading = YES;
+
+    return nil;
 }
 
 - (void)photoAlbumScrollView:(NIPhotoAlbumScrollView *)photoAlbumScrollView stopLoadingPhotoAtIndex:(NSInteger)photoIndex {
-  //TODO: implement cancelation
+    ImageLoaderCancelationToken *token = self.indexToCancelationTokens[@(photoIndex)];
+    [token cancel];
 }
 
 - (void)pagingScrollViewDidChangePages:(NIPhotoAlbumScrollView *)photoAlbumScrollView {

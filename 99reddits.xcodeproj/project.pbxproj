@@ -1094,7 +1094,7 @@
 				ORGANIZATIONNAME = "99 reddits";
 				TargetAttributes = {
 					8D5080011445923700788875 = {
-						DevelopmentTeam = PL8BQ59YE2;
+						DevelopmentTeam = Z5S4TLR4D3;
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
@@ -1470,7 +1470,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = PL8BQ59YE2;
+				DEVELOPMENT_TEAM = Z5S4TLR4D3;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
@@ -1501,7 +1501,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = PL8BQ59YE2;
+				DEVELOPMENT_TEAM = Z5S4TLR4D3;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",

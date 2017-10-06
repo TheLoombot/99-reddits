@@ -17,6 +17,7 @@
 #import "CommentViewController.h"
 #import "TitleProvider.h"
 #import "URLProvider.h"
+#import "NSData+Extensions.h"
 #import "_9reddits-Swift.h"
 
 @interface PhotoViewController()
@@ -277,6 +278,12 @@
         //Nuke's `Decompressor` gives you a `UIImage` with the scale property set, which changes the image's reported size on different devices. Here we lose the reported scale and take the size of the CGImage bitmap.
         UIImage *imageWithoutScale = [UIImage imageWithCGImage:image.CGImage];
         [self.photoAlbumView didLoadPhoto:imageWithoutScale atIndex:photoIndex photoSize:NIPhotoScrollViewPhotoSizeOriginal error:NO];
+
+        //In the old implementation didLoadGif was called after didLoadPhoto
+        NSData *imageData = UIImagePNGRepresentation(image);
+        if ([imageData isGif]) {
+            [self.photoAlbumView didLoadGif:imageData atIndex:photoIndex];
+        }
 
     } failure:^(NSError * _Nonnull error) {
         [self.photoAlbumView didLoadPhoto:[UIImage imageNamed:@"Error.png"] atIndex:photoIndex photoSize:*photoSize error:YES];

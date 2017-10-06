@@ -204,6 +204,7 @@
 		FE88A6E41F8330E2008B49F5 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE88A6E31F8330E2008B49F5 /* ImageViewController.swift */; };
 		FE88A6E61F833312008B49F5 /* NSLayoutConstraint+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE88A6E51F833312008B49F5 /* NSLayoutConstraint+Extensions.swift */; };
 		FE91DCA41F789C61005F5B7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE91DCA31F789C61005F5B7F /* Assets.xcassets */; };
+		FECE3A4F1F87381300306B26 /* NSData+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FECE3A4E1F87381300306B26 /* NSData+Extensions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -512,6 +513,8 @@
 		FE88A6E31F8330E2008B49F5 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		FE88A6E51F833312008B49F5 /* NSLayoutConstraint+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSLayoutConstraint+Extensions.swift"; sourceTree = "<group>"; };
 		FE91DCA31F789C61005F5B7F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FECE3A4D1F87381300306B26 /* NSData+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Extensions.h"; sourceTree = "<group>"; };
+		FECE3A4E1F87381300306B26 /* NSData+Extensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+Extensions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1037,6 +1040,8 @@
 				FE85689D1F8097D90033EC11 /* ImageLoader.swift */,
 				FE88A6E51F833312008B49F5 /* NSLayoutConstraint+Extensions.swift */,
 				FE85689C1F8097D90033EC11 /* 99reddits-Bridging-Header.h */,
+				FECE3A4D1F87381300306B26 /* NSData+Extensions.h */,
+				FECE3A4E1F87381300306B26 /* NSData+Extensions.m */,
 			);
 			name = Shared;
 			path = 99reddits/Shared;
@@ -1350,6 +1355,7 @@
 				8D68FDC914F8909000CDCF66 /* NICommonMetrics.m in Sources */,
 				8D68FDCA14F8909000CDCF66 /* NIDataStructures.m in Sources */,
 				847D5F731A7A3C9F00173A01 /* URLProvider.m in Sources */,
+				FECE3A4F1F87381300306B26 /* NSData+Extensions.m in Sources */,
 				8D68FDCB14F8909000CDCF66 /* NIDebuggingTools.m in Sources */,
 				8D68FDCC14F8909000CDCF66 /* NIDeviceOrientation.m in Sources */,
 				8D68FDCD14F8909000CDCF66 /* NIError.m in Sources */,

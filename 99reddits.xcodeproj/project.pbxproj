@@ -174,8 +174,6 @@
 		8D6C5D3A164ACCCC008A98A7 /* RedditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D18164ACCCC008A98A7 /* RedditsViewController.m */; };
 		8D6C5D3B164ACCCC008A98A7 /* RedditsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D6C5D19164ACCCC008A98A7 /* RedditsViewController.xib */; };
 		8D6C5D3C164ACCCC008A98A7 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D6C5D1A164ACCCC008A98A7 /* MainWindow.xib */; };
-		8D6C5D3E164ACCCC008A98A7 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D1F164ACCCC008A98A7 /* SettingsViewController.m */; };
-		8D6C5D3F164ACCCC008A98A7 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D6C5D20164ACCCC008A98A7 /* SettingsViewController.xib */; };
 		8D6C5D40164ACCCC008A98A7 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D23164ACCCC008A98A7 /* MBProgressHUD.m */; };
 		8D6C5D41164ACCCC008A98A7 /* PhotoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D25164ACCCC008A98A7 /* PhotoItem.m */; };
 		8D6C5D43164ACCCC008A98A7 /* SubRedditItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D29164ACCCC008A98A7 /* SubRedditItem.m */; };
@@ -466,9 +464,6 @@
 		8D6C5D18164ACCCC008A98A7 /* RedditsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedditsViewController.m; sourceTree = "<group>"; };
 		8D6C5D19164ACCCC008A98A7 /* RedditsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RedditsViewController.xib; sourceTree = "<group>"; };
 		8D6C5D1A164ACCCC008A98A7 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
-		8D6C5D1E164ACCCC008A98A7 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
-		8D6C5D1F164ACCCC008A98A7 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
-		8D6C5D20164ACCCC008A98A7 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		8D6C5D22164ACCCC008A98A7 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		8D6C5D23164ACCCC008A98A7 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		8D6C5D24164ACCCC008A98A7 /* PhotoItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoItem.h; sourceTree = "<group>"; };
@@ -949,7 +944,6 @@
 				8D6C5D1A164ACCCC008A98A7 /* MainWindow.xib */,
 				8D6C5D0E164ACCCC008A98A7 /* MainView */,
 				8D6C5CFE164ACCCC008A98A7 /* AlbumView */,
-				8D6C5D1D164ACCCC008A98A7 /* SettingsView */,
 			);
 			name = iPhone;
 			path = 99reddits/iPhone;
@@ -993,16 +987,6 @@
 				8D6C5D11164ACCCC008A98A7 /* AddViewController.xib */,
 			);
 			path = MainView;
-			sourceTree = "<group>";
-		};
-		8D6C5D1D164ACCCC008A98A7 /* SettingsView */ = {
-			isa = PBXGroup;
-			children = (
-				8D6C5D1E164ACCCC008A98A7 /* SettingsViewController.h */,
-				8D6C5D1F164ACCCC008A98A7 /* SettingsViewController.m */,
-				8D6C5D20164ACCCC008A98A7 /* SettingsViewController.xib */,
-			);
-			path = SettingsView;
 			sourceTree = "<group>";
 		};
 		8D6C5D21164ACCCC008A98A7 /* Shared */ = {
@@ -1191,7 +1175,6 @@
 				843903811A749747007B9EFF /* FireIcon@2x.png in Resources */,
 				84B9DFF01A7928E800EA3CF0 /* Maximize.png in Resources */,
 				8D6C5D3C164ACCCC008A98A7 /* MainWindow.xib in Resources */,
-				8D6C5D3F164ACCCC008A98A7 /* SettingsViewController.xib in Resources */,
 				8439037B1A749747007B9EFF /* FavoritesIconPad.png in Resources */,
 				847D5F6C1A7A1FEA00173A01 /* MaximizePad.png in Resources */,
 				843903941A749747007B9EFF /* SettingsIcon@3x.png in Resources */,
@@ -1382,7 +1365,6 @@
 				8D6C5D37164ACCCC008A98A7 /* MainViewCell.m in Sources */,
 				8D6C5D38164ACCCC008A98A7 /* MainViewController.m in Sources */,
 				8D6C5D3A164ACCCC008A98A7 /* RedditsViewController.m in Sources */,
-				8D6C5D3E164ACCCC008A98A7 /* SettingsViewController.m in Sources */,
 				8D6C5D40164ACCCC008A98A7 /* MBProgressHUD.m in Sources */,
 				8D6C5D41164ACCCC008A98A7 /* PhotoItem.m in Sources */,
 				FE85689E1F8097D90033EC11 /* ImageLoader.swift in Sources */,

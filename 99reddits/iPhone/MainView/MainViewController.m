@@ -11,7 +11,6 @@
 #import "NIHTTPRequest.h"
 #import "AlbumViewController.h"
 #import "RedditsViewController.h"
-#import "SettingsViewController.h"
 #import "UserDef.h"
 #import "_9reddits-Swift.h"
 
@@ -511,12 +510,6 @@
 		
 		return [[subReddit.photosArray objectAtIndex:0] thumbnailString];
 	}
-}
-
-- (IBAction)onSettingsButton:(id)sender {
-	SettingsViewController *settingsViewController = [[SettingsViewController alloc] initWithNibName:@"SettingsViewController" bundle:nil];
-	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
-	[self presentViewController:navigationController animated:YES completion:nil];
 }
 
 @end

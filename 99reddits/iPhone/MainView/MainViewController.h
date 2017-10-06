@@ -27,7 +27,6 @@
 
 @property (nonatomic, assign) NSInteger lastAddedIndex;
 
-- (IBAction)onSettingsButton:(id)sender;
 - (IBAction)onEditButton:(id)sender;
 - (IBAction)onAddButton:(id)sender;
 

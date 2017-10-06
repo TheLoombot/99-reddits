@@ -19,14 +19,6 @@
 #import "URLProvider.h"
 #import "_9reddits-Swift.h"
 
-@interface PhotoViewController ()
-
-- (void)requestImageFromSource:(NSString *)source photoSize:(NIPhotoScrollViewPhotoSize)photoSize photoIndex:(NSInteger)photoIndex;
-
-- (void)shareImage:(NSData *)data title:(NSString *)title url:(NSURL *)url showFull:(BOOL)showFull;
-
-@end
-
 @implementation PhotoViewController
 
 @synthesize subReddit;

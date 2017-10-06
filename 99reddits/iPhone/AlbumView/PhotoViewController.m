@@ -55,11 +55,6 @@
 	
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	
-	activeRequests = [[NSMutableSet alloc] init];
-	
-	queue = [[NSOperationQueue alloc] init];
-	[queue setMaxConcurrentOperationCount:3];
-	
 	self.photoAlbumView.loadingImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"DefaultPhotoLarge" ofType:@"png"]];
 	self.photoAlbumView.dataSource = self;
 	self.photoAlbumView.backgroundColor = [UIColor blackColor];
@@ -147,11 +142,9 @@
 				return;
 			}
 			
-			if (currentIndex == subReddit.photosArray.count)
-				currentIndex = subReddit.photosArray.count - 1;
-			
-			[activeRequests removeAllObjects];
-			[queue cancelAllOperations];
+            if (currentIndex == subReddit.photosArray.count) {
+                currentIndex = subReddit.photosArray.count - 1;
+            }
 			
 			[self.photoAlbumView reloadData];
 			[self.photoAlbumView moveToPageAtIndex:currentIndex animated:NO];
@@ -167,10 +160,6 @@
 	
 	NSInteger identifier = photoIndex;
 	NSNumber *identifierKey = [NSNumber numberWithInteger:identifier];
-	
-	if ([activeRequests containsObject:identifierKey]) {
-		return;
-	}
 	
 	PhotoItem *photo = [subReddit.photosArray objectAtIndex:photoIndex];
 	
@@ -224,8 +213,6 @@
         subReddit.unshowedCount --;
       }
     }
-		
-		[activeRequests removeObject:identifierKey];
 	}];
 	
 	[readOp setFailedBlock:^{
@@ -239,14 +226,7 @@
 				subReddit.unshowedCount --;
 			}
 		}
-
-		[activeRequests removeObject:identifierKey];
 	}];
-	
-	[readOp setQueuePriority:NSOperationQueuePriorityNormal];
-	
-	[activeRequests addObject:identifierKey];
-	[queue addOperation:readOp];
 }
 
 // NIPhotoAlbumScrollViewDataSource
@@ -387,7 +367,6 @@
 - (void)performMaximize {
 	NSInteger identifier = self.photoAlbumView.centerPageIndex;
 	NSNumber *identifierKey = [NSNumber numberWithInteger:identifier];
-	[activeRequests removeObject:identifierKey];
 	
 	PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
 	[appDelegate addToFullImagesSet:photo.urlString];

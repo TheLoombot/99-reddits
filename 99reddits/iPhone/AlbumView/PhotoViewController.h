@@ -13,14 +13,9 @@
 #import "MaximizeActivity.h"
 
 @interface PhotoViewController : NIToolbarPhotoViewController <NIPhotoAlbumScrollViewDataSource, UIActionSheetDelegate, MaximizeActivityDelegate> {
-	NSOperationQueue *queue;
-	
-	NSMutableSet *activeRequests;
-	
-	SubRedditItem *subReddit;
-	
-	BOOL disappearForSubview;
 
+	SubRedditItem *subReddit;
+	BOOL disappearForSubview;
 	UIBarButtonItem *favoriteWhiteItem;
 	UIBarButtonItem *favoriteRedItem;
 	

@@ -204,12 +204,8 @@
             [self.photoAlbumView didLoadGif:imageData atIndex:photoIndex];
         }
 
-        [self markPhotoSeenIfNeessary:photo];
-
     } failure:^(NSError * _Nonnull error) {
         [self.photoAlbumView didLoadPhoto:[UIImage imageNamed:@"Error.png"] atIndex:photoIndex photoSize:*photoSize error:YES];
-
-        [self markPhotoSeenIfNeessary:photo];
     }];
 
     self.indexToCancelationTokens[@(photoIndex)] = token;
@@ -231,6 +227,9 @@
 	[super pagingScrollViewDidChangePages:photoAlbumScrollView];
 	
 	PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
+
+    [self markPhotoSeenIfNeessary:photo atIndex:self.photoAlbumView.centerPageIndex];
+
 	[self setTitleLabelText:photo.titleString];
 	
 	if (!bFavorites) {
@@ -291,7 +290,12 @@
 	[self presentViewController:activityViewController animated:YES completion:nil];
 }
 
-- (void)markPhotoSeenIfNeessary: (PhotoItem *)photo {
+- (void)markPhotoSeenIfNeessary:(PhotoItem *)photo atIndex:(NSInteger)idx {
+
+    if (idx != self.photoAlbumView.centerPageIndex) {
+        return;
+    }
+
     if (![photo isShowed]) {
         [appDelegate.showedSet addObject:photo.idString];
         subReddit.unshowedCount --;

@@ -55,8 +55,12 @@
 	[whiteButton addTarget:self action:@selector(onFavoriteButton:) forControlEvents:UIControlEventTouchUpInside];
 	favoriteWhiteItem = [[UIBarButtonItem alloc] initWithCustomView:whiteButton];
 	
-	self.navigationItem.rightBarButtonItem = favoriteRedItem;
-	
+    self.navigationItem.rightBarButtonItem = favoriteRedItem;
+
+    if (@available(iOS 11.0, *)) {
+        self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
+    }
+
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	
 	self.photoAlbumView.loadingImage = [UIImage imageWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"DefaultPhotoLarge" ofType:@"png"]];

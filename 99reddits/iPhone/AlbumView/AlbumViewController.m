@@ -43,7 +43,7 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-	
+
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 
   self.refreshQueue = [[NSOperationQueue alloc] init];
@@ -51,6 +51,10 @@
 	
 	self.title = subReddit.nameString;
 	self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:subReddit.nameString style:UIBarButtonItemStylePlain target:nil action:nil];
+
+    if (@available(iOS 11.0, *)) {
+        self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
+    }
 	
 	if (bFavorites) {
 		[tabBar removeFromSuperview];

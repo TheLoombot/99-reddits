@@ -12,10 +12,13 @@
 #import "AlbumViewController.h"
 #import "RedditsViewController.h"
 #import "UserDef.h"
+#import "FeedbackController.h"
 #import "_9reddits-Swift.h"
 
 @interface MainViewController ()
 
+@property (strong, nonatomic) IBOutlet UIBarButtonItem *helpBarButtonItem;
+@property (strong, nonatomic) FeedbackController *feedbackController;
 @property (strong, nonatomic) NSOperationQueue *refreshQueue;
 
 @end
@@ -37,6 +40,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.feedbackController = [[FeedbackController alloc] init];
+
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 	subRedditsArray = appDelegate.subRedditsArray;
 	
@@ -51,9 +56,12 @@
 	});
 
 	self.title = @"99 reddits";
-	
-	self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:settingsItem, nil];
-	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:editItem, nil];
+    if (@available(iOS 11.0, *)) {
+        self.navigationController.navigationBar.prefersLargeTitles = YES;
+    }
+
+    self.navigationItem.leftBarButtonItems = @[self.helpBarButtonItem];
+    self.navigationItem.rightBarButtonItems = @[editItem];
 
 	self.refreshQueue = [[NSOperationQueue alloc] init];
 	[self.refreshQueue setMaxConcurrentOperationCount:5];
@@ -109,17 +117,21 @@
 	if (self.editing) {
 		self.refreshControl = nil;
 		
-		settingsItem.enabled = NO;
+		self.helpBarButtonItem.enabled = NO;
 
 		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:doneItem, nil];
 	}
 	else {
 		self.refreshControl = refreshControl;
 		
-		settingsItem.enabled = YES;
+		self.helpBarButtonItem.enabled = YES;
 
 		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:editItem, nil];
 	}
+}
+
+- (IBAction)helpBarButtonItem:(UIBarButtonItem *)sender {
+    [self.feedbackController presentFeedbackViewController:self];
 }
 
 - (IBAction)onAddButton:(id)sender {

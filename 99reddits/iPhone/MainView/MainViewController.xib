@@ -15,6 +15,7 @@
                 <outlet property="doneItem" destination="26" id="31"/>
                 <outlet property="editItem" destination="27" id="32"/>
                 <outlet property="footerView" destination="j8D-Fp-Faa" id="3ic-Ph-ltt"/>
+                <outlet property="helpBarButtonItem" destination="4yB-Z2-gGD" id="GSg-qi-J1a"/>
                 <outlet property="view" destination="22" id="23"/>
             </connections>
         </placeholder>
@@ -28,6 +29,7 @@
                 <outlet property="dataSource" destination="-1" id="24"/>
                 <outlet property="delegate" destination="-1" id="25"/>
             </connections>
+            <point key="canvasLocation" x="-84" y="-52"/>
         </tableView>
         <barButtonItem systemItem="done" id="26">
             <connections>
@@ -66,5 +68,10 @@
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
         </view>
+        <barButtonItem title="Help" id="4yB-Z2-gGD" userLabel="Help Item">
+            <connections>
+                <action selector="helpBarButtonItem:" destination="-1" id="U3E-M0-lXg"/>
+            </connections>
+        </barButtonItem>
     </objects>
 </document>

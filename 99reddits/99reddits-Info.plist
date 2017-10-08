@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>This allows you to save photos.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -64,14 +62,18 @@
 	<string>MainWindow</string>
 	<key>NSMainNibFile~ipad</key>
 	<string>MainWindowPad</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>This allows you to save photos.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This allows you to save photos.</string>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
 	<key>UIPrerenderedIcon</key>
 	<true/>
 	<key>UIRequiresFullScreen</key>
 	<string>YES</string>
 	<key>UIStatusBarHidden</key>
-	<true/>
+	<false/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>

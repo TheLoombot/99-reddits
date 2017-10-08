@@ -200,6 +200,7 @@
 		FE85689E1F8097D90033EC11 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE85689D1F8097D90033EC11 /* ImageLoader.swift */; };
 		FE91DCA41F789C61005F5B7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE91DCA31F789C61005F5B7F /* Assets.xcassets */; };
 		FECE3A4F1F87381300306B26 /* NSData+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FECE3A4E1F87381300306B26 /* NSData+Extensions.m */; };
+		FEE776BD1F89C6AE003703A1 /* FeedbackController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE776BC1F89C6AE003703A1 /* FeedbackController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -504,6 +505,8 @@
 		FE91DCA31F789C61005F5B7F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FECE3A4D1F87381300306B26 /* NSData+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Extensions.h"; sourceTree = "<group>"; };
 		FECE3A4E1F87381300306B26 /* NSData+Extensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+Extensions.m"; sourceTree = "<group>"; };
+		FEE776BB1F89C6AE003703A1 /* FeedbackController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedbackController.h; sourceTree = "<group>"; };
+		FEE776BC1F89C6AE003703A1 /* FeedbackController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedbackController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1011,6 +1014,8 @@
 				847D5F721A7A3C9F00173A01 /* URLProvider.m */,
 				8D6C5D2A164ACCCC008A98A7 /* UserDef.h */,
 				8D6C5D2B164ACCCC008A98A7 /* UserDef.m */,
+				FEE776BB1F89C6AE003703A1 /* FeedbackController.h */,
+				FEE776BC1F89C6AE003703A1 /* FeedbackController.m */,
 				FE4738751F7CA0C300EC4828 /* ReviewManager.h */,
 				FE4738761F7CA0C300EC4828 /* ReviewManager.m */,
 				FE85689D1F8097D90033EC11 /* ImageLoader.swift */,
@@ -1334,6 +1339,7 @@
 				8D68FDCD14F8909000CDCF66 /* NIError.m in Sources */,
 				8D68FDCE14F8909000CDCF66 /* NIFoundationMethods.m in Sources */,
 				8D68FDCF14F8909000CDCF66 /* NIInMemoryCache.m in Sources */,
+				FEE776BD1F89C6AE003703A1 /* FeedbackController.m in Sources */,
 				8D68FDD014F8909000CDCF66 /* NINavigationAppearance.m in Sources */,
 				8D68FDD114F8909000CDCF66 /* NINetworkActivity.m in Sources */,
 				8D68FDD214F8909000CDCF66 /* NINonEmptyCollectionTesting.m in Sources */,

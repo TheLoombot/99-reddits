@@ -13,7 +13,6 @@
 @class SubRedditItem;
 
 @interface MainViewController : UITableViewController <ASIHTTPRequestDelegate> {
-	IBOutlet UIBarButtonItem *settingsItem;
 	IBOutlet UIBarButtonItem *editItem;
 	IBOutlet UIBarButtonItem *doneItem;
 	IBOutlet UIView *footerView;

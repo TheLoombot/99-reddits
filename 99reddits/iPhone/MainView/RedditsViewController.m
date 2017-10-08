@@ -90,7 +90,6 @@
 		}
 		
 		if (!bExist) {
-			[mainViewController removeSubRedditOperations:subReddit];
 			[appDelegate.subRedditsArray removeObject:subReddit];
 		}
 	}

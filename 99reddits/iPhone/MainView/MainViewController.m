@@ -9,22 +9,17 @@
 #import "MainViewController.h"
 #import "MainViewCell.h"
 #import "NIHTTPRequest.h"
-#import "ASIDownloadCache.h"
 #import "AlbumViewController.h"
 #import "RedditsViewController.h"
-#import "SettingsViewController.h"
 #import "UserDef.h"
-
-#define THUMB_WIDTH			55
-#define THUMB_HEIGHT		55
+#import "_9reddits-Swift.h"
 
 @interface MainViewController ()
 
-- (NSString *)cacheKeyForPhotoIndex:(NSInteger)photoIndex;
-- (void)requestImageFromSource:(NSString *)source photoIndex:(NSInteger)photoIndex;
+@property (strong, nonatomic) NSOperationQueue *refreshQueue;
 
 @end
-
+  
 @implementation MainViewController
 
 @synthesize lastAddedIndex;
@@ -35,42 +30,6 @@
         // Custom initialization
     }
     return self;
-}
-
-- (void)dealloc {
-	for (ASIHTTPRequest *request in refreshQueue.operations) {
-		[request clearDelegatesAndCancel];
-	}
-
-	for (ASIHTTPRequest *request in queue.operations) {
-		[request clearDelegatesAndCancel];
-	}
-
-	activeRequests = nil;
-	thumbnailImageCache = nil;
-	refreshQueue = nil;
-	queue = nil;
-}
-
-- (void)didReceiveMemoryWarning {
-	for (ASIHTTPRequest *request in refreshQueue.operations) {
-		[request clearDelegatesAndCancel];
-	}
-	
-	for (ASIHTTPRequest *request in queue.operations) {
-		[request clearDelegatesAndCancel];
-	}
-	
-	[activeRequests removeAllObjects];
-	[thumbnailImageCache reduceMemoryUsage];
-	
-	refreshCount = 0;
-	refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-	[refreshControl endRefreshing];
-	
-	[self.tableView reloadData];
-
-    [super didReceiveMemoryWarning];
 }
 
 #pragma mark - View lifecycle
@@ -95,29 +54,14 @@
 	
 	self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:settingsItem, nil];
 	self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:editItem, nil];
-	
-	[[ASIDownloadCache sharedCache] setShouldRespectCacheControlHeaders:NO];
 
-	
-	refreshQueue = [[NSOperationQueue alloc] init];
-	[queue setMaxConcurrentOperationCount:5];
-	
-	queue = [[NSOperationQueue alloc] init];
-	[queue setMaxConcurrentOperationCount:5];
-	
-	activeRequests = [[NSMutableSet alloc] init];
-	
-	thumbnailImageCache = [[NIImageMemoryCache alloc] init];
+	self.refreshQueue = [[NSOperationQueue alloc] init];
+	[self.refreshQueue setMaxConcurrentOperationCount:5];
 	
 	refreshCount = 0;
 	
 	if (appDelegate.firstRun) {
 		[self reloadData];
-	}
-	else {
-//		NSTimeInterval currentTime = [[NSDate date] timeIntervalSince1970];
-//		if (currentTime - appDelegate.updatedTime > 300)
-//			[self reloadData];
 	}
 
 	CGRect frame = footerView.frame;
@@ -145,6 +89,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
+
 	for (SubRedditItem *subReddit in subRedditsArray) {
 		[subReddit calUnshowedCount];
 	}
@@ -196,54 +142,43 @@
 	}
 	
 	if (indexPath.row == 0) {
-//		cell.textLabel.text = appDelegate.favoritesItem.nameString;
 		cell.contentTextLabel.text = appDelegate.favoritesItem.nameString;
 
 		if (appDelegate.favoritesItem.photosArray.count == 0) {
 			cell.accessoryType = UITableViewCellAccessoryNone;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-			[cell setThumbImage:[UIImage imageNamed:@"FavoritesIcon.png"] animated:NO];
+      cell.contentImageView.image = [UIImage imageNamed:@"FavoritesIcon.png"];
 		}
 		else {
 			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 			
 			NSString *urlString = [self cacheKeyForPhotoIndex:indexPath.row - 1];
-			UIImage *image = [thumbnailImageCache objectWithName:urlString];
-			if (image == nil) {
-				[self requestImageFromSource:urlString photoIndex:indexPath.row - 1];
-				[cell setThumbImage:[UIImage imageNamed:@"FavoritesIcon.png"] animated:NO];
-			}
-			else {
-				[cell setThumbImage:image animated:NO];
-			}
+
+      if (urlString) {
+        [ImageLoader loadWithUrlString:urlString into:cell.contentImageView];
+      } else {
+        cell.contentImageView.image = [UIImage imageNamed:@"FavoritesIcon.png"];
+      }
 		}
 		
 		[cell setTotalCount:appDelegate.favoritesItem.photosArray.count];
 	}
 	else {
 		SubRedditItem *subReddit = [subRedditsArray objectAtIndex:indexPath.row - 1];
-//		cell.textLabel.text = subReddit.nameString;
 		cell.contentTextLabel.text = subReddit.nameString;
 
 		if (subReddit.photosArray.count == 0 || subReddit.loading) {
 			cell.accessoryType = UITableViewCellAccessoryNone;
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-			[cell setThumbImage:nil animated:NO];
+      cell.contentImageView.image = nil;
 		}
 		else {
 			cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 			cell.selectionStyle = UITableViewCellSelectionStyleBlue;
 			
 			NSString *urlString = [self cacheKeyForPhotoIndex:indexPath.row - 1];
-			UIImage *image = [thumbnailImageCache objectWithName:urlString];
-			if (image == nil) {
-				[self requestImageFromSource:urlString photoIndex:indexPath.row - 1];
-				[cell setThumbImage:nil animated:NO];
-			}
-			else {
-				[cell setThumbImage:image animated:NO];
-			}
+      [ImageLoader loadWithUrlString:urlString into:cell.contentImageView];
 		}
 		
 		[cell setUnshowedCount:subReddit.unshowedCount totalCount:subReddit.photosArray.count loading:subReddit.loading];
@@ -281,8 +216,6 @@
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-//	if (!self.editing)
-//		return NO;
 
 	if (indexPath.row == 0)
 		return NO;
@@ -294,26 +227,15 @@
 }
 
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-		SubRedditItem *subReddit = [subRedditsArray objectAtIndex:indexPath.row - 1];
-		if (subReddit.photosArray.count > 0) {
-			NSString *thumbnailString = [[subReddit.photosArray objectAtIndex:0] thumbnailString];
-			for (ASIHTTPRequest *request in queue.operations) {
-				if ([[request.originalURL absoluteString] isEqualToString:thumbnailString]) {
-					[request clearDelegatesAndCancel];
-					[activeRequests removeObject:thumbnailString];
-					break;
-				}
-			}
-		}
-		
-		subReddit.subscribe = NO;
-		[appDelegate.nameStringsSet removeObject:[subReddit.nameString lowercaseString]];
-		[subRedditsArray removeObject:subReddit];
-		[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-		
-		[appDelegate saveToDefaults];
-	}
+  if (editingStyle == UITableViewCellEditingStyleDelete) {
+    SubRedditItem *subReddit = [subRedditsArray objectAtIndex:indexPath.row - 1];
+    subReddit.subscribe = NO;
+    [appDelegate.nameStringsSet removeObject:[subReddit.nameString lowercaseString]];
+    [subRedditsArray removeObject:subReddit];
+    [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+
+    [appDelegate saveToDefaults];
+  }
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -359,15 +281,6 @@
 	
 	editItem.enabled = NO;
 	
-	for (ASIHTTPRequest *request in refreshQueue.operations) {
-		[request clearDelegatesAndCancel];
-	}
-	
-	for (ASIHTTPRequest *request in queue.operations) {
-		[request clearDelegatesAndCancel];
-	}
-	[activeRequests removeAllObjects];
-	
 	refreshCount = 0;
 	
 	for (NSInteger i = 0; i < subRedditsArray.count; i ++) {
@@ -383,7 +296,7 @@
 		albumRequest.delegate = self;
         albumRequest.userAgentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 10_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B72";
 		albumRequest.processorDelegate = (id)[self class];
-		[refreshQueue addOperation:albumRequest];
+		[self.refreshQueue addOperation:albumRequest];
 	}
 	
 	[self.tableView reloadData];
@@ -428,8 +341,7 @@
 	subReddit.afterString = [dictionary objectForKey:@"after"];
 
 	[subReddit calUnshowedCount];
-	
-//	[self.tableView reloadData];
+
 	[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index + 1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 
 	[tempPhotosArray removeAllObjects];
@@ -473,7 +385,6 @@
 	subReddit.unshowedCount = 0;
 	[subReddit.photosArray removeAllObjects];
 
-//	[self.tableView reloadData];
 	[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index + 1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
 
 	refreshCount --;
@@ -582,7 +493,7 @@
     albumRequest.userAgentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 10_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B72";
 	albumRequest.delegate = self;
 	albumRequest.processorDelegate = (id)[self class];
-	[refreshQueue addOperation:albumRequest];
+	[self.refreshQueue addOperation:albumRequest];
 }
 
 - (NSString *)cacheKeyForPhotoIndex:(NSInteger)photoIndex {
@@ -598,120 +509,6 @@
 			return @"";
 		
 		return [[subReddit.photosArray objectAtIndex:0] thumbnailString];
-	}
-}
-
-- (void)requestImageFromSource:(NSString *)source photoIndex:(NSInteger)photoIndex {
-//	if (![appDelegate checkNetworkReachable:NO])
-//		return;
-
-	if (source.length == 0)
-		return;
-	
-	if ([activeRequests containsObject:source]) {
-		return;
-	}
-	
-	NSURL *url = [NSURL URLWithString:source];
-	
-	__block NIHTTPRequest __weak *readOp = [NIHTTPRequest requestWithURL:url usingCache:[ASIDownloadCache sharedCache]];
-	readOp.cacheStoragePolicy = ASICachePermanentlyCacheStoragePolicy;
-	readOp.shouldAttemptPersistentConnection = NO;
-	readOp.timeOutSeconds = 30;
-	
-	NSString *photoIndexKey = [self cacheKeyForPhotoIndex:photoIndex];
-	
-	[readOp setCompletionBlock:^{
-		UIImage *image = [UIImage imageWithData:[readOp responseData]];
-		
-		NSInteger index = -2;
-		if (photoIndex == -1) {
-			index = -1;
-		}
-		else {
-			for (NSInteger i = 0; i < subRedditsArray.count; i ++) {
-				NSString *keyString = [self cacheKeyForPhotoIndex:i];
-				if ([keyString isEqualToString:photoIndexKey]) {
-					index = i;
-					break;
-				}
-			}
-		}
-		
-		if (index != -2) {
-			if (image && (subRedditsArray.count + 1 > photoIndex || photoIndex == -1)) {
-				NSInteger x, y, w, h;
-				if (image.size.width > THUMB_WIDTH * 2 && image.size.height > THUMB_HEIGHT * 2) {
-					float imgRatio = image.size.width / image.size.height;
-					if (imgRatio < 1) {
-						w = THUMB_WIDTH;
-						h = w / imgRatio;
-						x = 0;
-						y = (THUMB_HEIGHT - h) / 2;
-					}
-					else if (imgRatio > 1) {
-						h = THUMB_HEIGHT;
-						w = h * imgRatio;
-						x = (THUMB_WIDTH - w) / 2;
-						y = 0;
-					}
-					else {
-						w = THUMB_WIDTH;
-						h = THUMB_HEIGHT;
-						x = 0.0;
-						y = 0.0;
-					}
-				}
-				else {
-					w = image.size.width;
-					h = image.size.height;
-					x = (THUMB_WIDTH - w) / 2;
-					y = (THUMB_HEIGHT - h) / 2;
-				}
-				
-				UIGraphicsBeginImageContextWithOptions(CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT), NO, screenScale);
-				CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(), [UIColor whiteColor].CGColor);
-				CGContextFillRect(UIGraphicsGetCurrentContext(), CGRectMake(0, 0, THUMB_WIDTH, THUMB_HEIGHT));
-				CGRect rect = CGRectMake(x, y, w, h);
-				[image drawInRect:rect];
-				UIImage *thumbImage = UIGraphicsGetImageFromCurrentImageContext();
-				UIGraphicsEndImageContext();
-				
-				[thumbnailImageCache storeObject:thumbImage withName:photoIndexKey];
-				MainViewCell *cell = (MainViewCell *)[self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:index + 1 inSection:0]];
-				[cell setThumbImage:thumbImage animated:YES];
-			}
-		}
-		
-		[activeRequests removeObject:source];
-	}];
-	
-	[readOp setFailedBlock:^{
-		[activeRequests removeObject:source];
-	}];
-	
-	[readOp setQueuePriority:NSOperationQueuePriorityNormal];
-	
-	[activeRequests addObject:source];
-	[queue addOperation:readOp];
-}
-
-- (IBAction)onSettingsButton:(id)sender {
-	SettingsViewController *settingsViewController = [[SettingsViewController alloc] initWithNibName:@"SettingsViewController" bundle:nil];
-	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
-	[self presentViewController:navigationController animated:YES completion:nil];
-}
-
-- (void)removeSubRedditOperations:(SubRedditItem *)subReddit {
-	if (subReddit.photosArray.count > 0) {
-		NSString *thumbnailString = [[subReddit.photosArray objectAtIndex:0] thumbnailString];
-		for (ASIHTTPRequest *request in queue.operations) {
-			if ([[request.originalURL absoluteString] isEqualToString:thumbnailString]) {
-				[request clearDelegatesAndCancel];
-				[activeRequests removeObject:thumbnailString];
-				break;
-			}
-		}
 	}
 }
 

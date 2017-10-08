@@ -32,12 +32,6 @@
 		843903671A749747007B9EFF /* ControversialIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 843903121A749747007B9EFF /* ControversialIcon.png */; };
 		843903681A749747007B9EFF /* ControversialIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 843903131A749747007B9EFF /* ControversialIcon@2x.png */; };
 		843903691A749747007B9EFF /* ControversialIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 843903141A749747007B9EFF /* ControversialIcon@3x.png */; };
-		8439036A1A749747007B9EFF /* DefaultAlbumIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 843903151A749747007B9EFF /* DefaultAlbumIcon.png */; };
-		8439036B1A749747007B9EFF /* DefaultAlbumIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 843903161A749747007B9EFF /* DefaultAlbumIcon@2x.png */; };
-		8439036C1A749747007B9EFF /* DefaultAlbumIcon@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 843903171A749747007B9EFF /* DefaultAlbumIcon@3x.png */; };
-		8439036D1A749747007B9EFF /* DefaultPhoto.png in Resources */ = {isa = PBXBuildFile; fileRef = 843903181A749747007B9EFF /* DefaultPhoto.png */; };
-		8439036E1A749747007B9EFF /* DefaultPhoto@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 843903191A749747007B9EFF /* DefaultPhoto@2x.png */; };
-		8439036F1A749747007B9EFF /* DefaultPhoto@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439031A1A749747007B9EFF /* DefaultPhoto@3x.png */; };
 		843903701A749747007B9EFF /* DefaultPhotoLarge.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439031B1A749747007B9EFF /* DefaultPhotoLarge.png */; };
 		843903711A749747007B9EFF /* DeleteButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439031C1A749747007B9EFF /* DeleteButton.png */; };
 		843903721A749747007B9EFF /* DeleteButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8439031D1A749747007B9EFF /* DeleteButton@2x.png */; };
@@ -92,7 +86,6 @@
 		84B9DFF01A7928E800EA3CF0 /* Maximize.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B9DFED1A7928E800EA3CF0 /* Maximize.png */; };
 		84B9DFF11A7928E800EA3CF0 /* Maximize@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B9DFEE1A7928E800EA3CF0 /* Maximize@2x.png */; };
 		84B9DFF21A7928E800EA3CF0 /* Maximize@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B9DFEF1A7928E800EA3CF0 /* Maximize@3x.png */; };
-		84B9DFF51A792B3D00EA3CF0 /* MaximizeActivity.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B9DFF41A792B3D00EA3CF0 /* MaximizeActivity.m */; };
 		84EB13081A762D78006A39B5 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EB13051A762D78006A39B5 /* FLAnimatedImage.m */; };
 		84EB13091A762D78006A39B5 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EB13071A762D78006A39B5 /* FLAnimatedImageView.m */; };
 		84EB130C1A76337F006A39B5 /* CustomRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EB130B1A76337F006A39B5 /* CustomRefreshControl.m */; };
@@ -181,8 +174,6 @@
 		8D6C5D3A164ACCCC008A98A7 /* RedditsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D18164ACCCC008A98A7 /* RedditsViewController.m */; };
 		8D6C5D3B164ACCCC008A98A7 /* RedditsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D6C5D19164ACCCC008A98A7 /* RedditsViewController.xib */; };
 		8D6C5D3C164ACCCC008A98A7 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D6C5D1A164ACCCC008A98A7 /* MainWindow.xib */; };
-		8D6C5D3E164ACCCC008A98A7 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D1F164ACCCC008A98A7 /* SettingsViewController.m */; };
-		8D6C5D3F164ACCCC008A98A7 /* SettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D6C5D20164ACCCC008A98A7 /* SettingsViewController.xib */; };
 		8D6C5D40164ACCCC008A98A7 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D23164ACCCC008A98A7 /* MBProgressHUD.m */; };
 		8D6C5D41164ACCCC008A98A7 /* PhotoItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D25164ACCCC008A98A7 /* PhotoItem.m */; };
 		8D6C5D43164ACCCC008A98A7 /* SubRedditItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D29164ACCCC008A98A7 /* SubRedditItem.m */; };
@@ -203,11 +194,16 @@
 		9C6EC04D1CACC9BF00DEB36D /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC04C1CACC9BF00DEB36D /* libc++.tbd */; };
 		9C6EC04F1CACC9C700DEB36D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC04E1CACC9C700DEB36D /* libz.tbd */; };
 		9C6EC0521CACCB0A00DEB36D /* libFlurry_7.5.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC0511CACCB0A00DEB36D /* libFlurry_7.5.2.a */; };
+		DD24326E76741E74CEB6EFD0 /* Pods_99reddits.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAB47ADD7B1F0AD26966574B /* Pods_99reddits.framework */; };
 		FE4738771F7CA0C300EC4828 /* ReviewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4738761F7CA0C300EC4828 /* ReviewManager.m */; };
+		FE8568981F808BC40033EC11 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = FE8568971F808BC40033EC11 /* Podfile */; };
+		FE85689E1F8097D90033EC11 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE85689D1F8097D90033EC11 /* ImageLoader.swift */; };
 		FE91DCA41F789C61005F5B7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE91DCA31F789C61005F5B7F /* Assets.xcassets */; };
+		FECE3A4F1F87381300306B26 /* NSData+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FECE3A4E1F87381300306B26 /* NSData+Extensions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6CDE3CB9CBB3873CA2C7D9A5 /* Pods-99reddits.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-99reddits.debug.xcconfig"; path = "Pods/Target Support Files/Pods-99reddits/Pods-99reddits.debug.xcconfig"; sourceTree = "<group>"; };
 		843902FC1A749747007B9EFF /* about.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = about.css; sourceTree = "<group>"; };
 		843902FD1A749747007B9EFF /* about.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = about.html; sourceTree = "<group>"; };
 		843902FE1A749747007B9EFF /* about.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = about.jpg; sourceTree = "<group>"; };
@@ -233,12 +229,6 @@
 		843903121A749747007B9EFF /* ControversialIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ControversialIcon.png; sourceTree = "<group>"; };
 		843903131A749747007B9EFF /* ControversialIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ControversialIcon@2x.png"; sourceTree = "<group>"; };
 		843903141A749747007B9EFF /* ControversialIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ControversialIcon@3x.png"; sourceTree = "<group>"; };
-		843903151A749747007B9EFF /* DefaultAlbumIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultAlbumIcon.png; sourceTree = "<group>"; };
-		843903161A749747007B9EFF /* DefaultAlbumIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DefaultAlbumIcon@2x.png"; sourceTree = "<group>"; };
-		843903171A749747007B9EFF /* DefaultAlbumIcon@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DefaultAlbumIcon@3x.png"; sourceTree = "<group>"; };
-		843903181A749747007B9EFF /* DefaultPhoto.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultPhoto.png; sourceTree = "<group>"; };
-		843903191A749747007B9EFF /* DefaultPhoto@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DefaultPhoto@2x.png"; sourceTree = "<group>"; };
-		8439031A1A749747007B9EFF /* DefaultPhoto@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DefaultPhoto@3x.png"; sourceTree = "<group>"; };
 		8439031B1A749747007B9EFF /* DefaultPhotoLarge.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultPhotoLarge.png; sourceTree = "<group>"; };
 		8439031C1A749747007B9EFF /* DeleteButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DeleteButton.png; sourceTree = "<group>"; };
 		8439031D1A749747007B9EFF /* DeleteButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "DeleteButton@2x.png"; sourceTree = "<group>"; };
@@ -295,8 +285,6 @@
 		84B9DFED1A7928E800EA3CF0 /* Maximize.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Maximize.png; sourceTree = "<group>"; };
 		84B9DFEE1A7928E800EA3CF0 /* Maximize@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Maximize@2x.png"; sourceTree = "<group>"; };
 		84B9DFEF1A7928E800EA3CF0 /* Maximize@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Maximize@3x.png"; sourceTree = "<group>"; };
-		84B9DFF31A792B3D00EA3CF0 /* MaximizeActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaximizeActivity.h; sourceTree = "<group>"; };
-		84B9DFF41A792B3D00EA3CF0 /* MaximizeActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MaximizeActivity.m; sourceTree = "<group>"; };
 		84EB13041A762D78006A39B5 /* FLAnimatedImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImage.h; sourceTree = "<group>"; };
 		84EB13051A762D78006A39B5 /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImage.m; sourceTree = "<group>"; };
 		84EB13061A762D78006A39B5 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImageView.h; sourceTree = "<group>"; };
@@ -476,9 +464,6 @@
 		8D6C5D18164ACCCC008A98A7 /* RedditsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RedditsViewController.m; sourceTree = "<group>"; };
 		8D6C5D19164ACCCC008A98A7 /* RedditsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RedditsViewController.xib; sourceTree = "<group>"; };
 		8D6C5D1A164ACCCC008A98A7 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
-		8D6C5D1E164ACCCC008A98A7 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
-		8D6C5D1F164ACCCC008A98A7 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
-		8D6C5D20164ACCCC008A98A7 /* SettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SettingsViewController.xib; sourceTree = "<group>"; };
 		8D6C5D22164ACCCC008A98A7 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MBProgressHUD.h; sourceTree = "<group>"; };
 		8D6C5D23164ACCCC008A98A7 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MBProgressHUD.m; sourceTree = "<group>"; };
 		8D6C5D24164ACCCC008A98A7 /* PhotoItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoItem.h; sourceTree = "<group>"; };
@@ -509,9 +494,16 @@
 		9C6EC04E1CACC9C700DEB36D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		9C6EC0501CACCB0A00DEB36D /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
 		9C6EC0511CACCB0A00DEB36D /* libFlurry_7.5.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_7.5.2.a; sourceTree = "<group>"; };
+		A957AF9D16111BB0F57DA71A /* Pods-99reddits.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-99reddits.release.xcconfig"; path = "Pods/Target Support Files/Pods-99reddits/Pods-99reddits.release.xcconfig"; sourceTree = "<group>"; };
+		BAB47ADD7B1F0AD26966574B /* Pods_99reddits.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_99reddits.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE4738751F7CA0C300EC4828 /* ReviewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReviewManager.h; sourceTree = "<group>"; };
 		FE4738761F7CA0C300EC4828 /* ReviewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReviewManager.m; sourceTree = "<group>"; };
+		FE8568971F808BC40033EC11 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		FE85689C1F8097D90033EC11 /* 99reddits-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "99reddits-Bridging-Header.h"; sourceTree = "<group>"; };
+		FE85689D1F8097D90033EC11 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		FE91DCA31F789C61005F5B7F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FECE3A4D1F87381300306B26 /* NSData+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Extensions.h"; sourceTree = "<group>"; };
+		FECE3A4E1F87381300306B26 /* NSData+Extensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+Extensions.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -538,6 +530,7 @@
 				8D5080091445923700788875 /* Foundation.framework in Frameworks */,
 				8D50800B1445923700788875 /* CoreGraphics.framework in Frameworks */,
 				8DAECE43145A3E55004D194A /* MessageUI.framework in Frameworks */,
+				DD24326E76741E74CEB6EFD0 /* Pods_99reddits.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -592,6 +585,7 @@
 		8D507FF71445923700788875 = {
 			isa = PBXGroup;
 			children = (
+				FE8568971F808BC40033EC11 /* Podfile */,
 				FE91DCA31F789C61005F5B7F /* Assets.xcassets */,
 				9C57D5901680201B00AB7126 /* Flurry */,
 				8D6C5D21164ACCCC008A98A7 /* Shared */,
@@ -604,6 +598,7 @@
 				8D50800D1445923700788875 /* Supporting Files */,
 				8D5080051445923700788875 /* Frameworks */,
 				8D5080031445923700788875 /* Products */,
+				EAF8368554C65E186DF0F245 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -638,6 +633,7 @@
 				8D5080061445923700788875 /* UIKit.framework */,
 				8D5080081445923700788875 /* Foundation.framework */,
 				8D50800A1445923700788875 /* CoreGraphics.framework */,
+				BAB47ADD7B1F0AD26966574B /* Pods_99reddits.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -683,12 +679,6 @@
 				843903121A749747007B9EFF /* ControversialIcon.png */,
 				843903131A749747007B9EFF /* ControversialIcon@2x.png */,
 				843903141A749747007B9EFF /* ControversialIcon@3x.png */,
-				843903151A749747007B9EFF /* DefaultAlbumIcon.png */,
-				843903161A749747007B9EFF /* DefaultAlbumIcon@2x.png */,
-				843903171A749747007B9EFF /* DefaultAlbumIcon@3x.png */,
-				843903181A749747007B9EFF /* DefaultPhoto.png */,
-				843903191A749747007B9EFF /* DefaultPhoto@2x.png */,
-				8439031A1A749747007B9EFF /* DefaultPhoto@3x.png */,
 				8439031B1A749747007B9EFF /* DefaultPhotoLarge.png */,
 				8439031C1A749747007B9EFF /* DeleteButton.png */,
 				8439031D1A749747007B9EFF /* DeleteButton@2x.png */,
@@ -954,7 +944,6 @@
 				8D6C5D1A164ACCCC008A98A7 /* MainWindow.xib */,
 				8D6C5D0E164ACCCC008A98A7 /* MainView */,
 				8D6C5CFE164ACCCC008A98A7 /* AlbumView */,
-				8D6C5D1D164ACCCC008A98A7 /* SettingsView */,
 			);
 			name = iPhone;
 			path = 99reddits/iPhone;
@@ -1000,16 +989,6 @@
 			path = MainView;
 			sourceTree = "<group>";
 		};
-		8D6C5D1D164ACCCC008A98A7 /* SettingsView */ = {
-			isa = PBXGroup;
-			children = (
-				8D6C5D1E164ACCCC008A98A7 /* SettingsViewController.h */,
-				8D6C5D1F164ACCCC008A98A7 /* SettingsViewController.m */,
-				8D6C5D20164ACCCC008A98A7 /* SettingsViewController.xib */,
-			);
-			path = SettingsView;
-			sourceTree = "<group>";
-		};
 		8D6C5D21164ACCCC008A98A7 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
@@ -1026,8 +1005,6 @@
 				8D6C5D25164ACCCC008A98A7 /* PhotoItem.m */,
 				8D6C5D28164ACCCC008A98A7 /* SubRedditItem.h */,
 				8D6C5D29164ACCCC008A98A7 /* SubRedditItem.m */,
-				84B9DFF31A792B3D00EA3CF0 /* MaximizeActivity.h */,
-				84B9DFF41A792B3D00EA3CF0 /* MaximizeActivity.m */,
 				847D5F6E1A7A345100173A01 /* TitleProvider.h */,
 				847D5F6F1A7A345100173A01 /* TitleProvider.m */,
 				847D5F711A7A3C9F00173A01 /* URLProvider.h */,
@@ -1036,6 +1013,10 @@
 				8D6C5D2B164ACCCC008A98A7 /* UserDef.m */,
 				FE4738751F7CA0C300EC4828 /* ReviewManager.h */,
 				FE4738761F7CA0C300EC4828 /* ReviewManager.m */,
+				FE85689D1F8097D90033EC11 /* ImageLoader.swift */,
+				FE85689C1F8097D90033EC11 /* 99reddits-Bridging-Header.h */,
+				FECE3A4D1F87381300306B26 /* NSData+Extensions.h */,
+				FECE3A4E1F87381300306B26 /* NSData+Extensions.m */,
 			);
 			name = Shared;
 			path = 99reddits/Shared;
@@ -1063,6 +1044,15 @@
 			path = 99reddits/Flurry;
 			sourceTree = "<group>";
 		};
+		EAF8368554C65E186DF0F245 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6CDE3CB9CBB3873CA2C7D9A5 /* Pods-99reddits.debug.xcconfig */,
+				A957AF9D16111BB0F57DA71A /* Pods-99reddits.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1070,10 +1060,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8D50801D1445923700788875 /* Build configuration list for PBXNativeTarget "99reddits" */;
 			buildPhases = (
+				14A6DF07453FC5B157018AD7 /* [CP] Check Pods Manifest.lock */,
 				8D507FFE1445923700788875 /* Sources */,
 				8D507FFF1445923700788875 /* Frameworks */,
 				8D5080001445923700788875 /* Resources */,
 				9C0334B816B238BB00A2F5D3 /* ShellScript */,
+				9D4DBF00E0D19C31D9AE2246 /* [CP] Embed Pods Frameworks */,
+				38B7739D0E18853D3A749880 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -1147,6 +1140,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FE8568981F808BC40033EC11 /* Podfile in Resources */,
 				847D5F6D1A7A1FEA00173A01 /* MaximizePad@2x.png in Resources */,
 				843903781A749747007B9EFF /* FavoritesIcon.png in Resources */,
 				843903861A749747007B9EFF /* iTunesArtwork in Resources */,
@@ -1157,7 +1151,6 @@
 				843903801A749747007B9EFF /* FireIcon.png in Resources */,
 				84B9DFF21A7928E800EA3CF0 /* Maximize@3x.png in Resources */,
 				8439039B1A749747007B9EFF /* TopIcon.png in Resources */,
-				8439036B1A749747007B9EFF /* DefaultAlbumIcon@2x.png in Resources */,
 				843903621A749747007B9EFF /* ClearButton@2x.png in Resources */,
 				843903771A749747007B9EFF /* FavoritesBlueIcon@3x.png in Resources */,
 				8D6C5D34164ACCCC008A98A7 /* PhotoViewController.xib in Resources */,
@@ -1166,7 +1159,6 @@
 				843903731A749747007B9EFF /* DeleteButton@3x.png in Resources */,
 				8D6C5D36164ACCCC008A98A7 /* AddViewController.xib in Resources */,
 				843903521A749747007B9EFF /* about.html in Resources */,
-				8439036C1A749747007B9EFF /* DefaultAlbumIcon@3x.png in Resources */,
 				843903641A749747007B9EFF /* CommentBlueIcon.png in Resources */,
 				8D6C5D39164ACCCC008A98A7 /* MainViewController.xib in Resources */,
 				843903A21A749747007B9EFF /* UncheckIcon@3x.png in Resources */,
@@ -1183,7 +1175,6 @@
 				843903811A749747007B9EFF /* FireIcon@2x.png in Resources */,
 				84B9DFF01A7928E800EA3CF0 /* Maximize.png in Resources */,
 				8D6C5D3C164ACCCC008A98A7 /* MainWindow.xib in Resources */,
-				8D6C5D3F164ACCCC008A98A7 /* SettingsViewController.xib in Resources */,
 				8439037B1A749747007B9EFF /* FavoritesIconPad.png in Resources */,
 				847D5F6C1A7A1FEA00173A01 /* MaximizePad.png in Resources */,
 				843903941A749747007B9EFF /* SettingsIcon@3x.png in Resources */,
@@ -1216,15 +1207,12 @@
 				8439039F1A749747007B9EFF /* UncheckCellBack.png in Resources */,
 				8DF0789F164F6F0900B26B8F /* PhotoViewControllerPad.xib in Resources */,
 				8439039A1A749747007B9EFF /* Titles.plist in Resources */,
-				8439036F1A749747007B9EFF /* DefaultPhoto@3x.png in Resources */,
 				843903581A749747007B9EFF /* ButtonNormal@2x.png in Resources */,
 				843903551A749747007B9EFF /* ButtonHighlighted@2x.png in Resources */,
 				8439035A1A749747007B9EFF /* ButtonOverlay.png in Resources */,
 				843903671A749747007B9EFF /* ControversialIcon.png in Resources */,
 				843903981A749747007B9EFF /* SubRedditsList.plist in Resources */,
 				8439039C1A749747007B9EFF /* TopIcon@2x.png in Resources */,
-				8439036D1A749747007B9EFF /* DefaultPhoto.png in Resources */,
-				8439036A1A749747007B9EFF /* DefaultAlbumIcon.png in Resources */,
 				843903721A749747007B9EFF /* DeleteButton@2x.png in Resources */,
 				843903961A749747007B9EFF /* SettingsInfoBack@2x.png in Resources */,
 				843903691A749747007B9EFF /* ControversialIcon@3x.png in Resources */,
@@ -1239,7 +1227,6 @@
 				8439037F1A749747007B9EFF /* FavoritesRedIcon@3x.png in Resources */,
 				843903A71A749CC5007B9EFF /* NimbusPhotos.bundle in Resources */,
 				8439037C1A749747007B9EFF /* FavoritesIconPad@2x.png in Resources */,
-				8439036E1A749747007B9EFF /* DefaultPhoto@2x.png in Resources */,
 				843903901A749747007B9EFF /* PrevPhotoButton.png in Resources */,
 				843903911A749747007B9EFF /* PrevPhotoButton@2x.png in Resources */,
 				8D224240176714570053868F /* CommentViewController.xib in Resources */,
@@ -1254,6 +1241,39 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		14A6DF07453FC5B157018AD7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-99reddits-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		38B7739D0E18853D3A749880 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-99reddits/Pods-99reddits-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		9C0334B816B238BB00A2F5D3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1267,6 +1287,24 @@
 			shellPath = /bin/sh;
 			shellScript = "./Fabric.framework/run 7228ed62a7b305f3ee6ec449adbda49637b3168a 515b7522059c7777f4ec6c99f236ddc0d0d7baf3e873187176adcd6e31d29331";
 		};
+		9D4DBF00E0D19C31D9AE2246 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-99reddits/Pods-99reddits-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Nuke/Nuke.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Nuke.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-99reddits/Pods-99reddits-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1276,7 +1314,6 @@
 			files = (
 				8D5080131445923700788875 /* main.m in Sources */,
 				8D24A77514F888F7001CC042 /* JSONKit.m in Sources */,
-				84B9DFF51A792B3D00EA3CF0 /* MaximizeActivity.m in Sources */,
 				8D68FD5914F88DCB00CDCF66 /* ASIAuthenticationDialog.m in Sources */,
 				8D68FD5A14F88DCB00CDCF66 /* ASIDataCompressor.m in Sources */,
 				8D68FD5B14F88DCB00CDCF66 /* ASIDataDecompressor.m in Sources */,
@@ -1291,6 +1328,7 @@
 				8D68FDC914F8909000CDCF66 /* NICommonMetrics.m in Sources */,
 				8D68FDCA14F8909000CDCF66 /* NIDataStructures.m in Sources */,
 				847D5F731A7A3C9F00173A01 /* URLProvider.m in Sources */,
+				FECE3A4F1F87381300306B26 /* NSData+Extensions.m in Sources */,
 				8D68FDCB14F8909000CDCF66 /* NIDebuggingTools.m in Sources */,
 				8D68FDCC14F8909000CDCF66 /* NIDeviceOrientation.m in Sources */,
 				8D68FDCD14F8909000CDCF66 /* NIError.m in Sources */,
@@ -1327,9 +1365,9 @@
 				8D6C5D37164ACCCC008A98A7 /* MainViewCell.m in Sources */,
 				8D6C5D38164ACCCC008A98A7 /* MainViewController.m in Sources */,
 				8D6C5D3A164ACCCC008A98A7 /* RedditsViewController.m in Sources */,
-				8D6C5D3E164ACCCC008A98A7 /* SettingsViewController.m in Sources */,
 				8D6C5D40164ACCCC008A98A7 /* MBProgressHUD.m in Sources */,
 				8D6C5D41164ACCCC008A98A7 /* PhotoItem.m in Sources */,
+				FE85689E1F8097D90033EC11 /* ImageLoader.swift in Sources */,
 				8D6C5D43164ACCCC008A98A7 /* SubRedditItem.m in Sources */,
 				847D5F701A7A345100173A01 /* TitleProvider.m in Sources */,
 				8D6C5D44164ACCCC008A98A7 /* UserDef.m in Sources */,
@@ -1412,7 +1450,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1454,7 +1492,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SDKROOT)/usr/include/libxml2";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1464,6 +1502,7 @@
 		};
 		8D50801E1445923700788875 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6CDE3CB9CBB3873CA2C7D9A5 /* Pods-99reddits.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1487,6 +1526,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.lensie-custom.99reddits";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "99reddits/Shared/99reddits-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				WRAPPER_EXTENSION = app;
@@ -1495,6 +1535,7 @@
 		};
 		8D50801F1445923700788875 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A957AF9D16111BB0F57DA71A /* Pods-99reddits.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
@@ -1518,6 +1559,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.lensie-custom.99reddits";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "99reddits/Shared/99reddits-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				WRAPPER_EXTENSION = app;
 			};

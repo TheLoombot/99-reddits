@@ -10,9 +10,9 @@
 #import "SubRedditItem.h"
 #import "PhotoItem.h"
 #import "ASIHTTPRequestDelegate.h"
-#import "MaximizeActivity.h"
 
-@interface PhotoViewControllerPad : NIToolbarPhotoViewController <NIPhotoAlbumScrollViewDataSource, UIActionSheetDelegate, UIPopoverControllerDelegate, MaximizeActivityDelegate> {
+
+@interface PhotoViewControllerPad : NIToolbarPhotoViewController <NIPhotoAlbumScrollViewDataSource, UIActionSheetDelegate, UIPopoverControllerDelegate> {
 	NSOperationQueue *queue;
 	
 	NSMutableSet *activeRequests;

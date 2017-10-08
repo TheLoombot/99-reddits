@@ -10,23 +10,11 @@
 #import "SubRedditItem.h"
 #import "PhotoItem.h"
 #import "ASIHTTPRequestDelegate.h"
-#import "MaximizeActivity.h"
 
-@interface PhotoViewController : NIToolbarPhotoViewController <NIPhotoAlbumScrollViewDataSource, UIActionSheetDelegate, MaximizeActivityDelegate> {
-	NSOperationQueue *queue;
-	
-	NSMutableSet *activeRequests;
-	
+@interface PhotoViewController : NIToolbarPhotoViewController <NIPhotoAlbumScrollViewDataSource, UIActionSheetDelegate> {
+
 	SubRedditItem *subReddit;
-	//NSInteger testindex;
-	
-	BOOL shouldReleaseCaches;
-	
 	BOOL disappearForSubview;
-	
-	BOOL sharing;
-	NSInteger sharingIndex;
-
 	UIBarButtonItem *favoriteWhiteItem;
 	UIBarButtonItem *favoriteRedItem;
 	

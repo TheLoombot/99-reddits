@@ -10,93 +10,67 @@
 #import "AlbumViewController.h"
 #import <QuartzCore/QuartzCore.h>
 
-@implementation AlbumViewCell
+@interface AlbumViewCell()
 
-@synthesize albumViewController;
-@synthesize photo;
-@synthesize bFavorites;
+@property (strong, nonatomic) UIButton *tapButton;
+@property (strong, nonatomic) UIImageView *favoriteOverlayView;
+
+@end
+
+@implementation AlbumViewCell
 
 - (id)initWithFrame:(CGRect)frame {
 	self = [super initWithFrame:frame];
 	if (self) {
+    self.clipsToBounds = YES;
 		self.backgroundColor = [UIColor clearColor];
 		self.contentView.backgroundColor = [UIColor clearColor];
 
 		appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 
-		imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 75, 75)];
-		[self.contentView addSubview:imageView];
+		self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 75, 75)];
+    self.imageView.contentMode = UIViewContentModeScaleAspectFill;
+		[self.contentView addSubview:self.imageView];
 
-		favoriteOverlayView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 50, 25, 25)];
-		[self.contentView addSubview:favoriteOverlayView];
+		self.favoriteOverlayView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 50, 25, 25)];
+		[self.contentView addSubview:self.favoriteOverlayView];
 
-		tapButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		tapButton.frame = imageView.frame;
-		[tapButton setImage:[UIImage imageNamed:@"ButtonOverlay.png"] forState:UIControlStateHighlighted];
-		[tapButton addTarget:self action:@selector(onTap:) forControlEvents:UIControlEventTouchUpInside];
-		[self.contentView addSubview:tapButton];
+		self.tapButton = [UIButton buttonWithType:UIButtonTypeCustom];
+		self.tapButton.frame = self.imageView.frame;
+    [self.tapButton setImage:[UIImage imageNamed:@"ButtonOverlay.png"] forState:UIControlStateHighlighted];
+		[self.tapButton addTarget:self action:@selector(onTap:) forControlEvents:UIControlEventTouchUpInside];
+		[self.contentView addSubview:self.tapButton];
 	}
 	return self;
 }
 
+- (void)prepareForReuse {
+  [super prepareForReuse];
+
+  self.imageView.image = [UIImage imageNamed:@"DefaultPhoto"];
+}
+
 - (void)onTap:(id)sender {
-	[albumViewController onSelectPhoto:photo];
+	[self.albumViewController onSelectPhoto:self.photo];
 }
 
-- (void)setPhoto:(PhotoItem *)_photo {
-	photo = nil;
+- (void)setPhoto:(PhotoItem *)aPhoto {
+  _photo = nil;
+	_photo = aPhoto;
 
-	photo = _photo;
-
-	if (bFavorites) {
-		favoriteOverlayView.hidden = YES;
-		favoriteOverlayView.image = nil;
+	if (self.isInsideFavoriesAlbum) {
+		self.favoriteOverlayView.hidden = YES;
+		self.favoriteOverlayView.image = nil;
 	}
 	else {
-		if ([appDelegate isFavorite:photo]) {
-			favoriteOverlayView.hidden = NO;
-			favoriteOverlayView.image = [UIImage imageNamed:@"FavoritesRedIcon.png"];
+		if ([appDelegate isFavorite:_photo]) {
+			self.favoriteOverlayView.hidden = NO;
+			self.favoriteOverlayView.image = [UIImage imageNamed:@"FavoritesRedIcon.png"];
 		}
 		else {
-			favoriteOverlayView.hidden = YES;
-			favoriteOverlayView.image = nil;
+			self.favoriteOverlayView.hidden = YES;
+			self.favoriteOverlayView.image = nil;
 		}
-	}
-}
-
-- (void)setThumbImage:(UIImage *)thumbImage animated:(BOOL)animated {
-	[animateImageView.layer removeAllAnimations];
-	[animateImageView removeFromSuperview];
-	animateImageView = nil;
-
-	if (thumbImage == nil) {
-		imageView.image = [UIImage imageNamed:@"DefaultPhoto.png"];
-		imageEmpty = YES;
-	}
-	else {
-		if (animated || imageEmpty) {
-			imageView.image = [UIImage imageNamed:@"DefaultPhoto.png"];
-			animateImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 75, 75)];
-			animateImageView.image = thumbImage;
-			[self.contentView addSubview:animateImageView];
-
-			animateImageView.alpha = 0.0;
-			[UIView animateWithDuration:0.2
-							 animations:^(void) {
-								 animateImageView.alpha = 1.0;
-							 }
-							 completion:^(BOOL finished) {
-								 [animateImageView removeFromSuperview];
-								 animateImageView = nil;
-								 if (finished) {
-									 imageView.image = thumbImage;
-								 }
-							 }];
-		}
-		else {
-			imageView.image = thumbImage;
-		}
-		imageEmpty = NO;
 	}
 }
 

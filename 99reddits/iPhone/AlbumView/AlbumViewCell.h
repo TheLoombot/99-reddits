@@ -11,24 +11,11 @@
 
 @class AlbumViewController;
 
-@interface AlbumViewCell : UICollectionViewCell {
-	AlbumViewController __weak *albumViewController;
-	
-	PhotoItem __weak *photo;
-	BOOL bFavorites;
-
-	UIImageView *favoriteOverlayView;
-	UIImageView *animateImageView;
-	UIImageView *imageView;
-	UIButton *tapButton;
-
-	BOOL imageEmpty;
-}
+@interface AlbumViewCell : UICollectionViewCell
 
 @property (nonatomic, weak) AlbumViewController *albumViewController;
-@property (nonatomic, weak) PhotoItem *photo;
-@property (nonatomic) BOOL bFavorites;
-
-- (void)setThumbImage:(UIImage *)thumbImage animated:(BOOL)animated;
+@property (nonatomic, strong) PhotoItem *photo;
+@property (nonatomic, strong) UIImageView *imageView;
+@property (nonatomic, assign, getter=isInsideFavoriesAlbum) BOOL insideFavoritesAlbum;
 
 @end

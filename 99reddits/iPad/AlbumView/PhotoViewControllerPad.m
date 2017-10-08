@@ -489,18 +489,14 @@
 }
 
 - (void)shareImage:(NSData *)data title:(NSString *)title url:(NSURL *)url showFull:(BOOL)showFull {
-	MaximizeActivity *maximizeActivity = [[MaximizeActivity alloc] init];
-	maximizeActivity.delegate = self;
-	maximizeActivity.canPerformActivity = showFull;
-	
+
 	TitleProvider *titleItem = [[TitleProvider alloc] initWithPlaceholderItem:title];
 	URLProvider *urlItem = [[URLProvider alloc] initWithPlaceholderItem:url];
 	
 	NSArray *activityItems = @[data, titleItem, urlItem];
-	NSArray *applicationActivities = @[maximizeActivity];
 	NSArray *excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypePrint];
 	
-	UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:applicationActivities];
+	UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:@[]];
 	activityViewController.excludedActivityTypes = excludedActivityTypes;
 	
 	sharePopoverController = [[UIPopoverController alloc] initWithContentViewController:activityViewController];

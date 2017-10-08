@@ -21,27 +21,16 @@
 	UIRefreshControl *refreshControl;
 
 	NSMutableArray *subRedditsArray;
-	
-	NSOperationQueue *refreshQueue;
-	NSOperationQueue *queue;
-	
-	NSMutableSet* activeRequests;
-	NIImageMemoryCache* thumbnailImageCache;
-	
 	NSInteger refreshCount;
-
 	NSInteger lastAddedIndex;
 }
 
 @property (nonatomic, assign) NSInteger lastAddedIndex;
 
-- (IBAction)onSettingsButton:(id)sender;
 - (IBAction)onEditButton:(id)sender;
 - (IBAction)onAddButton:(id)sender;
 
 - (void)reloadData;
-
-- (void)removeSubRedditOperations:(SubRedditItem *)subReddit;
 - (void)addSubReddit:(SubRedditItem *)subReddit;
 
 @end

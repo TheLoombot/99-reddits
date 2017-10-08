@@ -10,11 +10,9 @@
 
 @interface MainViewCell : UITableViewCell {
 	UIActivityIndicatorView *activityIndicator;
-	UIImageView *contentImageView;
 	UILabel *contentTextLabel;
 	UIView *unshowedBackView;
 	UILabel *unshowedLabel;
-	UIImageView *animateImageView;
 
 	NSInteger unshowedCount;
 	NSInteger totalCount;
@@ -28,9 +26,9 @@
 }
 
 @property (nonatomic, readonly) UILabel *contentTextLabel;
+@property (strong, nonatomic) UIImageView *contentImageView;
 
 - (void)setUnshowedCount:(NSInteger)_unshowedCount totalCount:(NSInteger)_totalCount loading:(BOOL)_loading;
 - (void)setTotalCount:(NSInteger)_totalCount;
-- (void)setThumbImage:(UIImage *)thumbImage animated:(BOOL)animated;
 
 @end

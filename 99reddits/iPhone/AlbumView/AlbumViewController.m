@@ -10,21 +10,18 @@
 #import "SubRedditItem.h"
 #import "AlbumViewCell.h"
 #import "NIHTTPRequest.h"
-#import "ASIDownloadCache.h"
 #import "PhotoViewController.h"
 #import "MainViewController.h"
 #import "UserDef.h"
 #import "AlbumViewLayout.h"
+#import "_9reddits-Swift.h"
 
 #define THUMB_WIDTH			75
 #define THUMB_HEIGHT		75
 
 @interface AlbumViewController ()
 
-- (void)loadThumbnails;
-- (NSString *)cacheKeyForPhotoIndex:(NSInteger)photoIndex;
-- (void)requestImageFromSource:(NSString *)source photoIndex:(NSInteger)photoIndex;
-- (void)refreshSubReddit:(BOOL)reload;
+@property (nonatomic, strong) NSOperationQueue *refreshQueue;
 
 @end
 
@@ -42,61 +39,18 @@
     return self;
 }
 
-- (void)dealloc {
-	[self releaseCaches];
-}
-
-- (void)releaseCaches {
-	for (ASIHTTPRequest *request in refreshQueue.operations) {
-		[request clearDelegatesAndCancel];
-	}
-	
-	for (ASIHTTPRequest *request in queue.operations) {
-		[request clearDelegatesAndCancel];
-	}
-	
-	activeRequests = nil;
-	thumbnailImageCache = nil;
-	refreshQueue = nil;
-	queue = nil;
-	currentSubReddit = nil;
-}
-
-- (void)didReceiveMemoryWarning {
-	for (ASIHTTPRequest *request in refreshQueue.operations) {
-		[request clearDelegatesAndCancel];
-	}
-	
-	for (ASIHTTPRequest *request in queue.operations) {
-		[request clearDelegatesAndCancel];
-	}
-	[activeRequests removeAllObjects];
-	[thumbnailImageCache reduceMemoryUsage];
-	
-	[contentCollectionView reloadData];
- 
-	[super didReceiveMemoryWarning];
-}
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
+  [super viewDidLoad];
 	
 	appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
+
+  self.refreshQueue = [[NSOperationQueue alloc] init];
+  self.refreshQueue.maxConcurrentOperationCount = 5;
 	
 	self.title = subReddit.nameString;
 	self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:subReddit.nameString style:UIBarButtonItemStylePlain target:nil action:nil];
-	
-	refreshQueue = [[NSOperationQueue alloc] init];
-	[queue setMaxConcurrentOperationCount:5];
-
-	queue = [[NSOperationQueue alloc] init];
-	[queue setMaxConcurrentOperationCount:5];
-	
-	activeRequests = [[NSMutableSet alloc] init];
-	
-	thumbnailImageCache = [[NIImageMemoryCache alloc] init];
 	
 	if (bFavorites) {
 		[tabBar removeFromSuperview];
@@ -162,24 +116,8 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+  [super viewWillAppear:animated];
 	[self refreshSubReddit:YES];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-	if ([self.navigationController.viewControllers indexOfObject:self] == NSNotFound) {
-		shouldReleaseCaches = YES;
-	}
-	else {
-		shouldReleaseCaches = NO;
-	}
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-	if (shouldReleaseCaches) {
-		shouldReleaseCaches = NO;
-		
-		[self releaseCaches];
-	}
 }
 
 - (void)onSelectPhoto:(PhotoItem *)photo {
@@ -196,12 +134,12 @@
 		photoSubReddit.urlString = currentSubReddit.urlString;
 		[photoSubReddit.photosArray addObjectsFromArray:currentPhotosArray];
 		photoSubReddit.afterString = currentSubReddit.afterString;
-		
-		PhotoViewController *photoViewController = [[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:nil];
-		photoViewController.bFavorites = bFavorites;
-		photoViewController.subReddit = photoSubReddit;
-		photoViewController.testindex = [currentPhotosArray indexOfObject:photo];
-		[self.navigationController pushViewController:photoViewController animated:YES];
+
+        PhotoViewController *viewController = [[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:nil];
+        viewController.bFavorites = bFavorites;
+        viewController.subReddit = photoSubReddit;
+        viewController.testindex = [currentPhotosArray indexOfObject:photo];
+		[self.navigationController pushViewController:viewController animated:YES];
 	}
 }
 
@@ -216,20 +154,15 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+
+  PhotoItem *photo = currentPhotosArray[indexPath.item];
+
 	AlbumViewCell *cell = (AlbumViewCell *)[contentCollectionView dequeueReusableCellWithReuseIdentifier:@"ALBUM_VIEW_CELL" forIndexPath:indexPath];
 	cell.albumViewController = self;
-	cell.bFavorites = bFavorites;
-	cell.photo = [currentPhotosArray objectAtIndex:indexPath.item];
+	cell.insideFavoritesAlbum = bFavorites;
+	cell.photo = photo;
 
-	NSString *urlString = [self cacheKeyForPhotoIndex:indexPath.item];
-	UIImage *image = [thumbnailImageCache objectWithName:urlString];
-	if (image == nil) {
-		[self requestImageFromSource:urlString photoIndex:indexPath.item];
-		[cell setThumbImage:nil animated:NO];
-	}
-	else {
-		[cell setThumbImage:image animated:NO];
-	}
+  [ImageLoader loadWithUrlString:photo.thumbnailString into:cell.imageView];
 
 	return cell;
 }
@@ -243,100 +176,6 @@
 	}
 
 	return collectionFooterView;
-}
-
-- (void)loadThumbnails {
-	for (NSInteger i = 0; i < currentPhotosArray.count; i ++) {
-		NSString *photoIndexKey = [self cacheKeyForPhotoIndex:i];
-		if (![thumbnailImageCache containsObjectWithName:photoIndexKey]) {
-			[self requestImageFromSource:[[currentPhotosArray objectAtIndex:i] thumbnailString] photoIndex:i];
-		}
-	}
-}
-
-- (NSString *)cacheKeyForPhotoIndex:(NSInteger)photoIndex {
-	return [[currentPhotosArray objectAtIndex:photoIndex] thumbnailString];
-}
-
-- (void)requestImageFromSource:(NSString *)source photoIndex:(NSInteger)photoIndex {
-//	if (![appDelegate checkNetworkReachable:NO])
-//		return;
-
-	if (source.length == 0)
-		return;
-	
-	NSNumber *identifierKey = [NSNumber numberWithInteger:photoIndex];
-	if ([activeRequests containsObject:identifierKey]) {
-		return;
-	}
-	
-	NSURL *url = [NSURL URLWithString:source];
-	
-	__block NIHTTPRequest __weak *readOp = [NIHTTPRequest requestWithURL:url usingCache:[ASIDownloadCache sharedCache]];
-	readOp.cacheStoragePolicy = ASICachePermanentlyCacheStoragePolicy;
-	readOp.timeOutSeconds = 30;
-	readOp.tag = photoIndex;
-	
-	NSString* photoIndexKey = [self cacheKeyForPhotoIndex:photoIndex];
-	
-	[readOp setCompletionBlock:^{
-		UIImage *image = [UIImage imageWithData:[readOp responseData]];
-		
-		if (image && currentPhotosArray.count > photoIndex) {
-			NSInteger x, y, w, h;
-			if (image.size.width > THUMB_WIDTH * 2 && image.size.height > THUMB_HEIGHT * 2) {
-				float imgRatio = image.size.width / image.size.height;
-				if (imgRatio < 1) {
-					w = THUMB_WIDTH;
-					h = w / imgRatio;
-					x = 0;
-					y = (THUMB_HEIGHT - h) / 2;
-				}
-				else if (imgRatio > 1) {
-					h = THUMB_HEIGHT;
-					w = h * imgRatio;
-					x = (THUMB_WIDTH - w) / 2;
-					y = 0;
-				}
-				else {
-					w = THUMB_WIDTH;
-					h = THUMB_HEIGHT;
-					x = 0.0;
-					y = 0.0;
-				}
-			}
-			else {
-				w = image.size.width;
-				h = image.size.height;
-				x = (THUMB_WIDTH - w) / 2;
-				y = (THUMB_HEIGHT - h) / 2;
-			}
-
-			UIGraphicsBeginImageContextWithOptions(CGSizeMake(THUMB_WIDTH, THUMB_HEIGHT), NO, screenScale);
-			CGContextSetFillColorWithColor(UIGraphicsGetCurrentContext(), [UIColor whiteColor].CGColor);
-			CGContextFillRect(UIGraphicsGetCurrentContext(), CGRectMake(0, 0, THUMB_WIDTH, THUMB_HEIGHT));
-			CGRect rect = CGRectMake(x, y, w, h);
-			[image drawInRect:rect];
-			UIImage *thumbImage = UIGraphicsGetImageFromCurrentImageContext();
-			UIGraphicsEndImageContext();
-			
-			[thumbnailImageCache storeObject:thumbImage withName:photoIndexKey];
-			AlbumViewCell *cell = (AlbumViewCell *)[contentCollectionView cellForItemAtIndexPath:[NSIndexPath indexPathForItem:photoIndex inSection:0]];
-			[cell setThumbImage:thumbImage animated:YES];
-		}
-		
-		[activeRequests removeObject:identifierKey];
-	}];
-	
-	[readOp setFailedBlock:^{
-		[activeRequests removeObject:identifierKey];
-	}];
-	
-	
-	[readOp setQueuePriority:NSOperationQueuePriorityNormal];
-	
-	[activeRequests addObject:identifierKey];
-	[queue addOperation:readOp];
 }
 
 - (void)setSubReddit:(SubRedditItem *)_subReddit {
@@ -358,7 +197,7 @@
         albumRequest.userAgentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 10_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B72";
         albumRequest.delegate = self;
 		albumRequest.processorDelegate = (id)[self class];
-		[refreshQueue addOperation:albumRequest];
+		[self.refreshQueue addOperation:albumRequest];
 	}
 	else {
 		NSURL *url = [NSURL URLWithString:[currentSubReddit.urlString stringByAppendingFormat:@"&after=%@", currentSubReddit.afterString]];
@@ -367,7 +206,7 @@
         albumRequest.userAgentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 10_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B72";
 		albumRequest.delegate = self;
 		albumRequest.processorDelegate = (id)[self class];
-		[refreshQueue addOperation:albumRequest];
+		[self.refreshQueue addOperation:albumRequest];
 	}
 }
 
@@ -378,17 +217,6 @@
   }
 
 	bMOARLoading = NO;
-	
-	for (ASIHTTPRequest *request in refreshQueue.operations) {
-		[request clearDelegatesAndCancel];
-	}
-
-	for (ASIHTTPRequest *request in queue.operations) {
-		[request clearDelegatesAndCancel];
-	}
-
-	[activeRequests removeAllObjects];
-
 	
 	moarButton.enabled = NO;
 	[moarButton setTitle:@"" forState:UIControlStateNormal];
@@ -408,7 +236,7 @@
 			albumRequest.delegate = self;
             albumRequest.userAgentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 10_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B72";
 			albumRequest.processorDelegate = (id)[self class];
-			[refreshQueue addOperation:albumRequest];
+			[self.refreshQueue addOperation:albumRequest];
 
 			[self refreshSubReddit:YES];
 		}
@@ -434,7 +262,7 @@
 		albumRequest.delegate = self;
         albumRequest.userAgentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 10_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B72";
 		albumRequest.processorDelegate = (id)[self class];
-		[refreshQueue addOperation:albumRequest];
+		[self.refreshQueue addOperation:albumRequest];
 
 		[self refreshSubReddit:YES];
 	}
@@ -450,7 +278,7 @@
 		albumRequest.delegate = self;
         albumRequest.userAgentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 10_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B72";
 		albumRequest.processorDelegate = (id)[self class];
-		[refreshQueue addOperation:albumRequest];
+		[self.refreshQueue addOperation:albumRequest];
 		
 		[self refreshSubReddit:YES];
 	}
@@ -466,7 +294,7 @@
         albumRequest.userAgentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 10_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B72";
 		albumRequest.delegate = self;
 		albumRequest.processorDelegate = (id)[self class];
-		[refreshQueue addOperation:albumRequest];
+		[self.refreshQueue addOperation:albumRequest];
 		
 		[self refreshSubReddit:YES];
 	}
@@ -509,7 +337,7 @@
             albumRequest.userAgentString = @"Mozilla/5.0 (iPhone; CPU iPhone OS 10_1 like Mac OS X) AppleWebKit/602.2.14 (KHTML, like Gecko) Mobile/14B72";
 			albumRequest.delegate = self;
 			albumRequest.processorDelegate = (id)[self class];
-			[refreshQueue addOperation:albumRequest];
+			[self.refreshQueue addOperation:albumRequest];
 		}
 	}
 	else {
@@ -662,7 +490,6 @@
 		initialized = YES;
 		[currentPhotosArray removeAllObjects];
 		[currentPhotosArray addObjectsFromArray:newPhotosArray];
-		[self loadThumbnails];
 		[contentCollectionView reloadData];
 	}
 	else {
@@ -687,7 +514,6 @@
 
 		[currentPhotosArray removeAllObjects];
 		[currentPhotosArray addObjectsFromArray:newPhotosArray];
-		[self loadThumbnails];
 
 		self.view.userInteractionEnabled = NO;
 		footerView.alpha = 0.0;

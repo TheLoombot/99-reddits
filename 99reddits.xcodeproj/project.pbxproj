@@ -88,7 +88,6 @@
 		84B9DFF21A7928E800EA3CF0 /* Maximize@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84B9DFEF1A7928E800EA3CF0 /* Maximize@3x.png */; };
 		84EB13081A762D78006A39B5 /* FLAnimatedImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EB13051A762D78006A39B5 /* FLAnimatedImage.m */; };
 		84EB13091A762D78006A39B5 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EB13071A762D78006A39B5 /* FLAnimatedImageView.m */; };
-		84EB130C1A76337F006A39B5 /* CustomRefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EB130B1A76337F006A39B5 /* CustomRefreshControl.m */; };
 		8D060A8616AD29E700AED06E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D060A8516AD29E700AED06E /* QuartzCore.framework */; };
 		8D060A9A16AD385B00AED06E /* CustomCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D060A9916AD385B00AED06E /* CustomCollectionView.m */; };
 		8D0DE761176AD92B00E9F76A /* AlbumViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D0DE760176AD92A00E9F76A /* AlbumViewLayout.m */; };
@@ -269,8 +268,6 @@
 		84EB13051A762D78006A39B5 /* FLAnimatedImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImage.m; sourceTree = "<group>"; };
 		84EB13061A762D78006A39B5 /* FLAnimatedImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FLAnimatedImageView.h; sourceTree = "<group>"; };
 		84EB13071A762D78006A39B5 /* FLAnimatedImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FLAnimatedImageView.m; sourceTree = "<group>"; };
-		84EB130A1A76337F006A39B5 /* CustomRefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomRefreshControl.h; sourceTree = "<group>"; };
-		84EB130B1A76337F006A39B5 /* CustomRefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomRefreshControl.m; sourceTree = "<group>"; };
 		8D060A8516AD29E700AED06E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8D060A9816AD385B00AED06E /* CustomCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCollectionView.h; sourceTree = "<group>"; };
 		8D060A9916AD385B00AED06E /* CustomCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCollectionView.m; sourceTree = "<group>"; };
@@ -496,15 +493,6 @@
 			path = FLAnimatedImage;
 			sourceTree = "<group>";
 		};
-		8D0BF513164B9E95000EF3A8 /* MainView */ = {
-			isa = PBXGroup;
-			children = (
-				84EB130A1A76337F006A39B5 /* CustomRefreshControl.h */,
-				84EB130B1A76337F006A39B5 /* CustomRefreshControl.m */,
-			);
-			path = MainView;
-			sourceTree = "<group>";
-		};
 		8D24A76814F888F7001CC042 /* JSONKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -523,7 +511,6 @@
 				9C57D5901680201B00AB7126 /* Flurry */,
 				8D6C5D21164ACCCC008A98A7 /* Shared */,
 				8D6C5CFD164ACCCC008A98A7 /* iPhone */,
-				8D6C5D45164ACD24008A98A7 /* iPad */,
 				8D68FD7214F8909000CDCF66 /* Nimbus */,
 				8D68FD4114F88DCB00CDCF66 /* ASIHTTPRequest */,
 				8D24A76814F888F7001CC042 /* JSONKit */,
@@ -925,15 +912,6 @@
 			path = 99reddits/Shared;
 			sourceTree = "<group>";
 		};
-		8D6C5D45164ACD24008A98A7 /* iPad */ = {
-			isa = PBXGroup;
-			children = (
-				8D0BF513164B9E95000EF3A8 /* MainView */,
-			);
-			name = iPad;
-			path = 99reddits/iPad;
-			sourceTree = "<group>";
-		};
 		9C57D5901680201B00AB7126 /* Flurry */ = {
 			isa = PBXGroup;
 			children = (
@@ -1210,7 +1188,6 @@
 				8D68FD5A14F88DCB00CDCF66 /* ASIDataCompressor.m in Sources */,
 				8D68FD5B14F88DCB00CDCF66 /* ASIDataDecompressor.m in Sources */,
 				8D68FD5C14F88DCB00CDCF66 /* ASIDownloadCache.m in Sources */,
-				84EB130C1A76337F006A39B5 /* CustomRefreshControl.m in Sources */,
 				8D68FD5D14F88DCB00CDCF66 /* ASIFormDataRequest.m in Sources */,
 				8D68FD5E14F88DCB00CDCF66 /* ASIHTTPRequest.m in Sources */,
 				8D68FD5F14F88DCB00CDCF66 /* ASIInputStream.m in Sources */,

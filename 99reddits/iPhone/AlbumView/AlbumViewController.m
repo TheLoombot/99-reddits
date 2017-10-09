@@ -53,7 +53,7 @@
 	self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:subReddit.nameString style:UIBarButtonItemStylePlain target:nil action:nil];
 
     if (@available(iOS 11.0, *)) {
-        self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
+        self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeAlways;
     }
 	
 	if (bFavorites) {
@@ -471,8 +471,6 @@
 		}
 
 		if (unshowedCount > 0) {
-			self.title = [NSString stringWithFormat:@"%@ (%ld)", subReddit.nameString, (long)unshowedCount];
-
 			showTypeSegmentedControl.userInteractionEnabled = YES;
 			self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl];
 		}

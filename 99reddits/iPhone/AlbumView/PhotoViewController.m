@@ -24,7 +24,6 @@
 @implementation PhotoViewController
 
 @synthesize subReddit;
-@synthesize testindex;
 @synthesize bFavorites;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -93,8 +92,12 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.photoAlbumView.centerPageIndex = self.testindex;
-	[self.photoAlbumView moveToPageAtIndex:self.testindex animated:YES];
+
+    if (self.isMovingToParentViewController) {
+        //Go to `photoIndexToDisplay` only when being first pushed to the navigation stack, not when a presented view controller is getting dismissed.
+        self.photoAlbumView.centerPageIndex = self.photoIndexToDisplay;
+        [self.photoAlbumView moveToPageAtIndex:self.photoIndexToDisplay animated:YES];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated {

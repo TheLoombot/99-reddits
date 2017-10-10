@@ -21,7 +21,7 @@
 }
 
 @property (nonatomic, strong) SubRedditItem *subReddit;
-@property (nonatomic) NSInteger testindex;
+@property (nonatomic, assign) NSInteger photoIndexToDisplay;
 @property (nonatomic) BOOL bFavorites;
 
 @end

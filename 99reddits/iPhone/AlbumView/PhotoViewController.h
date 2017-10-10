@@ -14,7 +14,6 @@
 @interface PhotoViewController : NIToolbarPhotoViewController <NIPhotoAlbumScrollViewDataSource, UIActionSheetDelegate> {
 
 	SubRedditItem *subReddit;
-	BOOL disappearForSubview;
 	UIBarButtonItem *favoriteWhiteItem;
 	UIBarButtonItem *favoriteRedItem;
 	
@@ -22,8 +21,7 @@
 }
 
 @property (nonatomic, strong) SubRedditItem *subReddit;
-@property (nonatomic) NSInteger testindex;
-@property (nonatomic) BOOL disappearForSubview;
+@property (nonatomic, assign) NSInteger photoIndexToDisplay;
 @property (nonatomic) BOOL bFavorites;
 
 @end

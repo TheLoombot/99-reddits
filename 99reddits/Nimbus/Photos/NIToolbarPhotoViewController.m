@@ -255,7 +255,9 @@
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 
-	[NINavigationAppearance pushAppearanceForNavigationController:self.navigationController];
+    if (self.isMovingToParentViewController) {
+        [NINavigationAppearance pushAppearanceForNavigationController:self.navigationController];
+    }
 
 	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:animated];
 
@@ -284,7 +286,9 @@
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 
-	[NINavigationAppearance popAppearanceForNavigationController:self.navigationController animated:YES];
+    if (self.isMovingFromParentViewController) {
+        [NINavigationAppearance popAppearanceForNavigationController:self.navigationController animated:YES];
+    }
 }
 
 

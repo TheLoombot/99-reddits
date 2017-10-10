@@ -25,7 +25,6 @@
 
 @synthesize subReddit;
 @synthesize testindex;
-@synthesize disappearForSubview;
 @synthesize bFavorites;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -80,9 +79,6 @@
 	[items addObject:commentButtonItem];
 	
 	self.toolbar.items = items;
-	
-	disappearForSubview = NO;
-
 	self.titleLabelBar.hidden = YES;
 	self.titleLabel.hidden = YES;
 }
@@ -96,10 +92,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated {
-	if (!disappearForSubview) {
-		[super viewWillAppear:animated];
-	}
-	disappearForSubview = NO;
+    [super viewWillAppear:animated];
     self.photoAlbumView.centerPageIndex = self.testindex;
 	[self.photoAlbumView moveToPageAtIndex:self.testindex animated:YES];
 }
@@ -273,7 +266,6 @@
 }
 
 - (void)onCommentButtonItem:(id)sender {
-	disappearForSubview = YES;
 	PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
 	CommentViewController *commentViewController = [[CommentViewController alloc] initWithNibName:@"CommentViewController" bundle:nil];
 	commentViewController.urlString = photo.permalinkString;

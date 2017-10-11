@@ -6,4 +6,5 @@ target '99reddits' do
   use_frameworks!
 
   pod 'Nuke', '5.2'
+  pod 'Alamofire', '4.5.1'
 end

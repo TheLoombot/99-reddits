@@ -12,10 +12,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MainViewController">
             <connections>
                 <outlet property="addButton" destination="70c-dg-C7a" id="5nx-gB-cdM"/>
-                <outlet property="doneItem" destination="26" id="31"/>
-                <outlet property="editItem" destination="27" id="32"/>
                 <outlet property="footerView" destination="j8D-Fp-Faa" id="3ic-Ph-ltt"/>
-                <outlet property="helpBarButtonItem" destination="4yB-Z2-gGD" id="GSg-qi-J1a"/>
                 <outlet property="view" destination="22" id="23"/>
             </connections>
         </placeholder>

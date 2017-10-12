@@ -15,14 +15,14 @@ typealias ImageLoaderDataSuccessHandler = ((Data) -> Void)
 typealias ImageLoaderErrorHandler = ((Error) -> Void)
 
 class ImageLoaderCancelationToken: NSObject {
-    fileprivate let tokenSource: CancellationTokenSource
+    fileprivate let cancelable: ImageLoaderCancelable
 
-    init(tokenSource: CancellationTokenSource) {
-        self.tokenSource = tokenSource
+    fileprivate init(cancelable: ImageLoaderCancelable) {
+        self.cancelable = cancelable
     }
 
     func cancel() {
-        tokenSource.cancel()
+        cancelable.cancelRequest()
     }
 }
 
@@ -43,7 +43,7 @@ class ImageLoader: NSObject {
     @discardableResult static func loadImage(withURL url: URL, success: @escaping ImageLoaderSuccessHandler, failure: @escaping ImageLoaderErrorHandler) -> ImageLoaderCancelationToken {
 
         let cts = CancellationTokenSource()
-        let cancelationToken = ImageLoaderCancelationToken(tokenSource: cts)
+        let cancelationToken = ImageLoaderCancelationToken(cancelable: cts)
         
         let request = Request(url: url)
 
@@ -63,10 +63,10 @@ class ImageLoader: NSObject {
         return cancelationToken
     }
 
-    @discardableResult static func loadGif(withURL url: URL, success: @escaping ImageLoaderDataSuccessHandler, failure: @escaping ImageLoaderErrorHandler) -> Void {
+    @discardableResult static func loadGif(withURL url: URL, success: @escaping ImageLoaderDataSuccessHandler, failure: @escaping ImageLoaderErrorHandler) -> ImageLoaderCancelationToken {
 
 
-        Alamofire.request(url).validate().responseData { response in
+        let request = Alamofire.request(url).validate().responseData { response in
             switch response.result {
             case .success(let data):
                 success(data)
@@ -74,5 +74,25 @@ class ImageLoader: NSObject {
                 failure(error)
             }
         }
+
+        return ImageLoaderCancelationToken(cancelable: request)
+    }
+}
+
+//MARK: ImageLoaderCancelable
+
+fileprivate protocol ImageLoaderCancelable: class {
+    func cancelRequest()
+}
+
+extension CancellationTokenSource: ImageLoaderCancelable {
+    func cancelRequest() {
+        self.cancel()
+    }
+}
+
+extension DataRequest: ImageLoaderCancelable {
+    func cancelRequest() {
+        self.cancel()
     }
 }

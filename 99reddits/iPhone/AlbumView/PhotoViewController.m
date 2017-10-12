@@ -296,11 +296,15 @@
 
 - (void)loadGif:(NSURL *)url atIndex:(NSInteger)photoIndex isLoading:(BOOL *)isLoading {
 
-    [ImageLoader loadGifWithURL:url success:^(NSData * _Nonnull gifData) {
+    ImageLoaderCancelationToken *token = [ImageLoader loadGifWithURL:url success:^(NSData * _Nonnull gifData) {
+        UIImage *imageFromData = [UIImage imageWithData:gifData];
+        [self.photoAlbumView didLoadPhoto:imageFromData atIndex:photoIndex photoSize:NIPhotoScrollViewPhotoSizeOriginal error:NO];
         [self.photoAlbumView didLoadGif:gifData atIndex:photoIndex];
     } failure:^(NSError * _Nonnull error) {
         [self.photoAlbumView didLoadPhoto:[UIImage imageNamed:@"Error.png"] atIndex:photoIndex photoSize:NIPhotoScrollViewPhotoSizeOriginal error:YES];
     }];
+
+    self.indexToCancelationTokens[@(photoIndex)] = token;
 
     *isLoading = YES;
 }

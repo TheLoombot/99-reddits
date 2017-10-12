@@ -17,7 +17,7 @@
 
 @interface MainViewController ()
 
-@property (strong, nonatomic) IBOutlet UIBarButtonItem *helpBarButtonItem;
+@property (strong, nonatomic) UIBarButtonItem *helpBarButtonItem;
 @property (strong, nonatomic) FeedbackController *feedbackController;
 @property (strong, nonatomic) NSOperationQueue *refreshQueue;
 
@@ -60,8 +60,10 @@
         self.navigationController.navigationBar.prefersLargeTitles = YES;
     }
 
-    self.navigationItem.leftBarButtonItems = @[self.helpBarButtonItem];
-    self.navigationItem.rightBarButtonItems = @[editItem];
+    self.helpBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Help" style:UIBarButtonItemStylePlain target:self action:@selector(helpBarButtonItem:)];
+
+    self.navigationItem.leftBarButtonItem = self.helpBarButtonItem;
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
 
 	self.refreshQueue = [[NSOperationQueue alloc] init];
 	[self.refreshQueue setMaxConcurrentOperationCount:5];
@@ -112,25 +114,21 @@
 	}
 }
 
-- (IBAction)onEditButton:(id)sender {
-	[self setEditing:!self.editing animated:YES];
-	if (self.editing) {
-		self.refreshControl = nil;
-		
-		self.helpBarButtonItem.enabled = NO;
+- (void)setEditing:(BOOL)editing animated:(BOOL)animated {
+    [super setEditing:editing animated:animated];
 
-		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:doneItem, nil];
-	}
-	else {
-		self.refreshControl = refreshControl;
-		
-		self.helpBarButtonItem.enabled = YES;
+    if (self.editing) {
+        self.refreshControl = nil;
 
-		self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:editItem, nil];
-	}
+        self.navigationItem.leftBarButtonItem.enabled = NO;
+    }
+    else {
+        self.refreshControl = refreshControl;
+        self.navigationItem.leftBarButtonItem.enabled = YES;
+    }
 }
 
-- (IBAction)helpBarButtonItem:(UIBarButtonItem *)sender {
+- (void)helpBarButtonItem:(UIBarButtonItem *)sender {
     [self.feedbackController presentFeedbackViewController:self];
 }
 
@@ -291,7 +289,7 @@
 	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing..."];
 	[self.refreshControl beginRefreshing];
 	
-	editItem.enabled = NO;
+	self.navigationItem.rightBarButtonItem.enabled = NO;
 	
 	refreshCount = 0;
 	
@@ -335,7 +333,7 @@
 			self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 			[self.refreshControl endRefreshing];
 
-			editItem.enabled = YES;
+			self.navigationItem.rightBarButtonItem.enabled = YES;
 		}
 		return;
 	}
@@ -363,7 +361,7 @@
 		self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 		[self.refreshControl endRefreshing];
 		
-		editItem.enabled = YES;
+		self.navigationItem.rightBarButtonItem.enabled = YES;
 		[appDelegate saveToDefaults];
 	}
 }
@@ -388,7 +386,7 @@
 			self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 			[self.refreshControl endRefreshing];
 
-			editItem.enabled = YES;
+			self.navigationItem.rightBarButtonItem.enabled = YES;
 		}
 		return;
 	}
@@ -404,7 +402,7 @@
 		self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
 		[self.refreshControl endRefreshing];
 		
-		editItem.enabled = YES;
+		self.navigationItem.rightBarButtonItem.enabled = YES;
 	}
 }
 
@@ -492,7 +490,7 @@
 	self.refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Refreshing..."];
 	[self.refreshControl beginRefreshing];
 	
-	editItem.enabled = NO;
+	self.navigationItem.rightBarButtonItem.enabled = NO;
 	
 	subReddit.loading = YES;
 	

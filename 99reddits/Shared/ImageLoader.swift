@@ -8,8 +8,10 @@
 
 import UIKit
 import Nuke
+import Alamofire
 
 typealias ImageLoaderSuccessHandler = ((UIImage) -> Void)
+typealias ImageLoaderDataSuccessHandler = ((Data) -> Void)
 typealias ImageLoaderErrorHandler = ((Error) -> Void)
 
 class ImageLoaderCancelationToken: NSObject {
@@ -18,6 +20,7 @@ class ImageLoaderCancelationToken: NSObject {
     init(tokenSource: CancellationTokenSource) {
         self.tokenSource = tokenSource
     }
+
     func cancel() {
         tokenSource.cancel()
     }
@@ -58,5 +61,18 @@ class ImageLoader: NSObject {
         }
 
         return cancelationToken
+    }
+
+    @discardableResult static func loadGif(withURL url: URL, success: @escaping ImageLoaderDataSuccessHandler, failure: @escaping ImageLoaderErrorHandler) -> Void {
+
+
+        Alamofire.request(url).validate().responseData { response in
+            switch response.result {
+            case .success(let data):
+                success(data)
+            case .failure(let error):
+                failure(error)
+            }
+        }
     }
 }

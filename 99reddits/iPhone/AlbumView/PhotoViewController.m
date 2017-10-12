@@ -197,7 +197,11 @@
         return nil;
     }
 
-    [self loadImage:photoURL atIndex:photoIndex isLoading:isLoading];
+    if ([photoURL.absoluteString.pathExtension isEqualToString:@"gif"]) {
+        [self loadGif:photoURL atIndex:photoIndex isLoading:isLoading];
+    } else {
+        [self loadImage:photoURL atIndex:photoIndex isLoading:isLoading];
+    }
 
     return nil;
 }
@@ -289,6 +293,17 @@
 }
 
 #pragma mark - Helper methods
+
+- (void)loadGif:(NSURL *)url atIndex:(NSInteger)photoIndex isLoading:(BOOL *)isLoading {
+
+    [ImageLoader loadGifWithURL:url success:^(NSData * _Nonnull gifData) {
+        [self.photoAlbumView didLoadGif:gifData atIndex:photoIndex];
+    } failure:^(NSError * _Nonnull error) {
+        [self.photoAlbumView didLoadPhoto:[UIImage imageNamed:@"Error.png"] atIndex:photoIndex photoSize:NIPhotoScrollViewPhotoSizeOriginal error:YES];
+    }];
+
+    *isLoading = YES;
+}
 
 - (void)loadImage:(NSURL *)url atIndex:(NSInteger)photoIndex isLoading:(BOOL *)isLoading {
 

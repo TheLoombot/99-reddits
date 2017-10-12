@@ -27,6 +27,7 @@
 - (BOOL)isShowed;
 - (void)removeCaches;
 - (BOOL)isGif;
-- (NSString *)photoViewControllerURLString;
+- (NSURL *)photoViewControllerURL;
 
 @end
+

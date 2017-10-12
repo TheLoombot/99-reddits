@@ -65,7 +65,7 @@
 	return [appDelegate.showedSet containsObject:idString];
 }
 
-- (NSString *)photoViewControllerURLString {
+- (NSURL *)photoViewControllerURL {
 
     if (appDelegate == nil) {
         appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
@@ -80,7 +80,7 @@
         }
     }
 
-    return source;
+    return [NSURL URLWithString:source];
 }
 
 - (BOOL)isGif {

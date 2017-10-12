@@ -10,8 +10,6 @@
 #import "UserDef.h"
 #import "PhotoView.h"
 #import "CommentViewController.h"
-#import "TitleProvider.h"
-#import "URLProvider.h"
 #import "NSData+Extensions.h"
 #import "_9reddits-Swift.h"
 
@@ -120,18 +118,30 @@
     NSInteger sharingIndex = self.photoAlbumView.centerPageIndex;
     PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
 
-    NSString *source = [photo photoViewControllerURLString];
+    NSURL *sourceURL = [photo photoViewControllerURL];
+    if (!sourceURL) {
+        return;
+    }
 
-    ImageLoaderCancelationToken *token = [ImageLoader loadWithUrlString:source success:^(UIImage * _Nonnull image) {
+    NSString *title = [NSString stringWithFormat:@"%@\n", photo.titleString];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://redd.it/%@", photo.idString]];
 
-        NSString *title = [NSString stringWithFormat:@"%@\n", photo.titleString];
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://redd.it/%@", photo.idString]];
-        NSData *imageData = UIImagePNGRepresentation(image);
-        [self shareImage:imageData title:title url:url];
+    if ([sourceURL.absoluteString.pathExtension isEqualToString:@"gif"]) {
 
-    } failure:^(NSError * _Nonnull error) {
-        //TODO: log failure
-    }];
+        [ImageLoader loadGifWithURL:sourceURL success:^(NSData * _Nonnull gifData) {
+            [self shareGifData:gifData title:title url:url];
+        } failure:^(NSError * _Nonnull error) {
+            //TODO: alert
+        }];
+
+    } else {
+
+        [ImageLoader loadImageWithURL:sourceURL success:^(UIImage * _Nonnull image) {
+            [self shareImage:image title:title url:url];
+        } failure:^(NSError * _Nonnull error) {
+            //TODO: alert
+        }];
+    }
 }
 
 // UIActionSheetDelegate
@@ -191,26 +201,16 @@
 
     //TODO: maybe put `getHugeImage` in PhotoItem class
     PhotoItem *photo = [subReddit.photosArray objectAtIndex:photoIndex];
-    NSString *source = [photo photoViewControllerURLString];
+    NSURL *photoURL = [photo photoViewControllerURL];
+    if (!photoURL) {
+        return nil;
+    }
 
-    ImageLoaderCancelationToken *token = [ImageLoader loadWithUrlString:source success:^(UIImage * _Nonnull image) {
-        //Nuke's `Decompressor` gives you a `UIImage` with the scale property set, which changes the image's reported size on different devices. Here we lose the reported scale and take the size of the CGImage bitmap.
-        UIImage *imageWithoutScale = [UIImage imageWithCGImage:image.CGImage];
-        [self.photoAlbumView didLoadPhoto:imageWithoutScale atIndex:photoIndex photoSize:NIPhotoScrollViewPhotoSizeOriginal error:NO];
-
-        //In the old implementation didLoadGif was called after didLoadPhoto
-        NSData *imageData = UIImagePNGRepresentation(image);
-        if ([imageData isGif]) {
-            [self.photoAlbumView didLoadGif:imageData atIndex:photoIndex];
-        }
-
-    } failure:^(NSError * _Nonnull error) {
-        [self.photoAlbumView didLoadPhoto:[UIImage imageNamed:@"Error.png"] atIndex:photoIndex photoSize:*photoSize error:YES];
-    }];
-
-    self.indexToCancelationTokens[@(photoIndex)] = token;
-
-    *isLoading = YES;
+    if ([photoURL.absoluteString.pathExtension isEqualToString:@"gif"]) {
+        [self loadGif:photoURL atIndex:photoIndex isLoading:isLoading];
+    } else {
+        [self loadImage:photoURL atIndex:photoIndex isLoading:isLoading];
+    }
 
     return nil;
 }
@@ -276,19 +276,6 @@
 	[self presentViewController:navigationController animated:YES completion:nil];
 }
 
-- (void)shareImage:(NSData *)data title:(NSString *)title url:(NSURL *)url {
-	TitleProvider *titleItem = [[TitleProvider alloc] initWithPlaceholderItem:title];
-	URLProvider *urlItem = [[URLProvider alloc] initWithPlaceholderItem:url];
-	
-	NSArray *activityItems = @[data, titleItem, urlItem];
-	NSArray *excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypePrint];
-	
-	UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:@[]];
-	activityViewController.excludedActivityTypes = excludedActivityTypes;
-	
-	[self presentViewController:activityViewController animated:YES completion:nil];
-}
-
 - (void)markPhotoSeenIfNeessary:(PhotoItem *)photo atIndex:(NSInteger)idx {
 
     if (idx != self.photoAlbumView.centerPageIndex) {
@@ -299,6 +286,56 @@
         [appDelegate.showedSet addObject:photo.idString];
         subReddit.unshowedCount --;
     }
+}
+
+#pragma mark - UIActivityViewController sharing
+
+- (void)shareImage:(UIImage *)image title:(NSString *)title url:(NSURL *)url {
+    [self shareActivityItems:@[image, title, url]];
+}
+
+- (void)shareGifData:(NSData *)data title:(NSString *)title url:(NSURL *)url {
+    [self shareActivityItems:@[data, title, url]];
+}
+
+- (void)shareActivityItems:(NSArray *)activityItems {
+
+    NSArray *excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypePrint];
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:@[]];
+    activityViewController.excludedActivityTypes = excludedActivityTypes;
+
+    [self presentViewController:activityViewController animated:YES completion:nil];
+}
+
+#pragma mark - Helper methods
+
+- (void)loadGif:(NSURL *)url atIndex:(NSInteger)photoIndex isLoading:(BOOL *)isLoading {
+
+    ImageLoaderCancelationToken *token = [ImageLoader loadGifWithURL:url success:^(NSData * _Nonnull gifData) {
+        UIImage *imageFromData = [UIImage imageWithData:gifData];
+        [self.photoAlbumView didLoadPhoto:imageFromData atIndex:photoIndex photoSize:NIPhotoScrollViewPhotoSizeOriginal error:NO];
+        [self.photoAlbumView didLoadGif:gifData atIndex:photoIndex];
+    } failure:^(NSError * _Nonnull error) {
+        [self.photoAlbumView didLoadPhoto:[UIImage imageNamed:@"Error.png"] atIndex:photoIndex photoSize:NIPhotoScrollViewPhotoSizeOriginal error:YES];
+    }];
+
+    self.indexToCancelationTokens[@(photoIndex)] = token;
+
+    *isLoading = YES;
+}
+
+- (void)loadImage:(NSURL *)url atIndex:(NSInteger)photoIndex isLoading:(BOOL *)isLoading {
+
+    ImageLoaderCancelationToken *token = [ImageLoader loadImageWithURL:url success:^(UIImage * _Nonnull image) {
+        UIImage *imageWithoutScale = [UIImage imageWithCGImage:image.CGImage];
+        [self.photoAlbumView didLoadPhoto:imageWithoutScale atIndex:photoIndex photoSize:NIPhotoScrollViewPhotoSizeOriginal error:NO];
+    } failure:^(NSError * _Nonnull error) {
+        [self.photoAlbumView didLoadPhoto:[UIImage imageNamed:@"Error.png"] atIndex:photoIndex photoSize:NIPhotoScrollViewPhotoSizeOriginal error:YES];
+    }];
+
+    self.indexToCancelationTokens[@(photoIndex)] = token;
+
+    *isLoading = YES;
 }
 
 @end

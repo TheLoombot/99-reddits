@@ -8,18 +8,21 @@
 
 import UIKit
 import Nuke
+import Alamofire
 
 typealias ImageLoaderSuccessHandler = ((UIImage) -> Void)
+typealias ImageLoaderDataSuccessHandler = ((Data) -> Void)
 typealias ImageLoaderErrorHandler = ((Error) -> Void)
 
 class ImageLoaderCancelationToken: NSObject {
-    fileprivate let tokenSource: CancellationTokenSource
+    fileprivate let cancelable: ImageLoaderCancelable
 
-    init(tokenSource: CancellationTokenSource) {
-        self.tokenSource = tokenSource
+    fileprivate init(cancelable: ImageLoaderCancelable) {
+        self.cancelable = cancelable
     }
+
     func cancel() {
-        tokenSource.cancel()
+        cancelable.cancelRequest()
     }
 }
 
@@ -37,19 +40,12 @@ class ImageLoader: NSObject {
         Nuke.loadImage(with: url, into: imageView)
     }
 
-    static func load(urlString: String, success: @escaping ImageLoaderSuccessHandler, failure: @escaping ImageLoaderErrorHandler) -> ImageLoaderCancelationToken {
+    @discardableResult static func loadImage(withURL url: URL, success: @escaping ImageLoaderSuccessHandler, failure: @escaping ImageLoaderErrorHandler) -> ImageLoaderCancelationToken {
 
         let cts = CancellationTokenSource()
-        let cancelationToken = ImageLoaderCancelationToken(tokenSource: cts)
-
-        guard let url = URL(string: urlString) else {
-            let error = NSError(domain: ImageLoader.errorDomain, code: ImageLoader.malformedURLErrorCode, userInfo: nil)
-            failure(error)
-            return cancelationToken
-        }
-
+        let cancelationToken = ImageLoaderCancelationToken(cancelable: cts)
+        
         let request = Request(url: url)
-
 
         Manager.shared.loadImage(with: request, token: cts.token) { (result) in
             switch result {
@@ -65,5 +61,37 @@ class ImageLoader: NSObject {
         }
 
         return cancelationToken
+    }
+
+    @discardableResult static func loadGif(withURL url: URL, success: @escaping ImageLoaderDataSuccessHandler, failure: @escaping ImageLoaderErrorHandler) -> ImageLoaderCancelationToken {
+
+        let request = Alamofire.request(url).validate().responseData { response in
+            switch response.result {
+            case .success(let data):
+                success(data)
+            case .failure(let error):
+                failure(error)
+            }
+        }
+
+        return ImageLoaderCancelationToken(cancelable: request)
+    }
+}
+
+//MARK: ImageLoaderCancelable
+
+fileprivate protocol ImageLoaderCancelable: class {
+    func cancelRequest()
+}
+
+extension CancellationTokenSource: ImageLoaderCancelable {
+    func cancelRequest() {
+        self.cancel()
+    }
+}
+
+extension DataRequest: ImageLoaderCancelable {
+    func cancelRequest() {
+        self.cancel()
     }
 }

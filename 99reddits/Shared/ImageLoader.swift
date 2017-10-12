@@ -37,19 +37,12 @@ class ImageLoader: NSObject {
         Nuke.loadImage(with: url, into: imageView)
     }
 
-    static func load(urlString: String, success: @escaping ImageLoaderSuccessHandler, failure: @escaping ImageLoaderErrorHandler) -> ImageLoaderCancelationToken {
+    @discardableResult static func loadImage(withURL url: URL, success: @escaping ImageLoaderSuccessHandler, failure: @escaping ImageLoaderErrorHandler) -> ImageLoaderCancelationToken {
 
         let cts = CancellationTokenSource()
         let cancelationToken = ImageLoaderCancelationToken(tokenSource: cts)
-
-        guard let url = URL(string: urlString) else {
-            let error = NSError(domain: ImageLoader.errorDomain, code: ImageLoader.malformedURLErrorCode, userInfo: nil)
-            failure(error)
-            return cancelationToken
-        }
-
+        
         let request = Request(url: url)
-
 
         Manager.shared.loadImage(with: request, token: cts.token) { (result) in
             switch result {

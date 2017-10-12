@@ -120,15 +120,16 @@
     NSInteger sharingIndex = self.photoAlbumView.centerPageIndex;
     PhotoItem *photo = [subReddit.photosArray objectAtIndex:sharingIndex];
 
-    NSString *source = [photo photoViewControllerURLString];
+    NSURL *sourceURL = [photo photoViewControllerURL];
+    if (!sourceURL) {
+        return;
+    }
 
-    ImageLoaderCancelationToken *token = [ImageLoader loadWithUrlString:source success:^(UIImage * _Nonnull image) {
-
+    [ImageLoader loadImageWithURL:sourceURL success:^(UIImage * _Nonnull image) {
         NSString *title = [NSString stringWithFormat:@"%@\n", photo.titleString];
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://redd.it/%@", photo.idString]];
         NSData *imageData = UIImagePNGRepresentation(image);
         [self shareImage:imageData title:title url:url];
-
     } failure:^(NSError * _Nonnull error) {
         //TODO: log failure
     }];
@@ -191,26 +192,12 @@
 
     //TODO: maybe put `getHugeImage` in PhotoItem class
     PhotoItem *photo = [subReddit.photosArray objectAtIndex:photoIndex];
-    NSString *source = [photo photoViewControllerURLString];
+    NSURL *photoURL = [photo photoViewControllerURL];
+    if (!photoURL) {
+        return nil;
+    }
 
-    ImageLoaderCancelationToken *token = [ImageLoader loadWithUrlString:source success:^(UIImage * _Nonnull image) {
-        //Nuke's `Decompressor` gives you a `UIImage` with the scale property set, which changes the image's reported size on different devices. Here we lose the reported scale and take the size of the CGImage bitmap.
-        UIImage *imageWithoutScale = [UIImage imageWithCGImage:image.CGImage];
-        [self.photoAlbumView didLoadPhoto:imageWithoutScale atIndex:photoIndex photoSize:NIPhotoScrollViewPhotoSizeOriginal error:NO];
-
-        //In the old implementation didLoadGif was called after didLoadPhoto
-        NSData *imageData = UIImagePNGRepresentation(image);
-        if ([imageData isGif]) {
-            [self.photoAlbumView didLoadGif:imageData atIndex:photoIndex];
-        }
-
-    } failure:^(NSError * _Nonnull error) {
-        [self.photoAlbumView didLoadPhoto:[UIImage imageNamed:@"Error.png"] atIndex:photoIndex photoSize:*photoSize error:YES];
-    }];
-
-    self.indexToCancelationTokens[@(photoIndex)] = token;
-
-    *isLoading = YES;
+    [self loadImage:photoURL atIndex:photoIndex isLoading:isLoading];
 
     return nil;
 }
@@ -299,6 +286,22 @@
         [appDelegate.showedSet addObject:photo.idString];
         subReddit.unshowedCount --;
     }
+}
+
+#pragma mark - Helper methods
+
+- (void)loadImage:(NSURL *)url atIndex:(NSInteger)photoIndex isLoading:(BOOL *)isLoading {
+
+    ImageLoaderCancelationToken *token = [ImageLoader loadImageWithURL:url success:^(UIImage * _Nonnull image) {
+        UIImage *imageWithoutScale = [UIImage imageWithCGImage:image.CGImage];
+        [self.photoAlbumView didLoadPhoto:imageWithoutScale atIndex:photoIndex photoSize:NIPhotoScrollViewPhotoSizeOriginal error:NO];
+    } failure:^(NSError * _Nonnull error) {
+        [self.photoAlbumView didLoadPhoto:[UIImage imageNamed:@"Error.png"] atIndex:photoIndex photoSize:NIPhotoScrollViewPhotoSizeOriginal error:YES];
+    }];
+
+    self.indexToCancelationTokens[@(photoIndex)] = token;
+
+    *isLoading = YES;
 }
 
 @end

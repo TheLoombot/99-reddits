@@ -10,8 +10,6 @@
 #import "UserDef.h"
 #import "PhotoView.h"
 #import "CommentViewController.h"
-#import "TitleProvider.h"
-#import "URLProvider.h"
 #import "NSData+Extensions.h"
 #import "_9reddits-Swift.h"
 
@@ -125,14 +123,25 @@
         return;
     }
 
-    [ImageLoader loadImageWithURL:sourceURL success:^(UIImage * _Nonnull image) {
-        NSString *title = [NSString stringWithFormat:@"%@\n", photo.titleString];
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://redd.it/%@", photo.idString]];
-        NSData *imageData = UIImagePNGRepresentation(image);
-        [self shareImage:imageData title:title url:url];
-    } failure:^(NSError * _Nonnull error) {
-        //TODO: log failure
-    }];
+    NSString *title = [NSString stringWithFormat:@"%@\n", photo.titleString];
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://redd.it/%@", photo.idString]];
+
+    if ([sourceURL.absoluteString.pathExtension isEqualToString:@"gif"]) {
+
+        [ImageLoader loadGifWithURL:sourceURL success:^(NSData * _Nonnull gifData) {
+            [self shareGifData:gifData title:title url:url];
+        } failure:^(NSError * _Nonnull error) {
+            //TODO: alert
+        }];
+
+    } else {
+
+        [ImageLoader loadImageWithURL:sourceURL success:^(UIImage * _Nonnull image) {
+            [self shareImage:image title:title url:url];
+        } failure:^(NSError * _Nonnull error) {
+            //TODO: alert
+        }];
+    }
 }
 
 // UIActionSheetDelegate
@@ -267,19 +276,6 @@
 	[self presentViewController:navigationController animated:YES completion:nil];
 }
 
-- (void)shareImage:(NSData *)data title:(NSString *)title url:(NSURL *)url {
-	TitleProvider *titleItem = [[TitleProvider alloc] initWithPlaceholderItem:title];
-	URLProvider *urlItem = [[URLProvider alloc] initWithPlaceholderItem:url];
-	
-	NSArray *activityItems = @[data, titleItem, urlItem];
-	NSArray *excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypePrint];
-	
-	UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:@[]];
-	activityViewController.excludedActivityTypes = excludedActivityTypes;
-	
-	[self presentViewController:activityViewController animated:YES completion:nil];
-}
-
 - (void)markPhotoSeenIfNeessary:(PhotoItem *)photo atIndex:(NSInteger)idx {
 
     if (idx != self.photoAlbumView.centerPageIndex) {
@@ -290,6 +286,25 @@
         [appDelegate.showedSet addObject:photo.idString];
         subReddit.unshowedCount --;
     }
+}
+
+#pragma mark - UIActivityViewController sharing
+
+- (void)shareImage:(UIImage *)image title:(NSString *)title url:(NSURL *)url {
+    [self shareActivityItems:@[image, title, url]];
+}
+
+- (void)shareGifData:(NSData *)data title:(NSString *)title url:(NSURL *)url {
+    [self shareActivityItems:@[data, title, url]];
+}
+
+- (void)shareActivityItems:(NSArray *)activityItems {
+
+    NSArray *excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypePrint];
+    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:@[]];
+    activityViewController.excludedActivityTypes = excludedActivityTypes;
+
+    [self presentViewController:activityViewController animated:YES completion:nil];
 }
 
 #pragma mark - Helper methods

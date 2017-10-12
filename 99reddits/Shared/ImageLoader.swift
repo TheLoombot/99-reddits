@@ -65,7 +65,6 @@ class ImageLoader: NSObject {
 
     @discardableResult static func loadGif(withURL url: URL, success: @escaping ImageLoaderDataSuccessHandler, failure: @escaping ImageLoaderErrorHandler) -> ImageLoaderCancelationToken {
 
-
         let request = Alamofire.request(url).validate().responseData { response in
             switch response.result {
             case .success(let data):

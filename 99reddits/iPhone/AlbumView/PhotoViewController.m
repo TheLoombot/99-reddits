@@ -199,20 +199,8 @@
         return nil;
     }
 
-    //TODO: maybe put `getHugeImage` in PhotoItem class
     PhotoItem *photo = [subReddit.photosArray objectAtIndex:photoIndex];
-    NSURL *photoURL = [photo photoViewControllerURL];
-    if (!photoURL) {
-        return nil;
-    }
-
-    if ([photoURL.absoluteString.pathExtension isEqualToString:@"gif"]) {
-        [self loadGifFromPhoto:photo atIndex:photoIndex isLoading:isLoading];
-    } else {
-        [self loadImageFromPhoto:photo atIndex:photoIndex isLoading:isLoading];
-    }
-
-    return nil;
+    return [self requestItem:photo atIndex:photoIndex isLoading:isLoading];
 }
 
 - (void)photoAlbumScrollView:(NIPhotoAlbumScrollView *)photoAlbumScrollView stopLoadingPhotoAtIndex:(NSInteger)photoIndex {
@@ -230,10 +218,8 @@
 	PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
 	[self setTitleLabelText:photo.titleString];
 
-    if (self.photoAlbumView.centerPageIndex != 0 ){
-        //When jumping into a specific photo with `photoIndexToDisplay`, this delegate method always gets called twice by Nimbus the first time (??) and the first time is always with index 0. We don't mark index zero as seen this way ever, and instead rely on marking it when it gets loaded.
-        [self markPhotoSeenIfNeessary:photo atIndex:self.photoAlbumView.centerPageIndex];
-    }
+    BOOL isLoading;
+    [self requestItem:photo atIndex:self.photoAlbumView.centerPageIndex isLoading:&isLoading];
 	
 	if (!bFavorites) {
 		if ([appDelegate isFavorite:photo]) {
@@ -299,6 +285,22 @@
 }
 
 #pragma mark - Helper methods
+
+- (UIImage *)requestItem:(PhotoItem *)photoItem atIndex:(NSInteger)photoIndex isLoading:(BOOL *)isLoading {
+
+    NSURL *photoURL = [photoItem photoViewControllerURL];
+    if (!photoURL) {
+        return nil;
+    }
+
+    if ([photoURL.absoluteString.pathExtension isEqualToString:@"gif"]) {
+        [self loadGifFromPhoto:photoItem atIndex:photoIndex isLoading:isLoading];
+    } else {
+        [self loadImageFromPhoto:photoItem atIndex:photoIndex isLoading:isLoading];
+    }
+
+    return nil;
+}
 
 - (void)loadGifFromPhoto:(PhotoItem *)photo atIndex:(NSInteger)photoIndex isLoading:(BOOL *)isLoading {
 

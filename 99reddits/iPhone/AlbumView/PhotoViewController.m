@@ -207,9 +207,9 @@
     }
 
     if ([photoURL.absoluteString.pathExtension isEqualToString:@"gif"]) {
-        [self loadGif:photoURL atIndex:photoIndex isLoading:isLoading];
+        [self loadGifFromPhoto:photo atIndex:photoIndex isLoading:isLoading];
     } else {
-        [self loadImage:photoURL atIndex:photoIndex isLoading:isLoading];
+        [self loadImageFromPhoto:photo atIndex:photoIndex isLoading:isLoading];
     }
 
     return nil;
@@ -221,16 +221,19 @@
 }
 
 - (void)pagingScrollViewDidChangePages:(NIPhotoAlbumScrollView *)photoAlbumScrollView {
-	if (self.photoAlbumView.centerPageIndex >= subReddit.photosArray.count)
-		return;
+    if (self.photoAlbumView.centerPageIndex >= subReddit.photosArray.count) {
+        return;
+    }
 	
 	[super pagingScrollViewDidChangePages:photoAlbumScrollView];
 	
 	PhotoItem *photo = [subReddit.photosArray objectAtIndex:self.photoAlbumView.centerPageIndex];
-
-    [self markPhotoSeenIfNeessary:photo atIndex:self.photoAlbumView.centerPageIndex];
-
 	[self setTitleLabelText:photo.titleString];
+
+    if (self.photoAlbumView.centerPageIndex != 0 ){
+        //When jumping into a specific photo with `photoIndexToDisplay`, this delegate method always gets called twice by Nimbus the first time (??) and the first time is always with index 0. We don't mark index zero as seen this way ever, and instead rely on marking it when it gets loaded.
+        [self markPhotoSeenIfNeessary:photo atIndex:self.photoAlbumView.centerPageIndex];
+    }
 	
 	if (!bFavorites) {
 		if ([appDelegate isFavorite:photo]) {
@@ -276,18 +279,6 @@
 	[self presentViewController:navigationController animated:YES completion:nil];
 }
 
-- (void)markPhotoSeenIfNeessary:(PhotoItem *)photo atIndex:(NSInteger)idx {
-
-    if (idx != self.photoAlbumView.centerPageIndex) {
-        return;
-    }
-
-    if (![photo isShowed]) {
-        [appDelegate.showedSet addObject:photo.idString];
-        subReddit.unshowedCount --;
-    }
-}
-
 #pragma mark - UIActivityViewController sharing
 
 - (void)shareImage:(UIImage *)image title:(NSString *)title url:(NSURL *)url {
@@ -309,14 +300,18 @@
 
 #pragma mark - Helper methods
 
-- (void)loadGif:(NSURL *)url atIndex:(NSInteger)photoIndex isLoading:(BOOL *)isLoading {
+- (void)loadGifFromPhoto:(PhotoItem *)photo atIndex:(NSInteger)photoIndex isLoading:(BOOL *)isLoading {
+
+    NSURL *url = [photo photoViewControllerURL];
 
     ImageLoaderCancelationToken *token = [ImageLoader loadGifWithURL:url success:^(NSData * _Nonnull gifData) {
         UIImage *imageFromData = [UIImage imageWithData:gifData];
         [self.photoAlbumView didLoadPhoto:imageFromData atIndex:photoIndex photoSize:NIPhotoScrollViewPhotoSizeOriginal error:NO];
         [self.photoAlbumView didLoadGif:gifData atIndex:photoIndex];
+        [self markPhotoSeenIfNeessary:photo atIndex:photoIndex];
     } failure:^(NSError * _Nonnull error) {
         [self.photoAlbumView didLoadPhoto:[UIImage imageNamed:@"Error.png"] atIndex:photoIndex photoSize:NIPhotoScrollViewPhotoSizeOriginal error:YES];
+        [self markPhotoSeenIfNeessary:photo atIndex:photoIndex];
     }];
 
     self.indexToCancelationTokens[@(photoIndex)] = token;
@@ -324,18 +319,35 @@
     *isLoading = YES;
 }
 
-- (void)loadImage:(NSURL *)url atIndex:(NSInteger)photoIndex isLoading:(BOOL *)isLoading {
+- (void)loadImageFromPhoto:(PhotoItem *)photo atIndex:(NSInteger)photoIndex isLoading:(BOOL *)isLoading {
+
+    NSURL *url = [photo photoViewControllerURL];
 
     ImageLoaderCancelationToken *token = [ImageLoader loadImageWithURL:url success:^(UIImage * _Nonnull image) {
         UIImage *imageWithoutScale = [UIImage imageWithCGImage:image.CGImage];
         [self.photoAlbumView didLoadPhoto:imageWithoutScale atIndex:photoIndex photoSize:NIPhotoScrollViewPhotoSizeOriginal error:NO];
+        [self markPhotoSeenIfNeessary:photo atIndex:photoIndex];
     } failure:^(NSError * _Nonnull error) {
         [self.photoAlbumView didLoadPhoto:[UIImage imageNamed:@"Error.png"] atIndex:photoIndex photoSize:NIPhotoScrollViewPhotoSizeOriginal error:YES];
+        [self markPhotoSeenIfNeessary:photo atIndex:photoIndex];
     }];
 
     self.indexToCancelationTokens[@(photoIndex)] = token;
 
     *isLoading = YES;
+}
+
+- (void)markPhotoSeenIfNeessary:(PhotoItem *)photo atIndex:(NSInteger)idx {
+
+    //Only mark the photo as seen if its corresponding index matches with what's currently being shown at `self.photoView.centerPageIndex`
+    if (idx != self.photoAlbumView.centerPageIndex) {
+        return;
+    }
+
+    if (![photo isShowed]) {
+        [appDelegate.showedSet addObject:photo.idString];
+        subReddit.unshowedCount --;
+    }
 }
 
 @end

@@ -55,7 +55,7 @@
 		[self.refreshControl endRefreshing];
 	});
 
-	self.title = @"99 reddits";
+	self.title = @"99 edits";
     if (@available(iOS 11.0, *)) {
         self.navigationController.navigationBar.prefersLargeTitles = YES;
     }

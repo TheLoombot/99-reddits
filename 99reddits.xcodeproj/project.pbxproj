@@ -963,7 +963,7 @@
 				ORGANIZATIONNAME = "99 reddits";
 				TargetAttributes = {
 					8D5080011445923700788875 = {
-						DevelopmentTeam = 2DLBN8DKBU;
+						DevelopmentTeam = Z5S4TLR4D3;
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
@@ -1365,7 +1365,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2DLBN8DKBU;
+				DEVELOPMENT_TEAM = Z5S4TLR4D3;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
@@ -1380,7 +1380,7 @@
 					"\"$(SRCROOT)/99reddits/Flurry\"",
 					"$(PROJECT_DIR)/99reddits/Flurry",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.lensie-custom.99reddits";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lensie.99reddits;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "99reddits/Shared/99reddits-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1398,7 +1398,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 2DLBN8DKBU;
+				DEVELOPMENT_TEAM = Z5S4TLR4D3;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(SRCROOT)",
@@ -1413,7 +1413,7 @@
 					"\"$(SRCROOT)/99reddits/Flurry\"",
 					"$(PROJECT_DIR)/99reddits/Flurry",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.lensie-custom.99reddits";
+				PRODUCT_BUNDLE_IDENTIFIER = com.lensie.99reddits;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "99reddits/Shared/99reddits-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;

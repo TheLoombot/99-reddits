@@ -177,6 +177,7 @@
 		FE85689E1F8097D90033EC11 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE85689D1F8097D90033EC11 /* ImageLoader.swift */; };
 		FE91DCA41F789C61005F5B7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE91DCA31F789C61005F5B7F /* Assets.xcassets */; };
 		FECE3A4F1F87381300306B26 /* NSData+Extensions.m in Sources */ = {isa = PBXBuildFile; fileRef = FECE3A4E1F87381300306B26 /* NSData+Extensions.m */; };
+		FEDEA1631F9406B300D31EF0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEDEA1621F9406B300D31EF0 /* Main.storyboard */; };
 		FEE776BD1F89C6AE003703A1 /* FeedbackController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE776BC1F89C6AE003703A1 /* FeedbackController.m */; };
 		FEE776BF1F89D4D7003703A1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEE776BE1F89D4D7003703A1 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -445,6 +446,7 @@
 		FE91DCA31F789C61005F5B7F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FECE3A4D1F87381300306B26 /* NSData+Extensions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+Extensions.h"; sourceTree = "<group>"; };
 		FECE3A4E1F87381300306B26 /* NSData+Extensions.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+Extensions.m"; sourceTree = "<group>"; };
+		FEDEA1621F9406B300D31EF0 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		FEE776BB1F89C6AE003703A1 /* FeedbackController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedbackController.h; sourceTree = "<group>"; };
 		FEE776BC1F89C6AE003703A1 /* FeedbackController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedbackController.m; sourceTree = "<group>"; };
 		FEE776BE1F89D4D7003703A1 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -830,6 +832,7 @@
 		8D6C5CFD164ACCCC008A98A7 /* iPhone */ = {
 			isa = PBXGroup;
 			children = (
+				FEDEA1621F9406B300D31EF0 /* Main.storyboard */,
 				8D6C5D1A164ACCCC008A98A7 /* MainWindow.xib */,
 				FEE776BE1F89D4D7003703A1 /* LaunchScreen.storyboard */,
 				8D6C5D0E164ACCCC008A98A7 /* MainView */,
@@ -1070,6 +1073,7 @@
 				FE91DCA41F789C61005F5B7F /* Assets.xcassets in Resources */,
 				843903871A749747007B9EFF /* iTunesArtwork@2x in Resources */,
 				843903651A749747007B9EFF /* CommentBlueIcon@2x.png in Resources */,
+				FEDEA1631F9406B300D31EF0 /* Main.storyboard in Resources */,
 				843903541A749747007B9EFF /* ButtonHighlighted.png in Resources */,
 				8439035D1A749747007B9EFF /* CheckBlueIcon.png in Resources */,
 				8439037A1A749747007B9EFF /* FavoritesIcon@3x.png in Resources */,

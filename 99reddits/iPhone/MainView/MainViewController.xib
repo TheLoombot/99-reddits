@@ -64,6 +64,7 @@
             <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
             <nil key="simulatedStatusBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="-587" y="-79"/>
         </view>
         <barButtonItem title="Help" id="4yB-Z2-gGD" userLabel="Help Item">
             <connections>

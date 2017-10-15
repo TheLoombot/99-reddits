@@ -15,12 +15,9 @@
 	UILabel *unshowedLabel;
 
 	NSInteger unshowedCount;
-	NSInteger totalCount;
 	BOOL loading;
 	
 	BOOL first;
-	
-	BOOL bFavorites;
 
 	BOOL imageEmpty;
 }
@@ -28,7 +25,6 @@
 @property (nonatomic, readonly) UILabel *contentTextLabel;
 @property (strong, nonatomic) UIImageView *contentImageView;
 
-- (void)setUnshowedCount:(NSInteger)_unshowedCount totalCount:(NSInteger)_totalCount loading:(BOOL)_loading;
-- (void)setTotalCount:(NSInteger)_totalCount;
+- (void)setUnshowedCount:(NSInteger)_unshowedCount loading:(BOOL)_loading layoutWidth:(CGFloat)width;
 
 @end

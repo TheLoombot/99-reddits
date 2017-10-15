@@ -74,11 +74,6 @@
 		[self reloadData];
 	}
 
-	CGRect frame = footerView.frame;
-	frame.size.width = screenWidth;
-	footerView.frame = frame;
-	self.tableView.tableFooterView = footerView;
-
 	self.view.backgroundColor = [UIColor whiteColor];
 	self.edgesForExtendedLayout = UIRectEdgeAll;
 	self.tableView.separatorInset = UIEdgeInsetsZero;
@@ -100,6 +95,11 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
+
+    CGRect frame = footerView.frame;
+    frame.size.width = self.view.frame.size.width;
+    footerView.frame = frame;
+    self.tableView.tableFooterView = footerView;
 
 	for (SubRedditItem *subReddit in subRedditsArray) {
 		[subReddit calUnshowedCount];
@@ -171,8 +171,6 @@
         cell.contentImageView.image = [UIImage imageNamed:@"FavoritesIcon.png"];
       }
 		}
-		
-		[cell setTotalCount:appDelegate.favoritesItem.photosArray.count];
 	}
 	else {
 		SubRedditItem *subReddit = [subRedditsArray objectAtIndex:indexPath.row - 1];
@@ -191,7 +189,7 @@
       [ImageLoader loadWithUrlString:urlString into:cell.contentImageView];
 		}
 		
-		[cell setUnshowedCount:subReddit.unshowedCount totalCount:subReddit.photosArray.count loading:subReddit.loading];
+        [cell setUnshowedCount:subReddit.unshowedCount loading:subReddit.loading layoutWidth: self.view.frame.size.width];
 	}
 	
 	return cell;

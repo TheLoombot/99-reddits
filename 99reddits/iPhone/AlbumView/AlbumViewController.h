@@ -20,7 +20,6 @@
 	MainViewController __weak *mainViewController;
 
 	CustomCollectionView *contentCollectionView;
-	IBOutlet UIView *footerView;
 	IBOutlet UIButton *moarButton;
 	IBOutlet UIActivityIndicatorView *moarWaitingView;
 	IBOutlet UITabBar *tabBar;

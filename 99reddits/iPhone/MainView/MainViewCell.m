@@ -16,45 +16,49 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:reuseIdentifier];
     if (self) {
-		activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 
-		self.contentImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 55, 55)];
-		self.contentImageView.contentMode = UIViewContentModeScaleAspectFill;
-    self.contentImageView.clipsToBounds = YES;
-		[self.contentView addSubview:self.contentImageView];
+        self.contentImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 55, 55)];
+        self.contentImageView.contentMode = UIViewContentModeScaleAspectFill;
+        self.contentImageView.clipsToBounds = YES;
+        [self.contentView addSubview:self.contentImageView];
 
-		contentTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 0, screenWidth - 140, 55)];
-		contentTextLabel.font = [UIFont boldSystemFontOfSize:16];
-		contentTextLabel.textColor = [UIColor blackColor];
-		contentTextLabel.backgroundColor = [UIColor clearColor];
-		[self.contentView addSubview:contentTextLabel];
+        contentTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 0, self.contentView.frame.size.width - 140, 55)];
+        contentTextLabel.font = [UIFont boldSystemFontOfSize:16];
+        contentTextLabel.textColor = [UIColor blackColor];
+        contentTextLabel.backgroundColor = [UIColor clearColor];
+        [self.contentView addSubview:contentTextLabel];
 
-		self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-		self.selectionStyle = UITableViewCellSelectionStyleBlue;
+        self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        self.selectionStyle = UITableViewCellSelectionStyleBlue;
 
-		unshowedBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
-		unshowedBackView.userInteractionEnabled = NO;
-		unshowedBackView.backgroundColor = [UIColor redColor];
-		unshowedBackView.clipsToBounds = YES;
-		unshowedBackView.layer.cornerRadius = 12;
-		[self addSubview:unshowedBackView];
-		
-		unshowedLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-		unshowedLabel.font = [UIFont boldSystemFontOfSize:17];
-		unshowedLabel.backgroundColor = [UIColor clearColor];
-		unshowedLabel.textColor = [UIColor whiteColor];
-		[self addSubview:unshowedLabel];
+        unshowedBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
+        unshowedBackView.userInteractionEnabled = NO;
+        unshowedBackView.backgroundColor = [UIColor redColor];
+        unshowedBackView.clipsToBounds = YES;
+        unshowedBackView.layer.cornerRadius = 12;
+        [self addSubview:unshowedBackView];
 
+        unshowedLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+        unshowedLabel.font = [UIFont boldSystemFontOfSize:17];
+        unshowedLabel.backgroundColor = [UIColor clearColor];
+        unshowedLabel.textColor = [UIColor whiteColor];
+        [self addSubview:unshowedLabel];
 
-		first = YES;
+        unshowedBackView.hidden = YES;
+        unshowedLabel.hidden = YES;
+
+        first = YES;
     }
     return self;
 }
 
 - (void)prepareForReuse {
-  [super prepareForReuse];
+    [super prepareForReuse];
 
-  self.contentImageView.image = [UIImage imageNamed:@"DefaultAlbumIcon"];
+    self.contentImageView.image = [UIImage imageNamed:@"DefaultAlbumIcon"];
+    unshowedBackView.hidden = YES;
+    unshowedLabel.hidden = YES;
 }
 
 - (void)layoutSubviews {
@@ -67,79 +71,53 @@
 		return;
 	}
 	
-	if (bFavorites)
-		[self setTotalCount:totalCount];
-	else
-		[self setUnshowedCount:unshowedCount totalCount:totalCount loading:loading];
-	
 	CGRect accessoryViewFrame = self.accessoryView.frame;
 	accessoryViewFrame.origin.x = CGRectGetWidth(self.bounds) - CGRectGetWidth(accessoryViewFrame) - 10;
 	self.accessoryView.frame = accessoryViewFrame;
 }
 
-- (void)setUnshowedCount:(NSInteger)_unshowedCount totalCount:(NSInteger)_totalCount loading:(BOOL)_loading {
-	bFavorites = NO;
-	
+- (void)setUnshowedCount:(NSInteger)_unshowedCount loading:(BOOL)_loading layoutWidth:(CGFloat)width {
+
 	unshowedCount = _unshowedCount;
-	totalCount = _totalCount;
 	loading = _loading;
 
 	if (loading) {
 		self.accessoryView = activityIndicator;
 		[activityIndicator startAnimating];
 	}
-	else
-		self.accessoryView = nil;
+    else {
+        self.accessoryView = nil;
+    }
 	
-	if (unshowedCount == 0) {
-		unshowedBackView.hidden = YES;
-		unshowedLabel.hidden = YES;
-	}
-	else {
-		unshowedBackView.hidden = NO;
-		unshowedLabel.hidden = NO;
-		
-		CGRect frame = self.textLabel.frame;
-		frame.size.width = 180;
-		self.textLabel.frame = frame;
-		
-		unshowedLabel.frame = CGRectMake(0, 0, 200, 20);
-		unshowedLabel.text = [NSString stringWithFormat:@"%ld", (long)unshowedCount];
-		[unshowedLabel sizeToFit];
-		
-		CGRect rect = unshowedLabel.frame;
-		rect.size.width = ceil(rect.size.width);
-		if (rect.size.width < 10)
-			rect.size.width = 10;
-		rect.size.height = 20;
-		rect.origin.x = screenWidth - 45 - rect.size.width;
-		rect.origin.y = 17;
-		unshowedLabel.frame = rect;
-		
-		rect.origin.x -= 7;
-		rect.origin.y -= 2;
-		rect.size.width += 14;
-		rect.size.height += 4;
-		unshowedBackView.frame = rect;
-	}
-}
+	if (unshowedCount > 0) {
+        unshowedBackView.hidden = NO;
+        unshowedLabel.hidden = NO;
 
-- (void)setTotalCount:(NSInteger)_totalCount {
-	bFavorites = YES;
+        CGRect frame = self.textLabel.frame;
+        frame.size.width = 180;
+        self.textLabel.frame = frame;
 
-	unshowedCount = 0;
-	totalCount = _totalCount;
-	loading = NO;
-	
-	if (loading) {
-		self.accessoryView = activityIndicator;
-		[activityIndicator startAnimating];
+        unshowedLabel.frame = CGRectMake(0, 0, 200, 20);
+        unshowedLabel.text = [NSString stringWithFormat:@"%ld", (long)unshowedCount];
+        [unshowedLabel sizeToFit];
+
+        CGRect rect = unshowedLabel.frame;
+        rect.size.width = ceil(rect.size.width);
+        if (rect.size.width < 10) {
+            rect.size.width = 10;
+        }
+
+        rect.size.height = 20;
+        rect.origin.x = width - 45 - rect.size.width;
+        rect.origin.y = 17;
+        unshowedLabel.frame = rect;
+
+        rect.origin.x -= 7;
+        rect.origin.y -= 2;
+        rect.size.width += 14;
+        rect.size.height += 4;
+        unshowedBackView.frame = rect;
 	}
-	else
-		self.accessoryView = nil;
-	
-	unshowedBackView.hidden = YES;
-	unshowedLabel.hidden = YES;
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {

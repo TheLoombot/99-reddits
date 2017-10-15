@@ -43,14 +43,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 	[application setStatusBarHidden:NO];
 	
 	appDelegate = self;
-	
-	screenWidth = [[UIScreen mainScreen] bounds].size.width;
-	screenHeight = [[UIScreen mainScreen] bounds].size.height;
-	if (screenWidth > screenHeight) {
-		CGFloat temp = screenWidth;
-		screenWidth = screenHeight;
-		screenHeight = temp;
-	}
 	screenScale = [[UIScreen mainScreen] scale];
 	isPad = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
 

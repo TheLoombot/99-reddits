@@ -21,8 +21,9 @@
 
 @interface AlbumViewController ()
 
+@property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
 @property (nonatomic, strong) NSOperationQueue *refreshQueue;
-
+@property (nonatomic, strong) IBOutlet UIView *footerView;
 @end
 
 @implementation AlbumViewController
@@ -87,14 +88,10 @@
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl];
     }
 
-    AlbumViewLayout *albumViewLayout = [[AlbumViewLayout alloc] init];
-    if (!bFavorites) {
-        albumViewLayout.footerReferenceSize = CGSizeMake(screenWidth, 60);
-    }
+    //AlbumViewLayout *albumViewLayout = [[AlbumViewLayout alloc] initWithSize:self.view.frame.size];
 
-    CGRect frame = footerView.frame;
-    frame.size.width = screenWidth;
-    footerView.frame = frame;
+    self.flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    self.flowLayout.itemSize = CGSizeMake(75, 75);
 
     contentCollectionView.allowsSelection = YES;
     contentCollectionView.allowsMultipleSelection = NO;
@@ -103,7 +100,7 @@
     [contentCollectionView registerClass:[AlbumViewCell class] forCellWithReuseIdentifier:@"ALBUM_VIEW_CELL"];
     if (!bFavorites)
         [contentCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"ALBUM_FOOTER_VIEW"];
-    [contentCollectionView setCollectionViewLayout:albumViewLayout];
+    [contentCollectionView setCollectionViewLayout:self.flowLayout];
 
     if (!bFavorites)
         showTypeSegmentedControl.selectedSegmentIndex = 1;
@@ -122,6 +119,20 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self refreshSubReddit:YES];
+
+    CGRect frame = self.footerView.frame;
+    frame.size.width = self.view.frame.size.width;
+    self.footerView.frame = frame;
+
+    CGFloat margin = (self.view.frame.size.width - (75 * 4))/ 5;
+    self.flowLayout.sectionInset = UIEdgeInsetsMake(margin, margin, margin, margin);
+    self.flowLayout.minimumLineSpacing = margin;
+    self.flowLayout.minimumInteritemSpacing = margin;
+
+    if (!bFavorites) {
+        self.flowLayout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, 60);
+        //albumViewLayout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, 60);
+    }
 }
 
 - (void)onSelectPhoto:(PhotoItem *)photo {
@@ -173,10 +184,10 @@
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
     UICollectionReusableView *collectionFooterView = [contentCollectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"ALBUM_FOOTER_VIEW" forIndexPath:indexPath];
-    if (footerView.superview != collectionFooterView) {
-        [footerView removeFromSuperview];
-        footerView.center = CGPointMake(collectionFooterView.frame.size.width / 2, collectionFooterView.frame.size.height / 2);
-        [collectionFooterView addSubview:footerView];
+    if (self.footerView.superview != collectionFooterView) {
+        [self.footerView removeFromSuperview];
+        self.footerView.center = CGPointMake(collectionFooterView.frame.size.width / 2, collectionFooterView.frame.size.height / 2);
+        [collectionFooterView addSubview:self.footerView];
     }
 
     return collectionFooterView;
@@ -518,7 +529,7 @@
         [currentPhotosArray addObjectsFromArray:newPhotosArray];
 
         self.view.userInteractionEnabled = NO;
-        footerView.alpha = 0.0;
+        self.footerView.alpha = 0.0;
         [contentCollectionView
          performBatchUpdates:^(void) {
              if (deleteItemsArray.count > 0) {
@@ -530,7 +541,7 @@
          }
          completion:^(BOOL finished) {
              self.view.userInteractionEnabled = YES;
-             footerView.alpha = 1.0;
+             self.footerView.alpha = 1.0;
          }];
     }
 }

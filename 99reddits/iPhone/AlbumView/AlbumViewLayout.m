@@ -10,11 +10,11 @@
 
 @implementation AlbumViewLayout
 
-- (id)init {
+- (instancetype)initWithSize:(CGSize)size {
 	self = [super init];
 	if (self) {
-		space = (screenWidth - 300) / 5;
-		offset = (screenWidth - 300 - space * 3) / 2;
+		space = (size.width - 300) / 5;
+		offset = (size.width - 300 - space * 3) / 2;
 		
 		self.itemSize = CGSizeMake(75, 75);
 		self.minimumInteritemSpacing = 0;

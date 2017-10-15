@@ -17,4 +17,6 @@
 	NSInteger space;
 }
 
+- (instancetype)initWithSize:(CGSize)size;
+
 @end

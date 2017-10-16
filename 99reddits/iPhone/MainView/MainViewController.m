@@ -21,6 +21,9 @@
 @property (strong, nonatomic) FeedbackController *feedbackController;
 @property (strong, nonatomic) NSOperationQueue *refreshQueue;
 
+@property (strong, nonatomic) IBOutlet UIView *mainTableViewFooter;
+@property (weak, nonatomic) IBOutlet UIButton *addButton;
+
 @end
   
 @implementation MainViewController
@@ -78,9 +81,9 @@
 	self.edgesForExtendedLayout = UIRectEdgeAll;
 	self.tableView.separatorInset = UIEdgeInsetsZero;
 
-	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
-	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateHighlighted];
-	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateDisabled];
+    [self.addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
+    [self.addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateHighlighted];
+    [self.addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateDisabled];
 
 	lastAddedIndex = -1;
 }
@@ -96,10 +99,10 @@
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
 
-    CGRect frame = footerView.frame;
+    CGRect frame = self.mainTableViewFooter.frame;
     frame.size.width = self.view.frame.size.width;
-    footerView.frame = frame;
-    self.tableView.tableFooterView = footerView;
+    self.mainTableViewFooter.frame = frame;
+    self.tableView.tableFooterView = self.mainTableViewFooter;
 
 	for (SubRedditItem *subReddit in subRedditsArray) {
 		[subReddit calUnshowedCount];

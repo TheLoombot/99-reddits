@@ -13,19 +13,13 @@
 @class SubRedditItem;
 
 @interface MainViewController : UITableViewController <ASIHTTPRequestDelegate> {
-	IBOutlet UIView *footerView;
-	IBOutlet UIButton *addButton;
 	UIRefreshControl *refreshControl;
-
 	NSMutableArray *subRedditsArray;
 	NSInteger refreshCount;
 	NSInteger lastAddedIndex;
 }
 
 @property (nonatomic, assign) NSInteger lastAddedIndex;
-
-- (IBAction)onEditButton:(id)sender;
-- (IBAction)onAddButton:(id)sender;
 
 - (void)reloadData;
 - (void)addSubReddit:(SubRedditItem *)subReddit;

@@ -24,6 +24,9 @@
 
 @property (nonatomic, strong) NSOperationQueue *refreshQueue;
 @property (nonatomic, strong) IBOutlet UIView *footerView;
+@property (nonatomic, weak) IBOutlet UIButton *moarButton;
+@property (nonatomic, weak) IBOutlet UIActivityIndicatorView *moarWaitingView;
+@property (nonatomic, strong) IBOutlet UISegmentedControl *showTypeSegmentedControl;
 
 @property (weak, nonatomic) IBOutlet UITabBarItem *hotItem;
 @property (weak, nonatomic) IBOutlet UITabBarItem *unseenItems;
@@ -74,10 +77,10 @@
         self.contentCollectionView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     }
 
-    [moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
-    [moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateHighlighted];
-    [moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateDisabled];
-    moarWaitingView.hidden = YES;
+    [self.moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
+    [self.moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateHighlighted];
+    [self.moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateDisabled];
+    self.moarWaitingView.hidden = YES;
 
     [appDelegate checkNetworkReachable:YES];
 
@@ -97,7 +100,7 @@
         [currentSubReddit.photosArray addObjectsFromArray:subReddit.photosArray];
         currentSubReddit.afterString = subReddit.afterString;
 
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.showTypeSegmentedControl];
     }
 
     self.flowLayout = [[UICollectionViewFlowLayout alloc] init];
@@ -112,8 +115,9 @@
         [self.contentCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"ALBUM_FOOTER_VIEW"];
     [self.contentCollectionView setCollectionViewLayout:self.flowLayout];
 
-    if (!bFavorites)
-        showTypeSegmentedControl.selectedSegmentIndex = 1;
+    if (!bFavorites) {
+        self.showTypeSegmentedControl.selectedSegmentIndex = 1;
+    }
 
     initialized = NO;
 }
@@ -217,9 +221,9 @@
 
     bMOARLoading = YES;
 
-    moarButton.enabled = NO;
-    [moarButton setTitle:@"" forState:UIControlStateNormal];
-    moarWaitingView.hidden = NO;
+    self.moarButton.enabled = NO;
+    [self.moarButton setTitle:@"" forState:UIControlStateNormal];
+    self.moarWaitingView.hidden = NO;
 
     if (currentSubReddit.afterString == (NSString *)[NSNull null] || currentSubReddit.afterString.length == 0) {
         NSURL *url = [NSURL URLWithString:currentSubReddit.urlString];
@@ -249,9 +253,9 @@
 
     bMOARLoading = NO;
 
-    moarButton.enabled = NO;
-    [moarButton setTitle:@"" forState:UIControlStateNormal];
-    moarWaitingView.hidden = NO;
+    self.moarButton.enabled = NO;
+    [self.moarButton setTitle:@"" forState:UIControlStateNormal];
+    self.moarWaitingView.hidden = NO;
 
     currentItem = item;
     if (currentItem == self.hotItem) {
@@ -272,9 +276,9 @@
             [self refreshSubReddit:YES];
         }
         else {
-            moarButton.enabled = YES;
-            [moarButton setTitle:@"MOAR" forState:UIControlStateNormal];
-            moarWaitingView.hidden = YES;
+            self.moarButton.enabled = YES;
+            [self.moarButton setTitle:@"MOAR" forState:UIControlStateNormal];
+            self.moarWaitingView.hidden = YES;
 
             [currentSubReddit.photosArray addObjectsFromArray:subReddit.photosArray];
 
@@ -344,9 +348,9 @@
 
 // ASIHTTPRequestDelegate
 - (void)requestFinished:(NIProcessorHTTPRequest *)request {
-    moarButton.enabled = YES;
-    [moarButton setTitle:@"MOAR" forState:UIControlStateNormal];
-    moarWaitingView.hidden = YES;
+    self.moarButton.enabled = YES;
+    [self.moarButton setTitle:@"MOAR" forState:UIControlStateNormal];
+    self.moarWaitingView.hidden = YES;
 
     NSDictionary *dictionary = (NSDictionary *)request.processedObject;
 
@@ -382,9 +386,9 @@
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request {
-    moarButton.enabled = YES;
-    [moarButton setTitle:@"MOAR" forState:UIControlStateNormal];
-    moarWaitingView.hidden = YES;
+    self.moarButton.enabled = YES;
+    [self.moarButton setTitle:@"MOAR" forState:UIControlStateNormal];
+    self.moarWaitingView.hidden = YES;
 
     bMOARLoading = NO;
 }
@@ -475,7 +479,7 @@
 - (void)refreshSubReddit:(BOOL)reload {
     NSMutableArray *newPhotosArray = [NSMutableArray array];
 
-    if (showTypeSegmentedControl.selectedSegmentIndex == 0) {
+    if (self.showTypeSegmentedControl.selectedSegmentIndex == 0) {
         [newPhotosArray addObjectsFromArray:currentSubReddit.photosArray];
     }
     else {
@@ -498,17 +502,17 @@
         }
 
         if (unshowedCount > 0) {
-            showTypeSegmentedControl.userInteractionEnabled = YES;
-            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl];
+            self.showTypeSegmentedControl.userInteractionEnabled = YES;
+            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.showTypeSegmentedControl];
         }
         else {
             self.title = subReddit.nameString;
 
             self.navigationItem.rightBarButtonItem.enabled = NO;
-            showTypeSegmentedControl.userInteractionEnabled = NO;
+            self.showTypeSegmentedControl.userInteractionEnabled = NO;
 
-            if (showTypeSegmentedControl.selectedSegmentIndex == 1) {
-                showTypeSegmentedControl.selectedSegmentIndex = 0;
+            if (self.showTypeSegmentedControl.selectedSegmentIndex == 1) {
+                self.showTypeSegmentedControl.selectedSegmentIndex = 0;
 
                 [newPhotosArray addObjectsFromArray:currentSubReddit.photosArray];
             }

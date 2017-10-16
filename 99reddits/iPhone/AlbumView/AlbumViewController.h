@@ -19,10 +19,7 @@
 @interface AlbumViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITabBarDelegate, UIAlertViewDelegate, ASIHTTPRequestDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate> {
 	MainViewController __weak *mainViewController;
 
-	IBOutlet UIButton *moarButton;
-	IBOutlet UIActivityIndicatorView *moarWaitingView;
 	UITabBarItem *currentItem;
-	IBOutlet UISegmentedControl *showTypeSegmentedControl;
 
 	SubRedditItem *currentSubReddit;
 	SubRedditItem *subReddit;
@@ -39,8 +36,6 @@
 
 + (instancetype)viewControllerFromStoryboard;
 
-- (IBAction)onMOARButton:(id)sender;
-- (IBAction)onShowType:(id)sender;
 - (void)onSelectPhoto:(PhotoItem *)photo;
 
 @end

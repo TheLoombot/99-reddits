@@ -143,7 +143,6 @@
 		8D68FDE714F8909000CDCF66 /* NIProcessorHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D68FDC814F8909000CDCF66 /* NIProcessorHTTPRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		8D6C5D2C164ACCCC008A98A7 /* AlbumViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D00164ACCCC008A98A7 /* AlbumViewCell.m */; };
 		8D6C5D2E164ACCCC008A98A7 /* AlbumViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D04164ACCCC008A98A7 /* AlbumViewController.m */; };
-		8D6C5D2F164ACCCC008A98A7 /* AlbumViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D6C5D05164ACCCC008A98A7 /* AlbumViewController.xib */; };
 		8D6C5D32164ACCCC008A98A7 /* PhotoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D0A164ACCCC008A98A7 /* PhotoView.m */; };
 		8D6C5D33164ACCCC008A98A7 /* PhotoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D6C5D0C164ACCCC008A98A7 /* PhotoViewController.m */; };
 		8D6C5D34164ACCCC008A98A7 /* PhotoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D6C5D0D164ACCCC008A98A7 /* PhotoViewController.xib */; };
@@ -391,7 +390,6 @@
 		8D6C5D00164ACCCC008A98A7 /* AlbumViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumViewCell.m; sourceTree = "<group>"; };
 		8D6C5D03164ACCCC008A98A7 /* AlbumViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumViewController.h; sourceTree = "<group>"; };
 		8D6C5D04164ACCCC008A98A7 /* AlbumViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumViewController.m; sourceTree = "<group>"; };
-		8D6C5D05164ACCCC008A98A7 /* AlbumViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AlbumViewController.xib; sourceTree = "<group>"; };
 		8D6C5D09164ACCCC008A98A7 /* PhotoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoView.h; sourceTree = "<group>"; };
 		8D6C5D0A164ACCCC008A98A7 /* PhotoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PhotoView.m; sourceTree = "<group>"; };
 		8D6C5D0B164ACCCC008A98A7 /* PhotoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhotoViewController.h; sourceTree = "<group>"; };
@@ -839,7 +837,6 @@
 			children = (
 				8D6C5D03164ACCCC008A98A7 /* AlbumViewController.h */,
 				8D6C5D04164ACCCC008A98A7 /* AlbumViewController.m */,
-				8D6C5D05164ACCCC008A98A7 /* AlbumViewController.xib */,
 				8D6C5CFF164ACCCC008A98A7 /* AlbumViewCell.h */,
 				8D6C5D00164ACCCC008A98A7 /* AlbumViewCell.m */,
 				8D6C5D0B164ACCCC008A98A7 /* PhotoViewController.h */,
@@ -1015,7 +1012,6 @@
 				8D5080111445923700788875 /* InfoPlist.strings in Resources */,
 				843903591A749747007B9EFF /* ButtonNormal@3x.png in Resources */,
 				843903661A749747007B9EFF /* CommentBlueIcon@3x.png in Resources */,
-				8D6C5D2F164ACCCC008A98A7 /* AlbumViewController.xib in Resources */,
 				843903801A749747007B9EFF /* FireIcon.png in Resources */,
 				FEE776BF1F89D4D7003703A1 /* LaunchScreen.storyboard in Resources */,
 				84B9DFF21A7928E800EA3CF0 /* Maximize@3x.png in Resources */,

@@ -12,7 +12,6 @@
 #import "NIHTTPRequest.h"
 #import "PhotoViewController.h"
 #import "UserDef.h"
-#import "AlbumViewLayout.h"
 #import "_9reddits-Swift.h"
 
 #define THUMB_WIDTH			75
@@ -100,8 +99,6 @@
 
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl];
     }
-
-    //AlbumViewLayout *albumViewLayout = [[AlbumViewLayout alloc] initWithSize:self.view.frame.size];
 
     self.flowLayout = [[UICollectionViewFlowLayout alloc] init];
     self.flowLayout.itemSize = CGSizeMake(75, 75);

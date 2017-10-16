@@ -88,7 +88,6 @@
 		84EB13091A762D78006A39B5 /* FLAnimatedImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EB13071A762D78006A39B5 /* FLAnimatedImageView.m */; };
 		8D060A8616AD29E700AED06E /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D060A8516AD29E700AED06E /* QuartzCore.framework */; };
 		8D060A9A16AD385B00AED06E /* CustomCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D060A9916AD385B00AED06E /* CustomCollectionView.m */; };
-		8D0DE761176AD92B00E9F76A /* AlbumViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D0DE760176AD92A00E9F76A /* AlbumViewLayout.m */; };
 		8D22423F176714570053868F /* CommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D22423D176714570053868F /* CommentViewController.m */; };
 		8D224240176714570053868F /* CommentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8D22423E176714570053868F /* CommentViewController.xib */; };
 		8D22CA1514B750D000E4DDD3 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D22CA1414B750D000E4DDD3 /* StoreKit.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
@@ -266,8 +265,6 @@
 		8D060A8516AD29E700AED06E /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8D060A9816AD385B00AED06E /* CustomCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCollectionView.h; sourceTree = "<group>"; };
 		8D060A9916AD385B00AED06E /* CustomCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCollectionView.m; sourceTree = "<group>"; };
-		8D0DE75F176AD92A00E9F76A /* AlbumViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlbumViewLayout.h; sourceTree = "<group>"; };
-		8D0DE760176AD92A00E9F76A /* AlbumViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlbumViewLayout.m; sourceTree = "<group>"; };
 		8D22423C176714570053868F /* CommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentViewController.h; sourceTree = "<group>"; };
 		8D22423D176714570053868F /* CommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentViewController.m; sourceTree = "<group>"; };
 		8D22423E176714570053868F /* CommentViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentViewController.xib; sourceTree = "<group>"; };
@@ -845,8 +842,6 @@
 				8D6C5D05164ACCCC008A98A7 /* AlbumViewController.xib */,
 				8D6C5CFF164ACCCC008A98A7 /* AlbumViewCell.h */,
 				8D6C5D00164ACCCC008A98A7 /* AlbumViewCell.m */,
-				8D0DE75F176AD92A00E9F76A /* AlbumViewLayout.h */,
-				8D0DE760176AD92A00E9F76A /* AlbumViewLayout.m */,
 				8D6C5D0B164ACCCC008A98A7 /* PhotoViewController.h */,
 				8D6C5D0C164ACCCC008A98A7 /* PhotoViewController.m */,
 				8D6C5D0D164ACCCC008A98A7 /* PhotoViewController.xib */,
@@ -1242,7 +1237,6 @@
 				8D060A9A16AD385B00AED06E /* CustomCollectionView.m in Sources */,
 				8D22423F176714570053868F /* CommentViewController.m in Sources */,
 				84EB13081A762D78006A39B5 /* FLAnimatedImage.m in Sources */,
-				8D0DE761176AD92B00E9F76A /* AlbumViewLayout.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

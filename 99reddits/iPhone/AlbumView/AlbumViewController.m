@@ -121,6 +121,12 @@
     initialized = NO;
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+
+    [self.tabBar invalidateIntrinsicContentSize];
+}
+
 - (BOOL)shouldAutorotate {
     return YES;
 }

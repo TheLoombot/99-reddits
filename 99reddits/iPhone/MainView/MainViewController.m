@@ -203,8 +203,7 @@
 	
 	if (indexPath.row == 0) {
 		if (appDelegate.favoritesItem.photosArray.count > 0) {
-			AlbumViewController *albumViewController = [[AlbumViewController alloc] initWithNibName:@"AlbumViewController" bundle:nil];
-			albumViewController.mainViewController = self;
+            AlbumViewController *albumViewController = [AlbumViewController viewControllerFromStoryboard];
 			albumViewController.subReddit = appDelegate.favoritesItem;
 			albumViewController.bFavorites = YES;
 			[self.navigationController pushViewController:albumViewController animated:YES];
@@ -214,8 +213,7 @@
 		SubRedditItem *subReddit = [subRedditsArray objectAtIndex:indexPath.row - 1];
 		
 		if (subReddit.photosArray.count > 0 && !subReddit.loading) {
-			AlbumViewController *albumViewController = [[AlbumViewController alloc] initWithNibName:@"AlbumViewController" bundle:nil];
-			albumViewController.mainViewController = self;
+            AlbumViewController *albumViewController = [AlbumViewController viewControllerFromStoryboard];
 			albumViewController.subReddit = subReddit;
 			albumViewController.bFavorites = NO;
 			[self.navigationController pushViewController:albumViewController animated:YES];

@@ -93,7 +93,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="sU4-iq-IIv" customClass="CustomCollectionView">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="695"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="694"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="A4V-Xy-d1c">
                                     <size key="itemSize" width="50" height="50"/>
@@ -108,7 +108,7 @@
                                 </connections>
                             </collectionView>
                             <tabBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4bp-AE-j3v">
-                                <rect key="frame" x="0.0" y="695" width="375" height="83"/>
+                                <rect key="frame" x="0.0" y="694" width="375" height="83"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <viewLayoutGuide key="safeArea" id="Bir-UE-Zb3"/>
                                 <items>
@@ -124,7 +124,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="aYC-EO-h5h" firstAttribute="bottom" secondItem="4bp-AE-j3v" secondAttribute="bottom" id="Klo-iF-Jax"/>
+                            <constraint firstItem="aYC-EO-h5h" firstAttribute="bottom" secondItem="4bp-AE-j3v" secondAttribute="bottom" constant="1" id="Klo-iF-Jax"/>
                             <constraint firstItem="sU4-iq-IIv" firstAttribute="top" secondItem="ks3-NN-mfs" secondAttribute="top" id="XBh-p4-9HI"/>
                             <constraint firstItem="sU4-iq-IIv" firstAttribute="leading" secondItem="aYC-EO-h5h" secondAttribute="leading" id="ehx-Sl-zER"/>
                             <constraint firstItem="4bp-AE-j3v" firstAttribute="leading" secondItem="aYC-EO-h5h" secondAttribute="leading" id="geq-Um-00N"/>

@@ -335,18 +335,13 @@
 														  duration: duration];
 
 	[super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation
-											duration:duration];
-
-	CGRect toolbarFrame = self.toolbar.frame;
-	toolbarFrame.size.height = NIToolbarHeightForOrientation(toInterfaceOrientation);
-	toolbarFrame.origin.y = self.view.bounds.size.height - toolbarFrame.size.height + toolbarOffset;
-	self.toolbar.frame = toolbarFrame;
+											duration:duration];;
 
 	[self setTitleLabelText:self.titleLabel.text];
 
 	if (!self.toolbarIsTranslucent) {
 		CGRect photoAlbumFrame = self.photoAlbumView.frame;
-		photoAlbumFrame.size.height = self.view.bounds.size.height - toolbarFrame.size.height;
+		photoAlbumFrame.size.height = self.view.bounds.size.height - self.toolbar.frame.size.height;
 		self.photoAlbumView.frame = photoAlbumFrame;
 	}
 }

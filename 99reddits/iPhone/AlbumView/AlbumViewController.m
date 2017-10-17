@@ -122,12 +122,6 @@
     initialized = NO;
 }
 
-- (void)viewDidLayoutSubviews {
-    [super viewDidLayoutSubviews];
-
-    [self.tabBar invalidateIntrinsicContentSize];
-}
-
 - (BOOL)shouldAutorotate {
     return YES;
 }
@@ -151,7 +145,6 @@
 
     if (!bFavorites) {
         self.flowLayout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, 60);
-        //albumViewLayout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, 60);
     }
 }
 

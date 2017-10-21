@@ -12,7 +12,7 @@
 
 @class MainViewController;
 
-@interface RedditsAppDelegate : NSObject <UIApplicationDelegate> {
+@interface RedditsAppDelegate : NSObject <UIApplicationDelegate, UISplitViewControllerDelegate> {
 	IBOutlet UINavigationController *mainNavigationController;
 
 	NSMutableArray *subRedditsArray;

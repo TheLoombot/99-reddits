@@ -131,6 +131,37 @@
     }
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    [super prepareForSegue:segue sender:sender];
+
+    if (self.editing) {
+        return;
+    }
+
+    if (![segue.identifier isEqualToString:@"showDetail"]) {
+        return;
+    }
+
+    NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+
+    if (indexPath.row == 0) {
+        if (appDelegate.favoritesItem.photosArray.count > 0) {
+            AlbumViewController *albumViewController = (AlbumViewController *)segue.destinationViewController;
+            albumViewController.subReddit = appDelegate.favoritesItem;
+            albumViewController.bFavorites = YES;
+        }
+    }
+    else {
+        SubRedditItem *subReddit = [subRedditsArray objectAtIndex:indexPath.row - 1];
+        if (subReddit.photosArray.count > 0 && !subReddit.loading) {
+            AlbumViewController *albumViewController = (AlbumViewController *)segue.destinationViewController;
+            albumViewController.subReddit = subReddit;
+            albumViewController.bFavorites = NO;
+        }
+    }
+    
+}
+
 - (void)helpBarButtonItem:(UIBarButtonItem *)sender {
     [self.feedbackController presentFeedbackViewController:self];
 }
@@ -199,29 +230,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	[tableView deselectRowAtIndexPath:indexPath animated:YES];
-	
-	if (self.editing)
-		return;
-	
-	if (indexPath.row == 0) {
-		if (appDelegate.favoritesItem.photosArray.count > 0) {
-            AlbumViewController *albumViewController = [AlbumViewController viewControllerFromStoryboard];
-			albumViewController.subReddit = appDelegate.favoritesItem;
-			albumViewController.bFavorites = YES;
-			[self.navigationController pushViewController:albumViewController animated:YES];
-		}
-	}
-	else {
-		SubRedditItem *subReddit = [subRedditsArray objectAtIndex:indexPath.row - 1];
-		
-		if (subReddit.photosArray.count > 0 && !subReddit.loading) {
-            AlbumViewController *albumViewController = [AlbumViewController viewControllerFromStoryboard];
-			albumViewController.subReddit = subReddit;
-			albumViewController.bFavorites = NO;
-			[self.navigationController pushViewController:albumViewController animated:YES];
-		}
-	}
+    [self performSegueWithIdentifier:@"showDetail" sender:nil];
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {

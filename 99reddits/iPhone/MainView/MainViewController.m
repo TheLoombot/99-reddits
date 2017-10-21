@@ -146,7 +146,7 @@
 
     if (indexPath.row == 0) {
         if (appDelegate.favoritesItem.photosArray.count > 0) {
-            AlbumViewController *albumViewController = (AlbumViewController *)segue.destinationViewController;
+            AlbumViewController *albumViewController = (AlbumViewController *)[[segue destinationViewController] topViewController];
             albumViewController.subReddit = appDelegate.favoritesItem;
             albumViewController.bFavorites = YES;
         }
@@ -154,7 +154,7 @@
     else {
         SubRedditItem *subReddit = [subRedditsArray objectAtIndex:indexPath.row - 1];
         if (subReddit.photosArray.count > 0 && !subReddit.loading) {
-            AlbumViewController *albumViewController = (AlbumViewController *)segue.destinationViewController;
+            AlbumViewController *albumViewController = (AlbumViewController *)[[segue destinationViewController] topViewController];
             albumViewController.subReddit = subReddit;
             albumViewController.bFavorites = NO;
         }

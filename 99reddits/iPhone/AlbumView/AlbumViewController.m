@@ -11,9 +11,7 @@
 #import "AlbumViewCell.h"
 #import "NIHTTPRequest.h"
 #import "PhotoViewController.h"
-#import "MainViewController.h"
 #import "UserDef.h"
-#import "AlbumViewLayout.h"
 #import "_9reddits-Swift.h"
 
 #define THUMB_WIDTH			75
@@ -21,13 +19,25 @@
 
 @interface AlbumViewController ()
 
+@property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
+@property (weak, nonatomic) IBOutlet CustomCollectionView *contentCollectionView;
+
 @property (nonatomic, strong) NSOperationQueue *refreshQueue;
+@property (nonatomic, strong) IBOutlet UIView *footerView;
+@property (nonatomic, weak) IBOutlet UIButton *moarButton;
+@property (nonatomic, weak) IBOutlet UIActivityIndicatorView *moarWaitingView;
+@property (nonatomic, strong) IBOutlet UISegmentedControl *showTypeSegmentedControl;
+
+@property (weak, nonatomic) IBOutlet UITabBarItem *hotItem;
+@property (weak, nonatomic) IBOutlet UITabBarItem *unseenItems;
+@property (weak, nonatomic) IBOutlet UITabBarItem *controversialItem;
+@property (weak, nonatomic) IBOutlet UITabBarItem *topItem;
+@property (weak, nonatomic) IBOutlet UITabBar *tabBar;
 
 @end
 
 @implementation AlbumViewController
 
-@synthesize mainViewController;
 @synthesize subReddit;
 @synthesize bFavorites;
 
@@ -37,6 +47,12 @@
         // Custom initialization
     }
     return self;
+}
+
++ (instancetype)viewControllerFromStoryboard {
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    AlbumViewController *vc = (AlbumViewController *)[sb instantiateViewControllerWithIdentifier:NSStringFromClass([AlbumViewController class])];
+    return vc;
 }
 
 #pragma mark - View lifecycle
@@ -57,19 +73,19 @@
     }
 
     if (bFavorites) {
-        [tabBar removeFromSuperview];
-        contentCollectionView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+        [self.tabBar removeFromSuperview];
+        self.contentCollectionView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     }
 
-    [moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
-    [moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateHighlighted];
-    [moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateDisabled];
-    moarWaitingView.hidden = YES;
+    [self.moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
+    [self.moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateHighlighted];
+    [self.moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateDisabled];
+    self.moarWaitingView.hidden = YES;
 
     [appDelegate checkNetworkReachable:YES];
 
-    tabBar.selectedItem = hotItem;
-    currentItem = hotItem;
+    self.tabBar.selectedItem = self.hotItem;
+    currentItem = self.hotItem;
 
     currentPhotosArray = [[NSMutableArray alloc] init];
     if (bFavorites) {
@@ -84,29 +100,24 @@
         [currentSubReddit.photosArray addObjectsFromArray:subReddit.photosArray];
         currentSubReddit.afterString = subReddit.afterString;
 
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.showTypeSegmentedControl];
     }
 
-    AlbumViewLayout *albumViewLayout = [[AlbumViewLayout alloc] init];
+    self.flowLayout = [[UICollectionViewFlowLayout alloc] init];
+    self.flowLayout.itemSize = CGSizeMake(75, 75);
+
+    self.contentCollectionView.allowsSelection = YES;
+    self.contentCollectionView.allowsMultipleSelection = NO;
+    self.contentCollectionView.delaysContentTouches = NO;
+    self.contentCollectionView.canCancelContentTouches = YES;
+    [self.contentCollectionView registerClass:[AlbumViewCell class] forCellWithReuseIdentifier:@"ALBUM_VIEW_CELL"];
+    if (!bFavorites)
+        [self.contentCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"ALBUM_FOOTER_VIEW"];
+    [self.contentCollectionView setCollectionViewLayout:self.flowLayout];
+
     if (!bFavorites) {
-        albumViewLayout.footerReferenceSize = CGSizeMake(screenWidth, 60);
+        self.showTypeSegmentedControl.selectedSegmentIndex = 1;
     }
-
-    CGRect frame = footerView.frame;
-    frame.size.width = screenWidth;
-    footerView.frame = frame;
-
-    contentCollectionView.allowsSelection = YES;
-    contentCollectionView.allowsMultipleSelection = NO;
-    contentCollectionView.delaysContentTouches = NO;
-    contentCollectionView.canCancelContentTouches = YES;
-    [contentCollectionView registerClass:[AlbumViewCell class] forCellWithReuseIdentifier:@"ALBUM_VIEW_CELL"];
-    if (!bFavorites)
-        [contentCollectionView registerClass:[UICollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"ALBUM_FOOTER_VIEW"];
-    [contentCollectionView setCollectionViewLayout:albumViewLayout];
-
-    if (!bFavorites)
-        showTypeSegmentedControl.selectedSegmentIndex = 1;
 
     initialized = NO;
 }
@@ -122,6 +133,19 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self refreshSubReddit:YES];
+
+    CGRect frame = self.footerView.frame;
+    frame.size.width = self.view.frame.size.width;
+    self.footerView.frame = frame;
+
+    CGFloat margin = (self.view.frame.size.width - (75 * 4))/ 5;
+    self.flowLayout.sectionInset = UIEdgeInsetsMake(margin, margin, margin, margin);
+    self.flowLayout.minimumLineSpacing = margin;
+    self.flowLayout.minimumInteritemSpacing = margin;
+
+    if (!bFavorites) {
+        self.flowLayout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, 60);
+    }
 }
 
 - (void)onSelectPhoto:(PhotoItem *)photo {
@@ -161,7 +185,7 @@
 
     PhotoItem *photo = currentPhotosArray[indexPath.item];
 
-    AlbumViewCell *cell = (AlbumViewCell *)[contentCollectionView dequeueReusableCellWithReuseIdentifier:@"ALBUM_VIEW_CELL" forIndexPath:indexPath];
+    AlbumViewCell *cell = (AlbumViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ALBUM_VIEW_CELL" forIndexPath:indexPath];
     cell.albumViewController = self;
     cell.insideFavoritesAlbum = bFavorites;
     cell.photo = photo;
@@ -172,11 +196,11 @@
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    UICollectionReusableView *collectionFooterView = [contentCollectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"ALBUM_FOOTER_VIEW" forIndexPath:indexPath];
-    if (footerView.superview != collectionFooterView) {
-        [footerView removeFromSuperview];
-        footerView.center = CGPointMake(collectionFooterView.frame.size.width / 2, collectionFooterView.frame.size.height / 2);
-        [collectionFooterView addSubview:footerView];
+    UICollectionReusableView *collectionFooterView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"ALBUM_FOOTER_VIEW" forIndexPath:indexPath];
+    if (self.footerView.superview != collectionFooterView) {
+        [self.footerView removeFromSuperview];
+        self.footerView.center = CGPointMake(collectionFooterView.frame.size.width / 2, collectionFooterView.frame.size.height / 2);
+        [collectionFooterView addSubview:self.footerView];
     }
 
     return collectionFooterView;
@@ -190,9 +214,9 @@
 
     bMOARLoading = YES;
 
-    moarButton.enabled = NO;
-    [moarButton setTitle:@"" forState:UIControlStateNormal];
-    moarWaitingView.hidden = NO;
+    self.moarButton.enabled = NO;
+    [self.moarButton setTitle:@"" forState:UIControlStateNormal];
+    self.moarWaitingView.hidden = NO;
 
     if (currentSubReddit.afterString == (NSString *)[NSNull null] || currentSubReddit.afterString.length == 0) {
         NSURL *url = [NSURL URLWithString:currentSubReddit.urlString];
@@ -222,12 +246,12 @@
 
     bMOARLoading = NO;
 
-    moarButton.enabled = NO;
-    [moarButton setTitle:@"" forState:UIControlStateNormal];
-    moarWaitingView.hidden = NO;
+    self.moarButton.enabled = NO;
+    [self.moarButton setTitle:@"" forState:UIControlStateNormal];
+    self.moarWaitingView.hidden = NO;
 
     currentItem = item;
-    if (currentItem == hotItem) {
+    if (currentItem == self.hotItem) {
         currentSubReddit = [[SubRedditItem alloc] init];
         currentSubReddit.nameString = subReddit.nameString;
         currentSubReddit.urlString = subReddit.urlString;
@@ -245,16 +269,16 @@
             [self refreshSubReddit:YES];
         }
         else {
-            moarButton.enabled = YES;
-            [moarButton setTitle:@"MOAR" forState:UIControlStateNormal];
-            moarWaitingView.hidden = YES;
+            self.moarButton.enabled = YES;
+            [self.moarButton setTitle:@"MOAR" forState:UIControlStateNormal];
+            self.moarWaitingView.hidden = YES;
 
             [currentSubReddit.photosArray addObjectsFromArray:subReddit.photosArray];
 
             [self refreshSubReddit:YES];
         }
     }
-    else if (currentItem == newItem) {
+    else if (currentItem == self.unseenItems) {
         currentSubReddit = [[SubRedditItem alloc] init];
         currentSubReddit.nameString = subReddit.nameString;
         currentSubReddit.urlString = [NSString stringWithFormat:NEW_SUBREDDIT_FORMAT, subReddit.nameString];
@@ -270,7 +294,7 @@
 
         [self refreshSubReddit:YES];
     }
-    else if (currentItem == controversialItem) {
+    else if (currentItem == self.controversialItem) {
         currentSubReddit = [[SubRedditItem alloc] init];
         currentSubReddit.nameString = subReddit.nameString;
         currentSubReddit.urlString = [NSString stringWithFormat:CONTROVERSIAL_SUBREDDIT_FORMAT, subReddit.nameString];
@@ -317,9 +341,9 @@
 
 // ASIHTTPRequestDelegate
 - (void)requestFinished:(NIProcessorHTTPRequest *)request {
-    moarButton.enabled = YES;
-    [moarButton setTitle:@"MOAR" forState:UIControlStateNormal];
-    moarWaitingView.hidden = YES;
+    self.moarButton.enabled = YES;
+    [self.moarButton setTitle:@"MOAR" forState:UIControlStateNormal];
+    self.moarWaitingView.hidden = YES;
 
     NSDictionary *dictionary = (NSDictionary *)request.processedObject;
 
@@ -328,7 +352,7 @@
         [currentSubReddit.photosArray addObjectsFromArray:[dictionary objectForKey:@"photos"]];
         currentSubReddit.afterString = [dictionary objectForKey:@"after"];
 
-        if (currentItem == hotItem) {
+        if (currentItem == self.hotItem) {
             [subReddit.photosArray removeAllObjects];
             [subReddit.photosArray addObjectsFromArray:currentSubReddit.photosArray];
             subReddit.afterString = currentSubReddit.afterString;
@@ -355,9 +379,9 @@
 }
 
 - (void)requestFailed:(ASIHTTPRequest *)request {
-    moarButton.enabled = YES;
-    [moarButton setTitle:@"MOAR" forState:UIControlStateNormal];
-    moarWaitingView.hidden = YES;
+    self.moarButton.enabled = YES;
+    [self.moarButton setTitle:@"MOAR" forState:UIControlStateNormal];
+    self.moarWaitingView.hidden = YES;
 
     bMOARLoading = NO;
 }
@@ -448,7 +472,7 @@
 - (void)refreshSubReddit:(BOOL)reload {
     NSMutableArray *newPhotosArray = [NSMutableArray array];
 
-    if (showTypeSegmentedControl.selectedSegmentIndex == 0) {
+    if (self.showTypeSegmentedControl.selectedSegmentIndex == 0) {
         [newPhotosArray addObjectsFromArray:currentSubReddit.photosArray];
     }
     else {
@@ -471,17 +495,17 @@
         }
 
         if (unshowedCount > 0) {
-            showTypeSegmentedControl.userInteractionEnabled = YES;
-            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:showTypeSegmentedControl];
+            self.showTypeSegmentedControl.userInteractionEnabled = YES;
+            self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.showTypeSegmentedControl];
         }
         else {
             self.title = subReddit.nameString;
 
             self.navigationItem.rightBarButtonItem.enabled = NO;
-            showTypeSegmentedControl.userInteractionEnabled = NO;
+            self.showTypeSegmentedControl.userInteractionEnabled = NO;
 
-            if (showTypeSegmentedControl.selectedSegmentIndex == 1) {
-                showTypeSegmentedControl.selectedSegmentIndex = 0;
+            if (self.showTypeSegmentedControl.selectedSegmentIndex == 1) {
+                self.showTypeSegmentedControl.selectedSegmentIndex = 0;
 
                 [newPhotosArray addObjectsFromArray:currentSubReddit.photosArray];
             }
@@ -492,7 +516,7 @@
         initialized = YES;
         [currentPhotosArray removeAllObjects];
         [currentPhotosArray addObjectsFromArray:newPhotosArray];
-        [contentCollectionView reloadData];
+        [self.contentCollectionView reloadData];
     }
     else {
         NSMutableArray *deleteItemsArray = [NSMutableArray array];
@@ -518,19 +542,19 @@
         [currentPhotosArray addObjectsFromArray:newPhotosArray];
 
         self.view.userInteractionEnabled = NO;
-        footerView.alpha = 0.0;
-        [contentCollectionView
+        self.footerView.alpha = 0.0;
+        [self.contentCollectionView
          performBatchUpdates:^(void) {
              if (deleteItemsArray.count > 0) {
-                 [contentCollectionView deleteItemsAtIndexPaths:deleteItemsArray];
+                 [self.contentCollectionView deleteItemsAtIndexPaths:deleteItemsArray];
              }
              if (insertItemsArray.count > 0) {
-                 [contentCollectionView insertItemsAtIndexPaths:insertItemsArray];
+                 [self.contentCollectionView insertItemsAtIndexPaths:insertItemsArray];
              }
          }
          completion:^(BOOL finished) {
              self.view.userInteractionEnabled = YES;
-             footerView.alpha = 1.0;
+             self.footerView.alpha = 1.0;
          }];
     }
 }

@@ -190,14 +190,13 @@
 	// Toolbar Setup
 
 	CGFloat toolbarHeight = NIToolbarHeightForOrientation(NIInterfaceOrientation());
-	CGRect toolbarFrame = CGRectMake(0, bounds.size.height - toolbarHeight,
-									 bounds.size.width, toolbarHeight);
+    
+    CGRect toolbarFrame = CGRectMake(0, bounds.size.height - toolbarHeight, bounds.size.width, toolbarHeight);
 
-	_toolbar = [[[UIToolbar alloc] initWithFrame:toolbarFrame] autorelease];
+	_toolbar = [[[UIToolbar alloc] initWithFrame:CGRectZero] autorelease];
 	_toolbar.barStyle = UIBarStyleBlack;
 	_toolbar.translucent = self.toolbarIsTranslucent;
-	_toolbar.autoresizingMask = (UIViewAutoresizingFlexibleWidth
-								 | UIViewAutoresizingFlexibleTopMargin);
+    _toolbar.translatesAutoresizingMaskIntoConstraints = NO;
 
 	[self updateToolbarItems];
 
@@ -211,7 +210,8 @@
 	_titleLabel.textAlignment = NSTextAlignmentCenter;
 	_titleLabel.numberOfLines = 0;
 
-	_titleLabelBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, toolbarFrame.origin.y - 30, toolbarFrame.size.width, 30)];
+	_titleLabelBar = [[UIToolbar alloc] initWithFrame:CGRectZero];
+    _titleLabelBar.translatesAutoresizingMaskIntoConstraints = NO;
 	_titleLabelBar.barStyle = UIBarStyleBlackTranslucent;
 	_titleLabelBar.translucent = YES;
 	_titleLabelBar.tintColor = nil;
@@ -231,6 +231,7 @@
 
 	[self.view addSubview:_photoAlbumView];
 	[self.view addSubview:_toolbar];
+    [self.view addSubview:_titleLabelBar];
 	[_titleLabelBar addSubview:_titleLabel];
 
 	if (self.hidesChromeWhenScrolling) {
@@ -240,6 +241,30 @@
 	if ([[[UIDevice currentDevice] systemVersion] floatValue] >= 7.0) {
 		self.automaticallyAdjustsScrollViewInsets = NO;
 	}
+    
+    // Autolayout
+    
+    NSLayoutXAxisAnchor *ledingAnchor = self.view.leadingAnchor;
+    NSLayoutXAxisAnchor *trailingAnchor = self.view.trailingAnchor;
+    NSLayoutYAxisAnchor *bottomAnchor = self.view.bottomAnchor;
+    if (@available(iOS 11.0, *)) {
+        ledingAnchor = self.view.safeAreaLayoutGuide.leadingAnchor;
+        trailingAnchor = self.view.safeAreaLayoutGuide.trailingAnchor;
+        bottomAnchor = self.view.safeAreaLayoutGuide.bottomAnchor;
+    }
+
+    NSArray *toolbarConstraints = @[[_toolbar.leadingAnchor constraintEqualToAnchor:ledingAnchor],
+                                     [_toolbar.trailingAnchor constraintEqualToAnchor:trailingAnchor],
+                                     [_toolbar.bottomAnchor constraintEqualToAnchor:bottomAnchor]];
+                              
+    [NSLayoutConstraint activateConstraints:toolbarConstraints];
+
+    NSArray *titleBarConstraints = @[[_titleLabelBar.leadingAnchor constraintEqualToAnchor:ledingAnchor],
+                                     [_titleLabelBar.trailingAnchor constraintEqualToAnchor:trailingAnchor],
+                                     [_titleLabelBar.bottomAnchor constraintEqualToAnchor:_toolbar.topAnchor],
+                                     [_titleLabelBar.heightAnchor constraintEqualToConstant:30]];
+    
+    [NSLayoutConstraint activateConstraints:titleBarConstraints];
 }
 
 
@@ -278,10 +303,6 @@
 		nextPhotoButton.alpha = 0.0;
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-	[self.view addSubview:_titleLabelBar];
-}
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
@@ -314,18 +335,13 @@
 														  duration: duration];
 
 	[super willAnimateRotationToInterfaceOrientation:toInterfaceOrientation
-											duration:duration];
-
-	CGRect toolbarFrame = self.toolbar.frame;
-	toolbarFrame.size.height = NIToolbarHeightForOrientation(toInterfaceOrientation);
-	toolbarFrame.origin.y = self.view.bounds.size.height - toolbarFrame.size.height + toolbarOffset;
-	self.toolbar.frame = toolbarFrame;
+											duration:duration];;
 
 	[self setTitleLabelText:self.titleLabel.text];
 
 	if (!self.toolbarIsTranslucent) {
 		CGRect photoAlbumFrame = self.photoAlbumView.frame;
-		photoAlbumFrame.size.height = self.view.bounds.size.height - toolbarFrame.size.height;
+		photoAlbumFrame.size.height = self.view.bounds.size.height - self.toolbar.frame.size.height;
 		self.photoAlbumView.frame = photoAlbumFrame;
 	}
 }

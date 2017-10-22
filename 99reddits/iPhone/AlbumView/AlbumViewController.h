@@ -19,17 +19,7 @@
 @interface AlbumViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UITabBarDelegate, UIAlertViewDelegate, ASIHTTPRequestDelegate, UIActionSheetDelegate, MFMailComposeViewControllerDelegate> {
 	MainViewController __weak *mainViewController;
 
-	CustomCollectionView *contentCollectionView;
-	IBOutlet UIView *footerView;
-	IBOutlet UIButton *moarButton;
-	IBOutlet UIActivityIndicatorView *moarWaitingView;
-	IBOutlet UITabBar *tabBar;
-	IBOutlet UITabBarItem *hotItem;
-	IBOutlet UITabBarItem *newItem;
-	IBOutlet UITabBarItem *controversialItem;
-	IBOutlet UITabBarItem *topItem;
 	UITabBarItem *currentItem;
-	IBOutlet UISegmentedControl *showTypeSegmentedControl;
 
 	SubRedditItem *currentSubReddit;
 	SubRedditItem *subReddit;
@@ -41,12 +31,11 @@
 	BOOL initialized;
 }
 
-@property (nonatomic, weak) MainViewController *mainViewController;
 @property (nonatomic, strong) SubRedditItem *subReddit;
 @property (nonatomic) BOOL bFavorites;
 
-- (IBAction)onMOARButton:(id)sender;
-- (IBAction)onShowType:(id)sender;
++ (instancetype)viewControllerFromStoryboard;
+
 - (void)onSelectPhoto:(PhotoItem *)photo;
 
 @end

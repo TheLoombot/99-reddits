@@ -21,6 +21,9 @@
 @property (strong, nonatomic) FeedbackController *feedbackController;
 @property (strong, nonatomic) NSOperationQueue *refreshQueue;
 
+@property (strong, nonatomic) IBOutlet UIView *mainTableViewFooter;
+@property (weak, nonatomic) IBOutlet UIButton *addButton;
+
 @end
   
 @implementation MainViewController
@@ -74,18 +77,13 @@
 		[self reloadData];
 	}
 
-	CGRect frame = footerView.frame;
-	frame.size.width = screenWidth;
-	footerView.frame = frame;
-	self.tableView.tableFooterView = footerView;
-
 	self.view.backgroundColor = [UIColor whiteColor];
 	self.edgesForExtendedLayout = UIRectEdgeAll;
 	self.tableView.separatorInset = UIEdgeInsetsZero;
 
-	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
-	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateHighlighted];
-	[addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateDisabled];
+    [self.addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
+    [self.addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonHighlighted.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateHighlighted];
+    [self.addButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateDisabled];
 
 	lastAddedIndex = -1;
 }
@@ -100,6 +98,11 @@
 
 - (void)viewWillAppear:(BOOL)animated {
   [super viewWillAppear:animated];
+
+    CGRect frame = self.mainTableViewFooter.frame;
+    frame.size.width = self.view.frame.size.width;
+    self.mainTableViewFooter.frame = frame;
+    self.tableView.tableFooterView = self.mainTableViewFooter;
 
 	for (SubRedditItem *subReddit in subRedditsArray) {
 		[subReddit calUnshowedCount];
@@ -171,8 +174,6 @@
         cell.contentImageView.image = [UIImage imageNamed:@"FavoritesIcon.png"];
       }
 		}
-		
-		[cell setTotalCount:appDelegate.favoritesItem.photosArray.count];
 	}
 	else {
 		SubRedditItem *subReddit = [subRedditsArray objectAtIndex:indexPath.row - 1];
@@ -191,7 +192,7 @@
       [ImageLoader loadWithUrlString:urlString into:cell.contentImageView];
 		}
 		
-		[cell setUnshowedCount:subReddit.unshowedCount totalCount:subReddit.photosArray.count loading:subReddit.loading];
+        [cell setUnshowedCount:subReddit.unshowedCount loading:subReddit.loading layoutWidth: self.view.frame.size.width];
 	}
 	
 	return cell;
@@ -205,8 +206,7 @@
 	
 	if (indexPath.row == 0) {
 		if (appDelegate.favoritesItem.photosArray.count > 0) {
-			AlbumViewController *albumViewController = [[AlbumViewController alloc] initWithNibName:@"AlbumViewController" bundle:nil];
-			albumViewController.mainViewController = self;
+            AlbumViewController *albumViewController = [AlbumViewController viewControllerFromStoryboard];
 			albumViewController.subReddit = appDelegate.favoritesItem;
 			albumViewController.bFavorites = YES;
 			[self.navigationController pushViewController:albumViewController animated:YES];
@@ -216,8 +216,7 @@
 		SubRedditItem *subReddit = [subRedditsArray objectAtIndex:indexPath.row - 1];
 		
 		if (subReddit.photosArray.count > 0 && !subReddit.loading) {
-			AlbumViewController *albumViewController = [[AlbumViewController alloc] initWithNibName:@"AlbumViewController" bundle:nil];
-			albumViewController.mainViewController = self;
+            AlbumViewController *albumViewController = [AlbumViewController viewControllerFromStoryboard];
 			albumViewController.subReddit = subReddit;
 			albumViewController.bFavorites = NO;
 			[self.navigationController pushViewController:albumViewController animated:YES];

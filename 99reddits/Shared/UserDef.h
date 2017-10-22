@@ -23,8 +23,6 @@
 extern RedditsAppDelegate *appDelegate;
 extern NSString *htmlStrings[];
 extern NSString *normalStrings[];
-extern CGFloat screenWidth;
-extern CGFloat screenHeight;
 extern CGFloat screenScale;
 extern BOOL isPad;
 

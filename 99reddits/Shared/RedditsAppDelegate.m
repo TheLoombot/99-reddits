@@ -43,20 +43,12 @@ void uncaughtExceptionHandler(NSException *exception) {
 	[application setStatusBarHidden:NO];
 	
 	appDelegate = self;
-	
-	screenWidth = [[UIScreen mainScreen] bounds].size.width;
-	screenHeight = [[UIScreen mainScreen] bounds].size.height;
-	if (screenWidth > screenHeight) {
-		CGFloat temp = screenWidth;
-		screenWidth = screenHeight;
-		screenHeight = temp;
-	}
 	screenScale = [[UIScreen mainScreen] scale];
 	isPad = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
 
 	self.window.backgroundColor = [UIColor whiteColor];
-	mainNavigationController.navigationBar.barStyle = UIBarStyleDefault;
-	mainNavigationController.navigationBar.translucent = YES;
+//    mainNavigationController.navigationBar.barStyle = UIBarStyleDefault;
+//    mainNavigationController.navigationBar.translucent = YES;
 
     [Fabric with:@[[Crashlytics class]]];
 
@@ -70,9 +62,6 @@ void uncaughtExceptionHandler(NSException *exception) {
 	fullImagesSet = [[NSMutableSet alloc] init];
 	
 	[self loadFromDefaults];
-
-	self.window.rootViewController = mainNavigationController;
-	[self.window makeKeyAndVisible];
 
   return YES;
 }

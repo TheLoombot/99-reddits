@@ -58,8 +58,6 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>NSMainNibFile~ipad</key>
-	<string>Main</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>This allows you to save photos.</string>
 	<key>NSPhotoLibraryUsageDescription</key>

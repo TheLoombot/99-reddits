@@ -143,10 +143,15 @@
 }
 
 - (IBAction)onAddButton:(id)sender {
-	AddViewController *addViewController = [[AddViewController alloc] initWithNibName:@"AddViewController" bundle:nil];
-	addViewController.redditsViewController = self;
-	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:addViewController];
-	[self presentViewController:navigationController animated:YES completion:nil];
+    AddViewController *addViewController = [[AddViewController alloc] initWithNibName:@"AddViewController" bundle:nil];
+    addViewController.redditsViewController = self;
+
+    if (self.navigationController) {
+        [self.navigationController pushViewController:addViewController animated:YES];
+    } else {
+        UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:addViewController];
+        [self presentViewController:navigationController animated:YES completion:nil];
+    }
 }
 
 // UITableViewDatasource, UITableViewDelegate

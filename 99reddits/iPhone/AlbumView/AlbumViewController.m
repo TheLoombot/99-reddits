@@ -134,10 +134,6 @@
     [super viewWillAppear:animated];
     [self refreshSubReddit:YES];
 
-    CGRect frame = self.footerView.frame;
-    frame.size.width = self.view.frame.size.width;
-    self.footerView.frame = frame;
-
     CGFloat margin = (self.view.frame.size.width - (75 * 4))/ 5;
     self.flowLayout.sectionInset = UIEdgeInsetsMake(margin, margin, margin, margin);
     self.flowLayout.minimumLineSpacing = margin;
@@ -199,7 +195,9 @@
     UICollectionReusableView *collectionFooterView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"ALBUM_FOOTER_VIEW" forIndexPath:indexPath];
     if (self.footerView.superview != collectionFooterView) {
         [self.footerView removeFromSuperview];
-        self.footerView.center = CGPointMake(collectionFooterView.frame.size.width / 2, collectionFooterView.frame.size.height / 2);
+
+        self.footerView.frame = collectionFooterView.bounds;
+        self.footerView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
         [collectionFooterView addSubview:self.footerView];
     }
 

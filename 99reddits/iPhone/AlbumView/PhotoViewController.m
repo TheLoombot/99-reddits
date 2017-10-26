@@ -12,6 +12,8 @@
 #import "CommentViewController.h"
 #import "NSData+Extensions.h"
 #import "_9reddits-Swift.h"
+#import "TitleProvider.h"
+#import "URLProvider.h"
 
 @interface PhotoViewController()
 
@@ -268,16 +270,25 @@
 #pragma mark - UIActivityViewController sharing
 
 - (void)shareImage:(UIImage *)image title:(NSString *)title url:(NSURL *)url {
-    [self shareActivityItems:@[image, title, url]];
+
+    TitleProvider *titleItem = [[TitleProvider alloc] initWithPlaceholderItem:title];
+    URLProvider *urlItem = [[URLProvider alloc] initWithPlaceholderItem:url];
+    
+    [self shareActivityItems:@[image, titleItem, urlItem]];
 }
 
 - (void)shareGifData:(NSData *)data title:(NSString *)title url:(NSURL *)url {
-    [self shareActivityItems:@[data, title, url]];
+
+    TitleProvider *titleItem = [[TitleProvider alloc] initWithPlaceholderItem:title];
+    URLProvider *urlItem = [[URLProvider alloc] initWithPlaceholderItem:url];
+    
+    [self shareActivityItems:@[data, titleItem, urlItem]];
 }
 
 - (void)shareActivityItems:(NSArray *)activityItems {
 
     NSArray *excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypePrint];
+
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:@[]];
     activityViewController.excludedActivityTypes = excludedActivityTypes;
 

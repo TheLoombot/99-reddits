@@ -170,6 +170,7 @@
 	RedditsViewController *redditsViewController = [[RedditsViewController alloc] initWithNibName:@"RedditsViewController" bundle:nil];
 	redditsViewController.mainViewController = self;
 	UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:redditsViewController];
+    navigationController.modalPresentationStyle = UIModalPresentationFormSheet;
 	[self presentViewController:navigationController animated:YES completion:nil];
 }
 

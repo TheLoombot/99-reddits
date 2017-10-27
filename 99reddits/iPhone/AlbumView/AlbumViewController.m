@@ -49,12 +49,6 @@
     return self;
 }
 
-+ (instancetype)viewControllerFromStoryboard {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    AlbumViewController *vc = (AlbumViewController *)[sb instantiateViewControllerWithIdentifier:NSStringFromClass([AlbumViewController class])];
-    return vc;
-}
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad {

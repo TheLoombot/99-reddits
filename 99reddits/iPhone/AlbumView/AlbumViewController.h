@@ -32,9 +32,7 @@
 }
 
 @property (nonatomic, strong) SubRedditItem *subReddit;
-@property (nonatomic) BOOL bFavorites;
-
-+ (instancetype)viewControllerFromStoryboard;
+@property (nonatomic, assign) BOOL bFavorites;
 
 - (void)onSelectPhoto:(PhotoItem *)photo;
 

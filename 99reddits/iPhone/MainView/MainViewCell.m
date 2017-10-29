@@ -47,8 +47,6 @@
 
         unshowedBackView.hidden = YES;
         unshowedLabel.hidden = YES;
-
-        first = YES;
     }
     return self;
 }
@@ -59,21 +57,6 @@
     self.contentImageView.image = [UIImage imageNamed:@"DefaultAlbumIcon"];
     unshowedBackView.hidden = YES;
     unshowedLabel.hidden = YES;
-}
-
-- (void)layoutSubviews {
-	[super layoutSubviews];
-	
-	unshowedBackView.backgroundColor = [UIColor redColor];
-	
-	if (first) {
-		first = NO;
-		return;
-	}
-	
-	CGRect accessoryViewFrame = self.accessoryView.frame;
-	accessoryViewFrame.origin.x = CGRectGetWidth(self.bounds) - CGRectGetWidth(accessoryViewFrame) - 10;
-	self.accessoryView.frame = accessoryViewFrame;
 }
 
 - (void)setUnshowedCount:(NSInteger)_unshowedCount loading:(BOOL)_loading layoutWidth:(CGFloat)width {

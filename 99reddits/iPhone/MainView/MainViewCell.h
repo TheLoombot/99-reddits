@@ -16,9 +16,6 @@
 
 	NSInteger unshowedCount;
 	BOOL loading;
-	
-	BOOL first;
-
 	BOOL imageEmpty;
 }
 

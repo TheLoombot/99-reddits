@@ -8,19 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MainViewCell : UITableViewCell {
-	UIActivityIndicatorView *activityIndicator;
-	UILabel *contentTextLabel;
-	UIView *unshowedBackView;
-	UILabel *unshowedLabel;
+@interface MainViewCell : UITableViewCell 
 
-	NSInteger unshowedCount;
-	BOOL loading;
-	BOOL imageEmpty;
-}
-
-@property (nonatomic, readonly) UILabel *contentTextLabel;
-@property (strong, nonatomic) UIImageView *contentImageView;
+@property (nonatomic, strong) UILabel *contentTextLabel;
+@property (nonatomic, strong) UIImageView *contentImageView;
 
 - (void)setUnseenCount:(NSInteger)unseenCount isLoading:(BOOL)loading;
 

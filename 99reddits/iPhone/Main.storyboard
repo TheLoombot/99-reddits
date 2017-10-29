@@ -110,7 +110,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="sU4-iq-IIv" customClass="CustomCollectionView">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="686"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="A4V-Xy-d1c">
                                     <size key="itemSize" width="50" height="50"/>
@@ -144,9 +144,9 @@
                             <constraint firstItem="aYC-EO-h5h" firstAttribute="bottom" secondItem="4bp-AE-j3v" secondAttribute="bottom" constant="1" id="Klo-iF-Jax"/>
                             <constraint firstItem="sU4-iq-IIv" firstAttribute="top" secondItem="ks3-NN-mfs" secondAttribute="top" id="XBh-p4-9HI"/>
                             <constraint firstItem="sU4-iq-IIv" firstAttribute="leading" secondItem="aYC-EO-h5h" secondAttribute="leading" id="ehx-Sl-zER"/>
+                            <constraint firstItem="aYC-EO-h5h" firstAttribute="bottom" secondItem="sU4-iq-IIv" secondAttribute="bottom" id="gEW-vn-fk4"/>
                             <constraint firstItem="4bp-AE-j3v" firstAttribute="leading" secondItem="aYC-EO-h5h" secondAttribute="leading" id="geq-Um-00N"/>
                             <constraint firstItem="4bp-AE-j3v" firstAttribute="trailing" secondItem="aYC-EO-h5h" secondAttribute="trailing" id="gmQ-bn-50j"/>
-                            <constraint firstItem="4bp-AE-j3v" firstAttribute="top" secondItem="sU4-iq-IIv" secondAttribute="bottom" id="u6k-pB-pSL"/>
                             <constraint firstItem="aYC-EO-h5h" firstAttribute="trailing" secondItem="sU4-iq-IIv" secondAttribute="trailing" id="xYb-nZ-dXr"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="aYC-EO-h5h"/>
@@ -209,7 +209,7 @@
                     </connections>
                 </segmentedControl>
             </objects>
-            <point key="canvasLocation" x="-417" y="426"/>
+            <point key="canvasLocation" x="-417.39130434782612" y="425.54347826086962"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="0fb-uJ-s5H">

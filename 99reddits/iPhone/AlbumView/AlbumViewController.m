@@ -67,8 +67,7 @@
     }
 
     if (bFavorites) {
-        [self.tabBar removeFromSuperview];
-        self.contentCollectionView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+        self.tabBar.hidden = YES;
     }
 
     [self.moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
@@ -134,6 +133,7 @@
     self.flowLayout.minimumInteritemSpacing = margin;
 
     if (!bFavorites) {
+        self.contentCollectionView.contentInset = UIEdgeInsetsMake(0, 0, self.tabBar.frame.size.height, 0);
         self.flowLayout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, 60);
     }
 }

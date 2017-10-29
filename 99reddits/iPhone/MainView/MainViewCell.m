@@ -59,20 +59,20 @@
     unshowedLabel.hidden = YES;
 }
 
-- (void)setUnshowedCount:(NSInteger)_unshowedCount loading:(BOOL)_loading layoutWidth:(CGFloat)width {
+- (void)setUnseenCount:(NSInteger)unseenCount isLoading:(BOOL)loading {
+    
+    unshowedCount = unseenCount;
+    loading = loading;
 
-	unshowedCount = _unshowedCount;
-	loading = _loading;
-
-	if (loading) {
-		self.accessoryView = activityIndicator;
-		[activityIndicator startAnimating];
-	}
+    if (loading) {
+        self.accessoryView = activityIndicator;
+        [activityIndicator startAnimating];
+    }
     else {
         self.accessoryView = nil;
     }
-	
-	if (unshowedCount > 0) {
+
+    if (unshowedCount > 0) {
         unshowedBackView.hidden = NO;
         unshowedLabel.hidden = NO;
 
@@ -91,7 +91,7 @@
         }
 
         rect.size.height = 20;
-        rect.origin.x = width - 45 - rect.size.width;
+        rect.origin.x = self.contentView.frame.size.width - 45 - rect.size.width;
         rect.origin.y = 17;
         unshowedLabel.frame = rect;
 
@@ -100,7 +100,7 @@
         rect.size.width += 14;
         rect.size.height += 4;
         unshowedBackView.frame = rect;
-	}
+    }
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {

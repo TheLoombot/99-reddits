@@ -22,6 +22,6 @@
 @property (nonatomic, readonly) UILabel *contentTextLabel;
 @property (strong, nonatomic) UIImageView *contentImageView;
 
-- (void)setUnshowedCount:(NSInteger)_unshowedCount loading:(BOOL)_loading layoutWidth:(CGFloat)width;
+- (void)setUnseenCount:(NSInteger)unseenCount isLoading:(BOOL)loading;
 
 @end

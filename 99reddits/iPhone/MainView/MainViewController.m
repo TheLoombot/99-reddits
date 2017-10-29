@@ -223,8 +223,8 @@
 			NSString *urlString = [self cacheKeyForPhotoIndex:indexPath.row - 1];
       [ImageLoader loadWithUrlString:urlString into:cell.contentImageView];
 		}
-		
-        [cell setUnshowedCount:subReddit.unshowedCount loading:subReddit.loading layoutWidth: self.view.frame.size.width];
+
+        [cell setUnseenCount:subReddit.unshowedCount isLoading:subReddit.loading];
 	}
 	
 	return cell;

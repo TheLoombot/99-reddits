@@ -34,7 +34,8 @@
         self.contentImageView.clipsToBounds = YES;
         [self.contentView addSubview:self.contentImageView];
 
-        self.contentTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 0, self.contentView.frame.size.width - 140, 55)];
+        self.contentTextLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.contentTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
         self.contentTextLabel.font = [UIFont boldSystemFontOfSize:16];
         self.contentTextLabel.textColor = [UIColor blackColor];
         self.contentTextLabel.backgroundColor = [UIColor clearColor];
@@ -140,7 +141,15 @@
                                   [self.contentImageView.topAnchor constraintEqualToAnchor:self.contentView.topAnchor],
                                   [self.contentImageView.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor],
                                   [self.contentImageView.widthAnchor constraintEqualToAnchor:self.contentView.heightAnchor]];
+
     [NSLayoutConstraint activateConstraints:imageConstraints];
+
+    NSArray *textConstraints = @[[self.contentTextLabel.leadingAnchor constraintEqualToAnchor:self.contentImageView.trailingAnchor constant:5],
+                                 [self.contentTextLabel.topAnchor constraintGreaterThanOrEqualToAnchor:self.contentView.topAnchor constant:10],
+                                 [self.contentTextLabel.bottomAnchor constraintGreaterThanOrEqualToAnchor:self.contentView.bottomAnchor constant:10],
+                                 [self.contentTextLabel.centerYAnchor constraintEqualToAnchor:self.contentView.centerYAnchor]];
+
+    [NSLayoutConstraint activateConstraints:textConstraints];
 }
 
 @end

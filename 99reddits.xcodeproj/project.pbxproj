@@ -1363,6 +1363,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z5S4TLR4D3;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1380,6 +1381,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.lensie.99reddits;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "99reddits/Shared/99reddits-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
@@ -1396,6 +1398,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = Z5S4TLR4D3;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1413,6 +1416,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.lensie.99reddits;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "99reddits/Shared/99reddits-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

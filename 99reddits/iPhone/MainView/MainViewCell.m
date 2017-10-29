@@ -28,7 +28,8 @@
     if (self) {
         self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 
-        self.contentImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 55, 55)];
+        self.contentImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        self.contentImageView.translatesAutoresizingMaskIntoConstraints = NO;
         self.contentImageView.contentMode = UIViewContentModeScaleAspectFill;
         self.contentImageView.clipsToBounds = YES;
         [self.contentView addSubview:self.contentImageView];
@@ -57,6 +58,8 @@
 
         self.unshowedBackView.hidden = YES;
         self.unshowedLabel.hidden = YES;
+
+        [self activateConstraints];
     }
     return self;
 }
@@ -127,6 +130,17 @@
 							 self.unshowedLabel.alpha = 1.0;
 						 }
 					 }];
+}
+
+//MARK: Helper methods
+
+- (void)activateConstraints {
+
+    NSArray *imageConstraints = @[[self.contentImageView.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor],
+                                  [self.contentImageView.topAnchor constraintEqualToAnchor:self.contentView.topAnchor],
+                                  [self.contentImageView.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor],
+                                  [self.contentImageView.widthAnchor constraintEqualToAnchor:self.contentView.heightAnchor]];
+    [NSLayoutConstraint activateConstraints:imageConstraints];
 }
 
 @end

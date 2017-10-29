@@ -1,4 +1,4 @@
-//
+
 //  MainViewCell.m
 //  99reddits
 //
@@ -44,17 +44,18 @@
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         self.selectionStyle = UITableViewCellSelectionStyleBlue;
 
-        self.unshowedBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
-        self.unshowedBackView.userInteractionEnabled = NO;
-        self.unshowedBackView.backgroundColor = [UIColor redColor];
-        self.unshowedBackView.clipsToBounds = YES;
-        self.unshowedBackView.layer.cornerRadius = 12;
-        [self addSubview:self.unshowedBackView];
+//        self.unshowedBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
+//        self.unshowedBackView.userInteractionEnabled = NO;
+//        self.unshowedBackView.backgroundColor = [UIColor redColor];
+//        self.unshowedBackView.clipsToBounds = YES;
+//        self.unshowedBackView.layer.cornerRadius = 12;
+//        [self addSubview:self.unshowedBackView];
 
-        self.unshowedLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+        self.unshowedLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.unshowedLabel.translatesAutoresizingMaskIntoConstraints = NO;
         self.unshowedLabel.font = [UIFont boldSystemFontOfSize:17];
         self.unshowedLabel.backgroundColor = [UIColor clearColor];
-        self.unshowedLabel.textColor = [UIColor whiteColor];
+        self.unshowedLabel.textColor = [UIColor blackColor];
         [self addSubview:self.unshowedLabel];
 
         self.unshowedBackView.hidden = YES;
@@ -90,30 +91,13 @@
         self.unshowedBackView.hidden = NO;
         self.unshowedLabel.hidden = NO;
 
-        CGRect frame = self.textLabel.frame;
-        frame.size.width = 180;
-        self.textLabel.frame = frame;
-
-        self.unshowedLabel.frame = CGRectMake(0, 0, 200, 20);
         self.unshowedLabel.text = [NSString stringWithFormat:@"%ld", (long)self.unshowedCount];
-        [self.unshowedLabel sizeToFit];
 
-        CGRect rect = self.unshowedLabel.frame;
-        rect.size.width = ceil(rect.size.width);
-        if (rect.size.width < 10) {
-            rect.size.width = 10;
-        }
-
-        rect.size.height = 20;
-        rect.origin.x = self.contentView.frame.size.width - 45 - rect.size.width;
-        rect.origin.y = 17;
-        self.unshowedLabel.frame = rect;
-
-        rect.origin.x -= 7;
-        rect.origin.y -= 2;
-        rect.size.width += 14;
-        rect.size.height += 4;
-        self.unshowedBackView.frame = rect;
+//        rect.origin.x -= 7;
+//        rect.origin.y -= 2;
+//        rect.size.width += 14;
+//        rect.size.height += 4;
+//        self.unshowedBackView.frame = rect;
     }
 }
 
@@ -146,10 +130,17 @@
 
     NSArray *textConstraints = @[[self.contentTextLabel.leadingAnchor constraintEqualToAnchor:self.contentImageView.trailingAnchor constant:5],
                                  [self.contentTextLabel.topAnchor constraintGreaterThanOrEqualToAnchor:self.contentView.topAnchor constant:10],
-                                 [self.contentTextLabel.bottomAnchor constraintGreaterThanOrEqualToAnchor:self.contentView.bottomAnchor constant:10],
+                                 [self.contentTextLabel.bottomAnchor constraintGreaterThanOrEqualToAnchor:self.contentView.bottomAnchor constant:-10],
                                  [self.contentTextLabel.centerYAnchor constraintEqualToAnchor:self.contentView.centerYAnchor]];
 
     [NSLayoutConstraint activateConstraints:textConstraints];
+
+    NSArray *unseenConstraints = @[[self.unshowedLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-45],
+                                   [self.unshowedLabel.topAnchor constraintGreaterThanOrEqualToAnchor:self.contentView.topAnchor constant:-10],
+                                   [self.unshowedLabel.bottomAnchor constraintGreaterThanOrEqualToAnchor:self.contentView.bottomAnchor constant:10],
+                                   [self.unshowedLabel.centerYAnchor constraintEqualToAnchor:self.contentView.centerYAnchor]];
+
+    [NSLayoutConstraint activateConstraints:unseenConstraints];
 }
 
 @end

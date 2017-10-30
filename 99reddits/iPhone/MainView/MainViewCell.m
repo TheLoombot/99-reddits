@@ -12,8 +12,8 @@
 @interface MainViewCell()
 
 @property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
-@property (strong, nonatomic) UIView *unshowedBackView;
-@property (strong, nonatomic) UILabel *unshowedLabel;
+@property (strong, nonatomic) UIView *unseenCountLabelBackground;
+@property (strong, nonatomic) UILabel *unseenCountLabel;
 @property (assign, nonatomic) NSInteger unshowedCount;
 @property (assign, nonatomic, getter=isLoading) BOOL loading;
 
@@ -44,23 +44,23 @@
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         self.selectionStyle = UITableViewCellSelectionStyleBlue;
 
-        self.unshowedBackView = [[UIView alloc] initWithFrame:CGRectZero];
-        self.unshowedBackView.translatesAutoresizingMaskIntoConstraints = NO;
-        self.unshowedBackView.userInteractionEnabled = NO;
-        self.unshowedBackView.backgroundColor = [UIColor redColor];
-        self.unshowedBackView.clipsToBounds = YES;
-        self.unshowedBackView.layer.cornerRadius = 12;
-        [self addSubview:self.unshowedBackView];
+        self.unseenCountLabelBackground = [[UIView alloc] initWithFrame:CGRectZero];
+        self.unseenCountLabelBackground.translatesAutoresizingMaskIntoConstraints = NO;
+        self.unseenCountLabelBackground.userInteractionEnabled = NO;
+        self.unseenCountLabelBackground.backgroundColor = [UIColor redColor];
+        self.unseenCountLabelBackground.clipsToBounds = YES;
+        self.unseenCountLabelBackground.layer.cornerRadius = 12;
+        [self addSubview:self.unseenCountLabelBackground];
 
-        self.unshowedLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        self.unshowedLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        self.unshowedLabel.font = [UIFont boldSystemFontOfSize:17];
-        self.unshowedLabel.backgroundColor = [UIColor clearColor];
-        self.unshowedLabel.textColor = [UIColor whiteColor];
-        [self addSubview:self.unshowedLabel];
+        self.unseenCountLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.unseenCountLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        self.unseenCountLabel.font = [UIFont boldSystemFontOfSize:17];
+        self.unseenCountLabel.backgroundColor = [UIColor clearColor];
+        self.unseenCountLabel.textColor = [UIColor whiteColor];
+        [self addSubview:self.unseenCountLabel];
 
-        self.unshowedBackView.hidden = YES;
-        self.unshowedLabel.hidden = YES;
+        self.unseenCountLabelBackground.hidden = YES;
+        self.unseenCountLabel.hidden = YES;
 
         [self activateConstraints];
     }
@@ -71,7 +71,7 @@
     [super layoutSubviews];
 
     //So that the view remains red when the cell is highlighted
-    self.unshowedBackView.backgroundColor = [UIColor redColor];
+    self.unseenCountLabelBackground.backgroundColor = [UIColor redColor];
 }
 
 
@@ -79,8 +79,8 @@
     [super prepareForReuse];
 
     self.contentImageView.image = [UIImage imageNamed:@"DefaultAlbumIcon"];
-    self.unshowedBackView.hidden = YES;
-    self.unshowedLabel.hidden = YES;
+    self.unseenCountLabelBackground.hidden = YES;
+    self.unseenCountLabel.hidden = YES;
 }
 
 - (void)setUnseenCount:(NSInteger)unseenCount isLoading:(BOOL)loading {
@@ -97,10 +97,10 @@
     }
 
     if (self.unshowedCount > 0) {
-        self.unshowedBackView.hidden = NO;
-        self.unshowedLabel.hidden = NO;
+        self.unseenCountLabelBackground.hidden = NO;
+        self.unseenCountLabel.hidden = NO;
 
-        self.unshowedLabel.text = [NSString stringWithFormat:@"%ld", (long)self.unshowedCount];
+        self.unseenCountLabel.text = [NSString stringWithFormat:@"%ld", (long)self.unshowedCount];
     }
 }
 
@@ -110,12 +110,12 @@
 	[UIView animateWithDuration:0.2
 					 animations:^(void) {
 						 if (editing) {
-							 self.unshowedBackView.alpha = 0.0;
-							 self.unshowedLabel.alpha = 0.0;
+							 self.unseenCountLabelBackground.alpha = 0.0;
+							 self.unseenCountLabel.alpha = 0.0;
 						 }
 						 else {
-							 self.unshowedBackView.alpha = 1.0;
-							 self.unshowedLabel.alpha = 1.0;
+							 self.unseenCountLabelBackground.alpha = 1.0;
+							 self.unseenCountLabel.alpha = 1.0;
 						 }
 					 }];
 }
@@ -138,17 +138,17 @@
 
     [NSLayoutConstraint activateConstraints:textConstraints];
 
-    NSArray *unseenConstraints = @[[self.unshowedLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-45],
-                                   [self.unshowedLabel.topAnchor constraintGreaterThanOrEqualToAnchor:self.contentView.topAnchor constant:10],
-                                   [self.unshowedLabel.bottomAnchor constraintLessThanOrEqualToAnchor:self.contentView.bottomAnchor constant:-10],
-                                   [self.unshowedLabel.centerYAnchor constraintEqualToAnchor:self.contentView.centerYAnchor]];
+    NSArray *unseenConstraints = @[[self.unseenCountLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-45],
+                                   [self.unseenCountLabel.topAnchor constraintGreaterThanOrEqualToAnchor:self.contentView.topAnchor constant:10],
+                                   [self.unseenCountLabel.bottomAnchor constraintLessThanOrEqualToAnchor:self.contentView.bottomAnchor constant:-10],
+                                   [self.unseenCountLabel.centerYAnchor constraintEqualToAnchor:self.contentView.centerYAnchor]];
 
     [NSLayoutConstraint activateConstraints:unseenConstraints];
 
-    NSArray *unseenBackgroundConstraints = @[[self.unshowedBackView.widthAnchor constraintEqualToAnchor:self.unshowedLabel.widthAnchor constant:14],
-                                             [self.unshowedBackView.heightAnchor constraintEqualToAnchor:self.unshowedLabel.heightAnchor constant:4],
-                                             [self.unshowedBackView.centerXAnchor constraintEqualToAnchor:self.unshowedLabel.centerXAnchor],
-                                             [self.unshowedBackView.centerYAnchor constraintEqualToAnchor:self.unshowedLabel.centerYAnchor]];
+    NSArray *unseenBackgroundConstraints = @[[self.unseenCountLabelBackground.widthAnchor constraintEqualToAnchor:self.unseenCountLabel.widthAnchor constant:14],
+                                             [self.unseenCountLabelBackground.heightAnchor constraintEqualToAnchor:self.unseenCountLabel.heightAnchor constant:4],
+                                             [self.unseenCountLabelBackground.centerXAnchor constraintEqualToAnchor:self.unseenCountLabel.centerXAnchor],
+                                             [self.unseenCountLabelBackground.centerYAnchor constraintEqualToAnchor:self.unseenCountLabel.centerYAnchor]];
 
     [NSLayoutConstraint activateConstraints:unseenBackgroundConstraints];
 }

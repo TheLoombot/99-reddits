@@ -13,7 +13,7 @@
 @interface AlbumViewCell()
 
 @property (strong, nonatomic) UIButton *tapButton;
-@property (strong, nonatomic) UIImageView *favoriteOverlayView;
+@property (strong, nonatomic) UIImageView *favoriteOverlayImageView;
 
 @end
 
@@ -33,9 +33,9 @@
         self.imageView.contentMode = UIViewContentModeScaleAspectFill;
         [self.contentView addSubview:self.imageView];
 
-        self.favoriteOverlayView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        self.favoriteOverlayView.translatesAutoresizingMaskIntoConstraints = NO;
-        [self.contentView addSubview:self.favoriteOverlayView];
+        self.favoriteOverlayImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        self.favoriteOverlayImageView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.contentView addSubview:self.favoriteOverlayImageView];
 
         self.tapButton = [UIButton buttonWithType:UIButtonTypeCustom];
         self.tapButton.translatesAutoresizingMaskIntoConstraints = NO;
@@ -63,17 +63,17 @@
     _photo = aPhoto;
 
     if (!self.isInsideFavoriesAlbum) {
-        self.favoriteOverlayView.hidden = YES;
-        self.favoriteOverlayView.image = nil;
+        self.favoriteOverlayImageView.hidden = YES;
+        self.favoriteOverlayImageView.image = nil;
     }
     else {
         if ([appDelegate isFavorite:_photo]) {
-            self.favoriteOverlayView.hidden = NO;
-            self.favoriteOverlayView.image = [UIImage imageNamed:@"FavoritesRedIcon.png"];
+            self.favoriteOverlayImageView.hidden = NO;
+            self.favoriteOverlayImageView.image = [UIImage imageNamed:@"FavoritesRedIcon.png"];
         }
         else {
-            self.favoriteOverlayView.hidden = YES;
-            self.favoriteOverlayView.image = nil;
+            self.favoriteOverlayImageView.hidden = YES;
+            self.favoriteOverlayImageView.image = nil;
         }
     }
 }
@@ -89,10 +89,10 @@
 
     [NSLayoutConstraint activateConstraints:imageConstraints];
 
-    NSArray *overlayConstraints = @[[self.favoriteOverlayView.heightAnchor constraintEqualToConstant:25],
-                                  [self.favoriteOverlayView.widthAnchor constraintEqualToConstant:25],
-                                  [self.favoriteOverlayView.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor],
-                                  [self.favoriteOverlayView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor]];
+    NSArray *overlayConstraints = @[[self.favoriteOverlayImageView.heightAnchor constraintEqualToConstant:25],
+                                  [self.favoriteOverlayImageView.widthAnchor constraintEqualToConstant:25],
+                                  [self.favoriteOverlayImageView.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor],
+                                  [self.favoriteOverlayImageView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor]];
 
     [NSLayoutConstraint activateConstraints:overlayConstraints];
 

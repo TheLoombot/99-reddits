@@ -44,18 +44,19 @@
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         self.selectionStyle = UITableViewCellSelectionStyleBlue;
 
-//        self.unshowedBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
-//        self.unshowedBackView.userInteractionEnabled = NO;
-//        self.unshowedBackView.backgroundColor = [UIColor redColor];
-//        self.unshowedBackView.clipsToBounds = YES;
-//        self.unshowedBackView.layer.cornerRadius = 12;
-//        [self addSubview:self.unshowedBackView];
+        self.unshowedBackView = [[UIView alloc] initWithFrame:CGRectZero];
+        self.unshowedBackView.translatesAutoresizingMaskIntoConstraints = NO;
+        self.unshowedBackView.userInteractionEnabled = NO;
+        self.unshowedBackView.backgroundColor = [UIColor redColor];
+        self.unshowedBackView.clipsToBounds = YES;
+        self.unshowedBackView.layer.cornerRadius = 12;
+        [self addSubview:self.unshowedBackView];
 
         self.unshowedLabel = [[UILabel alloc] initWithFrame:CGRectZero];
         self.unshowedLabel.translatesAutoresizingMaskIntoConstraints = NO;
         self.unshowedLabel.font = [UIFont boldSystemFontOfSize:17];
         self.unshowedLabel.backgroundColor = [UIColor clearColor];
-        self.unshowedLabel.textColor = [UIColor blackColor];
+        self.unshowedLabel.textColor = [UIColor whiteColor];
         [self addSubview:self.unshowedLabel];
 
         self.unshowedBackView.hidden = YES;
@@ -65,6 +66,14 @@
     }
     return self;
 }
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+
+    //So that the view remains red when the cell is highlighted
+    self.unshowedBackView.backgroundColor = [UIColor redColor];
+}
+
 
 - (void)prepareForReuse {
     [super prepareForReuse];
@@ -92,12 +101,6 @@
         self.unshowedLabel.hidden = NO;
 
         self.unshowedLabel.text = [NSString stringWithFormat:@"%ld", (long)self.unshowedCount];
-
-//        rect.origin.x -= 7;
-//        rect.origin.y -= 2;
-//        rect.size.width += 14;
-//        rect.size.height += 4;
-//        self.unshowedBackView.frame = rect;
     }
 }
 
@@ -130,17 +133,24 @@
 
     NSArray *textConstraints = @[[self.contentTextLabel.leadingAnchor constraintEqualToAnchor:self.contentImageView.trailingAnchor constant:5],
                                  [self.contentTextLabel.topAnchor constraintGreaterThanOrEqualToAnchor:self.contentView.topAnchor constant:10],
-                                 [self.contentTextLabel.bottomAnchor constraintGreaterThanOrEqualToAnchor:self.contentView.bottomAnchor constant:-10],
+                                 [self.contentTextLabel.bottomAnchor constraintLessThanOrEqualToAnchor:self.contentView.bottomAnchor constant:-10],
                                  [self.contentTextLabel.centerYAnchor constraintEqualToAnchor:self.contentView.centerYAnchor]];
 
     [NSLayoutConstraint activateConstraints:textConstraints];
 
     NSArray *unseenConstraints = @[[self.unshowedLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-45],
-                                   [self.unshowedLabel.topAnchor constraintGreaterThanOrEqualToAnchor:self.contentView.topAnchor constant:-10],
-                                   [self.unshowedLabel.bottomAnchor constraintGreaterThanOrEqualToAnchor:self.contentView.bottomAnchor constant:10],
+                                   [self.unshowedLabel.topAnchor constraintGreaterThanOrEqualToAnchor:self.contentView.topAnchor constant:10],
+                                   [self.unshowedLabel.bottomAnchor constraintLessThanOrEqualToAnchor:self.contentView.bottomAnchor constant:-10],
                                    [self.unshowedLabel.centerYAnchor constraintEqualToAnchor:self.contentView.centerYAnchor]];
 
     [NSLayoutConstraint activateConstraints:unseenConstraints];
+
+    NSArray *unseenBackgroundConstraints = @[[self.unshowedBackView.widthAnchor constraintEqualToAnchor:self.unshowedLabel.widthAnchor constant:14],
+                                             [self.unshowedBackView.heightAnchor constraintEqualToAnchor:self.unshowedLabel.heightAnchor constant:4],
+                                             [self.unshowedBackView.centerXAnchor constraintEqualToAnchor:self.unshowedLabel.centerXAnchor],
+                                             [self.unshowedBackView.centerYAnchor constraintEqualToAnchor:self.unshowedLabel.centerYAnchor]];
+
+    [NSLayoutConstraint activateConstraints:unseenBackgroundConstraints];
 }
 
 @end

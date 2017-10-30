@@ -136,7 +136,46 @@
     }
 }
 
-- (void)onSelectPhoto:(PhotoItem *)photo {
+// UICollectionViewDelegate, UICollectionViewDataSource
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
+    [collectionView.collectionViewLayout invalidateLayout];
+    return 1;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
+    return currentPhotosArray.count;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+
+    PhotoItem *photo = currentPhotosArray[indexPath.item];
+
+    AlbumViewCell *cell = (AlbumViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ALBUM_VIEW_CELL" forIndexPath:indexPath];
+    cell.insideFavoritesAlbum = bFavorites;
+    cell.photo = photo;
+
+    [ImageLoader loadWithUrlString:photo.thumbnailString into:cell.imageView];
+
+    return cell;
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+    UICollectionReusableView *collectionFooterView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"ALBUM_FOOTER_VIEW" forIndexPath:indexPath];
+    if (self.footerView.superview != collectionFooterView) {
+        [self.footerView removeFromSuperview];
+
+        self.footerView.frame = collectionFooterView.bounds;
+        self.footerView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+        [collectionFooterView addSubview:self.footerView];
+    }
+
+    return collectionFooterView;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+
+    PhotoItem *photo = self.subReddit.photosArray[indexPath.row];
+
     if (bFavorites) {
         PhotoViewController *photoViewController = [[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:nil];
         photoViewController.bFavorites = bFavorites;
@@ -157,43 +196,6 @@
         viewController.photoIndexToDisplay = [currentPhotosArray indexOfObject:photo];
         [self.navigationController pushViewController:viewController animated:YES];
     }
-}
-
-// UICollectionViewDelegate, UICollectionViewDataSource
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    [collectionView.collectionViewLayout invalidateLayout];
-    return 1;
-}
-
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return currentPhotosArray.count;
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-
-    PhotoItem *photo = currentPhotosArray[indexPath.item];
-
-    AlbumViewCell *cell = (AlbumViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ALBUM_VIEW_CELL" forIndexPath:indexPath];
-    cell.albumViewController = self;
-    cell.insideFavoritesAlbum = bFavorites;
-    cell.photo = photo;
-
-    [ImageLoader loadWithUrlString:photo.thumbnailString into:cell.imageView];
-
-    return cell;
-}
-
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
-    UICollectionReusableView *collectionFooterView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"ALBUM_FOOTER_VIEW" forIndexPath:indexPath];
-    if (self.footerView.superview != collectionFooterView) {
-        [self.footerView removeFromSuperview];
-
-        self.footerView.frame = collectionFooterView.bounds;
-        self.footerView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-        [collectionFooterView addSubview:self.footerView];
-    }
-
-    return collectionFooterView;
 }
 
 - (void)setSubReddit:(SubRedditItem *)_subReddit {

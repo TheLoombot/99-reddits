@@ -14,9 +14,6 @@
 #import "UserDef.h"
 #import "_9reddits-Swift.h"
 
-#define THUMB_WIDTH			75
-#define THUMB_HEIGHT		75
-
 @interface AlbumViewController ()
 
 @property (nonatomic, strong) UICollectionViewFlowLayout *flowLayout;
@@ -97,7 +94,7 @@
     }
 
     self.flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    self.flowLayout.itemSize = CGSizeMake(75, 75);
+    self.flowLayout.itemSize = [self itemSizeForCurrentSizeClass];
 
     self.contentCollectionView.allowsSelection = YES;
     self.contentCollectionView.allowsMultipleSelection = NO;
@@ -127,7 +124,8 @@
     [super viewWillAppear:animated];
     [self refreshSubReddit:YES];
 
-    CGFloat margin = (self.view.frame.size.width - (75 * 4))/ 5;
+    CGSize itemSize = [self itemSizeForCurrentSizeClass];
+    CGFloat margin = (self.view.frame.size.width - (itemSize.width * 4))/ 5;
     self.flowLayout.sectionInset = UIEdgeInsetsMake(margin, margin, margin, margin);
     self.flowLayout.minimumLineSpacing = margin;
     self.flowLayout.minimumInteritemSpacing = margin;
@@ -590,6 +588,16 @@
 // MFMailComposeViewControllerDelegate
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
     [controller dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark -  Helper methods
+
+- (CGSize)itemSizeForCurrentSizeClass {
+    if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular) {
+        return CGSizeMake(125, 125);
+    } else {
+        return CGSizeMake(75, 75);
+    }
 }
 
 @end

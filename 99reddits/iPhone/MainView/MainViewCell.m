@@ -120,7 +120,7 @@
 					 }];
 }
 
-//MARK: Helper methods
+#pragma mark - Helper mthods
 
 - (void)activateConstraints {
 

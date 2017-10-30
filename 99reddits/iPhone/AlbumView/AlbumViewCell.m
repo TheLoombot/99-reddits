@@ -28,18 +28,22 @@
 
         appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 
-        self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 75, 75)];
+        self.imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
         self.imageView.contentMode = UIViewContentModeScaleAspectFill;
         [self.contentView addSubview:self.imageView];
 
-        self.favoriteOverlayView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 50, 25, 25)];
+        self.favoriteOverlayView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        self.favoriteOverlayView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.contentView addSubview:self.favoriteOverlayView];
 
         self.tapButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        self.tapButton.frame = self.imageView.frame;
+        self.tapButton.translatesAutoresizingMaskIntoConstraints = NO;
         [self.tapButton setImage:[UIImage imageNamed:@"ButtonOverlay.png"] forState:UIControlStateHighlighted];
         [self.tapButton addTarget:self action:@selector(onTap:) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:self.tapButton];
+
+        [self activateConstraints];
     }
     return self;
 }
@@ -72,6 +76,34 @@
             self.favoriteOverlayView.image = nil;
         }
     }
+}
+
+#pragma mark - Helper methods
+
+- (void)activateConstraints {
+
+    NSArray *imageConstraints = @[[self.imageView.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor],
+                                  [self.imageView.topAnchor constraintEqualToAnchor:self.contentView.topAnchor],
+                                  [self.imageView.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor],
+                                  [self.imageView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor]];
+
+    [NSLayoutConstraint activateConstraints:imageConstraints];
+
+    NSArray *overlayConstraints = @[[self.favoriteOverlayView.heightAnchor constraintEqualToConstant:25],
+                                  [self.favoriteOverlayView.widthAnchor constraintEqualToConstant:25],
+                                  [self.favoriteOverlayView.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor],
+                                  [self.favoriteOverlayView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor]];
+
+    [NSLayoutConstraint activateConstraints:overlayConstraints];
+
+
+
+    NSArray *buttonConstraints = @[[self.tapButton.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor],
+                                  [self.tapButton.topAnchor constraintEqualToAnchor:self.contentView.topAnchor],
+                                  [self.tapButton.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor],
+                                  [self.tapButton.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor]];
+
+    [NSLayoutConstraint activateConstraints:buttonConstraints];
 }
 
 @end

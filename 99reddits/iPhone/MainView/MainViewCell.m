@@ -138,7 +138,7 @@
 
     [NSLayoutConstraint activateConstraints:textConstraints];
 
-    NSArray *unseenConstraints = @[[self.unseenCountLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-45],
+    NSArray *unseenConstraints = @[[self.unseenCountLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-55],
                                    [self.unseenCountLabel.topAnchor constraintGreaterThanOrEqualToAnchor:self.contentView.topAnchor constant:10],
                                    [self.unseenCountLabel.bottomAnchor constraintLessThanOrEqualToAnchor:self.contentView.bottomAnchor constant:-10],
                                    [self.unseenCountLabel.centerYAnchor constraintEqualToAnchor:self.contentView.centerYAnchor]];

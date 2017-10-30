@@ -62,7 +62,7 @@
     _photo = nil;
     _photo = aPhoto;
 
-    if (self.isInsideFavoriesAlbum) {
+    if (!self.isInsideFavoriesAlbum) {
         self.favoriteOverlayView.hidden = YES;
         self.favoriteOverlayView.image = nil;
     }

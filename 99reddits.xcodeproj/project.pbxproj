@@ -171,6 +171,7 @@
 		9C6EC0521CACCB0A00DEB36D /* libFlurry_7.5.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC0511CACCB0A00DEB36D /* libFlurry_7.5.2.a */; };
 		DD24326E76741E74CEB6EFD0 /* Pods_99reddits.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAB47ADD7B1F0AD26966574B /* Pods_99reddits.framework */; };
 		FE4738771F7CA0C300EC4828 /* ReviewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4738761F7CA0C300EC4828 /* ReviewManager.m */; };
+		FE6B3B4A1FA6C33D00A155C8 /* PhotoNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6B3B491FA6C33D00A155C8 /* PhotoNavigationController.m */; };
 		FE8568981F808BC40033EC11 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = FE8568971F808BC40033EC11 /* Podfile */; };
 		FE85689E1F8097D90033EC11 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE85689D1F8097D90033EC11 /* ImageLoader.swift */; };
 		FE91DCA41F789C61005F5B7F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FE91DCA31F789C61005F5B7F /* Assets.xcassets */; };
@@ -437,6 +438,8 @@
 		BAB47ADD7B1F0AD26966574B /* Pods_99reddits.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_99reddits.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE4738751F7CA0C300EC4828 /* ReviewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReviewManager.h; sourceTree = "<group>"; };
 		FE4738761F7CA0C300EC4828 /* ReviewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ReviewManager.m; sourceTree = "<group>"; };
+		FE6B3B481FA6C33D00A155C8 /* PhotoNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhotoNavigationController.h; sourceTree = "<group>"; };
+		FE6B3B491FA6C33D00A155C8 /* PhotoNavigationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhotoNavigationController.m; sourceTree = "<group>"; };
 		FE8568971F808BC40033EC11 /* Podfile */ = {isa = PBXFileReference; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		FE85689C1F8097D90033EC11 /* 99reddits-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "99reddits-Bridging-Header.h"; sourceTree = "<group>"; };
 		FE85689D1F8097D90033EC11 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
@@ -848,6 +851,8 @@
 				8D6C5D0B164ACCCC008A98A7 /* PhotoViewController.h */,
 				8D6C5D0C164ACCCC008A98A7 /* PhotoViewController.m */,
 				8D6C5D0D164ACCCC008A98A7 /* PhotoViewController.xib */,
+				FE6B3B481FA6C33D00A155C8 /* PhotoNavigationController.h */,
+				FE6B3B491FA6C33D00A155C8 /* PhotoNavigationController.m */,
 				8D6C5D09164ACCCC008A98A7 /* PhotoView.h */,
 				8D6C5D0A164ACCCC008A98A7 /* PhotoView.m */,
 				8D22423C176714570053868F /* CommentViewController.h */,
@@ -1196,6 +1201,7 @@
 				8D68FDCA14F8909000CDCF66 /* NIDataStructures.m in Sources */,
 				FECE3A4F1F87381300306B26 /* NSData+Extensions.m in Sources */,
 				8D68FDCB14F8909000CDCF66 /* NIDebuggingTools.m in Sources */,
+				FE6B3B4A1FA6C33D00A155C8 /* PhotoNavigationController.m in Sources */,
 				8D68FDCC14F8909000CDCF66 /* NIDeviceOrientation.m in Sources */,
 				8D68FDCD14F8909000CDCF66 /* NIError.m in Sources */,
 				8D68FDCE14F8909000CDCF66 /* NIFoundationMethods.m in Sources */,

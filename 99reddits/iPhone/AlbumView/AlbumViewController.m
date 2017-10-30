@@ -11,6 +11,7 @@
 #import "AlbumViewCell.h"
 #import "NIHTTPRequest.h"
 #import "PhotoViewController.h"
+#import "PhotoNavigationController.h"
 #import "UserDef.h"
 #import "_9reddits-Swift.h"
 
@@ -176,12 +177,13 @@
 
     PhotoItem *photo = self.subReddit.photosArray[indexPath.row];
 
+    PhotoViewController *photoViewController;
+
     if (bFavorites) {
-        PhotoViewController *photoViewController = [[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:nil];
+        photoViewController = [[PhotoViewController alloc] initWithNibName:nil bundle:nil];
         photoViewController.bFavorites = bFavorites;
         photoViewController.subReddit = currentSubReddit;
         photoViewController.photoIndexToDisplay = [currentSubReddit.photosArray indexOfObject:photo];
-        [self.navigationController pushViewController:photoViewController animated:YES];
     }
     else {
         SubRedditItem *photoSubReddit = [[SubRedditItem alloc] init];
@@ -190,11 +192,17 @@
         [photoSubReddit.photosArray addObjectsFromArray:currentPhotosArray];
         photoSubReddit.afterString = currentSubReddit.afterString;
 
-        PhotoViewController *viewController = [[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:nil];
-        viewController.bFavorites = bFavorites;
-        viewController.subReddit = photoSubReddit;
-        viewController.photoIndexToDisplay = [currentPhotosArray indexOfObject:photo];
-        [self.navigationController pushViewController:viewController animated:YES];
+        photoViewController = [[PhotoViewController alloc] initWithNibName:nil bundle:nil];
+        photoViewController.bFavorites = bFavorites;
+        photoViewController.subReddit = photoSubReddit;
+        photoViewController.photoIndexToDisplay = [currentPhotosArray indexOfObject:photo];
+    }
+
+    if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular) {
+        PhotoNavigationController *regularSizeNavigationController = [[PhotoNavigationController alloc] initWithRootViewController:photoViewController];
+        [self presentViewController:regularSizeNavigationController animated:YES completion:nil];
+    } else {
+        [self.navigationController pushViewController:photoViewController animated:YES];
     }
 }
 

@@ -69,6 +69,10 @@ const CGFloat NIPagingScrollViewDefaultPageHorizontalMargin = 10;
 	_viewRecycler = [[NIViewRecycler alloc] init];
 
 	self.pagingScrollView = [[[UIScrollView alloc] initWithFrame:self.bounds] autorelease];
+
+    if (@available(iOS 11.0, *)) {
+        self.pagingScrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
 	self.pagingScrollView.pagingEnabled = YES;
 
 	self.pagingScrollView.autoresizingMask = (UIViewAutoresizingFlexibleWidth

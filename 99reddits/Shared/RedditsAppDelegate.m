@@ -40,30 +40,35 @@ void uncaughtExceptionHandler(NSException *exception) {
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-	[application setStatusBarHidden:NO];
-	
-	appDelegate = self;
-	screenScale = [[UIScreen mainScreen] scale];
-	isPad = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
+    [application setStatusBarHidden:NO];
 
-	self.window.backgroundColor = [UIColor whiteColor];
-//    mainNavigationController.navigationBar.barStyle = UIBarStyleDefault;
-//    mainNavigationController.navigationBar.translucent = YES;
+    appDelegate = self;
+    screenScale = [[UIScreen mainScreen] scale];
+    isPad = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
+
+    self.window.backgroundColor = [UIColor whiteColor];
 
     [Fabric with:@[[Crashlytics class]]];
 
-	NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
 
-	[Flurry startSession:@"29Y8B1XXMBQVLEPC3ZPU"];
+    [Flurry startSession:@"29Y8B1XXMBQVLEPC3ZPU"];
 
-	subRedditsArray = [[NSMutableArray alloc] init];
-	nameStringsSet = [[NSMutableSet alloc] init];
-	showedSet = [[NSMutableSet alloc] init];
-	fullImagesSet = [[NSMutableSet alloc] init];
-	
-	[self loadFromDefaults];
+    subRedditsArray = [[NSMutableArray alloc] init];
+    nameStringsSet = [[NSMutableSet alloc] init];
+    showedSet = [[NSMutableSet alloc] init];
+    fullImagesSet = [[NSMutableSet alloc] init];
 
-  return YES;
+    [self loadFromDefaults];
+
+    UIViewController *rootViewController = self.window.rootViewController;
+    if ([rootViewController isMemberOfClass:[UISplitViewController class]]) {
+        UISplitViewController *svc = (UISplitViewController *) self.window.rootViewController;
+        svc.preferredDisplayMode = UISplitViewControllerDisplayModeAllVisible;
+        svc.delegate = self;
+    }
+
+    return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {
@@ -438,6 +443,12 @@ void uncaughtExceptionHandler(NSException *exception) {
     }
 
 	return urlString;
+}
+
+#pragma mark - UISplitViewControllerDelegate methods
+
+- (BOOL)splitViewController:(UISplitViewController *)splitViewController collapseSecondaryViewController:(UIViewController *)secondaryViewController ontoPrimaryViewController:(UIViewController *)primaryViewController {
+    return YES;
 }
 
 @end

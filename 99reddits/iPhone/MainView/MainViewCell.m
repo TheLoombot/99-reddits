@@ -1,4 +1,4 @@
-//
+
 //  MainViewCell.m
 //  99reddits
 //
@@ -9,6 +9,16 @@
 #import "MainViewCell.h"
 #import <QuartzCore/QuartzCore.h>
 
+@interface MainViewCell()
+
+@property (strong, nonatomic) UIActivityIndicatorView *activityIndicator;
+@property (strong, nonatomic) UIView *unseenCountLabelBackground;
+@property (strong, nonatomic) UILabel *unseenCountLabel;
+@property (assign, nonatomic) NSInteger unshowedCount;
+@property (assign, nonatomic, getter=isLoading) BOOL loading;
+
+@end
+
 @implementation MainViewCell
 
 @synthesize contentTextLabel;
@@ -16,108 +26,82 @@
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:reuseIdentifier];
     if (self) {
-        activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        self.activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 
-        self.contentImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 55, 55)];
+        self.contentImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        self.contentImageView.translatesAutoresizingMaskIntoConstraints = NO;
         self.contentImageView.contentMode = UIViewContentModeScaleAspectFill;
         self.contentImageView.clipsToBounds = YES;
         [self.contentView addSubview:self.contentImageView];
 
-        contentTextLabel = [[UILabel alloc] initWithFrame:CGRectMake(60, 0, self.contentView.frame.size.width - 140, 55)];
-        contentTextLabel.font = [UIFont boldSystemFontOfSize:16];
-        contentTextLabel.textColor = [UIColor blackColor];
-        contentTextLabel.backgroundColor = [UIColor clearColor];
-        [self.contentView addSubview:contentTextLabel];
+        self.contentTextLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.contentTextLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        self.contentTextLabel.font = [UIFont boldSystemFontOfSize:16];
+        self.contentTextLabel.textColor = [UIColor blackColor];
+        self.contentTextLabel.backgroundColor = [UIColor clearColor];
+        [self.contentView addSubview:self.contentTextLabel];
 
         self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         self.selectionStyle = UITableViewCellSelectionStyleBlue;
 
-        unshowedBackView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 24, 24)];
-        unshowedBackView.userInteractionEnabled = NO;
-        unshowedBackView.backgroundColor = [UIColor redColor];
-        unshowedBackView.clipsToBounds = YES;
-        unshowedBackView.layer.cornerRadius = 12;
-        [self addSubview:unshowedBackView];
+        self.unseenCountLabelBackground = [[UIView alloc] initWithFrame:CGRectZero];
+        self.unseenCountLabelBackground.translatesAutoresizingMaskIntoConstraints = NO;
+        self.unseenCountLabelBackground.userInteractionEnabled = NO;
+        self.unseenCountLabelBackground.backgroundColor = [UIColor redColor];
+        self.unseenCountLabelBackground.clipsToBounds = YES;
+        self.unseenCountLabelBackground.layer.cornerRadius = 12;
+        [self addSubview:self.unseenCountLabelBackground];
 
-        unshowedLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-        unshowedLabel.font = [UIFont boldSystemFontOfSize:17];
-        unshowedLabel.backgroundColor = [UIColor clearColor];
-        unshowedLabel.textColor = [UIColor whiteColor];
-        [self addSubview:unshowedLabel];
+        self.unseenCountLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        self.unseenCountLabel.translatesAutoresizingMaskIntoConstraints = NO;
+        self.unseenCountLabel.font = [UIFont boldSystemFontOfSize:17];
+        self.unseenCountLabel.backgroundColor = [UIColor clearColor];
+        self.unseenCountLabel.textColor = [UIColor whiteColor];
+        [self addSubview:self.unseenCountLabel];
 
-        unshowedBackView.hidden = YES;
-        unshowedLabel.hidden = YES;
+        self.unseenCountLabelBackground.hidden = YES;
+        self.unseenCountLabel.hidden = YES;
 
-        first = YES;
+        [self activateConstraints];
     }
     return self;
 }
+
+- (void)layoutSubviews {
+    [super layoutSubviews];
+
+    //So that the view remains red when the cell is highlighted
+    self.unseenCountLabelBackground.backgroundColor = [UIColor redColor];
+}
+
 
 - (void)prepareForReuse {
     [super prepareForReuse];
 
     self.contentImageView.image = [UIImage imageNamed:@"DefaultAlbumIcon"];
-    unshowedBackView.hidden = YES;
-    unshowedLabel.hidden = YES;
+    self.unseenCountLabelBackground.hidden = YES;
+    self.unseenCountLabel.hidden = YES;
 }
 
-- (void)layoutSubviews {
-	[super layoutSubviews];
-	
-	unshowedBackView.backgroundColor = [UIColor redColor];
-	
-	if (first) {
-		first = NO;
-		return;
-	}
-	
-	CGRect accessoryViewFrame = self.accessoryView.frame;
-	accessoryViewFrame.origin.x = CGRectGetWidth(self.bounds) - CGRectGetWidth(accessoryViewFrame) - 10;
-	self.accessoryView.frame = accessoryViewFrame;
-}
+- (void)setUnseenCount:(NSInteger)unseenCount isLoading:(BOOL)loading {
+    
+    self.unshowedCount = unseenCount;
+    self.loading = loading;
 
-- (void)setUnshowedCount:(NSInteger)_unshowedCount loading:(BOOL)_loading layoutWidth:(CGFloat)width {
-
-	unshowedCount = _unshowedCount;
-	loading = _loading;
-
-	if (loading) {
-		self.accessoryView = activityIndicator;
-		[activityIndicator startAnimating];
-	}
+    if (loading) {
+        self.accessoryView = self.activityIndicator;
+        [self.activityIndicator startAnimating];
+    }
     else {
         self.accessoryView = nil;
     }
-	
-	if (unshowedCount > 0) {
-        unshowedBackView.hidden = NO;
-        unshowedLabel.hidden = NO;
 
-        CGRect frame = self.textLabel.frame;
-        frame.size.width = 180;
-        self.textLabel.frame = frame;
+    if (self.unshowedCount > 0) {
+        self.unseenCountLabelBackground.hidden = NO;
+        self.unseenCountLabel.hidden = NO;
 
-        unshowedLabel.frame = CGRectMake(0, 0, 200, 20);
-        unshowedLabel.text = [NSString stringWithFormat:@"%ld", (long)unshowedCount];
-        [unshowedLabel sizeToFit];
-
-        CGRect rect = unshowedLabel.frame;
-        rect.size.width = ceil(rect.size.width);
-        if (rect.size.width < 10) {
-            rect.size.width = 10;
-        }
-
-        rect.size.height = 20;
-        rect.origin.x = width - 45 - rect.size.width;
-        rect.origin.y = 17;
-        unshowedLabel.frame = rect;
-
-        rect.origin.x -= 7;
-        rect.origin.y -= 2;
-        rect.size.width += 14;
-        rect.size.height += 4;
-        unshowedBackView.frame = rect;
-	}
+        self.unseenCountLabel.text = [NSString stringWithFormat:@"%ld", (long)self.unshowedCount];
+    }
 }
 
 - (void)setEditing:(BOOL)editing animated:(BOOL)animated {
@@ -126,14 +110,47 @@
 	[UIView animateWithDuration:0.2
 					 animations:^(void) {
 						 if (editing) {
-							 unshowedBackView.alpha = 0.0;
-							 unshowedLabel.alpha = 0.0;
+							 self.unseenCountLabelBackground.alpha = 0.0;
+							 self.unseenCountLabel.alpha = 0.0;
 						 }
 						 else {
-							 unshowedBackView.alpha = 1.0;
-							 unshowedLabel.alpha = 1.0;
+							 self.unseenCountLabelBackground.alpha = 1.0;
+							 self.unseenCountLabel.alpha = 1.0;
 						 }
 					 }];
+}
+
+#pragma mark - Helper mthods
+
+- (void)activateConstraints {
+
+    NSArray *imageConstraints = @[[self.contentImageView.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor],
+                                  [self.contentImageView.topAnchor constraintEqualToAnchor:self.contentView.topAnchor],
+                                  [self.contentImageView.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor],
+                                  [self.contentImageView.widthAnchor constraintEqualToAnchor:self.contentView.heightAnchor]];
+
+    [NSLayoutConstraint activateConstraints:imageConstraints];
+
+    NSArray *textConstraints = @[[self.contentTextLabel.leadingAnchor constraintEqualToAnchor:self.contentImageView.trailingAnchor constant:5],
+                                 [self.contentTextLabel.topAnchor constraintGreaterThanOrEqualToAnchor:self.contentView.topAnchor constant:10],
+                                 [self.contentTextLabel.bottomAnchor constraintLessThanOrEqualToAnchor:self.contentView.bottomAnchor constant:-10],
+                                 [self.contentTextLabel.centerYAnchor constraintEqualToAnchor:self.contentView.centerYAnchor]];
+
+    [NSLayoutConstraint activateConstraints:textConstraints];
+
+    NSArray *unseenConstraints = @[[self.unseenCountLabel.trailingAnchor constraintEqualToAnchor:self.trailingAnchor constant:-55],
+                                   [self.unseenCountLabel.topAnchor constraintGreaterThanOrEqualToAnchor:self.contentView.topAnchor constant:10],
+                                   [self.unseenCountLabel.bottomAnchor constraintLessThanOrEqualToAnchor:self.contentView.bottomAnchor constant:-10],
+                                   [self.unseenCountLabel.centerYAnchor constraintEqualToAnchor:self.contentView.centerYAnchor]];
+
+    [NSLayoutConstraint activateConstraints:unseenConstraints];
+
+    NSArray *unseenBackgroundConstraints = @[[self.unseenCountLabelBackground.widthAnchor constraintEqualToAnchor:self.unseenCountLabel.widthAnchor constant:14],
+                                             [self.unseenCountLabelBackground.heightAnchor constraintEqualToAnchor:self.unseenCountLabel.heightAnchor constant:4],
+                                             [self.unseenCountLabelBackground.centerXAnchor constraintEqualToAnchor:self.unseenCountLabel.centerXAnchor],
+                                             [self.unseenCountLabelBackground.centerYAnchor constraintEqualToAnchor:self.unseenCountLabel.centerYAnchor]];
+
+    [NSLayoutConstraint activateConstraints:unseenBackgroundConstraints];
 }
 
 @end

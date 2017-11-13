@@ -13,65 +13,86 @@
 @interface AlbumViewCell()
 
 @property (strong, nonatomic) UIButton *tapButton;
-@property (strong, nonatomic) UIImageView *favoriteOverlayView;
+@property (strong, nonatomic) UIImageView *favoriteOverlayImageView;
 
 @end
 
 @implementation AlbumViewCell
 
 - (id)initWithFrame:(CGRect)frame {
-	self = [super initWithFrame:frame];
-	if (self) {
-    self.clipsToBounds = YES;
-		self.backgroundColor = [UIColor clearColor];
-		self.contentView.backgroundColor = [UIColor clearColor];
+    self = [super initWithFrame:frame];
+    if (self) {
+        self.clipsToBounds = YES;
+        self.backgroundColor = [UIColor clearColor];
+        self.contentView.backgroundColor = [UIColor clearColor];
 
-		appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
+        UIView *backgroundView = [[UIView alloc] initWithFrame:frame];
+        backgroundView.backgroundColor = [UIColor clearColor];
+        self.backgroundView = backgroundView;
 
-		self.imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 75, 75)];
-    self.imageView.contentMode = UIViewContentModeScaleAspectFill;
-		[self.contentView addSubview:self.imageView];
+        UIView *selectedBackgroundView = [[UIView alloc] initWithFrame:frame];
+        selectedBackgroundView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
+        self.selectedBackgroundView = selectedBackgroundView;
 
-		self.favoriteOverlayView = [[UIImageView alloc] initWithFrame:CGRectMake(50, 50, 25, 25)];
-		[self.contentView addSubview:self.favoriteOverlayView];
+        appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 
-		self.tapButton = [UIButton buttonWithType:UIButtonTypeCustom];
-		self.tapButton.frame = self.imageView.frame;
-    [self.tapButton setImage:[UIImage imageNamed:@"ButtonOverlay.png"] forState:UIControlStateHighlighted];
-		[self.tapButton addTarget:self action:@selector(onTap:) forControlEvents:UIControlEventTouchUpInside];
-		[self.contentView addSubview:self.tapButton];
-	}
-	return self;
+        self.imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
+        self.imageView.contentMode = UIViewContentModeScaleAspectFill;
+        [self.backgroundView addSubview:self.imageView];
+
+        self.favoriteOverlayImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+        self.favoriteOverlayImageView.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.contentView addSubview:self.favoriteOverlayImageView];
+        
+        [self activateConstraints];
+    }
+    return self;
 }
 
 - (void)prepareForReuse {
-  [super prepareForReuse];
+    [super prepareForReuse];
 
-  self.imageView.image = [UIImage imageNamed:@"DefaultPhoto"];
-}
-
-- (void)onTap:(id)sender {
-	[self.albumViewController onSelectPhoto:self.photo];
+    self.imageView.image = [UIImage imageNamed:@"DefaultPhoto"];
 }
 
 - (void)setPhoto:(PhotoItem *)aPhoto {
-  _photo = nil;
-	_photo = aPhoto;
+    _photo = nil;
+    _photo = aPhoto;
 
-	if (self.isInsideFavoriesAlbum) {
-		self.favoriteOverlayView.hidden = YES;
-		self.favoriteOverlayView.image = nil;
-	}
-	else {
-		if ([appDelegate isFavorite:_photo]) {
-			self.favoriteOverlayView.hidden = NO;
-			self.favoriteOverlayView.image = [UIImage imageNamed:@"FavoritesRedIcon.png"];
-		}
-		else {
-			self.favoriteOverlayView.hidden = YES;
-			self.favoriteOverlayView.image = nil;
-		}
-	}
+    if (!self.isInsideFavoriesAlbum) {
+        self.favoriteOverlayImageView.hidden = YES;
+        self.favoriteOverlayImageView.image = nil;
+    }
+    else {
+        if ([appDelegate isFavorite:_photo]) {
+            self.favoriteOverlayImageView.hidden = NO;
+            self.favoriteOverlayImageView.image = [UIImage imageNamed:@"FavoritesRedIcon.png"];
+        }
+        else {
+            self.favoriteOverlayImageView.hidden = YES;
+            self.favoriteOverlayImageView.image = nil;
+        }
+    }
+}
+
+#pragma mark - Helper methods
+
+- (void)activateConstraints {
+
+    NSArray *imageConstraints = @[[self.imageView.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor],
+                                  [self.imageView.topAnchor constraintEqualToAnchor:self.contentView.topAnchor],
+                                  [self.imageView.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor],
+                                  [self.imageView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor]];
+
+    [NSLayoutConstraint activateConstraints:imageConstraints];
+
+    NSArray *overlayConstraints = @[[self.favoriteOverlayImageView.heightAnchor constraintEqualToConstant:25],
+                                  [self.favoriteOverlayImageView.widthAnchor constraintEqualToConstant:25],
+                                  [self.favoriteOverlayImageView.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor],
+                                  [self.favoriteOverlayImageView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor]];
+
+    [NSLayoutConstraint activateConstraints:overlayConstraints];
 }
 
 @end

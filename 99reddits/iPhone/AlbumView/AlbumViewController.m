@@ -11,11 +11,9 @@
 #import "AlbumViewCell.h"
 #import "NIHTTPRequest.h"
 #import "PhotoViewController.h"
+#import "PhotoNavigationController.h"
 #import "UserDef.h"
 #import "_9reddits-Swift.h"
-
-#define THUMB_WIDTH			75
-#define THUMB_HEIGHT		75
 
 @interface AlbumViewController ()
 
@@ -49,12 +47,6 @@
     return self;
 }
 
-+ (instancetype)viewControllerFromStoryboard {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    AlbumViewController *vc = (AlbumViewController *)[sb instantiateViewControllerWithIdentifier:NSStringFromClass([AlbumViewController class])];
-    return vc;
-}
-
 #pragma mark - View lifecycle
 
 - (void)viewDidLoad {
@@ -73,8 +65,7 @@
     }
 
     if (bFavorites) {
-        [self.tabBar removeFromSuperview];
-        self.contentCollectionView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+        self.tabBar.hidden = YES;
     }
 
     [self.moarButton setBackgroundImage:[[UIImage imageNamed:@"ButtonNormal.png"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 10, 0, 10)] forState:UIControlStateNormal];
@@ -104,7 +95,7 @@
     }
 
     self.flowLayout = [[UICollectionViewFlowLayout alloc] init];
-    self.flowLayout.itemSize = CGSizeMake(75, 75);
+    self.flowLayout.itemSize = [self itemSizeForCurrentSizeClass];
 
     self.contentCollectionView.allowsSelection = YES;
     self.contentCollectionView.allowsMultipleSelection = NO;
@@ -134,40 +125,15 @@
     [super viewWillAppear:animated];
     [self refreshSubReddit:YES];
 
-    CGRect frame = self.footerView.frame;
-    frame.size.width = self.view.frame.size.width;
-    self.footerView.frame = frame;
-
-    CGFloat margin = (self.view.frame.size.width - (75 * 4))/ 5;
+    CGSize itemSize = [self itemSizeForCurrentSizeClass];
+    CGFloat margin = (self.view.frame.size.width - (itemSize.width * 4))/ 5;
     self.flowLayout.sectionInset = UIEdgeInsetsMake(margin, margin, margin, margin);
     self.flowLayout.minimumLineSpacing = margin;
     self.flowLayout.minimumInteritemSpacing = margin;
 
     if (!bFavorites) {
+        self.contentCollectionView.contentInset = UIEdgeInsetsMake(0, 0, self.tabBar.frame.size.height, 0);
         self.flowLayout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, 60);
-    }
-}
-
-- (void)onSelectPhoto:(PhotoItem *)photo {
-    if (bFavorites) {
-        PhotoViewController *photoViewController = [[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:nil];
-        photoViewController.bFavorites = bFavorites;
-        photoViewController.subReddit = currentSubReddit;
-        photoViewController.photoIndexToDisplay = [currentSubReddit.photosArray indexOfObject:photo];
-        [self.navigationController pushViewController:photoViewController animated:YES];
-    }
-    else {
-        SubRedditItem *photoSubReddit = [[SubRedditItem alloc] init];
-        photoSubReddit.nameString = currentSubReddit.nameString;
-        photoSubReddit.urlString = currentSubReddit.urlString;
-        [photoSubReddit.photosArray addObjectsFromArray:currentPhotosArray];
-        photoSubReddit.afterString = currentSubReddit.afterString;
-
-        PhotoViewController *viewController = [[PhotoViewController alloc] initWithNibName:@"PhotoViewController" bundle:nil];
-        viewController.bFavorites = bFavorites;
-        viewController.subReddit = photoSubReddit;
-        viewController.photoIndexToDisplay = [currentPhotosArray indexOfObject:photo];
-        [self.navigationController pushViewController:viewController animated:YES];
     }
 }
 
@@ -186,7 +152,6 @@
     PhotoItem *photo = currentPhotosArray[indexPath.item];
 
     AlbumViewCell *cell = (AlbumViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ALBUM_VIEW_CELL" forIndexPath:indexPath];
-    cell.albumViewController = self;
     cell.insideFavoritesAlbum = bFavorites;
     cell.photo = photo;
 
@@ -199,11 +164,46 @@
     UICollectionReusableView *collectionFooterView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"ALBUM_FOOTER_VIEW" forIndexPath:indexPath];
     if (self.footerView.superview != collectionFooterView) {
         [self.footerView removeFromSuperview];
-        self.footerView.center = CGPointMake(collectionFooterView.frame.size.width / 2, collectionFooterView.frame.size.height / 2);
+
+        self.footerView.frame = collectionFooterView.bounds;
+        self.footerView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
         [collectionFooterView addSubview:self.footerView];
     }
 
     return collectionFooterView;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+
+    PhotoItem *photo = self.subReddit.photosArray[indexPath.row];
+
+    PhotoViewController *photoViewController;
+
+    if (bFavorites) {
+        photoViewController = [[PhotoViewController alloc] initWithNibName:nil bundle:nil];
+        photoViewController.bFavorites = bFavorites;
+        photoViewController.subReddit = currentSubReddit;
+        photoViewController.photoIndexToDisplay = [currentSubReddit.photosArray indexOfObject:photo];
+    }
+    else {
+        SubRedditItem *photoSubReddit = [[SubRedditItem alloc] init];
+        photoSubReddit.nameString = currentSubReddit.nameString;
+        photoSubReddit.urlString = currentSubReddit.urlString;
+        [photoSubReddit.photosArray addObjectsFromArray:currentPhotosArray];
+        photoSubReddit.afterString = currentSubReddit.afterString;
+
+        photoViewController = [[PhotoViewController alloc] initWithNibName:nil bundle:nil];
+        photoViewController.bFavorites = bFavorites;
+        photoViewController.subReddit = photoSubReddit;
+        photoViewController.photoIndexToDisplay = [currentPhotosArray indexOfObject:photo];
+    }
+
+    if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular) {
+        PhotoNavigationController *regularSizeNavigationController = [[PhotoNavigationController alloc] initWithRootViewController:photoViewController];
+        [self presentViewController:regularSizeNavigationController animated:YES completion:nil];
+    } else {
+        [self.navigationController pushViewController:photoViewController animated:YES];
+    }
 }
 
 - (void)setSubReddit:(SubRedditItem *)_subReddit {
@@ -598,6 +598,16 @@
 // MFMailComposeViewControllerDelegate
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error {
     [controller dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark -  Helper methods
+
+- (CGSize)itemSizeForCurrentSizeClass {
+    if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular) {
+        return CGSizeMake(125, 125);
+    } else {
+        return CGSizeMake(75, 75);
+    }
 }
 
 @end

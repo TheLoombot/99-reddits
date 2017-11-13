@@ -117,6 +117,9 @@
 
 		// Autorelease so that we don't have to worry about releasing the subviews in dealloc.
 		_scrollView = [[[NICenteringScrollView alloc] initWithFrame:self.bounds] autorelease];
+        if (@available(iOS 11.0, *)) {
+            _scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        }
 		_scrollView.autoresizingMask = (UIViewAutoresizingFlexibleWidth
 										| UIViewAutoresizingFlexibleHeight);
 

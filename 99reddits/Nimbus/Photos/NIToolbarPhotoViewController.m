@@ -246,7 +246,7 @@
     
     NSLayoutXAxisAnchor *ledingAnchor = self.view.leadingAnchor;
     NSLayoutXAxisAnchor *trailingAnchor = self.view.trailingAnchor;
-    NSLayoutYAxisAnchor *bottomAnchor = self.view.bottomAnchor;
+    NSLayoutYAxisAnchor *bottomAnchor = self.bottomLayoutGuide.topAnchor;
     if (@available(iOS 11.0, *)) {
         ledingAnchor = self.view.safeAreaLayoutGuide.leadingAnchor;
         trailingAnchor = self.view.safeAreaLayoutGuide.trailingAnchor;

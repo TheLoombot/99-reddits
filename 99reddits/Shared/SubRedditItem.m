@@ -8,7 +8,6 @@
 
 #import "SubRedditItem.h"
 #import "NIHTTPRequest.h"
-#import "ASIDownloadCache.h"
 
 @implementation SubRedditItem
 
@@ -71,23 +70,6 @@
 	[encoder encodeObject:self.afterString forKey:@"after"];
 	[encoder encodeObject:self.category forKey:@"category"];
 	[encoder encodeBool:self.subscribe forKey:@"subscribe"];
-}
-
-
-- (void)removeAllCaches {
-	for (PhotoItem *photo in photosArray) {
-		if (photo.thumbnailString.length) {
-			NSURL *thumbnailURL = [NSURL URLWithString:photo.thumbnailString];
-			if (thumbnailURL)
-				[[ASIDownloadCache sharedCache] removeCachedDataForURL:thumbnailURL];
-		}
-
-		if (photo.urlString.length) {
-			NSURL *url = [NSURL URLWithString:photo.urlString];
-			if (url)
-				[[ASIDownloadCache sharedCache] removeCachedDataForURL:url];
-		}
-	}
 }
 
 - (void)calUnshowedCount {

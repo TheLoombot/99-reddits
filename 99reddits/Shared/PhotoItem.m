@@ -44,20 +44,6 @@
 	[encoder encodeObject:self.urlString forKey:@"url"];
 }
 
-- (void)removeCaches {
-	if (self.thumbnailString.length) {
-		NSURL *thumbnailURL = [NSURL URLWithString:self.thumbnailString];
-		if (thumbnailURL)
-			[[ASIDownloadCache sharedCache] removeCachedDataForURL:thumbnailURL];
-	}
-
-	if (self.urlString.length) {
-		NSURL *url = [NSURL URLWithString:self.urlString];
-		if (url)
-			[[ASIDownloadCache sharedCache] removeCachedDataForURL:url];
-	}
-}
-
 - (BOOL)isShowed {
 	if (appDelegate == nil)
 		appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];

@@ -10,9 +10,9 @@
 #import "UserDef.h"
 #import "Reachability.h"
 #import "Flurry.h"
+#import "CacheCleaner.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
-
 
 @implementation UINavigationController (iOS6OrientationFix)
 
@@ -60,6 +60,8 @@ void uncaughtExceptionHandler(NSException *exception) {
     fullImagesSet = [[NSMutableSet alloc] init];
 
     [self loadFromDefaults];
+
+    [CacheCleaner cleanCache];
 
     UIViewController *rootViewController = self.window.rootViewController;
     if ([rootViewController isMemberOfClass:[UISplitViewController class]]) {

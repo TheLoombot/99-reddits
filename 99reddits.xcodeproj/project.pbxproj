@@ -179,6 +179,7 @@
 		FEDEA1631F9406B300D31EF0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEDEA1621F9406B300D31EF0 /* Main.storyboard */; };
 		FEE776BD1F89C6AE003703A1 /* FeedbackController.m in Sources */ = {isa = PBXBuildFile; fileRef = FEE776BC1F89C6AE003703A1 /* FeedbackController.m */; };
 		FEE776BF1F89D4D7003703A1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FEE776BE1F89D4D7003703A1 /* LaunchScreen.storyboard */; };
+		FEF113101FBAA95900FBC245 /* CacheCleaner.m in Sources */ = {isa = PBXBuildFile; fileRef = FEF1130F1FBAA95900FBC245 /* CacheCleaner.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -450,6 +451,8 @@
 		FEE776BB1F89C6AE003703A1 /* FeedbackController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeedbackController.h; sourceTree = "<group>"; };
 		FEE776BC1F89C6AE003703A1 /* FeedbackController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FeedbackController.m; sourceTree = "<group>"; };
 		FEE776BE1F89D4D7003703A1 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		FEF1130E1FBAA95900FBC245 /* CacheCleaner.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CacheCleaner.h; sourceTree = "<group>"; };
+		FEF1130F1FBAA95900FBC245 /* CacheCleaner.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CacheCleaner.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -909,6 +912,8 @@
 				9C6584111FA028BF00D95BD5 /* TitleProvider.h */,
 				9C6584121FA02AFE00D95BD5 /* URLProvider.h */,
 				9C6584131FA02B2800D95BD5 /* URLProvider.m */,
+				FEF1130E1FBAA95900FBC245 /* CacheCleaner.h */,
+				FEF1130F1FBAA95900FBC245 /* CacheCleaner.m */,
 			);
 			name = Shared;
 			path = 99reddits/Shared;
@@ -1225,6 +1230,7 @@
 				8D68FDE014F8909000CDCF66 /* NIPagingScrollView.m in Sources */,
 				8D68FDE214F8909000CDCF66 /* NIPhotoAlbumScrollView.m in Sources */,
 				FE4738771F7CA0C300EC4828 /* ReviewManager.m in Sources */,
+				FEF113101FBAA95900FBC245 /* CacheCleaner.m in Sources */,
 				8D68FDE314F8909000CDCF66 /* NIPhotoScrollView.m in Sources */,
 				8D68FDE414F8909000CDCF66 /* NIPhotoScrubberView.m in Sources */,
 				8D68FDE514F8909000CDCF66 /* NIToolbarPhotoViewController.m in Sources */,

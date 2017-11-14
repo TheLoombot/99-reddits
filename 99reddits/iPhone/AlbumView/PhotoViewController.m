@@ -18,6 +18,7 @@
 @interface PhotoViewController()
 
 @property (strong, nonatomic) NSMutableDictionary *indexToCancelationTokens;
+@property (strong, nonatomic) UIBarButtonItem *actionBarButtonItem;
 
 @end
 
@@ -68,13 +69,13 @@
 	[self.photoAlbumView reloadData];
 	[appDelegate checkNetworkReachable:YES];
 	
-	UIBarButtonItem *actionButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(onActionButton)];
+	self.actionBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(onActionButton)];
 	
 	UIBarButtonItem *commentButtonItem;
 	commentButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"CommentBlueIcon.png"] style:UIBarButtonItemStylePlain target:self action:@selector(onCommentButtonItem:)];
 	
 	NSMutableArray *items = [[NSMutableArray alloc] initWithArray:self.toolbar.items];
-	[items insertObject:actionButtonItem atIndex:0];
+	[items insertObject:self.actionBarButtonItem atIndex:0];
 	[items addObject:commentButtonItem];
 	
 	self.toolbar.items = items;
@@ -290,6 +291,9 @@
     NSArray *excludedActivityTypes = @[UIActivityTypeAssignToContact, UIActivityTypeAddToReadingList, UIActivityTypePrint];
 
     UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:activityItems applicationActivities:@[]];
+    activityViewController.modalPresentationStyle = UIModalPresentationPopover;
+    activityViewController.popoverPresentationController.barButtonItem = self.actionBarButtonItem;
+    activityViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
     activityViewController.excludedActivityTypes = excludedActivityTypes;
 
     [self presentViewController:activityViewController animated:YES completion:nil];

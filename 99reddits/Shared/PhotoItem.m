@@ -8,7 +8,6 @@
 
 #import "PhotoItem.h"
 #import "NIHTTPRequest.h"
-#import "ASIDownloadCache.h"
 
 @implementation PhotoItem
 

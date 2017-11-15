@@ -25,7 +25,6 @@
 @property (nonatomic, copy) NSString *urlString;
 
 - (BOOL)isShowed;
-- (void)removeCaches;
 - (BOOL)isGif;
 - (NSURL *)photoViewControllerURL;
 

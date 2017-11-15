@@ -31,7 +31,6 @@
 @property (nonatomic) BOOL loading;
 @property (nonatomic) NSInteger unshowedCount;
 
-- (void)removeAllCaches;
 - (void)calUnshowedCount;
 
 @end

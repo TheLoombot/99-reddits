@@ -282,8 +282,6 @@
         [NINavigationAppearance pushAppearanceForNavigationController:self.navigationController];
     }
 
-	[[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent animated:animated];
-
 	UINavigationBar *navBar = self.navigationController.navigationBar;
 	navBar.barStyle = UIBarStyleBlack;
 	navBar.translucent = YES;

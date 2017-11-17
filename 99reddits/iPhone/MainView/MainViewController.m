@@ -59,10 +59,6 @@
     });
 
     self.title = @"99 edits";
-    if (@available(iOS 11.0, *)) {
-        self.navigationController.navigationBar.prefersLargeTitles = YES;
-    }
-
     self.helpBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Help" style:UIBarButtonItemStylePlain target:self action:@selector(helpBarButtonItem:)];
 
     self.navigationItem.leftBarButtonItem = self.helpBarButtonItem;

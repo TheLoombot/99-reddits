@@ -61,7 +61,7 @@
     self.navigationItem.backBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:subReddit.nameString style:UIBarButtonItemStylePlain target:nil action:nil];
 
     if (@available(iOS 11.0, *)) {
-        self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeAlways;
+        self.navigationItem.largeTitleDisplayMode = UINavigationItemLargeTitleDisplayModeNever;
     }
 
     if (bFavorites) {

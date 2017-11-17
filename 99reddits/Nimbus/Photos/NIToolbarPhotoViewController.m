@@ -278,13 +278,9 @@
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 
-    if (self.isMovingToParentViewController) {
-        [NINavigationAppearance pushAppearanceForNavigationController:self.navigationController];
-    }
-
 	UINavigationBar *navBar = self.navigationController.navigationBar;
-	navBar.barStyle = UIBarStyleBlack;
-	navBar.translucent = YES;
+	navBar.barStyle = UIBarStyleDefault;
+	navBar.translucent = NO;
 
 	_previousButton.enabled = [self.photoAlbumView hasPrevious];
 	_nextButton.enabled = [self.photoAlbumView hasNext];
@@ -298,16 +294,6 @@
 	else
 		nextPhotoButton.alpha = 0.0;
 }
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)viewWillDisappear:(BOOL)animated {
-	[super viewWillDisappear:animated];
-
-    if (self.isMovingFromParentViewController) {
-        [NINavigationAppearance popAppearanceForNavigationController:self.navigationController animated:YES];
-    }
-}
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {

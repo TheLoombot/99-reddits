@@ -194,8 +194,8 @@
     CGRect toolbarFrame = CGRectMake(0, bounds.size.height - toolbarHeight, bounds.size.width, toolbarHeight);
 
 	_toolbar = [[[UIToolbar alloc] initWithFrame:CGRectZero] autorelease];
-	_toolbar.barStyle = UIBarStyleBlack;
-	_toolbar.translucent = self.toolbarIsTranslucent;
+	_toolbar.barStyle = UIBarStyleDefault;
+	_toolbar.translucent = NO;
     _toolbar.translatesAutoresizingMaskIntoConstraints = NO;
 
 	[self updateToolbarItems];
@@ -203,17 +203,15 @@
 	CGRect titleLabelFrame = CGRectMake(0, 0, toolbarFrame.size.width, 30);
 	_titleLabel = [[[UILabel alloc] initWithFrame:titleLabelFrame] autorelease];
 	_titleLabel.backgroundColor = [UIColor clearColor];
-	_titleLabel.textColor = [UIColor whiteColor];
-	_titleLabel.shadowColor = [UIColor blackColor];
-	_titleLabel.shadowOffset = CGSizeMake(0, -1);
+	_titleLabel.textColor = [UIColor blackColor];
 	_titleLabel.font = [UIFont boldSystemFontOfSize:16];
 	_titleLabel.textAlignment = NSTextAlignmentCenter;
 	_titleLabel.numberOfLines = 0;
 
 	_titleLabelBar = [[UIToolbar alloc] initWithFrame:CGRectZero];
     _titleLabelBar.translatesAutoresizingMaskIntoConstraints = NO;
-	_titleLabelBar.barStyle = UIBarStyleBlackTranslucent;
-	_titleLabelBar.translucent = YES;
+	_titleLabelBar.barStyle = UIBarStyleDefault;
+	_titleLabelBar.translucent = NO;
 	_titleLabelBar.tintColor = nil;
 	_titleLabelBar.barTintColor = nil;
 	[_titleLabelBar setBackgroundImage:nil forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];

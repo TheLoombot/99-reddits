@@ -125,7 +125,7 @@
                                 </connections>
                             </collectionView>
                             <tabBar contentMode="scaleToFill" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4bp-AE-j3v">
-                                <rect key="frame" x="0.0" y="686" width="414" height="49"/>
+                                <rect key="frame" x="0.0" y="687" width="414" height="49"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                                 <viewLayoutGuide key="safeArea" id="Bir-UE-Zb3"/>
                                 <items>
@@ -141,7 +141,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="aYC-EO-h5h" firstAttribute="bottom" secondItem="4bp-AE-j3v" secondAttribute="bottom" constant="1" id="Klo-iF-Jax"/>
+                            <constraint firstItem="aYC-EO-h5h" firstAttribute="bottom" secondItem="4bp-AE-j3v" secondAttribute="bottom" id="Klo-iF-Jax"/>
                             <constraint firstItem="sU4-iq-IIv" firstAttribute="top" secondItem="ks3-NN-mfs" secondAttribute="top" id="XBh-p4-9HI"/>
                             <constraint firstItem="sU4-iq-IIv" firstAttribute="leading" secondItem="aYC-EO-h5h" secondAttribute="leading" id="ehx-Sl-zER"/>
                             <constraint firstItem="aYC-EO-h5h" firstAttribute="bottom" secondItem="sU4-iq-IIv" secondAttribute="bottom" id="gEW-vn-fk4"/>

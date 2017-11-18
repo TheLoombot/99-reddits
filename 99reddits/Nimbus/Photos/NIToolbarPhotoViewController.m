@@ -280,7 +280,7 @@
 
 	UINavigationBar *navBar = self.navigationController.navigationBar;
 	navBar.barStyle = UIBarStyleDefault;
-	navBar.translucent = NO;
+	navBar.translucent = YES;
 
 	_previousButton.enabled = [self.photoAlbumView hasPrevious];
 	_nextButton.enabled = [self.photoAlbumView hasNext];

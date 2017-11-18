@@ -280,7 +280,7 @@
 
 	UINavigationBar *navBar = self.navigationController.navigationBar;
 	navBar.barStyle = UIBarStyleDefault;
-    //Keep this here. The photo jerks when the nav bar is not marked translucent here.
+    //Keep this here. The photo jerks when showing/hiding the chrome if the nav bar is not marked translucent here.
 	navBar.translucent = YES;
 
 	_previousButton.enabled = [self.photoAlbumView hasPrevious];

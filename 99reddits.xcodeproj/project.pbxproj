@@ -168,7 +168,6 @@
 		9C6EC04B1CACC88900DEB36D /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC04A1CACC88900DEB36D /* Fabric.framework */; };
 		9C6EC04D1CACC9BF00DEB36D /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC04C1CACC9BF00DEB36D /* libc++.tbd */; };
 		9C6EC04F1CACC9C700DEB36D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC04E1CACC9C700DEB36D /* libz.tbd */; };
-		9C6EC0521CACCB0A00DEB36D /* libFlurry_7.5.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC0511CACCB0A00DEB36D /* libFlurry_7.5.2.a */; };
 		DD24326E76741E74CEB6EFD0 /* Pods_99reddits.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAB47ADD7B1F0AD26966574B /* Pods_99reddits.framework */; };
 		FE4738771F7CA0C300EC4828 /* ReviewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4738761F7CA0C300EC4828 /* ReviewManager.m */; };
 		FE6B3B4A1FA6C33D00A155C8 /* PhotoNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6B3B491FA6C33D00A155C8 /* PhotoNavigationController.m */; };
@@ -433,8 +432,6 @@
 		9C6EC04A1CACC88900DEB36D /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		9C6EC04C1CACC9BF00DEB36D /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		9C6EC04E1CACC9C700DEB36D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		9C6EC0501CACCB0A00DEB36D /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
-		9C6EC0511CACCB0A00DEB36D /* libFlurry_7.5.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_7.5.2.a; sourceTree = "<group>"; };
 		A957AF9D16111BB0F57DA71A /* Pods-99reddits.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-99reddits.release.xcconfig"; path = "Pods/Target Support Files/Pods-99reddits/Pods-99reddits.release.xcconfig"; sourceTree = "<group>"; };
 		BAB47ADD7B1F0AD26966574B /* Pods_99reddits.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_99reddits.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE4738751F7CA0C300EC4828 /* ReviewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReviewManager.h; sourceTree = "<group>"; };
@@ -464,7 +461,6 @@
 				9C6EC04D1CACC9BF00DEB36D /* libc++.tbd in Frameworks */,
 				9C3E7EA41DF495B700A70F4C /* Crashlytics.framework in Frameworks */,
 				8D5080B71445942600788875 /* SystemConfiguration.framework in Frameworks */,
-				9C6EC0521CACCB0A00DEB36D /* libFlurry_7.5.2.a in Frameworks */,
 				8DB620571770583700D744A4 /* Security.framework in Frameworks */,
 				8DB6205A1770584A00D744A4 /* AdSupport.framework in Frameworks */,
 				8DB620581770584200D744A4 /* Accounts.framework in Frameworks */,
@@ -512,7 +508,6 @@
 			children = (
 				FE8568971F808BC40033EC11 /* Podfile */,
 				FE91DCA31F789C61005F5B7F /* Assets.xcassets */,
-				9C57D5901680201B00AB7126 /* Flurry */,
 				8D6C5D21164ACCCC008A98A7 /* Shared */,
 				8D6C5CFD164ACCCC008A98A7 /* iPhone */,
 				8D68FD7214F8909000CDCF66 /* Nimbus */,
@@ -917,16 +912,6 @@
 			);
 			name = Shared;
 			path = 99reddits/Shared;
-			sourceTree = "<group>";
-		};
-		9C57D5901680201B00AB7126 /* Flurry */ = {
-			isa = PBXGroup;
-			children = (
-				9C6EC0501CACCB0A00DEB36D /* Flurry.h */,
-				9C6EC0511CACCB0A00DEB36D /* libFlurry_7.5.2.a */,
-			);
-			name = Flurry;
-			path = 99reddits/Flurry;
 			sourceTree = "<group>";
 		};
 		EAF8368554C65E186DF0F245 /* Pods */ = {
@@ -1386,11 +1371,6 @@
 				GCC_PREFIX_HEADER = "99reddits/99reddits-Prefix.pch";
 				INFOPLIST_FILE = "99reddits/99reddits-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/99reddits/Flurry\"",
-					"$(PROJECT_DIR)/99reddits/Flurry",
-				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.lensie.99reddits;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1421,11 +1401,6 @@
 				GCC_PREFIX_HEADER = "99reddits/99reddits-Prefix.pch";
 				INFOPLIST_FILE = "99reddits/99reddits-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/99reddits/Flurry\"",
-					"$(PROJECT_DIR)/99reddits/Flurry",
-				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.lensie.99reddits;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

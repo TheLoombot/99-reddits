@@ -9,7 +9,6 @@
 #import "RedditsAppDelegate.h"
 #import "UserDef.h"
 #import "Reachability.h"
-#import "Flurry.h"
 #import "CacheCleaner.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
@@ -35,10 +34,6 @@
 @synthesize firstRun;
 @synthesize favoritesItem;
 
-void uncaughtExceptionHandler(NSException *exception) {
-    [Flurry logError:@"Uncaught" message:@"Crash!" exception:exception];
-}
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     [application setStatusBarHidden:NO];
 
@@ -49,10 +44,6 @@ void uncaughtExceptionHandler(NSException *exception) {
     self.window.backgroundColor = [UIColor whiteColor];
 
     [Fabric with:@[[Crashlytics class]]];
-
-    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
-
-    [Flurry startSession:@"29Y8B1XXMBQVLEPC3ZPU"];
 
     subRedditsArray = [[NSMutableArray alloc] init];
     nameStringsSet = [[NSMutableSet alloc] init];

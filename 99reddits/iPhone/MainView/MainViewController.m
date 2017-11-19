@@ -289,7 +289,12 @@
 }
 
 - (void)pullToRefresh:(UIControl *)sender {
-    [self.lastUsedAlbumViewController clear];
+
+    if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular) {
+        //If the gallery is shown on the right pane (e.g. iPad, iPhone 8+, clear out before refreshing.
+        [self.lastUsedAlbumViewController clear];
+    }
+
     [self reloadData];
 }
 

@@ -133,7 +133,6 @@
 
     if (!bFavorites) {
         self.contentCollectionView.contentInset = UIEdgeInsetsMake(0, 0, self.tabBar.frame.size.height, 0);
-        self.flowLayout.footerReferenceSize = CGSizeMake(self.view.frame.size.width, 60);
     }
 }
 
@@ -161,6 +160,7 @@
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath {
+
     UICollectionReusableView *collectionFooterView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:@"ALBUM_FOOTER_VIEW" forIndexPath:indexPath];
     if (self.footerView.superview != collectionFooterView) {
         [self.footerView removeFromSuperview];
@@ -171,6 +171,16 @@
     }
 
     return collectionFooterView;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
+    if (subReddit == nil) {
+        return CGSizeZero;
+    } else if (bFavorites) {
+        return CGSizeZero;
+    } else {
+        return CGSizeMake(self.view.frame.size.width, 60);
+    }
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {

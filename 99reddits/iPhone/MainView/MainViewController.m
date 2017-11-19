@@ -107,6 +107,8 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
     if (lastAddedIndex >= 0) {
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:lastAddedIndex + 1 inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:YES];
         lastAddedIndex = -1;
@@ -357,7 +359,7 @@
 
     [subReddit calUnshowedCount];
 
-    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index + 1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView reloadData];
 
     [tempPhotosArray removeAllObjects];
 
@@ -400,7 +402,7 @@
     subReddit.unshowedCount = 0;
     [subReddit.photosArray removeAllObjects];
 
-    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index + 1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView reloadData];
 
     refreshCount --;
     if (refreshCount == 0) {

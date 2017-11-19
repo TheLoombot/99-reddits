@@ -142,6 +142,37 @@
     }
 }
 
+- (void)onSelectPhoto:(PhotoItem *)photo {
+
+    PhotoViewController *photoViewController;
+
+    if (bFavorites) {
+        photoViewController = [[PhotoViewController alloc] init];
+        photoViewController.bFavorites = bFavorites;
+        photoViewController.subReddit = currentSubReddit;
+        photoViewController.photoIndexToDisplay = [currentSubReddit.photosArray indexOfObject:photo];
+    }
+    else {
+        SubRedditItem *photoSubReddit = [[SubRedditItem alloc] init];
+        photoSubReddit.nameString = currentSubReddit.nameString;
+        photoSubReddit.urlString = currentSubReddit.urlString;
+        [photoSubReddit.photosArray addObjectsFromArray:currentPhotosArray];
+        photoSubReddit.afterString = currentSubReddit.afterString;
+
+        photoViewController = [[PhotoViewController alloc] init];
+        photoViewController.bFavorites = bFavorites;
+        photoViewController.subReddit = photoSubReddit;
+        photoViewController.photoIndexToDisplay = [currentPhotosArray indexOfObject:photo];
+    }
+
+    if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular) {
+        PhotoNavigationController *regularSizeNavigationController = [[PhotoNavigationController alloc] initWithRootViewController:photoViewController];
+        [self presentViewController:regularSizeNavigationController animated:YES completion:nil];
+    } else {
+        [self.navigationController pushViewController:photoViewController animated:YES];
+    }
+}
+
 // UICollectionViewDelegate, UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
     [collectionView.collectionViewLayout invalidateLayout];
@@ -157,6 +188,7 @@
     PhotoItem *photo = currentPhotosArray[indexPath.item];
 
     AlbumViewCell *cell = (AlbumViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:@"ALBUM_VIEW_CELL" forIndexPath:indexPath];
+    cell.albumViewController = self;
     cell.insideFavoritesAlbum = bFavorites;
     cell.photo = photo;
 
@@ -186,39 +218,6 @@
         return CGSizeZero;
     } else {
         return CGSizeMake(self.view.frame.size.width, 60);
-    }
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-
-    PhotoItem *photo = self.subReddit.photosArray[indexPath.row];
-
-    PhotoViewController *photoViewController;
-
-    if (bFavorites) {
-        photoViewController = [[PhotoViewController alloc] initWithNibName:nil bundle:nil];
-        photoViewController.bFavorites = bFavorites;
-        photoViewController.subReddit = currentSubReddit;
-        photoViewController.photoIndexToDisplay = [currentSubReddit.photosArray indexOfObject:photo];
-    }
-    else {
-        SubRedditItem *photoSubReddit = [[SubRedditItem alloc] init];
-        photoSubReddit.nameString = currentSubReddit.nameString;
-        photoSubReddit.urlString = currentSubReddit.urlString;
-        [photoSubReddit.photosArray addObjectsFromArray:currentPhotosArray];
-        photoSubReddit.afterString = currentSubReddit.afterString;
-
-        photoViewController = [[PhotoViewController alloc] initWithNibName:nil bundle:nil];
-        photoViewController.bFavorites = bFavorites;
-        photoViewController.subReddit = photoSubReddit;
-        photoViewController.photoIndexToDisplay = [currentPhotosArray indexOfObject:photo];
-    }
-
-    if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular) {
-        PhotoNavigationController *regularSizeNavigationController = [[PhotoNavigationController alloc] initWithRootViewController:photoViewController];
-        [self presentViewController:regularSizeNavigationController animated:YES completion:nil];
-    } else {
-        [self.navigationController pushViewController:photoViewController animated:YES];
     }
 }
 

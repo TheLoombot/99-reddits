@@ -26,25 +26,23 @@
         self.backgroundColor = [UIColor clearColor];
         self.contentView.backgroundColor = [UIColor clearColor];
 
-        UIView *backgroundView = [[UIView alloc] initWithFrame:frame];
-        backgroundView.backgroundColor = [UIColor clearColor];
-        self.backgroundView = backgroundView;
-
-        UIView *selectedBackgroundView = [[UIView alloc] initWithFrame:frame];
-        selectedBackgroundView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.3];
-        self.selectedBackgroundView = selectedBackgroundView;
-
         appDelegate = (RedditsAppDelegate *)[[UIApplication sharedApplication] delegate];
 
         self.imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
         self.imageView.translatesAutoresizingMaskIntoConstraints = NO;
         self.imageView.contentMode = UIViewContentModeScaleAspectFill;
-        [self.backgroundView addSubview:self.imageView];
+        [self.contentView addSubview:self.imageView];
 
         self.favoriteOverlayImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
         self.favoriteOverlayImageView.translatesAutoresizingMaskIntoConstraints = NO;
         [self.contentView addSubview:self.favoriteOverlayImageView];
-        
+
+        self.tapButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        self.tapButton.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.tapButton setImage:[UIImage imageNamed:@"ButtonOverlay.png"] forState:UIControlStateHighlighted];
+        [self.tapButton addTarget:self action:@selector(onTap:) forControlEvents:UIControlEventTouchUpInside];
+        [self.contentView addSubview:self.tapButton];
+
         [self activateConstraints];
     }
     return self;
@@ -54,6 +52,10 @@
     [super prepareForReuse];
 
     self.imageView.image = [UIImage imageNamed:@"DefaultPhoto"];
+}
+
+- (void)onTap:(id)sender {
+    [self.albumViewController onSelectPhoto:self.photo];
 }
 
 - (void)setPhoto:(PhotoItem *)aPhoto {
@@ -93,6 +95,15 @@
                                   [self.favoriteOverlayImageView.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor]];
 
     [NSLayoutConstraint activateConstraints:overlayConstraints];
+
+
+
+    NSArray *buttonConstraints = @[[self.tapButton.leadingAnchor constraintEqualToAnchor:self.contentView.leadingAnchor],
+                                  [self.tapButton.topAnchor constraintEqualToAnchor:self.contentView.topAnchor],
+                                  [self.tapButton.bottomAnchor constraintEqualToAnchor:self.contentView.bottomAnchor],
+                                  [self.tapButton.trailingAnchor constraintEqualToAnchor:self.contentView.trailingAnchor]];
+
+    [NSLayoutConstraint activateConstraints:buttonConstraints];
 }
 
 @end

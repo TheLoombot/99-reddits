@@ -13,6 +13,7 @@
 
 @interface AlbumViewCell : UICollectionViewCell
 
+@property (nonatomic, weak) AlbumViewController *albumViewController;
 @property (nonatomic, strong) PhotoItem *photo;
 @property (nonatomic, strong) UIImageView *imageView;
 @property (nonatomic, assign, getter=isInsideFavoriesAlbum) BOOL insideFavoritesAlbum;

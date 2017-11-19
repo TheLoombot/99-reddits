@@ -113,6 +113,12 @@
     initialized = NO;
 }
 
+- (void)clear {
+    self.subReddit = nil;
+    [currentPhotosArray removeAllObjects];
+    [self.contentCollectionView reloadData];
+}
+
 - (BOOL)shouldAutorotate {
     return YES;
 }

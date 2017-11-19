@@ -19,6 +19,7 @@
 
 @property (strong, nonatomic) UIBarButtonItem *helpBarButtonItem;
 @property (strong, nonatomic) FeedbackController *feedbackController;
+@property (strong, nonatomic) AlbumViewController *lastUsedAlbumViewController;
 @property (strong, nonatomic) NSOperationQueue *refreshQueue;
 
 @property (strong, nonatomic) IBOutlet UIView *mainTableViewFooter;
@@ -50,7 +51,7 @@
 
     refreshControl = [[UIRefreshControl alloc] init];
     refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-    [refreshControl addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
+    [refreshControl addTarget:self action:@selector(pullToRefresh:) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreshControl;
 
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -142,9 +143,11 @@
 
     NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
 
+    AlbumViewController *albumViewController;
+
     if (indexPath.row == 0) {
         if (appDelegate.favoritesItem.photosArray.count > 0) {
-            AlbumViewController *albumViewController = (AlbumViewController *)[[segue destinationViewController] topViewController];
+            albumViewController = (AlbumViewController *)[[segue destinationViewController] topViewController];
             albumViewController.subReddit = appDelegate.favoritesItem;
             albumViewController.bFavorites = YES;
         }
@@ -152,11 +155,13 @@
     else {
         SubRedditItem *subReddit = [subRedditsArray objectAtIndex:indexPath.row - 1];
         if (subReddit.photosArray.count > 0 && !subReddit.loading) {
-            AlbumViewController *albumViewController = (AlbumViewController *)[[segue destinationViewController] topViewController];
+            albumViewController = (AlbumViewController *)[[segue destinationViewController] topViewController];
             albumViewController.subReddit = subReddit;
             albumViewController.bFavorites = NO;
         }
     }
+
+    self.lastUsedAlbumViewController = albumViewController;
     
 }
 
@@ -281,6 +286,11 @@
         return sourceIndexPath;
 
     return proposedDestinationIndexPath;
+}
+
+- (void)pullToRefresh:(UIControl *)sender {
+    [self.lastUsedAlbumViewController clear];
+    [self reloadData];
 }
 
 - (void)reloadData {

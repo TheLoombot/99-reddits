@@ -36,4 +36,6 @@
 
 - (void)onSelectPhoto:(PhotoItem *)photo;
 
+- (void)clear;
+
 @end

@@ -19,6 +19,7 @@
 
 @property (strong, nonatomic) UIBarButtonItem *helpBarButtonItem;
 @property (strong, nonatomic) FeedbackController *feedbackController;
+@property (strong, nonatomic) AlbumViewController *lastUsedAlbumViewController;
 @property (strong, nonatomic) NSOperationQueue *refreshQueue;
 
 @property (strong, nonatomic) IBOutlet UIView *mainTableViewFooter;
@@ -50,7 +51,7 @@
 
     refreshControl = [[UIRefreshControl alloc] init];
     refreshControl.attributedTitle = [[NSAttributedString alloc] initWithString:@"Pull to Refresh"];
-    [refreshControl addTarget:self action:@selector(reloadData) forControlEvents:UIControlEventValueChanged];
+    [refreshControl addTarget:self action:@selector(pullToRefresh:) forControlEvents:UIControlEventValueChanged];
     self.refreshControl = refreshControl;
 
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -107,6 +108,8 @@
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+
     if (lastAddedIndex >= 0) {
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:lastAddedIndex + 1 inSection:0] atScrollPosition:UITableViewScrollPositionNone animated:YES];
         lastAddedIndex = -1;
@@ -140,9 +143,11 @@
 
     NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
 
+    AlbumViewController *albumViewController;
+
     if (indexPath.row == 0) {
         if (appDelegate.favoritesItem.photosArray.count > 0) {
-            AlbumViewController *albumViewController = (AlbumViewController *)[[segue destinationViewController] topViewController];
+            albumViewController = (AlbumViewController *)[[segue destinationViewController] topViewController];
             albumViewController.subReddit = appDelegate.favoritesItem;
             albumViewController.bFavorites = YES;
         }
@@ -150,11 +155,13 @@
     else {
         SubRedditItem *subReddit = [subRedditsArray objectAtIndex:indexPath.row - 1];
         if (subReddit.photosArray.count > 0 && !subReddit.loading) {
-            AlbumViewController *albumViewController = (AlbumViewController *)[[segue destinationViewController] topViewController];
+            albumViewController = (AlbumViewController *)[[segue destinationViewController] topViewController];
             albumViewController.subReddit = subReddit;
             albumViewController.bFavorites = NO;
         }
     }
+
+    self.lastUsedAlbumViewController = albumViewController;
     
 }
 
@@ -281,6 +288,16 @@
     return proposedDestinationIndexPath;
 }
 
+- (void)pullToRefresh:(UIControl *)sender {
+
+    if (self.splitViewController.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassRegular) {
+        //If the gallery is shown on the right pane (e.g. iPad, iPhone 8+, clear out before refreshing.
+        [self.lastUsedAlbumViewController clear];
+    }
+
+    [self reloadData];
+}
+
 - (void)reloadData {
     if (subRedditsArray.count == 0)
         return;
@@ -357,7 +374,7 @@
 
     [subReddit calUnshowedCount];
 
-    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index + 1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView reloadData];
 
     [tempPhotosArray removeAllObjects];
 
@@ -400,7 +417,7 @@
     subReddit.unshowedCount = 0;
     [subReddit.photosArray removeAllObjects];
 
-    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:index + 1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView reloadData];
 
     refreshCount --;
     if (refreshCount == 0) {

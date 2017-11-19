@@ -162,13 +162,10 @@
 		8DB620571770583700D744A4 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DB620561770583700D744A4 /* Security.framework */; };
 		8DB620581770584200D744A4 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DA00401145AB959000F6E07 /* Accounts.framework */; };
 		8DB6205A1770584A00D744A4 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8DB620591770584A00D744A4 /* AdSupport.framework */; };
-		9C3E7EA41DF495B700A70F4C /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C3E7EA31DF495B700A70F4C /* Crashlytics.framework */; };
 		9C6584101FA028A500D95BD5 /* TitleProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C65840F1FA028A500D95BD5 /* TitleProvider.m */; };
 		9C6584141FA02B2800D95BD5 /* URLProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 9C6584131FA02B2800D95BD5 /* URLProvider.m */; };
-		9C6EC04B1CACC88900DEB36D /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC04A1CACC88900DEB36D /* Fabric.framework */; };
 		9C6EC04D1CACC9BF00DEB36D /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC04C1CACC9BF00DEB36D /* libc++.tbd */; };
 		9C6EC04F1CACC9C700DEB36D /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC04E1CACC9C700DEB36D /* libz.tbd */; };
-		9C6EC0521CACCB0A00DEB36D /* libFlurry_7.5.2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6EC0511CACCB0A00DEB36D /* libFlurry_7.5.2.a */; };
 		DD24326E76741E74CEB6EFD0 /* Pods_99reddits.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAB47ADD7B1F0AD26966574B /* Pods_99reddits.framework */; };
 		FE4738771F7CA0C300EC4828 /* ReviewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE4738761F7CA0C300EC4828 /* ReviewManager.m */; };
 		FE6B3B4A1FA6C33D00A155C8 /* PhotoNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = FE6B3B491FA6C33D00A155C8 /* PhotoNavigationController.m */; };
@@ -423,18 +420,12 @@
 		8DAECE42145A3E55004D194A /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		8DB620561770583700D744A4 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		8DB620591770584A00D744A4 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
-		9C0334BA16B2391800A2F5D3 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
-		9C3E7EA31DF495B700A70F4C /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		9C65840F1FA028A500D95BD5 /* TitleProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TitleProvider.m; sourceTree = "<group>"; };
 		9C6584111FA028BF00D95BD5 /* TitleProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TitleProvider.h; sourceTree = "<group>"; };
 		9C6584121FA02AFE00D95BD5 /* URLProvider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = URLProvider.h; sourceTree = "<group>"; };
 		9C6584131FA02B2800D95BD5 /* URLProvider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = URLProvider.m; sourceTree = "<group>"; };
-		9C6EC0481CACC62900DEB36D /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
-		9C6EC04A1CACC88900DEB36D /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
 		9C6EC04C1CACC9BF00DEB36D /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		9C6EC04E1CACC9C700DEB36D /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
-		9C6EC0501CACCB0A00DEB36D /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
-		9C6EC0511CACCB0A00DEB36D /* libFlurry_7.5.2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry_7.5.2.a; sourceTree = "<group>"; };
 		A957AF9D16111BB0F57DA71A /* Pods-99reddits.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-99reddits.release.xcconfig"; path = "Pods/Target Support Files/Pods-99reddits/Pods-99reddits.release.xcconfig"; sourceTree = "<group>"; };
 		BAB47ADD7B1F0AD26966574B /* Pods_99reddits.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_99reddits.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FE4738751F7CA0C300EC4828 /* ReviewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ReviewManager.h; sourceTree = "<group>"; };
@@ -462,15 +453,12 @@
 			files = (
 				9C6EC04F1CACC9C700DEB36D /* libz.tbd in Frameworks */,
 				9C6EC04D1CACC9BF00DEB36D /* libc++.tbd in Frameworks */,
-				9C3E7EA41DF495B700A70F4C /* Crashlytics.framework in Frameworks */,
 				8D5080B71445942600788875 /* SystemConfiguration.framework in Frameworks */,
-				9C6EC0521CACCB0A00DEB36D /* libFlurry_7.5.2.a in Frameworks */,
 				8DB620571770583700D744A4 /* Security.framework in Frameworks */,
 				8DB6205A1770584A00D744A4 /* AdSupport.framework in Frameworks */,
 				8DB620581770584200D744A4 /* Accounts.framework in Frameworks */,
 				8D060A8616AD29E700AED06E /* QuartzCore.framework in Frameworks */,
 				8DAACC8516A785DF00237C83 /* Social.framework in Frameworks */,
-				9C6EC04B1CACC88900DEB36D /* Fabric.framework in Frameworks */,
 				8D22CA1514B750D000E4DDD3 /* StoreKit.framework in Frameworks */,
 				8D8B2C8D1462839700AD968B /* ImageIO.framework in Frameworks */,
 				8D5080B91445942D00788875 /* CFNetwork.framework in Frameworks */,
@@ -512,7 +500,6 @@
 			children = (
 				FE8568971F808BC40033EC11 /* Podfile */,
 				FE91DCA31F789C61005F5B7F /* Assets.xcassets */,
-				9C57D5901680201B00AB7126 /* Flurry */,
 				8D6C5D21164ACCCC008A98A7 /* Shared */,
 				8D6C5CFD164ACCCC008A98A7 /* iPhone */,
 				8D68FD7214F8909000CDCF66 /* Nimbus */,
@@ -537,14 +524,10 @@
 		8D5080051445923700788875 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				9C3E7EA31DF495B700A70F4C /* Crashlytics.framework */,
 				9C6EC04E1CACC9C700DEB36D /* libz.tbd */,
 				9C6EC04C1CACC9BF00DEB36D /* libc++.tbd */,
-				9C6EC04A1CACC88900DEB36D /* Fabric.framework */,
-				9C6EC0481CACC62900DEB36D /* Fabric.framework */,
 				8DB620591770584A00D744A4 /* AdSupport.framework */,
 				8DB620561770583700D744A4 /* Security.framework */,
-				9C0334BA16B2391800A2F5D3 /* Crashlytics.framework */,
 				8D060A8516AD29E700AED06E /* QuartzCore.framework */,
 				8DAACC8416A785DF00237C83 /* Social.framework */,
 				8D22CA1414B750D000E4DDD3 /* StoreKit.framework */,
@@ -919,16 +902,6 @@
 			path = 99reddits/Shared;
 			sourceTree = "<group>";
 		};
-		9C57D5901680201B00AB7126 /* Flurry */ = {
-			isa = PBXGroup;
-			children = (
-				9C6EC0501CACCB0A00DEB36D /* Flurry.h */,
-				9C6EC0511CACCB0A00DEB36D /* libFlurry_7.5.2.a */,
-			);
-			name = Flurry;
-			path = 99reddits/Flurry;
-			sourceTree = "<group>";
-		};
 		EAF8368554C65E186DF0F245 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1161,7 +1134,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run 7228ed62a7b305f3ee6ec449adbda49637b3168a 515b7522059c7777f4ec6c99f236ddc0d0d7baf3e873187176adcd6e31d29331";
+			shellScript = "\"${PODS_ROOT}/Fabric/run\" 7228ed62a7b305f3ee6ec449adbda49637b3168a d5008193211b4c291bb268eacad61abaeb439c2f930c1b5aa61eb1a94ef5a815";
 		};
 		9D4DBF00E0D19C31D9AE2246 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1386,11 +1359,6 @@
 				GCC_PREFIX_HEADER = "99reddits/99reddits-Prefix.pch";
 				INFOPLIST_FILE = "99reddits/99reddits-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/99reddits/Flurry\"",
-					"$(PROJECT_DIR)/99reddits/Flurry",
-				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.lensie.99reddits;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1421,11 +1389,6 @@
 				GCC_PREFIX_HEADER = "99reddits/99reddits-Prefix.pch";
 				INFOPLIST_FILE = "99reddits/99reddits-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/99reddits/Flurry\"",
-					"$(PROJECT_DIR)/99reddits/Flurry",
-				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.lensie.99reddits;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

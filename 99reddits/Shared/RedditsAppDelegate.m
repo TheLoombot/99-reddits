@@ -10,6 +10,8 @@
 #import "UserDef.h"
 #import "Reachability.h"
 #import "CacheCleaner.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 @implementation UINavigationController (iOS6OrientationFix)
 
@@ -33,6 +35,8 @@
 @synthesize favoritesItem;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [Fabric with:@[[Crashlytics class]]];
+    
     [application setStatusBarHidden:NO];
 
     appDelegate = self;

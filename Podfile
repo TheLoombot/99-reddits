@@ -7,4 +7,6 @@ target '99reddits' do
 
   pod 'Nuke', '5.2'
   pod 'Alamofire', '4.5.1'
+  pod 'Fabric'
+  pod 'Crashlytics'
 end

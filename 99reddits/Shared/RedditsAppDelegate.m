@@ -10,8 +10,6 @@
 #import "UserDef.h"
 #import "Reachability.h"
 #import "CacheCleaner.h"
-#import <Fabric/Fabric.h>
-#import <Crashlytics/Crashlytics.h>
 
 @implementation UINavigationController (iOS6OrientationFix)
 
@@ -42,8 +40,6 @@
     isPad = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
 
     self.window.backgroundColor = [UIColor whiteColor];
-
-    [Fabric with:@[[Crashlytics class]]];
 
     subRedditsArray = [[NSMutableArray alloc] init];
     nameStringsSet = [[NSMutableSet alloc] init];

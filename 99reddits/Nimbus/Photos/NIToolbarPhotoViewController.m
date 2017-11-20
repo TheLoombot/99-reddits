@@ -278,10 +278,9 @@
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 
-	UINavigationBar *navBar = self.navigationController.navigationBar;
-	navBar.barStyle = UIBarStyleDefault;
-    //Keep this here. The photo jerks when showing/hiding the chrome if the nav bar is not marked translucent here.
-	navBar.translucent = YES;
+    // Setting the navigationBar translucent here to let the scroll view to go under it so it doesn't jerk up/down when the chrome gets shown/hidden
+    // See: https://github.com/TheLoombot/99-reddits/issues/64
+    self.navigationController.navigationBar.translucent = YES;
 
 	_previousButton.enabled = [self.photoAlbumView hasPrevious];
 	_nextButton.enabled = [self.photoAlbumView hasNext];
@@ -295,6 +294,15 @@
 	else
 		nextPhotoButton.alpha = 0.0;
 }
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+
+    // Restoring the navigaitonBar original translucency before returning up the stack to avoid messing up with the layout.
+    // See: https://github.com/TheLoombot/99-reddits/issues/90
+    self.navigationController.navigationBar.translucent = NO;
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {

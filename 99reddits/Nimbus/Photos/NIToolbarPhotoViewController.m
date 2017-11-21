@@ -195,7 +195,7 @@
 
 	_toolbar = [[[UIToolbar alloc] initWithFrame:CGRectZero] autorelease];
 	_toolbar.barStyle = UIBarStyleDefault;
-	_toolbar.translucent = NO;
+	_toolbar.translucent = YES;
     _toolbar.translatesAutoresizingMaskIntoConstraints = NO;
 
 	[self updateToolbarItems];
@@ -211,7 +211,7 @@
 	_titleLabelBar = [[UIToolbar alloc] initWithFrame:CGRectZero];
     _titleLabelBar.translatesAutoresizingMaskIntoConstraints = NO;
 	_titleLabelBar.barStyle = UIBarStyleDefault;
-	_titleLabelBar.translucent = NO;
+	_titleLabelBar.translucent = YES;
 	_titleLabelBar.tintColor = nil;
 	_titleLabelBar.barTintColor = nil;
 	[_titleLabelBar setBackgroundImage:nil forToolbarPosition:UIBarPositionAny barMetrics:UIBarMetricsDefault];
@@ -278,10 +278,6 @@
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 
-    // Setting the navigationBar translucent here to let the scroll view to go under it so it doesn't jerk up/down when the chrome gets shown/hidden
-    // See: https://github.com/TheLoombot/99-reddits/issues/64
-    self.navigationController.navigationBar.translucent = YES;
-
 	_previousButton.enabled = [self.photoAlbumView hasPrevious];
 	_nextButton.enabled = [self.photoAlbumView hasNext];
 
@@ -294,15 +290,6 @@
 	else
 		nextPhotoButton.alpha = 0.0;
 }
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-
-    // Restoring the navigaitonBar original translucency before returning up the stack to avoid messing up with the layout.
-    // See: https://github.com/TheLoombot/99-reddits/issues/90
-    self.navigationController.navigationBar.translucent = NO;
-}
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
